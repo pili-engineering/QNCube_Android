@@ -95,29 +95,42 @@ include ':LibComponent:lib_json'               //json库
 用手机浏览器输入这个网址: [ http://fir.qnsdk.com/s6py]( http://fir.qnsdk.com/s6py)
 
 ## 预览
- **app**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/app.png) 
 
+ **app**
+
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/app.jpeg)
 **面试**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/8dfd5dcdf8a9c9e22b526fca4c09838b.png)
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/nianshi1de5.png) 
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/mslb.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/nianshi1de5.jpeg) |
+|:--|---|
+
 
 **看电影**
 
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dianyliaot.png)
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dy.png)
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dyhep.png)
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dianyliaot.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dy.jpeg) |
+|---|---|
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dyhep.jpeg) |
+
+
 
 **检修**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/jianxiu.png)
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/jianxiu.jpeg)
 
 **语聊**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yul.png)
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yulgift.png)
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yuliao.png)
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yul.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yulgift.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yuliao.jpeg) |
+|---|---|---|
+
+
+
+
 
 **ktv**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/ktv.png)
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/ktv.jpeg)
 
 **互动娱乐**
-![alt 属性文本](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/hy.png)
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/hy.jpeg)
