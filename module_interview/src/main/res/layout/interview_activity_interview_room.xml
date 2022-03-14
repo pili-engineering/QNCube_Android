@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+    tools:context=".room.InterviewRoomActivity">
+
+
+    <FrameLayout
+        android:id="@+id/flSurfaceContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        >
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/trackVp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:layout_width="104dp"
+            android:layout_height="155dp"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="98dp"
+            android:layout_marginEnd="18dp"
+            android:id="@+id/smallSurfaceViewParent"
+            >
+            <!--  小视频控件-->
+            <com.qiniudemo.module.interview.room.InterviewSurfaceView
+                android:id="@+id/smallSurfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </FrameLayout>
+
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/btScree"
+        android:background="@drawable/shape_icon_share_screee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="140dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/flCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <RadioGroup
+        android:id="@+id/rgIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="141dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible"
+        >
+        <RadioButton
+            android:id="@+id/rbFront"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:button="@null"
+            android:background="@drawable/selector_indicator_surfcepage"
+            android:layout_marginEnd="4dp"
+            />
+        <RadioButton
+            android:layout_marginStart="4dp"
+            android:id="@+id/rbBack"
+            android:button="@null"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:background="@drawable/selector_indicator_surfcepage"
+            />
+
+    </RadioGroup>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

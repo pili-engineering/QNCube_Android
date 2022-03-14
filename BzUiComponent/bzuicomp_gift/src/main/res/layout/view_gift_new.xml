@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlGiftRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    tools:ignore="MissingDefaultResource,UselessParent"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/rlGiftInfoRoot"
+            android:layout_width="160dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/room_bg_gift_area"
+            android:gravity="center_vertical"
+            android:minWidth="180dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlHardcoded,RtlSymmetry">
+
+            <!--送礼者头像-->
+            <ImageView
+                android:id="@+id/ivGiftSenderAvatar"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_margin="3dp"
+                android:contentDescription="@null"
+
+                tools:ignore="RtlHardcoded" />
+
+            <!--<ImageView-->
+            <!--android:id="@+id/ivGiftSenderIcon"-->
+            <!--android:layout_width="18dp"-->
+            <!--android:layout_height="18dp"-->
+            <!--android:layout_alignEnd="@+id/ivGiftSenderAvatar"-->
+            <!--android:layout_alignRight="@+id/ivGiftSenderAvatar"-->
+            <!--android:layout_alignBottom="@+id/ivGiftSenderAvatar"-->
+            <!--android:contentDescription="@null"-->
+            <!--android:src="@drawable/vip_1"-->
+            <!--android:visibility="gone"-->
+            <!--tools:visibility="visible" />-->
+
+            <TextView
+                android:id="@+id/tvGiftSenderName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_toRightOf="@+id/ivGiftSenderAvatar"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxWidth="88dp"
+                android:scrollHorizontally="true"
+                android:shadowColor="#ff000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+                tools:text="王大锤" />
+
+            <TextView
+                android:id="@+id/mtvGiftName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvGiftSenderName"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@+id/ivGiftSenderAvatar"
+                android:layout_toRightOf="@+id/ivGiftSenderAvatar"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxWidth="180dp"
+                android:scrollHorizontally="true"
+                android:shadowColor="#ff000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="2"
+                android:singleLine="true"
+                android:textColor="#ccffffff"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText,RtlHardcoded"
+                tools:text="送出 大戒指" />
+
+        </RelativeLayout>
+
+        <!--礼物图片-->
+        <ImageView
+            android:id="@+id/ivGiftImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="137dp"
+            android:layout_toLeftOf="@+id/llGiftCountRoot"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/rlGiftInfoRoot"
+            tools:ignore="RtlHardcoded" />
+
+        <!--礼物的数量数字-->
+        <LinearLayout
+            android:id="@+id/llGiftCountRoot"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toRightOf="@+id/rlGiftInfoRoot"
+            android:gravity="center|left"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ivGiftImage"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            tools:visibility="visible">
+
+
+            <com.qiniu.bzuicomp.gift.StrokeTextView
+                android:id="@+id/ivGiftMulti"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:gravity="center"
+                android:text="x"
+                android:textColor="#0076ff"
+                android:textSize="24sp"
+                android:visibility="gone"
+                app:innnerColor="#ffffff"
+                app:outerColor="#0076ff"
+                tools:visibility="visible" />
+
+
+            <!--滚动 跳动的礼物数字-->
+            <com.qiniu.bzuicomp.gift.GiftLinearLayout
+                android:id="@+id/gllGiftNumRoot"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="left|center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                tools:visibility="visible"/>
+
+
+
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

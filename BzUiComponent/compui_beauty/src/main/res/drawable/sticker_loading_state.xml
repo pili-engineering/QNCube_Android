@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--loading state-->
+    <item android:state_activated="true">
+        <animated-rotate android:pivotX="50%" android:pivotY="50%" android:visible="true">
+            <rotate android:drawable="@drawable/sticker_loading" android:duration="2000" android:fromDegrees="360" android:pivotX="50%" android:pivotY="50%" android:toDegrees="0" android:visible="true" />
+        </animated-rotate>
+    </item>
+    <!--normal state-->
+    <item android:drawable="@drawable/sticker_download" android:state_activated="false">
+        <shape android:shape="rectangle">
+            <size android:width="30dp" android:height="30dp" />
+            <corners android:radius="1dp" />
+            <solid android:color="#ffff0000" />
+        </shape>
+    </item>
+</selector>

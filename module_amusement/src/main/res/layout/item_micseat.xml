@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/hrItemMicSeat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.qiniudemo.baseapp.widget.SquareFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sqCard"
+        android:layout_gravity="center"
+        >
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_66000000_8"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:id="@+id/llFooter"
+            >
+
+            <ImageView
+                android:id="@+id/ivJia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/am_jia"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="等待连线"
+                android:textSize="10sp"
+                android:textColor="#FFFFFFFF"
+                />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/flContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/ivMicSeatAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/shape_000000_99000000_bottom_8" />
+
+            <TextView
+                android:id="@+id/tvMicNick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/ivMicrophoneStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:src="@drawable/am_select_seat_mic_status"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="2dp" />
+        </FrameLayout>
+    </com.qiniudemo.baseapp.widget.SquareFrameLayout>
+
+
+
+</FrameLayout>

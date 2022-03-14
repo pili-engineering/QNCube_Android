@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/contentView"
+    tools:context=".OverhaulActivity">
+
+    <ImageView
+        android:id="@+id/ivRoomCover"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.qiniu.droid.rtc.QNTextureView
+        android:id="@+id/textureRoomPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.niucube.playersdk.QNAudienceVideoPlayerView
+        android:id="@+id/plRoomPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <com.qiniu.droid.whiteboard.QNWhiteBoardView
+        android:id="@+id/whiteBoardView"
+        android:layout_width="9dp"
+        android:layout_height="16dp"
+        android:layout_gravity="center"
+        tools:visibility="visible" />
+
+
+    <com.qiniudemo.baseapp.widget.NoSlideViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+
+
+
+</FrameLayout>

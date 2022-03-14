@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+    <LinearLayout
+        android:layout_width="276dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/shape_ffffff_15"
+        android:layout_gravity="center"
+        android:paddingBottom="20dp"
+        android:layout_height="wrap_content">
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Updating"
+            android:textStyle="bold"
+            android:textColor="#ff5b5b5b"
+            android:textSize="16sp"
+            android:layout_marginTop="24dp"
+            />
+
+        <LinearLayout
+            android:layout_width="256dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvProcess"
+                android:text="0%"
+                android:textColor="#ffff4b4b"
+                android:textSize="13sp"
+                android:background="@drawable/updated_pop_pm_img"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="3dp"
+                android:layout_height="wrap_content"/>
+
+            <ProgressBar
+                android:id="@+id/pbUpdateProgress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="216dp"
+                android:layout_height="12dp"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:layout_gravity="center_horizontal"
+                android:progressDrawable="@drawable/bar_color" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btnBg"
+            android:layout_width="150dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            android:background="@drawable/bg_btn_ff6844_ff4444_6radius"
+            android:text="Background download"
+            android:textColor="#ffffffff"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/cardView"
+        android:layout_width="276dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shape_ffffff_15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="end"
+            android:src="@drawable/updated_pop_btn_close" />
+
+
+        <TextView
+            android:id="@+id/tvUpdaterCount"
+            android:layout_width="210dp"
+            android:layout_height="36dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="75dp"
+            android:background="@drawable/shape_ff4b4b4_18"
+            android:gravity="center"
+            android:textColor="#ffff4b4b"
+            android:textSize="13dp"
+            android:text="90% 的用户都更新了新版本" />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#ff5b5b5b"
+            android:textSize="15dp"
+            android:textStyle="bold"
+            tools:text="更新版本：4.6.0" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="6dp"
+            android:text="更新内容"
+            android:textColor="#FF5B5B5B"
+            android:textSize="12dp" />
+
+
+        <TextView
+            android:id="@+id/tvUpDataContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="10dp"
+            android:lineSpacingMultiplier="1.1"
+            android:scrollbars="vertical"
+            android:textColor="#FF5B5B5B"
+            android:textSize="12dp"
+            android:visibility="visible"
+            tools:text="1. 直播间飘屏弹幕优化，更多酷炫欢迎体验\n
+2. 添加青少年模式，呵护未成年人健康成长\n
+3. 白银转盘666道具替换为比心特效道具" />
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="150dp"
+            android:layout_height="44dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_btn_ff6844_ff4444_6radius"
+            android:text="马上更新"
+            android:textColor="#ffffffff"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="210dp"
+        android:layout_height="140dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintTop_toTopOf="@+id/cardView"
+        app:srcCompat="@drawable/ic_niuniu" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

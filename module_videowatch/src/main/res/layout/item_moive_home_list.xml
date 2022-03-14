@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qiniudemo.baseapp.widget.HeightRatioCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="7dp"
+    app:ratio="0.8">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivMovieCover"
+            android:layout_width="wrap_content"
+            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/movie_video_fill"
+            android:layout_gravity="center"
+            />
+
+        <FrameLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#b206212E"
+            >
+           <TextView
+               android:id="@+id/tvMvName"
+               android:textColor="@color/white"
+               android:layout_gravity="center_vertical"
+               android:textSize="15sp"
+               android:layout_marginStart="14dp"
+               tools:text="aa"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/ivUseMv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mv_add_round"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginEnd="14dp"
+                />
+        </FrameLayout>
+    </FrameLayout>
+
+</com.qiniudemo.baseapp.widget.HeightRatioCardView>

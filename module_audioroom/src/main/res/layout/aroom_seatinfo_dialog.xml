@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/llBottomCard"
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:background="@drawable/shap_top_6_ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="parent">
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            />
+      <LinearLayout
+          android:id="@+id/llOp"
+          android:layout_width="match_parent"
+          android:layout_height="53dp"
+          android:orientation="horizontal"
+          android:gravity="center_vertical"
+          >
+          <TextView
+              android:id="@+id/tvForbiddenMic"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:layout_weight="1"
+              android:text="闭麦"
+              />
+          <View
+              android:layout_width="1dp"
+              android:layout_height="16dp"
+              android:background="@color/black"
+              />
+          <TextView
+              android:id="@+id/tvForbiddenCamera"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:visibility="gone"
+              android:layout_weight="1"
+              android:text="关视频"
+              />
+          <View
+              android:layout_width="1dp"
+              android:layout_height="16dp"
+              android:background="@color/black"
+              />
+          <TextView
+              android:id="@+id/tvKick"
+              android:layout_width="0dp"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:layout_weight="1"
+              android:text="下麦"
+              />
+
+      </LinearLayout>
+    </LinearLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivAvatar"
+        tools:src="@mipmap/ic_lastart"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/llBottomCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/llBottomCard" />
+
+
+    <TextView
+        android:id="@+id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivAvatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        tools:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvDesc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:text="这个人什么都没有写哦~"
+        tools:text="TextView" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

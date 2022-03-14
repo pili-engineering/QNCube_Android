@@ -1,0 +1,116 @@
+plugins {
+    id 'hapidepend'
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+
+def base_url ="https://niucube-api.qiniu.com/"
+def base_url_dev ="http://10.200.20.28:5080"
+def QNIMAPPID ="cigzypnhoyno"
+def bugly ="cea307a44e"
+
+android {
+    compileSdkVersion depend.compileSdkVersion
+    defaultConfig {
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        buildConfigField "String", "bugly", "\"${bugly}\""
+        buildConfigField "String", "base_url", "\"${base_url}\""
+        buildConfigField "String", "QNIMAPPID", "\"${QNIMAPPID}\""
+        buildConfigField "String", "base_url_dev", "\"${base_url_dev}\""
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            debuggable true
+        }
+        release {
+
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            debuggable true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:+"
+    implementation depend.appcompat()
+    implementation depend.design()
+    implementation project(path: ':1highlevlsdk:comp_roommanager')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //gitpack comm
+    api 'androidx.compose.ui:ui:1.1.0-alpha05'
+    // Tooling support (Previews, etc.)
+    api 'androidx.compose.ui:ui-tooling:1.1.0-alpha05'
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    api 'androidx.compose.foundation:foundation:1.1.0-alpha05'
+    // Material Design
+    api 'androidx.compose.material:material:1.1.0-alpha05'
+    // Material design icons
+    api 'androidx.compose.material:material-icons-core:1.1.0-alpha05'
+    api 'androidx.compose.material:material-icons-extended:1.1.0-alpha05'
+    // Integration with activities
+    api 'androidx.activity:activity-compose:1.4.0-beta01'
+    // Integration with ViewModels
+    api 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01'
+    // Integration with observables
+    api 'androidx.compose.runtime:runtime-livedata:1.1.0-alpha05'
+    api 'androidx.compose.runtime:runtime-rxjava2:1.1.0-alpha05'
+
+    // UI Tests
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.0-alpha05'
+
+    api 'com.github.hackware1993:MagicIndicator:1.7.0'
+    api 'com.github.lihangleo2:ShadowLayout:3.2.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    api 'de.hdodenhof:circleimageview:3.1.0'
+    api 'com.github.tbruyelle:rxpermissions:0.10.2'
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    api 'jp.wasabeef:glide-transformations:2.0.1'
+    api 'com.orhanobut:logger:2.2.0'
+    implementation 'com.tencent.bugly:crashreport:3.3.92'
+    //基础组建
+    api project(":LibComponent:base_frame")
+    api project(":LibComponent:happy_dialog")
+    api project(':BzMudule:comp_network')
+    api project(':BzMudule:comp_imadapter')
+    api project(':routerTable')
+    api project(':module_web')
+
+}

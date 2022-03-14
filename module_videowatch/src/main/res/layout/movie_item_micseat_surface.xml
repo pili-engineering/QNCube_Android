@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.qiniudemo.baseapp.widget.HeightRatioFrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="center"
+    android:id="@+id/qnSurfaceViewContainer"
+    >
+    <TextView
+        android:text="aaaaaaaaaaaaaa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</com.qiniudemo.baseapp.widget.HeightRatioFrameLayout>
+

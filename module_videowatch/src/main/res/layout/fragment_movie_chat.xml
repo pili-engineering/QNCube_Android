@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llVideoActContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@color/black"
+    tools:context=".VideoWatchRoomActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:background="@drawable/shape_06212e_bottom_24"
+        android:layout_height="80dp"
+
+        >
+
+        <LinearLayout
+            android:id="@+id/llOnlineUser"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+           >
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                 <View
+                     android:layout_gravity="center_vertical"
+                     android:layout_width="4dp"
+                     android:layout_height="4dp"
+                     android:layout_marginStart="12dp"
+                     android:background="@drawable/dot_online"
+                     />
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="26dp"
+                    android:id="@+id/tvMember"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="成员 0"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    />
+            </FrameLayout>
+
+             <View
+                 android:layout_width="1dp"
+                 android:layout_height="0dp"
+                 android:layout_weight="1"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rycMember"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="23dp"
+                android:layout_height="30dp"
+                 />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llChangeMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:gravity="center|end"
+            android:orientation="vertical"
+            android:paddingEnd="26dp">
+
+            <TextView
+                android:id="@+id/tvChangeMovie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="播放列表 >"
+                android:textColor="#BFBFBF"
+                android:textSize="11sp"
+                />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:id="@+id/llHostInvite"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/ivInviteCode"
+                    android:src="@mipmap/mv_ic_invite_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                     />
+
+                <ImageView
+                    android:id="@+id/ivToKick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:src="@mipmap/mv_ic_to_kick" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.niucube.bzuicomp.chatdialog.DarkChatView
+            android:id="@+id/chatView"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.niucube.module.videowatch.ui.MoveFrameLayout
+            android:id="@+id/flFloatLinkInvite"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            app:IsAttach="true"
+            android:layout_marginTop="80dp"
+            app:IsDrag="true"
+            >
+            <ImageView
+                android:layout_marginStart="26dp"
+                android:id="@+id/tvFloatLinkInvite"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/iv_float_invite"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </com.niucube.module.videowatch.ui.MoveFrameLayout>
+    </FrameLayout>
+
+</LinearLayout>

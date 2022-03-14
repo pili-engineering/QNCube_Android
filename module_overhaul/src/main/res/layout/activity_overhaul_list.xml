@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCreateRoom"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:cardCornerRadius="30dp"
+        android:visibility="gone"
+        app:cardElevation="20dp"
+        android:layout_margin="24dp"
+        >
+        <TextView
+            android:text="创建房间"
+            android:textSize="26sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.cardview.widget.CardView>
+    <com.hapi.refresh.SmartRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/smartRecyclerView"
+        />
+
+</LinearLayout>

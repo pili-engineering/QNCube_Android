@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/mv_micofffull" android:state_selected="true" />
+    <item android:drawable="@mipmap/mv_miconfull" android:state_selected="false" />
+</selector>

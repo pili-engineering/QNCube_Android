@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qiniudemo.baseapp.widget.HeightRatioFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/hrItemMicSeat"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#26DBF3FF"
+    tools:layout_height="100dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/llFooter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <ProgressBar
+            android:id="@+id/ivJia"
+            android:layout_width="27dp"
+            android:layout_height="10dp"
+            android:indeterminateDrawable="@drawable/mv_seat_loading"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="等待用户进入"
+            android:textColor="#FFFFFFFF"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/flContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivMicSeatAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_000000_99000000_bottom_8" />
+
+        <TextView
+            android:id="@+id/tvMicNick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="2dp"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:id="@+id/ivMicrophoneStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mv_select_seat_mic_status"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="2dp" />
+    </FrameLayout>
+
+</com.qiniudemo.baseapp.widget.HeightRatioFrameLayout>

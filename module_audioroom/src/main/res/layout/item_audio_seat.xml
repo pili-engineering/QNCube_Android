@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.qiniudemo.baseapp.widget.SquareFrameLayout
+        android:id="@+id/qnSurfaceViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/ivBgView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#33000000" />
+
+        <FrameLayout
+            android:id="@+id/flItemContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ivMicSeatAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivOpPopup"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/host_seat_item_popup_btn" />
+
+
+            <ImageView
+                android:id="@+id/ivMicrophoneStatus"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/aroom_select_seat_mic_status" />
+
+            <TextView
+                android:id="@+id/tvMicNick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:textColor="@android:color/white"
+                android:layout_margin="12dp"
+                android:textSize="12sp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/flItemEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivJia"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/live_seat_invite"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvOperationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="#a3a3a3"
+                android:text="点击上麦"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvIndexId"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/round_dark_gray_bg"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:textColor="#a3a3a3"
+            android:textSize="14sp" />
+    </com.qiniudemo.baseapp.widget.SquareFrameLayout>
+
+
+</FrameLayout>

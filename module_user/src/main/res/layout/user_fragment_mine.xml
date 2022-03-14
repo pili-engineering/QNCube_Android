@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F9F9F9">
+
+    <TextView
+        android:id="@+id/tvAppVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:gravity="center"
+        android:text="v3.2.0"
+        android:textColor="#FF828282"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.42" />
+
+    <View
+        android:id="@+id/guideline3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#007AFF"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+    </View>
+
+    <com.lihang.ShadowLayout
+        android:id="@+id/slAvatar"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="30dp"
+        app:hl_cornerRadius="3dp"
+        app:hl_strokeColor="#5292FE"
+        app:hl_strokeWith="1dp"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.64">
+
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </com.lihang.ShadowLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+
+        android:layout_marginTop="13dp"
+        android:text="七小牛"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/slAvatar"
+        app:layout_constraintTop_toTopOf="@+id/slAvatar" />
+
+    <TextView
+        android:id="@+id/tvProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="11dp"
+        android:drawableEnd="@drawable/icon_edit_xxhdpi"
+        android:text="让大家更了解你一下吧  "
+        android:textColor="#FF85C6FF"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/slAvatar"
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline3"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="#ffffff"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/flPrivacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="26dp"
+                        android:paddingEnd="21dp"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:text="隐私权政策"
+                            android:textColor="#FF323240"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:src="@drawable/icon_next_xxhdpi"
+                            android:textColor="#176AFF"
+                            android:textSize="16sp" />
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="27dp"
+                        android:layout_marginEnd="27dp"
+                        android:background="#EAEAEA" />
+
+                    <FrameLayout
+                        android:id="@+id/flLiability"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="26dp"
+                        android:paddingEnd="21dp"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:text="服务用户协议"
+                            android:textColor="#FF323240"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:src="@drawable/icon_next_xxhdpi"
+                            android:textColor="#176AFF"
+                            android:textSize="16sp" />
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="165dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="#ffffff"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <FrameLayout
+                        android:id="@+id/flVersionTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="26dp"
+                        android:paddingEnd="27dp"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:text="发版时间"
+                            android:textColor="#FF323240"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvVersionTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:text="2020/1/1"
+                            android:textColor="#999999"
+                            android:textSize="14sp" />
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="27dp"
+                        android:layout_marginEnd="27dp"
+                        android:background="#EAEAEA" />
+
+                    <FrameLayout
+                        android:id="@+id/flSdkVersion"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="26dp"
+                        android:paddingEnd="27dp"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:text="SDK版本"
+                            android:textColor="#FF323240"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvSdkVersion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:text="v1"
+                            android:textColor="#999999"
+                            android:textSize="14sp" />
+
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="27dp"
+                        android:layout_marginEnd="27dp"
+                        android:background="#EAEAEA" />
+
+                    <FrameLayout
+                        android:id="@+id/flUpLoadLog"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingStart="26dp"
+                        android:paddingEnd="21dp"
+
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|left"
+                            android:text="上传日志"
+                            android:textColor="#FF323240"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|end"
+                            android:src="@drawable/icon_next_xxhdpi"
+                            android:textColor="#176AFF"
+                            android:textSize="16sp" />
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="#ffffff"
+                app:cardCornerRadius="6dp"
+                app:cardElevation="6dp">
+
+
+                <FrameLayout
+                    android:id="@+id/flLoginOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingStart="26dp"
+                    android:paddingEnd="21dp"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|left"
+                        android:text="退出登录"
+                        android:textColor="#FF323240"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|end"
+                        android:src="@drawable/icon_next_xxhdpi"
+                        android:textColor="#176AFF"
+                        android:textSize="16sp" />
+
+                </FrameLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="55dp" />
+
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

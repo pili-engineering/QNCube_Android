@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#091227"
+    tools:context=".KTVRoomActivity">
+
+    <ImageView
+
+        android:id="@+id/ivAlbum"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.niucube.lrcview.LrcView
+        android:layout_marginTop="24dp"
+        android:padding="12dp"
+        android:id="@+id/lrcView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#00000000"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lrcCurrentTextColor="#EF4149"
+        app:lrcDividerHeight="20dp"
+        app:lrcLabel=" "
+        app:lrcNormalTextColor="#99FFFFFF"
+        app:lrcNormalTextSize="16sp"
+        app:lrcTextGravity="center"
+        app:lrcTextSize="26sp" />
+
+    <LinearLayout
+        android:layout_width="135dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_40000000_16"
+        android:layout_marginStart="12dp"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivHostAvatar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="8dp"
+            >
+            <TextView
+                android:id="@+id/tvRoomTittle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="asdsadsa"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxWidth="100dp"
+                />
+             <TextView
+                 android:id="@+id/tvMember"
+                 android:textColor="@color/white"
+                 android:textSize="9sp"
+                 android:drawableStart="@mipmap/ktv_ic_people1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 tools:text="1"
+
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMusicInfoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="#1F242E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lrcView">
+
+        <ImageView
+            android:id="@+id/ivAlbumMin"
+            android:layout_width="48dp"
+            android:layout_height="48dp"/>
+        <TextView
+            android:id="@+id/tvCurrentSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:paddingStart="16dp"
+            android:maxWidth="138dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            tools:text="aasdsadsadsa"
+            android:textColor="@color/white" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+           />
+
+        <ImageView
+            android:id="@+id/ivPause"
+
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="2dp"
+            android:src="@drawable/play_select"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/ivNext"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:src="@mipmap/xiayigexiayishou"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvSelectSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/bg_diange"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="12sp"
+            android:text="点歌"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyMicSeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="6dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llMusicInfoContainer"
+
+        />
+
+    <ImageView
+        android:id="@+id/ivShowInput"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@mipmap/duihua"
+        tools:layout_editor_absoluteY="656dp" />
+
+    <ImageView
+        android:id="@+id/ivMicrophone"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivShowInput"
+        app:layout_constraintStart_toEndOf="@+id/ivShowInput"
+        app:layout_constraintTop_toTopOf="@+id/ivShowInput"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:srcCompat="@drawable/mic_select" />
+
+    <ImageView
+        android:id="@+id/ivAccompany"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMicrophone"
+        app:layout_constraintStart_toEndOf="@+id/ivMicrophone"
+        app:layout_constraintTop_toTopOf="@+id/ivMicrophone"
+        app:srcCompat="@mipmap/yingui" />
+
+    <ImageView
+        android:id="@+id/ivCloseRoom"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:padding="5dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAccompany"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivAccompany"
+        app:srcCompat="@mipmap/guanbi" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="video_buffering">正在准备...</string>
+    <string name="video_is_buffering">正在缓冲...</string>
+    <string name="replay">重新播放</string>
+    <string name="play_error">播放错误，请重试。</string>
+    <string name="click_try">点击重试</string>
+    <string name="super_quality">超清</string>
+</resources>

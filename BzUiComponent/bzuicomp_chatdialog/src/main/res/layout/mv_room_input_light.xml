@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="#eeeeee"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:paddingBottom="30dp"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:minHeight="36dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="3dp"
+
+
+        >
+
+        <ImageView
+            android:id="@+id/voice_input_switch"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            android:src="@drawable/action_audio_selector" />
+
+        <com.qiniu.bzuicomp.bottominput.TIMMentionEditText
+            android:id="@+id/chat_message_input"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:gravity="center_vertical"
+
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:hint="聊点什么吧..."
+            android:textColorHint="#999999"
+
+            android:maxHeight="120dp"
+            android:minHeight="30dp"
+            android:textCursorDrawable="@drawable/my_cursor"
+            android:paddingEnd="15dp"
+            android:paddingStart="15dp"
+            android:background="@color/white"
+            />
+
+        <Button
+            android:id="@+id/chat_voice_input"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/voice_btn_selector"
+            android:text="hold to talk "
+            android:textColor="#696969"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/face_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:scaleType="fitXY"
+
+            android:src="@mipmap/mv_emj" />
+
+        <ImageView
+            android:id="@+id/more_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            android:src="@drawable/action_more_selector" />
+
+        <TextView
+            android:id="@+id/send_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:background="@drawable/mv_shape_send_red"
+            android:text="发送"
+            android:textColor="#fff"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/tempView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <com.qiniu.bzui.emoji.EmojiBoard
+        android:id="@+id/emojiBoard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>
+
+

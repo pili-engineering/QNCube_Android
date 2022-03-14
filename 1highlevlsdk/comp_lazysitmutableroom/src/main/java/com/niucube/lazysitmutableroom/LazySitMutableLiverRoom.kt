@@ -1,0 +1,481 @@
+package com.niucube.lazysitmutableroom
+
+import android.content.Context
+import android.text.TextUtils
+import com.alibaba.fastjson.util.ParameterizedTypeImpl
+import com.niucube.absroom.*
+import com.niucube.comproom.*
+import com.niucube.basemutableroom.*
+import com.niucube.absroom.RtcOperationCallback.Companion.error_seat_status
+import com.niucube.absroom.seat.MicSeat
+import com.niucube.absroom.seat.UserExtension
+import com.niucube.rtcroom.joinRtc
+import com.niucube.rtm.RtmCallBack
+import com.niucube.rtm.optAction
+import com.niucube.rtm.optData
+import com.qiniu.jsonutil.JsonUtils
+import com.qiniu.droid.rtc.*
+import kotlinx.coroutines.*
+import java.lang.reflect.Type
+import kotlin.coroutines.*
+
+//固定麦位房间
+class LazySitMutableLiverRoom(
+    appContext: Context,
+    mQNRTCSetting: QNRTCSetting = QNRTCSetting(),
+    clientConfig: QNRTCClientConfig = QNRTCClientConfig(QNClientMode.LIVE, QNClientRole.AUDIENCE)
+) : BaseMutableRoom<LazySitUserMicSeat>(appContext, mQNRTCSetting, clientConfig) {
+
+    override var mClientRole: com.niucube.comproom.ClientRoleType =
+        com.niucube.comproom.ClientRoleType.CLIENT_ROLE_AUDIENCE
+
+    override val mRtcRoomSignalingLister by lazy { FixRtcRoomSignalingLister(this) }
+    override val mTrackSeatListener by lazy { FixRoomUserMicSeatListener(this) }
+
+    override fun setClientRole(role: ClientRoleType, call: QNClientRoleResultCallback) {
+        super.setClientRole(role, call)
+    }
+
+    //添加麦位监听
+    fun addUserMicSeatListener(listener: UserMicSeatListener) {
+        mTrackSeatListeners.add(listener)
+    }
+
+    fun removeUserMicSeatListener(listener: UserMicSeatListener) {
+        mTrackSeatListeners.remove(listener)
+    }
+
+    // 以观众身份加入房间
+    suspend fun joinRoomAsAudience(
+        roomEntity: RoomEntity,
+        userExt: UserExtension?
+    ) {
+        mClientRole = ClientRoleType.CLIENT_ROLE_AUDIENCE
+        joinRoom(roomEntity, userExt)
+    }
+
+    // 以拉流身份加入房间
+    suspend fun joinRoomAsPuller(
+        roomEntity: RoomEntity,
+        userExt: UserExtension?
+    ) {
+        mClientRole = ClientRoleType.CLIENT_ROLE_PULLER
+        joinRoom(roomEntity, userExt)
+    }
+
+    public override suspend fun leaveRoom() {
+        super.leaveRoom()
+    }
+
+    override fun closeRoom() {
+        super.closeRoom()
+    }
+
+    /**
+     * 上麦 指定麦位上麦 sdk内部加入rtc房间切换播放为rtc订阅
+     * @param cameraParams 如果需要开启摄像头 否则null
+     * @param micphoneParams 如果需要开启麦克风 否则null
+     */
+    suspend fun sitDown(
+        userExt: UserExtension?,
+        cameraParams: VideoTrackParams?,
+        micphoneParams: AudioTrackParams?
+    ) {
+        if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
+            joinRtc(RoomManager.mCurrentRoom?.provideRoomToken() ?: "", "")
+        }
+        setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_BROADCASTER)
+
+        val seatTemp = LazySitUserMicSeat().apply {
+            isOwnerOpenAudio = micphoneParams != null
+            isOwnerOpenVideo = cameraParams != null
+        }
+        seatTemp.uid = RoomManager.mCurrentRoom?.provideMeId() ?: ""
+        seatTemp.userExtension = userExt
+
+        mRtcRoomSignaling.sitDown(seatTemp)
+        mMicSeats.add(seatTemp)
+
+        cameraParams?.let {
+            setCameraVideoTrackParams(it)
+            createVideoTrack()
+        }
+        micphoneParams?.let {
+            setMicrophoneAudioParams(it)
+            createVideoTrack()
+        }
+        mTrackSeatListener.onUserSitDown(seatTemp)
+        cameraParams?.let {
+            suspendEnableVideo()
+        }
+        micphoneParams?.let {
+            suspendEnableAudio()
+        }
+    }
+
+    /**
+     * 下麦 sdk内部退出rtc房间 切换订阅播放到拉流播放
+     * @param seat
+     */
+    suspend fun sitUpAsAudience() {
+        val seat = getUserSeat(RoomManager.mCurrentRoom?.provideMeId() ?: "")
+            ?: throw RtcOperationException(error_seat_status, "user is not on seat")
+        setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_AUDIENCE)
+        mRtcRoomSignaling.sitUp(seat)
+        super.onlyDisableAudio()
+        super.onlyDisableVideo()
+        //  mEngine.leave()
+        mMicSeats.remove(seat)
+        mTrackSeatListener.onUserSitUp(seat, false)
+    }
+
+    //下麦后拉流
+    suspend fun sitUpAsPuller() {
+        val seat = getUserSeat(RoomManager.mCurrentRoom?.provideMeId() ?: "")
+            ?: throw RtcOperationException(error_seat_status, "user is not on seat")
+        mRtcRoomSignaling.sitUp(seat)
+        setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_PULLER)
+        super.onlyDisableAudio()
+        super.onlyDisableVideo()
+        mClient.leave()
+        mMicSeats.remove(seat)
+        mTrackSeatListener.onUserSitUp(seat, false)
+        seat.clear()
+    }
+
+    public override fun muteLocalVideo(muted: Boolean) {
+        super.muteLocalVideo(muted)
+    }
+
+    public override fun muteLocalAudio(muted: Boolean) {
+        super.muteLocalAudio(muted)
+    }
+
+    public override fun muteRemoteAudio(uid: String, muted: Boolean) {
+        super.muteRemoteAudio(uid, muted)
+    }
+
+    public override fun muteRemoteVideo(uid: String, muted: Boolean) {
+        super.muteRemoteVideo(uid, muted)
+    }
+
+    public override fun muteAllRemoteVideo(muted: Boolean) {
+        super.muteAllRemoteVideo(muted)
+    }
+
+    public override fun muteAllRemoteAudio(muted: Boolean) {
+        super.muteAllRemoteAudio(muted)
+    }
+
+    //从麦位上踢出
+    fun kickOutFromMicSeat(uid: String, msg: String, callBack: RtcOperationCallback) {
+        val seat = getUserSeat(uid)
+        if (seat == null) {
+            callBack.onFailure(error_seat_status, "seatId error")
+            return
+        }
+
+        if (TextUtils.isEmpty(seat.uid)) {
+            callBack.onFailure(error_seat_status, "seat is  empty")
+            return
+        }
+
+        mRtcRoomSignaling.kickOutFromMicSeat(
+            UserMicSeatMsg(seat, msg),
+            object : RtmCallBack {
+                override fun onSuccess() {
+                    callBack.onSuccess()
+                    //mEngine.k
+                }
+
+                override fun onFailure(code: Int, msg: String) {
+                    callBack.onFailure(-code, msg)
+                }
+            })
+    }
+
+    //从房间踢出
+    fun kickOutFromRoom(userId: String, msg: String, callBack: RtcOperationCallback) {
+        mRtcRoomSignaling.kickOutFromRoom(userId, msg, object : RtmCallBack {
+            override fun onSuccess() {
+                callBack.onSuccess()
+                // mEngine.kickOutUser(userId)
+            }
+
+            override fun onFailure(code: Int, msg: String) {
+                callBack.onFailure(-code, msg)
+            }
+        })
+    }
+
+    //禁止开麦克风
+    fun forbiddenMicSeatAudio(
+        uid: String,
+        isForbidden: Boolean,
+        msg: String,
+        callBack: RtcOperationCallback
+    ) {
+        val seat = getUserSeat(uid)
+        if (seat == null) {
+            callBack.onFailure(error_seat_status, "seatId error")
+            return
+        }
+        if (TextUtils.isEmpty(seat.uid)) {
+            callBack.onFailure(error_seat_status, "seat is  empty")
+            return
+        }
+        mRtcRoomSignaling.forbiddenMicSeatAudio(
+            ForbiddenMicSeatMsg(
+                uid,
+                isForbidden,
+                msg
+            ),
+            object : RtmCallBack {
+                override fun onSuccess() {
+                    callBack.onSuccess()
+                }
+
+                override fun onFailure(code: Int, msg: String) {
+                    callBack.onFailure(-code, msg)
+                }
+            })
+    }
+
+    //禁止开摄像头
+    fun forbiddenMicSeatVideo(
+        uid: String,
+        isForbidden: Boolean,
+        msg: String,
+        callBack: RtcOperationCallback
+    ) {
+        val seat = getUserSeat(uid)
+        if (seat == null) {
+            callBack.onFailure(error_seat_status, "seatId error")
+            return
+        }
+
+        if (TextUtils.isEmpty(seat.uid)) {
+            callBack.onFailure(error_seat_status, "seat is  empty")
+            return
+        }
+
+        mRtcRoomSignaling.forbiddenMicSeatVideo(
+            ForbiddenMicSeatMsg(
+                uid,
+                isForbidden,
+                msg
+            ),
+            object : RtmCallBack {
+                override fun onSuccess() {
+                    callBack.onSuccess()
+                }
+
+                override fun onFailure(code: Int, msg: String) {
+                    callBack.onFailure(-code, msg)
+                }
+            })
+    }
+
+    /**
+     * 自定义麦位操作
+     * @param seat
+     * @param action
+     */
+    fun sendCustomSeatAction(
+        uid: String,
+        key: String,
+        values: String,
+        callBack: RtcOperationCallback
+    ) {
+        val seat = getUserSeat(uid)
+        if (seat == null) {
+            callBack.onFailure(error_seat_status, "seatId error")
+            return
+        }
+        mRtcRoomSignaling.sendCustomSeatAction(
+            CustomSeatAction(
+                uid,
+                key,
+                values
+            ),
+            object : RtmCallBack {
+                override fun onSuccess() {
+                    callBack.onSuccess()
+                    mTrackSeatListener.onCustomSeatAction(seat, key, values)
+                }
+
+                override fun onFailure(code: Int, msg: String) {
+                    callBack.onFailure(-code, msg)
+                }
+            })
+    }
+
+    class FixRoomUserMicSeatListener(val lazyRoom: LazySitMutableLiverRoom) :
+        InnerBaseMicSeatListener<LazySitUserMicSeat>(lazyRoom), UserMicSeatListener {
+
+        override fun onVideoForbiddenStatusChanged(seat: LazySitUserMicSeat, msg: String) {
+            lazyRoom.mTrackSeatListeners.forEach {
+                (it as UserMicSeatListener).onVideoForbiddenStatusChanged(seat, msg)
+            }
+        }
+
+        override fun onAudioForbiddenStatusChanged(seat: LazySitUserMicSeat, msg: String) {
+            lazyRoom.mTrackSeatListeners.forEach {
+                (it as UserMicSeatListener).onAudioForbiddenStatusChanged(seat, msg)
+            }
+        }
+
+        override fun onKickOutFromMicSeat(seat: LazySitUserMicSeat, msg: String) {
+            lazyRoom.mTrackSeatListeners.forEach {
+                (it as UserMicSeatListener).onKickOutFromMicSeat(seat, msg)
+            }
+        }
+
+        override fun onKickOutFromRoom(userId: String, msg: String) {
+            lazyRoom.mTrackSeatListeners.forEach {
+                (it as UserMicSeatListener).onKickOutFromRoom(userId, msg)
+            }
+        }
+
+        override fun onCustomSeatAction(seat: MicSeat, key: String, values: String) {
+            lazyRoom.mTrackSeatListeners.forEach {
+                (it as UserMicSeatListener).onCustomSeatAction(seat, key, values)
+            }
+        }
+    }
+
+    class FixRtcRoomSignalingLister(val lazyRoom: LazySitMutableLiverRoom) :
+        MutableRtcRoomSignalingLister<LazySitUserMicSeat>(
+            LazySitUserMicSeat::class.java,
+            lazyRoom
+        ) {
+
+        private fun onKickUser(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
+            lazyRoom.getUserSeat(uid)?.let {
+                if (it.isMySeat()) {
+                    lazyRoom.onlyDisableAudio()
+                    lazyRoom.onlyDisableVideo()
+                }
+                lazyRoom.mMicSeats.remove(it)
+                call.invoke(it)
+                it.clear()
+            }
+        }
+
+        private fun onKickUserMic(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
+            lazyRoom.getUserSeat(uid)?.let {
+                if (it.isMySeat()) {
+//                    lazyRoom.onlyDisableAudio()
+//                    lazyRoom.onlyDisableVideo()
+                    if (rtcRoom.getIAudiencePlayerView() == null) {
+                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_AUDIENCE)
+                    } else {
+                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_PULLER)
+                        lazyRoom.mClient.leave()
+                    }
+                }
+                lazyRoom.mMicSeats.remove(it)
+                call.invoke(it)
+                it.clear()
+            }
+        }
+
+        override fun onNewMsgSignaling(msg: String, peerId: String): Boolean {
+            when (msg.optAction()) {
+                action_rtc_kickOutFromMicSeat -> {
+                    val type = ParameterizedTypeImpl(
+                        arrayOf<Type>(LazySitUserMicSeat::class.java),
+                        UserMicSeatMsg::class.java,
+                        UserMicSeatMsg::class.java
+                    )
+                    val seat =
+                        JsonUtils.parseObject<UserMicSeatMsg<LazySitUserMicSeat>>(
+                            msg.optData(),
+                            type
+                        )
+                            ?: return true
+                    onKickUserMic(seat.userMicSeat?.uid ?: "") {
+                        lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(it, msg)
+                    }
+                    return true
+                }
+                action_rtc_kickOutFromRoom -> {
+                    val uidAndMsg =
+                        JsonUtils.parseObject(msg.optData(), UidAndMsg::class.java)
+                            ?: return true
+                    onKickUser(uidAndMsg.uid) {}
+                    lazyRoom.mTrackSeatListener.onKickOutFromRoom(uidAndMsg.uid, msg)
+                    return true
+                }
+                action_rtc_forbiddenAudio -> {
+                    val forbiddenMicSeatMsg = JsonUtils.parseObject(
+                        msg.optData(),
+                        ForbiddenMicSeatMsg::class.java
+                    )
+                        ?: return true
+                    lazyRoom.getUserSeat(forbiddenMicSeatMsg.uid)?.let {
+                        it.isForbiddenAudioByManager = forbiddenMicSeatMsg.isForbidden
+//                        if (it.isMySeat() && it.isForbiddenAudioByManager
+//                            && it.isOwnerOpenAudio
+//                        ) {
+//                            lazyRoom.localAudioTrack?.isMuted=true
+//                        }
+                        lazyRoom.mTrackSeatListener.onAudioForbiddenStatusChanged(
+                            it,
+                            forbiddenMicSeatMsg.msg
+                        )
+                    }
+                    return true
+                }
+                action_rtc_forbiddenVideo -> {
+                    val forbiddenMicSeatMsg = JsonUtils.parseObject(
+                        msg.optData(),
+                        ForbiddenMicSeatMsg::class.java
+                    )
+                        ?: return true
+                    lazyRoom.getUserSeat(forbiddenMicSeatMsg.uid)?.let {
+                        it.isForbiddenVideoByManager = forbiddenMicSeatMsg.isForbidden
+//                        if (it.isMySeat() && it.isForbiddenVideoByManager
+//                            && it.isOwnerOpenVideo
+//                        ) {
+//                            lazyRoom.localVideoTrack?.isMuted = true
+//                        }
+                        lazyRoom.mTrackSeatListener.onVideoForbiddenStatusChanged(
+                            it,
+                            forbiddenMicSeatMsg.msg
+                        )
+                    }
+                    return true
+                }
+                action_rtc_customSeatAction -> {
+                    val customSeatAction = JsonUtils.parseObject(
+                        msg.optData(),
+                        CustomSeatAction::class.java
+                    )
+                        ?: return true
+                    lazyRoom.getUserSeat(customSeatAction.uid)?.let {
+                        lazyRoom.mTrackSeatListener.onCustomSeatAction(
+                            it,
+                            customSeatAction.key,
+                            customSeatAction.values
+                        )
+                    }
+                    return true
+                }
+                action_rtc_sitDown -> {
+                    val seat = JsonUtils.parseObjectType<LazySitUserMicSeat>(
+                        msg.optData(),
+                        LazySitUserMicSeat::class.java
+                    )
+                        ?: return true
+                    if (lazyRoom.getUserSeat(seat.uid) == null) {
+                        lazyRoom.mMicSeats.add(seat)
+                        lazyRoom.mTrackSeatListener.onUserSitDown(seat)
+                    }
+                    return true
+                }
+            }
+            return super.onNewMsgSignaling(msg, peerId)
+        }
+    }
+}

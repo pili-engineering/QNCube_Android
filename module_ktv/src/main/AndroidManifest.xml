@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.niucube.module.ktv">
+
+    <application>
+        <activity
+            android:name=".KTVRoomActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
+            android:name=".KtvRoomListActivity"
+            android:exported="true" />
+    </application>
+
+</manifest>

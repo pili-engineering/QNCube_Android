@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="24dp"
+    android:background="@drawable/shape_007aff_3"
+    android:id="@+id/tvOp"
+    android:gravity="center"
+    android:paddingStart="9dp"
+    android:paddingEnd="9dp"
+    android:layout_marginStart="5dp"
+    android:layout_margin="5dp"
+    android:textColor="@color/white"
+    android:textSize="14sp"
+    >
+
+</TextView>

@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="live_host_in_seat_operations">
+        <item>禁麦</item>
+        <item>解禁</item>
+        <item>下麦</item>
+    </string-array>
+</resources>

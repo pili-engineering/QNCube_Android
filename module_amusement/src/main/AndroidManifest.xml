@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.niucube.module.amusement">
+
+    <application>
+        <activity android:name=".AmusementListActivity"/>
+        <activity
+            android:name=".AmusementRoomActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+    </application>
+
+</manifest>

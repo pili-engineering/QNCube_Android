@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/llVideoActContainer"
+    android:background="@color/black"
+    android:keepScreenOn="true"
+    tools:context=".VideoWatchRoomActivity">
+
+    <FrameLayout
+        android:id="@+id/videoViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.niucube.module.videowatch.core.MovieSignalerPlayer
+            android:id="@+id/mVideoView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:loop="false"
+            app:engine ="mediaPlayer"
+            app:isFromLastPosition="false"
+            app:isFirstFrameAsCover="true"
+            app:centerCropError="0.1"
+            app:autoChangeOrientation ="true"
+            app:whenFullAddToActivityTop="false"
+            app:heightRatio="0.5625"
+            />
+
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/flFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vpPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <FrameLayout
+            android:id="@+id/flOptionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+
+
+    <style name="WhiteBoardActionButton" >
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+    </style>
+
+</resources>

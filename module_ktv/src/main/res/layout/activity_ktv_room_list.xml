@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:fitsSystemWindows="true"
+    >
+
+    <com.hapi.refresh.SmartRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/smartRecyclerView"
+        />
+
+    <TextView
+        android:id="@+id/tvCreateRoom"
+        android:text="创建房间"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"
+        android:layout_width="300dp"
+        android:background="@drawable/bg_create_ktv"
+        android:layout_height="50dp"/>
+</LinearLayout>

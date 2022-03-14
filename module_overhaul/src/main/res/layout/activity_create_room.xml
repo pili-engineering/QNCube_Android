@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#55EAEAEA"
+    android:fitsSystemWindows="true"
+    >
+
+
+        <FrameLayout
+            android:background="@color/white"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="房间标题"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etRoomTittle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="103dp"
+                android:background="@null"
+                android:hint="请输入房间标题"
+                android:textColor="#FF323240"
+                android:textColorHint="#BFBFBF"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="bottom"
+                android:background="#55EAEAEA" />
+        </FrameLayout>
+
+
+    <FrameLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="角色"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_marginStart="103dp"
+            android:id="@+id/rgRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbStaff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:buttonTint="#00AAE7"
+                android:text="检修员"
+                android:textColor="#333333"
+                />
+
+            <RadioButton
+                android:id="@+id/rbProfessor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:buttonTint="#00AAE7"
+                android:text="专家" />
+        </RadioGroup>
+
+    </FrameLayout>
+
+
+    <TextView
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:id="@+id/btnConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="@drawable/select_color_ffffff_999999"
+        android:gravity="center"
+
+        android:background="@drawable/shape_f5f5f5_0278fe_2"
+        android:text="确定"
+        />
+
+
+
+
+</LinearLayout>

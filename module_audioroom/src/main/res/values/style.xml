@@ -1,0 +1,27 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="live_room_dialog" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0</item>
+    </style>
+    <style name="seat_item_dialog" parent="live_room_dialog">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="host_in_seat_dialog_item_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="host_in_seat_dialog_item_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+</resources>

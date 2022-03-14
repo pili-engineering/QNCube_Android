@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="dialog_change_clarity" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">#bc000000</item>
+    </style>
+
+
+
+    <declare-styleable name="happyVideo">
+        <attr name="heightRatio" format="float"/>
+        <attr name="loop" format="boolean"/>
+        <attr name="isFromLastPosition" format="boolean"/>
+
+        <attr name="isFirstFrameAsCover"  format="boolean"/>
+        <attr name="centerCropError"  format="float"/>
+        <attr name="whenFullAddToActivityTop" format="boolean"/>
+        <attr name="autoChangeOrientation" format="boolean"/>
+
+        <attr name="engine">
+            <enum name="mediaPlayer" value="1"/>
+            <enum name="PLPlayer" value="2"/>
+        </attr>
+    </declare-styleable>
+
+</resources>
