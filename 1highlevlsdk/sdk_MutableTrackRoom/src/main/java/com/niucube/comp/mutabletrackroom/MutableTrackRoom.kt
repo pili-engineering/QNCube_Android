@@ -260,7 +260,8 @@ class MutableTrackRoom(
                     userExtension = ext
                 }
             }
-            if ((seat.userExtension as UserExtensionWrap?)?.clientRoleType ?: -1 == ClientRoleType.CLIENT_ROLE_AUDIENCE.role) {
+
+            if ((seat.userExtension as UserExtensionWrap?)?.clientRoleType ?: -1 == ClientRoleType.CLIENT_ROLE_BROADCASTER.role) {
                 mutableRoom.mMicSeats.add(seat)
                 mutableRoom.mTrackSeatListener.onUserSitDown(seat)
             }

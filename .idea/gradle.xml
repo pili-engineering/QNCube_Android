@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/1highlevlsdk" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_absroom" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_baseMutableRoom" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_ktvplayercore" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_lazysitmutableroom" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_qnrtcsdk" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_roommanager" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_rtc_room" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/comp_rtm" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/sdk_InvitationSignal" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/sdk_MutableTrackRoom" />
+            <option value="$PROJECT_DIR$/1highlevlsdk/sdk_audience_player" />
+            <option value="$PROJECT_DIR$/BzMudule" />
+            <option value="$PROJECT_DIR$/BzMudule/UserInfoProvide" />
+            <option value="$PROJECT_DIR$/BzMudule/comp_channelattributes" />
+            <option value="$PROJECT_DIR$/BzMudule/comp_imadapter" />
+            <option value="$PROJECT_DIR$/BzMudule/comp_network" />
+            <option value="$PROJECT_DIR$/BzMudule/comp_user" />
+            <option value="$PROJECT_DIR$/BzUiComponent" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuiEmoji" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_bottomInput" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_chatdialog" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_danmu" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_gift" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_pagerroom" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_pubchat" />
+            <option value="$PROJECT_DIR$/BzUiComponent/bzuicomp_whitebord" />
+            <option value="$PROJECT_DIR$/BzUiComponent/compui_beauty" />
+            <option value="$PROJECT_DIR$/BzUiComponent/compui_lrcview" />
+            <option value="$PROJECT_DIR$/BzUiComponent/compui_trackview" />
+            <option value="$PROJECT_DIR$/LibComponent" />
+            <option value="$PROJECT_DIR$/LibComponent/base_frame" />
+            <option value="$PROJECT_DIR$/LibComponent/happy_dialog" />
+            <option value="$PROJECT_DIR$/LibComponent/happy_vm" />
+            <option value="$PROJECT_DIR$/LibComponent/lib_json" />
+            <option value="$PROJECT_DIR$/LibComponent/lib_network" />
+            <option value="$PROJECT_DIR$/LibComponent/lib_util" />
+            <option value="$PROJECT_DIR$/ai" />
+            <option value="$PROJECT_DIR$/ai/audio2text" />
+            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/appsub" />
+            <option value="$PROJECT_DIR$/appsub/app_amusement" />
+            <option value="$PROJECT_DIR$/appsub/app_ktv" />
+            <option value="$PROJECT_DIR$/appsub/app_overhaul" />
+            <option value="$PROJECT_DIR$/appsub/app_watchvideo" />
+            <option value="$PROJECT_DIR$/baseApp" />
+            <option value="$PROJECT_DIR$/module_amusement" />
+            <option value="$PROJECT_DIR$/module_audioroom" />
+            <option value="$PROJECT_DIR$/module_interview" />
+            <option value="$PROJECT_DIR$/module_ktv" />
+            <option value="$PROJECT_DIR$/module_login" />
+            <option value="$PROJECT_DIR$/module_overhaul" />
+            <option value="$PROJECT_DIR$/module_update" />
+            <option value="$PROJECT_DIR$/module_user" />
+            <option value="$PROJECT_DIR$/module_videowatch" />
+            <option value="$PROJECT_DIR$/module_web" />
+            <option value="$PROJECT_DIR$/routerTable" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>

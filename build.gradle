@@ -31,7 +31,6 @@ allprojects {
             dirs 'libs'
             dirs project(':BzUiComponent:bzuicomp_whitebord').file('libs')
             dirs project(':BzMudule:comp_imadapter').file('libs')
-            dirs project(':1highlevlsdk:comp_qnrtm').file('libs')
         }
     }
 }
