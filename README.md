@@ -93,3 +93,44 @@ include ':LibComponent:lib_json'               //json库
 
 ## 体验demo
 用手机浏览器输入这个网址: [ http://fir.qnsdk.com/s6py]( http://fir.qnsdk.com/s6py)
+
+## 预览
+
+ **app**
+
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/app.jpeg)
+**面试**
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/mslb.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/nianshi1de5.jpeg) |
+|:--|---|
+
+
+**看电影**
+
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dianyliaot.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dy.jpeg) |
+|---|---|
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/dyhep.jpeg) |
+
+
+
+**检修**
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/jianxiu.jpeg)
+
+**语聊**
+
+
+| ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yul.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yulgift.jpeg) | ![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/yuliao.jpeg) |
+|---|---|---|
+
+
+
+
+
+**ktv**
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/ktv.jpeg)
+
+**互动娱乐**
+![](http://qrnlrydxa.hn-bkt.clouddn.com/cubupngandroid/hy.jpeg)
