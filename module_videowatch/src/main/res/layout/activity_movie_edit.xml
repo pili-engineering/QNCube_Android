@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:fitsSystemWindows="true"
+    >
+
+    <com.hapi.refresh.SmartRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/smartRecyclerView"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="34dp"
+        >
+        <TextView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/tvSelectedCount"
+            android:text="已选择"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/tvAdd"
+            android:layout_width="120dp"
+            android:layout_height="36dp"
+            android:textColor="@color/white"
+            android:text="添加"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/shape_3eb9e7_356cd8_18"
+            />
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: ./module_overhaul/lib/qiniu-java-sdk-7.8.0.jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/module_overhaul/lib/qiniu-java-sdk-7.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

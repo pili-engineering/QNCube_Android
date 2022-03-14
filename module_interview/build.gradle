@@ -1,0 +1,65 @@
+plugins {
+    id 'hapidepend'
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion depend.compileSdkVersion
+    defaultConfig {
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+dependencies {
+
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:+"
+    implementation depend.appcompat()
+    implementation depend.design()
+    implementation depend.constraintLayout()
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    implementation project(':1highlevlsdk:sdk_MutableTrackRoom')
+    implementation project(":baseApp")
+    implementation 'com.github.Kunzisoft:Android-SwitchDateTimePicker:2.0'
+    //implementation project(':BzComponent:comp_imChannel')
+    implementation project(':BzUiComponent:bzuicomp_bottomInput')
+    implementation project(':BzUiComponent:bzuicomp_pubchat')
+
+
+}

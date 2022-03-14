@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
+    >
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/tvMsgContent"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        tools:text="aaaaaa"
+        android:background="@drawable/shape_19c4c4c4_12"
+        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_height="24dp"/>
+</FrameLayout>

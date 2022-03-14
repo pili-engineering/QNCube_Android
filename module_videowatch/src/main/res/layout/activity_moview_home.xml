@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#09080E"
+    android:orientation="vertical"
+    tools:context=".MovieHomeActivity">
+
+    <com.niucube.playersdk.player.video.PLLifecycleVideoView
+        android:id="@+id/videoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:autoChangeOrientation="true"
+        app:centerCropError="0.1"
+        app:engine="PLPlayer"
+        app:heightRatio="0.5625"
+        app:isFirstFrameAsCover="true"
+        app:isFromLastPosition="false"
+        app:loop="true"
+        app:whenFullAddToActivityTop="true" />
+
+    <TextView
+        android:id="@+id/tvMvName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingStart="12dp"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tools:text="asdsadasdsa" />
+
+    <LinearLayout
+        android:id="@+id/cardCreate"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="25dp"
+        android:background="@mipmap/mv_creat_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/mv_ic_create_round" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="创建房间"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="邀请好友连麦看视频"
+            android:textColor="#999999"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/cardList"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="@mipmap/mv_join_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mv_ic_rooms" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="更多房间"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="去广场，解锁更多聊天室"
+                android:textColor="#999999"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="26dp"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:id="@+id/cardJoin"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:background="@mipmap/mv_join_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/mv_ic_invite" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:text="邀请码"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="输入邀请码快速加入房间"
+                android:textColor="#999999"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

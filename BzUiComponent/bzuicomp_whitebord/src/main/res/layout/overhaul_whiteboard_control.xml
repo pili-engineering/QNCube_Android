@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="44dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="6dp"
+    android:paddingBottom="3dp"
+    android:paddingTop="3dp"
+    android:paddingEnd="6dp"
+    android:background="@drawable/wb_item_bg"
+    >
+
+    <ImageView
+        android:id="@+id/restore"
+        style="@style/WhiteBoardActionButton"
+        android:src="@drawable/ic_baseline_undo_24"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/select"
+        style="@style/WhiteBoardActionButton"
+
+        android:src="@drawable/ic_selection" />
+
+    <ImageView
+        android:id="@+id/pen"
+        style="@style/WhiteBoardActionButton"
+
+        android:src="@drawable/icon_pen_normal" />
+
+    <ImageView
+        android:id="@+id/mark"
+        style="@style/WhiteBoardActionButton"
+
+        android:src="@drawable/icon_pen_mark" />
+
+    <ImageView
+        android:id="@+id/eraser"
+        style="@style/WhiteBoardActionButton"
+
+        android:src="@drawable/icon_eraser" />
+
+    <ImageView
+        android:id="@+id/laser"
+        style="@style/WhiteBoardActionButton"
+        android:src="@drawable/ic_pen_laser" />
+
+    <ImageView
+        android:id="@+id/geometry"
+        style="@style/WhiteBoardActionButton"
+        android:src="@drawable/ic_geometry" />
+
+    <ImageView
+        android:id="@+id/insert_file"
+        style="@style/WhiteBoardActionButton"
+        android:src="@drawable/ic_file_upload" />
+
+</LinearLayout>

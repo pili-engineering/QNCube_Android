@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clCoverContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    tools:visibility="visible">
+
+    <TextView
+        android:id="@+id/roomTittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:text="刘某某的面试" />
+
+
+
+
+
+    <com.qiniu.bzuicomp.pubchat.CommonChatView
+        android:id="@+id/pubChatView"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+    <ImageView
+        android:id="@+id/flCloseAudio"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:background="@drawable/overhaul_selector_room_audio"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/flHangup"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <ImageView
+        android:id="@+id/flHangup"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:background="@drawable/icon_hangup_xxhdpi"
+        app:layout_constraintBottom_toBottomOf="@id/flCloseAudio"
+        app:layout_constraintEnd_toStartOf="@id/flCloseVideo"
+        app:layout_constraintStart_toEndOf="@id/flCloseAudio">
+
+    </ImageView>
+
+
+    <ImageView
+        android:id="@+id/flCloseVideo"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="22dp"
+        android:background="@drawable/overhaul_selector_room_video"
+        app:layout_constraintBottom_toBottomOf="@id/flHangup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/flHangup"
+        app:layout_constraintTop_toTopOf="@id/flHangup"/>
+
+    <ImageView
+        android:id="@+id/ivSwitch"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/shape_overhaul_item_bg"
+        android:padding="6dp"
+        android:src="@drawable/icon_switch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23000002" />
+
+
+    <com.qiniu.bzuicomp.whitebord.WhiteBordControl
+        android:id="@+id/whiteBoardControl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.23000002"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvVoiceCommandTip"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支持语音口令：\n关闭麦克风\n打开麦克风\n关闭摄像头\n打开摄像头\n结束通话"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

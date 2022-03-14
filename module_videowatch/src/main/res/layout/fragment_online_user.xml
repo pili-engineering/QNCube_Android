@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <TextView
+            android:id="@+id/tvSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="好友列表"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:src="@mipmap/mv_ic_tab_close" />
+
+    </FrameLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <com.hapi.refresh.SmartRecyclerView
+        android:id="@+id/smartRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/llOptionInvite"
+        android:layout_width="match_parent"
+        android:layout_height="83dp"
+        android:orientation="horizontal"
+        android:paddingBottom="34dp">
+
+        <LinearLayout
+            android:id="@+id/llSelectAll"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <CheckBox
+                android:id="@+id/cbSelectAll"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/selected_movie_only_checked"
+                android:button="@null"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:textColor="@color/white" />
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:textColor="#68C7F5"
+                android:text="  全选" />
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/black" />
+
+        <TextView
+            android:id="@+id/tvOK"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#68C7F5"
+            android:text="确认" />
+    </LinearLayout>
+
+</LinearLayout>

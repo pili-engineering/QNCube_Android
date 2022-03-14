@@ -1,0 +1,47 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+
+
+
+
+android {
+    compileSdkVersion depend.compileSdkVersion
+    defaultConfig {
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+   // implementation "androidx.activity:activity-ktx:1.5.0-alpha03"
+    implementation depend.appcompat()
+    api depend.kotlin()
+    api depend.lifecycle()
+    api depend.coroutines()
+    implementation depend.viewModel()
+    api depend.activityKtx()
+    api depend.fragmentKtx()
+}
+repositories {
+    mavenCentral()
+}

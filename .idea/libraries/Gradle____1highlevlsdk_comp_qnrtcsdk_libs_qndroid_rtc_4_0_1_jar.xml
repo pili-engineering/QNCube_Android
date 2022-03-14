@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: ./1highlevlsdk/comp_qnrtcsdk/libs/qndroid-rtc-4.0.1.jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/1highlevlsdk/comp_qnrtcsdk/libs/qndroid-rtc-4.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

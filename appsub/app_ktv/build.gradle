@@ -1,0 +1,104 @@
+plugins {
+    id 'hapidepend'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+
+android {
+    compileSdkVersion depend.compileSdkVersion
+    buildToolsVersion depend.buildToolsVersion
+
+
+//    signingConfigs {
+//        release {
+//            keyAlias 'qiniudemo'
+//            keyPassword 'mjl74174123'
+//            storeFile file('qiniudemo.jks')
+//            storePassword 'mjl74174123'
+//            v2SigningEnabled true
+//        }
+//        debug {
+//            keyAlias 'qiniudemo'
+//            keyPassword 'mjl74174123'
+//            storeFile file('qiniudemo.jks')
+//            storePassword 'mjl74174123'
+//            v2SigningEnabled true
+//        }
+//    }
+
+    defaultConfig {
+        applicationId "com.niucube.app.ktv"
+        minSdkVersion depend.minSdkVersion
+        targetSdkVersion depend.targetSdkVersion
+        versionCode 2
+        versionName "1.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            //  signingConfig signingConfigs.release
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            //  signingConfig signingConfigs.release
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources false
+            debuggable true
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:+"
+    implementation depend.appcompat()
+    api depend.lifecycle()
+    implementation depend.design()
+    implementation depend.constraintLayout()
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    kapt 'com.alibaba:arouter-compiler:1.2.2'
+    implementation project(":baseApp")
+    implementation project(":module_login")
+    implementation project(":module_web")
+    //  implementation project(':module_interview')
+    //  implementation project(':module_user')
+   // implementation project(':module_overhaul')
+       implementation project(":module_ktv")
+
+
+}

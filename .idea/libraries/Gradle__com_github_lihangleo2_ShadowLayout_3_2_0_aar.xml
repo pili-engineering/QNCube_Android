@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.lihangleo2:ShadowLayout:3.2.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c9a147ea7bbe91173763d7df16ef5ee6/jetified-ShadowLayout-3.2.0/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c9a147ea7bbe91173763d7df16ef5ee6/jetified-ShadowLayout-3.2.0/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c9a147ea7bbe91173763d7df16ef5ee6/jetified-ShadowLayout-3.2.0/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.lihangleo2/ShadowLayout/3.2.0/201158b46d2803b43e3e459fa5e9430ab95792fd/ShadowLayout-3.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

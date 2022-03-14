@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingTop="23dp"
+    android:paddingBottom="18dp"
+
+    android:background="@color/white">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="33dp"
+        >
+
+        <TextView
+            android:id="@+id/tvTittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="刘某某的视频面试"
+            android:textColor="#FF323240"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_gravity="start"
+            />
+
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="面试中"
+            android:textColor="#FF176AFF"
+            android:textSize="14sp"
+            android:layout_gravity="end"
+            />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+       <TextView
+           android:id="@+id/tvGovernment"
+           android:layout_width="wrap_content"
+           android:layout_height="24dp"
+           android:background="@drawable/shape_3385c6ff_6"
+           tools:text="aaaaa"
+           android:textColor="#007AFF"
+           android:gravity="center"
+           android:paddingStart="6dp"
+           android:paddingEnd="6dp"
+           />
+        <TextView
+            android:id="@+id/tvCareer"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:background="@drawable/shape_3385c6ff_6"
+            tools:text="aaaaa"
+            android:textColor="#007AFF"
+            android:gravity="center"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="33dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="2021年04月03日 11:30~2021年04月03日 11:30"
+        android:textColor="#FF323240"
+        android:textSize="14sp"
+        android:layout_marginBottom="4dp"
+        />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/flowlayoutOp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="33dp"
+        zhy:max_select="-1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp">
+    </com.zhy.view.flowlayout.TagFlowLayout>
+
+
+
+</LinearLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qiniudemo.baseapp.widget.HeightRatioCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    app:ratio="0.83"
+    android:layout_margin="6dp"
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivMovieCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/shape_0069bcdb_0e1d32"
+            android:layout_gravity="bottom"
+            />
+        <TextView
+            android:id="@+id/tvMovieDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:textColor="@color/white"
+            android:layout_margin="12dp"
+            />
+        <TextView
+            android:id="@+id/tvMovieName"
+            android:layout_width="80dp"
+            android:maxLines="2"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_margin="12dp"
+            android:layout_gravity="start|bottom"
+            />
+        <CheckBox
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/selected_movie_only_checked"
+            android:button="@null"
+            android:id="@+id/checkbox"
+
+            android:layout_gravity="end|bottom"
+            android:layout_margin="12dp"
+            />
+
+    </FrameLayout>
+</com.qiniudemo.baseapp.widget.HeightRatioCardView>

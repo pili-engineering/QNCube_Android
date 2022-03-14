@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clCoverContainer"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    tools:visibility="visible"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+   >
+
+
+    <TextView
+        android:id="@+id/roomTittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFFFF"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        tools:text="刘某某的面试" />
+
+    <ImageView
+        android:id="@+id/ivColose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/icon_quit_xxhdpi"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/roomTittle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/roomTittle"
+        tools:visibility="visible" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+
+        android:gravity="end"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/icon_chat_xxhdpi"
+            app:layout_constraintEnd_toStartOf="@id/ivSpeeker"
+            app:layout_constraintTop_toTopOf="@+id/ivSpeeker" />
+
+        <ImageView
+            android:id="@+id/ivSpeeker"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/interview_selecter_room_speker"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/ivShare"
+            app:layout_constraintTop_toTopOf="@+id/ivShare"
+
+            />
+
+        <ImageView
+            android:id="@+id/ivShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/icon_share_xxhdpi"
+            app:layout_constraintEnd_toStartOf="@id/ivColose"
+            app:layout_constraintTop_toTopOf="@+id/ivColose"
+
+            />
+
+    </LinearLayout>
+
+    <com.qiniu.bzuicomp.pubchat.CommonChatView
+        android:id="@+id/pubChatView"
+        android:layout_width="match_parent"
+        android:layout_height="124dp"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="18dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/flHangup"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/icon_hangup_xxhdpi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </ImageView>
+
+
+    <ImageView
+        android:id="@+id/flCloseAudio"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/interview_selector_room_audio"
+        app:layout_constraintBottom_toBottomOf="@id/flHangup"
+        app:layout_constraintEnd_toStartOf="@id/flHangup"
+        app:layout_constraintTop_toTopOf="@id/flHangup">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/flCloseVideo"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_marginStart="44dp"
+        android:background="@drawable/interview_selector_room_video"
+        app:layout_constraintBottom_toBottomOf="@id/flHangup"
+        app:layout_constraintStart_toEndOf="@id/flHangup"
+        app:layout_constraintTop_toTopOf="@id/flHangup">
+    </ImageView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

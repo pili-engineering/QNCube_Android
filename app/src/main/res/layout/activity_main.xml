@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.qiniu.niucube.MainActivity"
+    android:orientation="vertical"
+
+    >
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpMain"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/mShadowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:cardElevation="5dp"
+        >
+        <RadioGroup
+            android:id="@+id/rgMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="8dp"
+
+            >
+            <RadioButton
+                android:id="@+id/rbTabMain"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="应用"
+                android:maxHeight="54dp"
+                android:drawableTop="@drawable/select_apply"
+                android:button="@null"
+                android:drawablePadding="0dp"
+                android:textColor="@drawable/select_color_main_tab"
+                android:textSize="10sp"
+                />
+
+            <RadioButton
+                android:id="@+id/rbTabMe"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="我的"
+                android:maxHeight="54dp"
+                android:textColor="@drawable/select_color_main_tab"
+                android:drawableTop="@drawable/select_tab_user"
+                android:button="@null"
+                android:textSize="10sp"
+                />
+        </RadioGroup>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

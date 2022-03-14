@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.qiniudemo.baseapp.widget.HeightRatioCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="7dp"
+    app:ratio="0.83">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/ivMovieCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/shape_0069bcdb_0e1d32"
+            android:layout_gravity="bottom"
+            />
+        <TextView
+            android:id="@+id/tvMovingPlaying"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="12dp"
+            android:layout_marginStart="12dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="aaaaa" />
+
+
+        <TextView
+            android:id="@+id/tvMember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="12dp"
+            android:drawableStart="@mipmap/mv_ic_user_number"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="aaaaaa"
+
+            />
+    </FrameLayout>
+
+
+</com.qiniudemo.baseapp.widget.HeightRatioCardView>

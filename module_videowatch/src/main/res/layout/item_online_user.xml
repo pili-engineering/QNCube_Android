@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    tools:background="@color/black"
+    >
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+
+        />
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="aa"
+        android:textColor="@color/white"
+        android:layout_marginStart="6dp"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_weight="1"
+        />
+    <CheckBox
+        android:id="@+id/checkboxInvite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:clickable="false"
+        android:background="@drawable/selected_movie_only_checked"
+        android:button="@null"/>
+
+
+</LinearLayout>

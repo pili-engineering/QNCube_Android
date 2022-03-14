@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="60dp"
+    android:layout_height="60dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/switch_sticker_item"
+            android:gravity="center"
+            android:padding="3dp" />
+
+        <ImageView
+            android:id="@+id/normalState"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="38dp"
+            android:layout_marginStart="38dp"
+            android:background="@drawable/sticker_normal_state"
+            android:scaleType="fitXY"
+            android:visibility="visible" />
+
+        <FrameLayout
+            android:id="@+id/loadingStateParent"
+            android:visibility="invisible"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@color/sticker_loading">
+
+            <ImageView
+                android:id="@+id/downloadingState"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/sticker_loading_state"
+                android:visibility="invisible" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:visibility="invisible" />
+
+</LinearLayout>

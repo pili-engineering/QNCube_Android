@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.niucube.module.videowatch">
+
+    <application>
+        <activity
+            android:name=".MovieEditActivity"
+            android:theme="@style/Theme.QINIU_SDK_ALL_IN_ONE_DARK"
+            android:exported="false" />
+        <activity
+            android:name=".MovieHomeListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.QINIU_SDK_ALL_IN_ONE_DARK" />
+        <activity
+            android:name=".MovieHomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".VideoPlayActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".VideoWatchRoomActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+        <activity
+            android:name=".VideoRoomListActivity"
+            android:theme="@style/Theme.QINIU_SDK_ALL_IN_ONE_DARK"
+            android:exported="false" />
+    </application>
+
+</manifest>
