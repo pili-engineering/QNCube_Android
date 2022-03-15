@@ -37,7 +37,7 @@ dependencies {
 
     api files('libs/qndroid-rtc-4.0.1.jar')
 
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api  'com.qiniu:happy-dns:0.2.17'
     testImplementation 'junit:junit:4.+'

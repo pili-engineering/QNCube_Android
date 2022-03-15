@@ -37,7 +37,7 @@ dependencies {
    // api 'com.google.code.gson:gsoan:2.8.6'
     api 'com.alibaba:fastjson:1.2.61'
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {

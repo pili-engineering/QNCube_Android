@@ -44,7 +44,7 @@ dependencies {
     api (name:'qndroid-whiteboard-1.1.5',ext:"aar")
     implementation "com.louiscad.splitties:splitties-dimensions:3.0.0"
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()
