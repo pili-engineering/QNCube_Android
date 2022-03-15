@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -51,6 +52,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/appsub" />
             <option value="$PROJECT_DIR$/appsub/app_amusement" />
+            <option value="$PROJECT_DIR$/appsub/app_audioroom" />
             <option value="$PROJECT_DIR$/appsub/app_ktv" />
             <option value="$PROJECT_DIR$/appsub/app_overhaul" />
             <option value="$PROJECT_DIR$/appsub/app_watchvideo" />

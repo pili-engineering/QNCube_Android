@@ -8,12 +8,6 @@ public class RouterConstant {
         public static final String LOGIN_BY_VERIFICATION = rootPath + "/login_by_verification";
     }
 
-
-    public static class AudioRoom {
-        private static final String rootPath = "/AudioRoom";
-        public static final String AudioRoomList = rootPath + "/AudioRoomListActivity";
-    }
-
     public static class RtcRoom {
         private static final String rootPath = "/RtcRoom";
         public static final String VideoLiveListActivity = rootPath + "/VideoLiveListActivity";
