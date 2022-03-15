@@ -18,7 +18,9 @@ import com.qiniu.router.RouterConstant
 import com.qiniu.bzcomp.network.QiniuJsonFactor
 import com.qiniu.bzcomp.network.QiniuRequestInterceptor
 import com.qiniu.comp.network.Form2JsonInterceptor
-import com.qiniu.qnim.IMManager
+import com.qiniu.qnim.QNIMAdapter
+import com.qiniu.qnim.QNIMManager
+import com.qiniudemo.baseapp.ext.asToast
 
 import com.qiniudemo.baseapp.manager.swith.EnvType
 import com.qiniudemo.baseapp.manager.swith.SwitchEnvHelper
@@ -30,7 +32,9 @@ open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        //文件路径系统
         FileConstants.initFileConfig(this)
+        //bugly
         CrashReport.initCrashReport(this, BuildConfig.bugly, true);
         UniException.getInstance().init()
         //自定义activity栈
@@ -76,23 +80,40 @@ open class BaseApplication : Application() {
                 .addInterceptor(logInterceptor)
 
         })
-        //
+        //用户管理
         UserInfoManager.init()
-
-        IMManager.init(this,  BuildConfig.QNIMAPPID)
-
+        //初始化im
+        QNIMManager.init(BuildConfig.QNIMAPPID, this)
+        QNIMManager.mRtmAdapter.onKickCall = {
+            "你的账号在其他设备登陆".asToast()
+            UserInfoManager.clearUser()
+            val i: Intent? =
+                packageManager.getLaunchIntentForPackage(packageName)
+            i?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(i)
+            Process.killProcess(Process.myPid())
+        }
+        //用户状态监听
         UserLifecycleManager.addUserLifecycleInterceptor(object : UserLifecycleInterceptor {
             override fun onLogout(toastStr: String) {
+                //退出登陆
                 ARouter.getInstance().build(RouterConstant.Login.LOGIN)
                     .navigation(ActivityManager.get().currentActivity())
                 ActivityManager.get().finishAllActivity()
-                IMManager.loginOut()
+                QNIMManager.mRtmAdapter.loginOut()
             }
 
             override suspend fun onLogin(loginToken: LoginToken) {
-                IMManager.loginSuspend(loginToken.accountId,loginToken.imConfig.imUid,loginToken.imConfig.imUsername,loginToken.imConfig.imPassword)
+                //登陆成功后
+                QNIMManager.mRtmAdapter.loginSuspend(
+                    loginToken.accountId,
+                    loginToken.imConfig.imUid,
+                    loginToken.imConfig.imUsername,
+                    loginToken.imConfig.imPassword
+                )
             }
 
+            //用户信息变更
             override fun onUserInfoRefresh(userInfo: UserInfo) {}
         })
     }

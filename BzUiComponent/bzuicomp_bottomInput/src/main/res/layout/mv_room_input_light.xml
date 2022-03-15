@@ -42,7 +42,7 @@
             android:id="@+id/chat_message_input"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@color/white"
+
             android:textSize="11sp"
             android:gravity="center_vertical"
 
