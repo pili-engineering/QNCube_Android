@@ -35,7 +35,7 @@ dependencies {
 
     api project(":LibComponent:lib_json")
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.coroutines()

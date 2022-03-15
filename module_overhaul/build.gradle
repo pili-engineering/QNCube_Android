@@ -46,13 +46,13 @@ android {
 dependencies {
 
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation project(':1highlevlsdk:sdk_audience_player')
+    implementation project(':1highlevlsdk:comp_audience_player')
     implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation files('lib/qiniu-java-sdk-7.8.0.jar')
     testImplementation 'junit:junit:4.+'

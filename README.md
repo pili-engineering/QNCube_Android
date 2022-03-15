@@ -11,12 +11,12 @@
 
 include ':app'                                // app主工程
 
-//appsub
+//appsub 减少编译时间
   include ':appsub:app_watchvideo'            //独立运行一起看电影
   include ':appsub:app_ktv'                   //独立运行ktv
   include ':appsub:app_amusement'             //独立运行互动娱乐
   include ':appsub:app_overhaul'              //独立运行检修场景
-
+  include ':appsub:app_audioroom'             //独立运行语聊房间
 
 //场景模块
 include ':module_interview'                   //面试场景
@@ -36,13 +36,13 @@ include ':module_login'                       // 登录
 // highlevlsdk
 //抽象业务层，抽象业务核心流程实现可以定制和扩展业务快速实现自己的业务
 include ':1highlevlsdk:sdk_MutableTrackRoom'     //多人不定麦位房间
-include ':1highlevlsdk:comp_lazysitmutableroom'  // 多人固定麦位房间
+include ':1highlevlsdk:sdk_lazysitmutableroom'  // 多人固定麦位房间
 include ':1highlevlsdk:sdk_InvitationSignal'     //呼叫邀请信令
-include ':1highlevlsdk:sdk_audience_player'      //播放拉流器
+
+include ':1highlevlsdk:comp_audience_player'      //播放拉流器
 include ':1highlevlsdk:comp_ktvplayercore'       //ktv歌曲同步播放器
 include ':1highlevlsdk:comp_roommanager'         //房间生命周期管理
 include ':1highlevlsdk:comp_rtm'                 //im 信令
-include ':1highlevlsdk:comp_qnrtm'               //七牛rtm适配器
 include ':1highlevlsdk:comp_qnrtcsdk'            //rtc sdk
 include ':1highlevlsdk:comp_absroom'             //抽象房间
 include ':1highlevlsdk:comp_rtc_room'            //rtc房间

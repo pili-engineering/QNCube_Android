@@ -53,7 +53,7 @@ class MutableTrackRoom(
 
     private var mUserExtension: UserExtensionWrap? = null
 
-    //设置角色
+    //设置角色 暂不支持切换
     suspend fun suspendSetClientRole(value: ClientRoleType) =
         suspendCoroutine<Unit> { continuation ->
             setClientRole(value, object : QNClientRoleResultCallback {
@@ -156,6 +156,7 @@ class MutableTrackRoom(
         mUserExtension = UserExtensionWrap(uex, mClientRole.role)
         super.joinRoom(roomEntity, mUserExtension)
         if (mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {
+            //主播角色回调自己上麦
             mMicSeats.add(seat)
             mTrackSeatListener.onUserSitDown(seat)
             mRtcRoomSignaling.sitDown(seat)
@@ -243,6 +244,7 @@ class MutableTrackRoom(
             if (mutableRoom.getUserSeat(p0) != null) {
                 return
             }
+
             val seat = MutableMicSeat().apply {
                 uid = p0
                 if (!TextUtils.isEmpty(p1)) {
@@ -261,6 +263,7 @@ class MutableTrackRoom(
                 }
             }
 
+          //如果加入rtc房间里的人是主播角色 则回调上麦
             if ((seat.userExtension as UserExtensionWrap?)?.clientRoleType ?: -1 == ClientRoleType.CLIENT_ROLE_BROADCASTER.role) {
                 mutableRoom.mMicSeats.add(seat)
                 mutableRoom.mTrackSeatListener.onUserSitDown(seat)

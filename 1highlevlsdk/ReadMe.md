@@ -139,7 +139,6 @@ object RtmManager {
 }
 
 
-
 interface IMAdapter{
 
     /**
@@ -403,21 +402,25 @@ class Invitation{
 ##  公共层
 
 
-
-
-
 ```javascript
 enum class ClientRoleType(role:Int) {
-    /**
+     /**
      * 主播角色
+     * rtc房间里的表演者 有权限发流
      */
     CLIENT_ROLE_BROADCASTER(0),
     /**
-     * 用户角色
+     * 观众角色
+     * rtc房间里听众 不表演只有权限收rtc房间轨道流
+     *
      */
     CLIENT_ROLE_AUDIENCE(1),
 
-    //拉流角色
+    /**拉流角色
+     * 使用 rtmp hls等直播协议拉房间里的合流的角色 不在rtc房间里
+     * 需要房间合流转推后得到流
+     * 拉流角色不在rtc房间里 延迟大但是费用低
+     */
     CLIENT_ROLE_PULLER(-1)
 }
 
@@ -599,21 +602,21 @@ class CustomMicSeat extend MicSeat{
 
 ```javascript
 /**
- * 观众端拉流播放器
+ * 拉流端拉流播放器
  */
 interface IAudiencePlayerView  {
 
     /**
      * 开始播放拉流地址
      * 1角色变跟为拉流端观众
-     * 2观众角色进入房间
+     * 2拉流角色进入房间
      */
     fun startAudiencePlay(roomEntity: com.qiniu.bzcomp.comproom.RoomEntity)
 
     /**
      * 停止播放拉流地址
      * 1角色变跟为主播
-     * 2用户角色房间离开销毁
+     * 2拉流角色房间离开销毁
      */
     fun stopAudiencePlay()
 
@@ -621,20 +624,16 @@ interface IAudiencePlayerView  {
 ```
 
 ```javascript
-//用户角色进入退出房间
+//观众/拉流 角色进入退出房间监听。（非主播角色进入房间
 interface IAudienceJoinListener{
- //用户角色加入房间
+      //观众/拉流 角色加入房间
     fun onUserJoin(userExt: UserExtension)
-      //用户角色离开 用户角色断线没有回调
-     //用户角色离开 用户角色断线暂时没有回调 v5加
+      //观众/拉流 角色离开 用户角色断线没有回调
+      //观众/拉流 角色离开 用户角色断线暂时没有回调 v5加
     fun onUserLeave(userExt: UserExtension)
 }
 
  ```
-
-
-
-
 
 
 ```javascript
@@ -695,6 +694,7 @@ interface CustomTrackShareManager{
 ```
 
 ```javascript
+//混流工具
 interface MixStreamMananger{
     /**
      * 启动前台转推 默认实现推本地轨道
@@ -718,6 +718,7 @@ interface MixStreamMananger{
     fun updateUserCameraMergeOptions(uid:String,option MergeTrackOption)
     //音频合流只需指定要不要
     fun updateUserAudioMergeOptions(uid:String,isNeed:Boolean)
+    //跟新用户屏幕共享混流参数
     fun updateUserScreenMergeOptions(uid:String,option MergeTrackOption)
     fun updateUserCustomVideoMergeOptions(extraTrackTag:Strng,uid:String,option MergeTrackOption)
     fun updateUserCustomAduioMergeOptions(extraTrackTag:Strng,uid:String,isNeed:Boolean)

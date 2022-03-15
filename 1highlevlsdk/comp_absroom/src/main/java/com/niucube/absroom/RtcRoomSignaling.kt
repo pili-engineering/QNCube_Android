@@ -15,7 +15,10 @@ import kotlin.coroutines.suspendCoroutine
 
 open class RtcRoomSignaling() {
 
-    var isNeedSend = true
+    companion object{
+        //是否需要发信令 静态配置 如果不需要发信令
+        var isNeedSend = true
+    }
 
     fun onCustomMicSeatAdd(seat: CustomMicSeat) {
         if (!isNeedSend) {

@@ -10,7 +10,7 @@ class CustomTrackShareManagerImp(val rtcRoom: RtcRoom) : CustomTrackShareManager
         TODO("Not yet implemented")
     }
 
-    override fun pubCustomVideoTrack(trackTag: String, params: VideoTrackParams): VideoChanel {
+    override fun pubCustomVideoTrack(trackTag: String, params: VideoTrackParams): VideoChannel {
         TODO("Not yet implemented")
     }
 

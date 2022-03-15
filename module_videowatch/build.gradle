@@ -48,13 +48,13 @@ android {
 dependencies {
 
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation project(':1highlevlsdk:sdk_audience_player')
+    implementation project(':1highlevlsdk:comp_audience_player')
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
@@ -64,7 +64,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.danikula:videocache:2.7.1'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    implementation project(':1highlevlsdk:comp_lazysitmutableroom')
+    implementation project(':1highlevlsdk:sdk_lazysitmutableroom')
     implementation project(":baseApp")
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')

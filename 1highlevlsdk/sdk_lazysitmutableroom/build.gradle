@@ -3,8 +3,6 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
 }
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion depend.compileSdkVersion
@@ -34,18 +32,13 @@ android {
 }
 
 dependencies {
-    implementation depend.appcompat()
-    api files('libs/pldroid-player-2.2.6.jar')
+
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation depend.coroutines()
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(':1highlevlsdk:comp_absroom')
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation "androidx.core:core-ktx:+"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-}
-repositories {
-    mavenCentral()
+    api project(':1highlevlsdk:comp_baseMutableRoom')
 }

@@ -9,7 +9,7 @@ interface CustomTrackShareManager{
 
     fun getUserExtraTrackInfo(tag:String,uid:String): QNTrack?
     //发布自定义视频视频轨道
-    fun pubCustomVideoTrack(trackTag:String, params: VideoTrackParams): VideoChanel
+    fun pubCustomVideoTrack(trackTag:String, params: VideoTrackParams): VideoChannel
     // 发布自定义音频轨道 暂时不支持
     fun pubCustomAudioTrack(trackTag:String, params: AudioTrackParams)
     fun unPubCustomTrack(trackTag:String)
