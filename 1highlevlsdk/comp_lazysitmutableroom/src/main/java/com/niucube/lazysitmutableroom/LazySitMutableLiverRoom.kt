@@ -82,8 +82,11 @@ class LazySitMutableLiverRoom(
         micphoneParams: AudioTrackParams?
     ) {
         if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
+            //如果是从拉流角色上麦需要加入房间 拉流角色是指使用rtmp等协议播放合流
             joinRtc(RoomManager.mCurrentRoom?.provideRoomToken() ?: "", "")
         }
+
+        //设置角色为主播
         setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_BROADCASTER)
 
         val seatTemp = LazySitUserMicSeat().apply {
@@ -92,22 +95,26 @@ class LazySitMutableLiverRoom(
         }
         seatTemp.uid = RoomManager.mCurrentRoom?.provideMeId() ?: ""
         seatTemp.userExtension = userExt
-
+        //发送上麦信令
         mRtcRoomSignaling.sitDown(seatTemp)
         mMicSeats.add(seatTemp)
-
+        //创建视频轨道
         cameraParams?.let {
             setCameraVideoTrackParams(it)
             createVideoTrack()
         }
+        //创建音频轨道
         micphoneParams?.let {
             setMicrophoneAudioParams(it)
             createVideoTrack()
         }
+        //回调本地自己上麦
         mTrackSeatListener.onUserSitDown(seatTemp)
+        //发布流
         cameraParams?.let {
             suspendEnableVideo()
         }
+        //发布流
         micphoneParams?.let {
             suspendEnableAudio()
         }
@@ -120,7 +127,9 @@ class LazySitMutableLiverRoom(
     suspend fun sitUpAsAudience() {
         val seat = getUserSeat(RoomManager.mCurrentRoom?.provideMeId() ?: "")
             ?: throw RtcOperationException(error_seat_status, "user is not on seat")
+        //切换角色
         setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_AUDIENCE)
+        //发送下麦信令
         mRtcRoomSignaling.sitUp(seat)
         super.onlyDisableAudio()
         super.onlyDisableVideo()

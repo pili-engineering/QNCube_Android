@@ -78,7 +78,7 @@ class AppsListFragment : BaseFragment() {
                 .into(helper.itemView.ivIcon)
             helper.itemView.setOnClickListener {
                  if(!SchemaParser.parseRouter(mContext, item.url+"?type=${item.type}")){
-                     "尽情期待".asToast()
+                     "敬请期待".asToast()
                  }
             }
         }

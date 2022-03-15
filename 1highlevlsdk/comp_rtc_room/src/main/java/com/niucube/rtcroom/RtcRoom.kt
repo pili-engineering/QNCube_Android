@@ -671,6 +671,7 @@ open class RtcRoom(
         RtmManager.rtmClient.joinChannel(roomEntity.provideImGroupId())
 
         if (mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
+            //如果不是主播角色 发送用户加入通知房间所有人
             mRtcRoomSignaling.userJoin(mUserExt ?: UserExtension().apply {
                 uid = roomEntity.provideMeId()
             })
@@ -679,6 +680,7 @@ open class RtcRoom(
         if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
             mIAudiencePlayerView?.startAudiencePlay(RoomManager.mCurrentRoom!!)
         } else {
+            //主播角色/观众角色 加入房间
             val msg = if (userExt != null) {
                 JsonUtils.toJson(userExt)
             } else ""

@@ -1,6 +1,6 @@
 package com.niucube.rtcroom.customtrack
 
 
-interface VideoChanel {
+interface VideoChannel {
     fun sendVideoFrame(videoData: ByteArray, width: Int, height: Int)
 }
