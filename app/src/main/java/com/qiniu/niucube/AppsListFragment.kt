@@ -15,6 +15,7 @@ import com.hipi.vm.backGround
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.been.QiniuApp
+import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.SchemaParser
 import com.qiniudemo.baseapp.service.AppConfigService
 import com.scwang.smartrefresh.header.MaterialHeader
@@ -76,7 +77,9 @@ class AppsListFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(helper.itemView.ivIcon)
             helper.itemView.setOnClickListener {
-                SchemaParser.parseRouter(mContext, item.url+"?type=${item.type}")
+                 if(!SchemaParser.parseRouter(mContext, item.url+"?type=${item.type}")){
+                     "尽情期待".asToast()
+                 }
             }
         }
     }

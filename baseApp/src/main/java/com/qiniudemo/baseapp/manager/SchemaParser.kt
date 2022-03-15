@@ -8,16 +8,16 @@ import com.qiniudemo.webview.WebActivity
 
 object SchemaParser {
 
-    fun parseRouter(context: Context, url: String) {
-
+    fun parseRouter(context: Context, url: String):Boolean {
         val router = Uri.parse(url)
         val scheme = router.scheme
         val host = router.host
         val path = router.path
         if (scheme?.startsWith("http") == true) {
             WebActivity.start(url, context)
-            return
+            return true
         }
+        var isSupport = false
         when (host) {
             "interview" -> {
                 when (path) {
@@ -34,12 +34,14 @@ object SchemaParser {
                             .withString("interviewId", param).navigation(context)
                     }
                 }
+                isSupport =true
             }
             "repair" -> {
                 when (path) {
                     "/index" -> ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulList)
                         .navigation(context)
                 }
+                isSupport =true
             }
 
             "ktv" -> {
@@ -49,6 +51,7 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
+                isSupport =true
             }
             "show" -> {
                 val param = router.getQueryParameter("type")
@@ -57,6 +60,7 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
+                isSupport =true
             }
             "movie" -> {
                 val param = router.getQueryParameter("type")
@@ -65,6 +69,7 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
+                isSupport =true
             }
             "voiceChatRoom" -> {
                 val param = router.getQueryParameter("type")
@@ -73,9 +78,14 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
+                isSupport =true
+            }
+            else->{
+                isSupport =false
             }
         }
 
+        return isSupport
     }
 
 }

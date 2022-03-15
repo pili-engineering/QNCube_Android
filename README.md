@@ -11,12 +11,12 @@
 
 include ':app'                                // app主工程
 
-//appsub
+//appsub 减少编译时间
   include ':appsub:app_watchvideo'            //独立运行一起看电影
   include ':appsub:app_ktv'                   //独立运行ktv
   include ':appsub:app_amusement'             //独立运行互动娱乐
   include ':appsub:app_overhaul'              //独立运行检修场景
-
+  include ':appsub:app_audioroom'             //独立运行语聊房间
 
 //场景模块
 include ':module_interview'                   //面试场景
