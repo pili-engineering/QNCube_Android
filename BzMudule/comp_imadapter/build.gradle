@@ -43,7 +43,7 @@ dependencies {
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.coroutines()
-    api (name:'qndroid-imsdk-1.0.0',ext:"aar")
+    api (name:'qndroid-imsdk-1.0.2',ext:"aar")
     implementation 'com.orhanobut:logger:2.2.0'
     api project(':1highlevlsdk:comp_rtm')
     testImplementation 'junit:junit:4.+'
