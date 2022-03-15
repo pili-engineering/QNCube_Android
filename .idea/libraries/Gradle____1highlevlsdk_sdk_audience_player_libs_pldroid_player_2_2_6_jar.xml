@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="Gradle: ./1highlevlsdk/sdk_audience_player/libs/pldroid-player-2.2.6.jar">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/1highlevlsdk/sdk_audience_player/libs/pldroid-player-2.2.6.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
