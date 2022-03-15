@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
+import com.hipi.vm.backGround
 import com.niucube.overhaul.mode.OverhaulRoom
 import com.niucube.comproom.*
 import com.qiniu.bzuicomp.pubchat.WelComeReceiver
@@ -124,8 +125,8 @@ class OverhaulVm(application: Application, bundle: Bundle?) :
             userExtRoleType = overhaulRoomEntity.role // 专家/学生/检修员
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
+        backGround {
+            doWork {
                 when (overhaulRoomEntity.role) {
                     OverhaulRole.PROFESSOR.role -> {
                         mMutableTrackRoom.suspendSetClientRole(ClientRoleType.CLIENT_ROLE_BROADCASTER)
@@ -164,16 +165,17 @@ class OverhaulVm(application: Application, bundle: Bundle?) :
                     ext
                 )
                 //加入白板房间
-                QNWhiteBoard.joinRoom(JoinConfig(overhaulRoomEntity!!.roomToken).apply {
+                QNWhiteBoard.joinRoom(JoinConfig(overhaulRoomEntity.roomToken).apply {
                     widthHeightThan = videoWidth / videoHeight.toDouble()
                 })
                 heartBeatJob()
-            } catch (e: Exception) {
-                e.printStackTrace()
-                e.message?.asToast()
+            }
+            catchError {
+                it.message?.asToast()
                 finishedActivityCall?.invoke()
             }
         }
+
     }
 
     fun endRoom(callback: () -> Unit = {}) {

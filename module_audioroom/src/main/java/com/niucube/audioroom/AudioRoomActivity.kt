@@ -221,7 +221,7 @@ class AudioRoomActivity : BaseActivity() {
         }
 
         tvShowInput.setOnClickListener {
-            RoomInputDialog().apply {
+            RoomInputDialog(2).apply {
                 sendPubCall = {
                     roomVm.mInputMsgReceiver.buildMsg(it)
                 }
@@ -230,7 +230,7 @@ class AudioRoomActivity : BaseActivity() {
         }
 
         ivDanmu.setOnClickListener {
-            RoomInputDialog().apply {
+            RoomInputDialog(2).apply {
                 sendPubCall = {
                     roomVm.mDanmuTrackManager.buidMsg(it)
                 }

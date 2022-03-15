@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
+import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.absroom.AudioTrackParams
 import com.niucube.absroom.RtcOperationCallback
@@ -115,8 +116,8 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
     }
 
     fun joinRoom(solutionType: String, ktvRoomId: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
+        backGround {
+            doWork {
                 //获取房间信息
                 val roomEntity = RetrofitManager.create(RoomService::class.java)
                     .joinRoom(JoinRoomEntity().apply {
@@ -137,10 +138,9 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                     sitDown()
                 }
                 heartBeatJob()
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                e.message?.asToast()
+            }
+            catchError {
+                it.message?.asToast()
                 finishedActivityCall?.invoke()
             }
         }
@@ -148,8 +148,8 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
 
     //上麦
     fun sitDown() {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
+        backGround {
+            doWork {
                 val userExt = UserExtension().apply {
                     uid = UserInfoManager.getUserId()
                     userExtProfile =
@@ -164,15 +164,16 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                 )
                 //上麦
                 mKtvRoom.sitDown(userExt, null, AudioTrackParams())
+                //绑定混音轨道
                 mKTVPlayerKit.mMicrophoneAudioTrack =
                     mKtvRoom.getUserAudioTrackInfo(UserInfoManager.getUserId()) as QNMicrophoneAudioTrack?
-
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }
+            catchError { e ->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
             }
         }
+
     }
 
     //下麦
@@ -192,6 +193,7 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
         val room = (RoomManager.mCurrentRoom)?.asBaseRoomEntity() ?: return
         bgDefault {
             mKtvRoom.leaveRoom()
+            mKtvRoom.closeRoom()
             RetrofitManager.create(RoomService::class.java)
                 .leaveRoom(
                     RoomIdType(

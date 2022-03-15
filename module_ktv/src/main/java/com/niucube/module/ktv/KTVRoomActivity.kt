@@ -286,6 +286,7 @@ class KTVRoomActivity : BaseActivity() {
                 if (RoomManager.mCurrentRoom?.asBaseRoomEntity()?.isRoomHost() == true) {
                     ivNext.visibility = View.VISIBLE
                 }
+                ivNext.performClick()
             }
         }
         recyMicSeat.layoutManager = GridLayoutManager(this, 3)

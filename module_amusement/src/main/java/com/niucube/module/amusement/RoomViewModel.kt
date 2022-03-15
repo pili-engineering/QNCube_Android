@@ -7,6 +7,7 @@ import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
+import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.absroom.AudioTrackParams
 import com.niucube.absroom.RtcOperationCallback
@@ -112,8 +113,8 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
 
     fun joinRoom(solutionType: String, roomId: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
+        backGround {
+            doWork {
                 val roomEntity = RetrofitManager.create(RoomService::class.java)
                     .joinRoom(JoinRoomEntity().apply {
                         this.roomId = roomId
@@ -128,12 +129,13 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 }
                 //加入房间
                 mRtcRoom.joinRoomAsAudience(roomEntity, null)
+                //房主直接上麦
                 if (roomEntity.isRoomHost()) {
                     sitDown()
                 }
                 heartBeatJob()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }
+            catchError { e ->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
             }
@@ -144,13 +146,13 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //上麦
     fun sitDown() {
-        viewModelScope.launch(Dispatchers.Main) {
-            if (isSitDowning) {
-                return@launch
-            }
+        backGround {
             showLoadingCall?.invoke(true)
-            isSitDowning = true
-            try {
+            doWork {
+                if (isSitDowning) {
+                    return@doWork
+                }
+                isSitDowning = true
                 val userExt = UserExtension().apply {
                     uid = UserInfoManager.getUserId()
                     userExtProfile =
@@ -169,11 +171,12 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     VideoTrackParams(),
                     AudioTrackParams()
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }
+            catchError { e ->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
-            } finally {
+            }
+            onFinally {
                 isSitDowning = false
                 showLoadingCall?.invoke(false)
             }
@@ -182,17 +185,12 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //下麦
     fun sitUp() {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
-                mRtcRoom.sitUpAsAudience()
-                RoomAttributesManager.sitUp(
-                    RoomManager.mCurrentRoom?.provideRoomId() ?: "",
-                    RoomManager.mCurrentRoom?.provideMeId() ?: ""
-                )
-            }catch (e:Exception){
-                e.printStackTrace()
-                e.message?.asToast()
-            }
+        bgDefault {
+            mRtcRoom.sitUpAsAudience()
+            RoomAttributesManager.sitUp(
+                RoomManager.mCurrentRoom?.provideRoomId() ?: "",
+                RoomManager.mCurrentRoom?.provideMeId() ?: ""
+            )
         }
     }
 
@@ -203,15 +201,13 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
         bgDefault {
             mRtcRoom.leaveRoom()
             mRtcRoom.closeRoom()
-            bgDefault {
-                RetrofitManager.create(RoomService::class.java)
-                    .leaveRoom(
-                        RoomIdType(
-                            room.roomInfo!!.type,
-                            room.provideRoomId() ?: ""
-                        )
+            RetrofitManager.create(RoomService::class.java)
+                .leaveRoom(
+                    RoomIdType(
+                        room.roomInfo!!.type,
+                        room.provideRoomId() ?: ""
                     )
-            }
+                )
         }
     }
 

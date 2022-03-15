@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.BaseViewModel
+import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.absroom.AudioTrackParams
 import com.niucube.absroom.RtcOperationCallback
@@ -68,16 +69,21 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 .show(it, "rtctimeout")
         }
     }
-
+    //弹幕管理
     val mDanmuTrackManager = DanmuTrackManager()
+    //公聊
     val mInputMsgReceiver = InputMsgReceiver()
+    //欢迎消息
     val mWelComeReceiver = WelComeReceiver()
+    //礼物轨道管理
     val mGiftTrackManager = GiftTrackManager()
+    //大礼物队列
     val mBigGiftManager = BigGiftManager<GiftMsg>()
 
     //邀请信令
     val mInvitationProcessor = InvitationProcessor("audioroomupmic", 10000, object :
         InvitationCallBack {
+        //收到上麦请求
         override fun onReceiveInvitation(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
@@ -86,20 +92,20 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 showReceiveInvitation(invitation)
             }
         }
-
+       //发起上麦请求超时
         override fun onInvitationTimeout(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
             }
             Log.d("InvitationProcessor", "onInvitationTimeout ${invitation.receiver}")
         }
-
+       //对方取消
         override fun onReceiveCanceled(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
             }
         }
-
+        //申请通过
         override fun onInviteeAccepted(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
@@ -107,7 +113,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
             "${invitation.receiver}接受了你的上麦请求".asToast()
             sitDown()
         }
-
+        //申请被拒绝
         override fun onInviteeRejected(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
@@ -140,6 +146,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
             .buildNiuHappy().show(getFragmentManagrCall!!.invoke(), "")
     }
 
+    //房间
     val mRtcRoom: LazySitMutableLiverRoom by lazy {
         //创建多轨道房间
         LazySitMutableLiverRoom(application).apply {
@@ -168,7 +175,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
         }
     }
 
-
+    //同步麦位
     private fun onGetRoomAllMicSeat(roomAttrs: AttrRoom) {
         val micSeats = ArrayList<LazySitUserMicSeat>()
         roomAttrs.mics.forEach {
@@ -196,9 +203,11 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
         InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }
 
+    //加入房间
     fun joinRoom(solutionType: String, roomId: String) {
-        viewModelScope.launch(Dispatchers.Main) {
-            try {
+        backGround {
+            doWork {
+                //业务服务器获取token
                 val roomEntity = RetrofitManager.create(RoomService::class.java)
                     .joinRoom(JoinRoomEntity().apply {
                         this.roomId = roomId
@@ -212,20 +221,25 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 }
                 //加入房间
                 mRtcRoom.joinRoomAsAudience(roomEntity, null)
+
+                //发送进入房间消息
                 mWelComeReceiver.sendEnterMsg()
                 if (roomEntity.isRoomHost()) {
                     sitDown()
                 }
+                //定时刷新房间信息
                 refreshRoomJob()
+                //开启心跳
                 heartBeatJob()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }
+            catchError {e->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
             }
         }
     }
 
+    //发送上麦申请
     fun applySitDown() {
         mInvitationProcessor.invite(
             "用户${UserInfoManager.getUserInfo()?.nickname}发起上麦申请，是否同意？",
@@ -245,30 +259,34 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //上麦
     fun sitDown() {
-        viewModelScope.launch(Dispatchers.Main) {
+        backGround {
             showLoadingCall?.invoke(true)
-            try {
+            doWork {
                 val userExt = UserExtension().apply {
                     uid = UserInfoManager.getUserId()
                     userExtProfile =
                         JsonUtils.toJson(UserInfoManager.getUserInfo()?.toUserExtProfile() ?: "")
                     userExtRoleType = ""
                 }
+                //业务服务器记录麦位
                 RoomAttributesManager.sitDown(
                     RoomManager.mCurrentRoom?.provideRoomId() ?: "",
                     JsonUtils.toJson(userExt),
                     listOf(Attribute(isOwnerOpenAudio, "1"))
                 )
+                //上麦
                 mRtcRoom.sitDown(
                     userExt,
                     null,
                     AudioTrackParams()
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
+            }
+            catchError {
+                e->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
-            } finally {
+            }
+            onFinally {
                 showLoadingCall?.invoke(false)
             }
         }

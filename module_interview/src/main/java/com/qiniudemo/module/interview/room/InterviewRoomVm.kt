@@ -191,6 +191,7 @@ class InterviewRoomVm(val app: Application, bundle: Bundle?) :
                 heartBeatJob()
             }
             catchError {
+                it.message?.asToast()
                 finishedActivityCall?.invoke()
             }
             onFinally {
