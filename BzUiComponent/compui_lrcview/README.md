@@ -7,7 +7,7 @@ implementation project(':lrcview')
 ```
 ## xml中使用
 ```
-<io.agora.lrcview.LrcView
+<com.niucube.lrcview.LrcView
  android:id="@+id/lrcView"
  android:layout_width="match_parent"
  android:layout_height="match_parent"
