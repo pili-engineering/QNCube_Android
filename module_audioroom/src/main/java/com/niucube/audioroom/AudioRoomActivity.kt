@@ -175,7 +175,7 @@ class AudioRoomActivity : BaseActivity() {
         roomVm.mDanmuTrackManager.addTrackView(danmu2)
         var lastGiftId = ""
         roomVm.mGiftTrackManager.extGiftMsgCall = {
-            if (it.sendGift.giftId != lastGiftId) {
+            if (it.sendGift.giftId != lastGiftId ) {
                 lastGiftId = it.sendGift.giftId
                 roomVm.mBigGiftManager.playInQueen(it)
             }
