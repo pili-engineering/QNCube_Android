@@ -16,8 +16,6 @@ android {
     defaultConfig {
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -43,14 +41,12 @@ android {
             minifyEnabled false
             zipAlignEnabled true
             shrinkResources false
-            debuggable true
         }
         release {
 
             minifyEnabled false
             zipAlignEnabled true
             shrinkResources false
-            debuggable true
         }
     }
 

@@ -7,8 +7,6 @@ android {
     defaultConfig {
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.TestService.runner.AndroidJUnitRunner"
     }

@@ -9,7 +9,6 @@ android {
         minSdkVersion 15
         targetSdkVersion depend.targetSdkVersion
 
-        versionCode 1
 
     }
 
