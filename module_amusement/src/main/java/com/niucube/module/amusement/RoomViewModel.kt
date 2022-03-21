@@ -236,13 +236,13 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     //定时心跳
                     val beat = RetrofitManager.create(RoomService::class.java)
                         .heartBeat(
-                            (RoomManager.mCurrentRoom)!!.asBaseRoomEntity()?.roomInfo!!.type,
+                            (RoomManager.mCurrentRoom)!!.asBaseRoomEntity().roomInfo!!.type,
                             RoomManager.mCurrentRoom?.provideRoomId() ?: ""
                         )
                     delayTime = (beat.interval?.toLong() ?: 1)
 
                     RetrofitManager.create(RoomService::class.java).getRoomInfo(
-                        (RoomManager.mCurrentRoom)!!.asBaseRoomEntity()?.roomInfo!!.type,
+                        (RoomManager.mCurrentRoom)!!.asBaseRoomEntity().roomInfo!!.type,
                         RoomManager.mCurrentRoom?.provideRoomId() ?: ""
                     ).let {
                         mTotalUsersLivedata.value = (it.roomInfo?.totalUsers ?: "1").toInt()

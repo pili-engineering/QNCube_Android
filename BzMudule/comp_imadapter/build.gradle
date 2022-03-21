@@ -27,9 +27,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -41,7 +42,7 @@ dependencies {
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.coroutines()
-    api (name:'qndroid-imsdk-1.0.2',ext:"aar")
+    api (files("libs/qndroid-imsdk-1.0.2.aar"))
     implementation 'com.orhanobut:logger:2.2.0'
     api project(':1highlevlsdk:comp_rtm')
     testImplementation 'junit:junit:4.+'

@@ -8,10 +8,7 @@ import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.been.Attribute
 import com.qiniudemo.baseapp.been.BaseRoomEntity
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import retrofit2.http.Field
 import kotlin.coroutines.suspendCoroutine
 
@@ -125,6 +122,7 @@ object RoomAttributesManager {
         mMicSeatAttributesListeners.remove(callback)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     //跟新房间key - values
     fun putRoomAttributes(
         roomId: String,

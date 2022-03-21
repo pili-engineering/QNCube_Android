@@ -39,7 +39,7 @@ abstract class BaseStartActivity : BaseActivity() {
         return -1
     }
     private val loginRequestCode = 101
-    @DelicateCoroutinesApi
+
     @SuppressLint("CheckResult")
     override fun initViewData() {
         loginFinishPostcard = onLoginFinishPostcard
@@ -64,7 +64,7 @@ abstract class BaseStartActivity : BaseActivity() {
 //            }
 //        }
 
-        GlobalScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.Main) {
 
             var config: AppConfigModel? = null
             try {

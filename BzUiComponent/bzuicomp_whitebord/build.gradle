@@ -29,9 +29,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -39,9 +40,11 @@ android {
 dependencies {
 
     api project(':1highlevlsdk:comp_roommanager')
-    api (name:'qndroid-whiteboard-1.1.5',ext:"aar")
+    api (files("libs/qndroid-whiteboard-1.1.5.aar"))
+
     implementation "com.louiscad.splitties:splitties-dimensions:3.0.0"
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
