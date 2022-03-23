@@ -206,6 +206,12 @@ class AudioRoomActivity : BaseActivity() {
             }
 
         tvLeaveRoom.setOnClickListener {
+            if(roomVm.mRtcRoom.mClientRole==ClientRoleType.CLIENT_ROLE_BROADCASTER
+                && RoomManager.mCurrentRoom?.isRoomHost() == false
+            ){
+                roomVm.sitUp()
+                return@setOnClickListener
+            }
             roomVm.endRoom()
             finish()
         }

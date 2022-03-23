@@ -61,6 +61,7 @@ include ':BzUiComponent:bzuicomp_danmu'          //弹幕
 include ':BzUiComponent:compui_lrcview'          //歌词组件
 include ':BzUiComponent:bzuicomp_chatdialog'     //聊天弹窗
 include ':BzUiComponent:compui_beauty'           //美颜弹窗
+include ':BzUiComponent:compui_game'
 
 //lib基础模块
 //LibComponent 基础组件
@@ -73,4 +74,5 @@ include ':LibComponent:lib_json'               //json库
 
 include ':ai:audio2text'     //语音识别
 rootProject.name = "QINIU_SDK_ALL_IN_ONE"
+
 

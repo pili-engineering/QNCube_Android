@@ -1,0 +1,73 @@
+MOXB<XUI Version="9">
+ <Node Name="Canvas" UserData="" Type="Scene" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2973673486" HolderGUID="387488800">
+	<Scale x="1" y="1"/>
+	<Position x="192.5" y="342"/>
+	<Anchor x="0" y="0"/>
+	<Size x="750" y="1334"/>
+	<Components>
+	 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+	</Components>
+	<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+	 <color a="1" r="1" g="1" b="1"/>
+	 <TouchAreaOffset x="0" y="0"/>
+	 <TouchAreaSize x="0" y="0"/>
+	</Widget>
+	<Panel RenderOrder="0" AutoBatch="0"/>
+	<Scene>
+	 <DesignResolution x="750" y="1334"/>
+	 <Policy Policy="5"/>
+	 <AdaptNotch AdaptNotch="0"/>
+	 <CustomPolicy CustomPolicy="0"/>
+	 <CustomAspect CustomAspect="1.777"/>
+	 <UpperPolicy UpperPolicy="5"/>
+	 <LowerPolicy LowerPolicy="4"/>
+	</Scene>
+	<Children>
+	 <Node Name="PANEL" UserData="" Type="PANEL" Protected="0" LZ="0" GZ="-9000" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2424374890" HolderGUID="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="1334"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="1" Type="WidgetAlignment" Align_HEdge="4" Align_VEdge="2" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Panel RenderOrder="-9000" AutoBatch="1"/>
+		<Children>
+		 <Node Name="TouchImage" UserData="" Type="Image" Protected="0" LZ="0" GZ="-9999" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="580075838" HolderGUID="2424374890">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="1"/>
+			<Size x="750" y="1000"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="4" Align_VEdge="2" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="1" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="750" y="1000"/>
+			</Widget>
+			<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" Enable9Slice="0" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+			 <CurrentTag CurrentTag="-1"/>
+			 <UVTile x="1" y="1"/>
+			 <ImageType ImageType="0"/>
+			 <ImageFillMode ImageFillMode="0"/>
+			 <FillOrigin FillOrigin="0"/>
+			 <TListUVLT x="0" y="0"/>
+			 <TListUVBR x="1" y="1"/>
+			 <CameraLocation x="0" y="0" z="0"/>
+			 <CameraRotation x="0" y="0" z="0" w="1"/>
+			 <Textures Number="0"/>
+			 <MaskTexture UseMaskTexture="0"/>
+			</Image>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	</Children>
+ </Node>
+</XUI>
