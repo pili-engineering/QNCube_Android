@@ -21,28 +21,23 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
 }
 
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.coroutines()
-    api (files("libs/qndroid-imsdk-1.0.2.aar"))
+    //api(name: 'libs/qndroid-imsdk-1.0.2', ext: 'aar')
+    api project(':BzMudule:sdk_qnim')
     implementation 'com.orhanobut:logger:2.2.0'
     api project(':1highlevlsdk:comp_rtm')
     testImplementation 'junit:junit:4.+'

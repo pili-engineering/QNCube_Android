@@ -23,24 +23,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
 
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
 }
 
 dependencies {
-
-    api project(':1highlevlsdk:comp_roommanager')
-    api (files("libs/qndroid-whiteboard-1.1.5.aar"))
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+  //  api project(':1highlevlsdk:comp_roommanager')
+    api project(':BzUiComponent:sdk_qndroidwhiteboard')
 
     implementation "com.louiscad.splitties:splitties-dimensions:3.0.0"
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

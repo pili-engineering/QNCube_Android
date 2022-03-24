@@ -47,6 +47,7 @@ include ':BzMudule:UserInfoProvide'  //抽象业务层用户信息提供器
 include ':BzMudule:comp_network'     //网络组件
 include ':BzMudule:comp_user'        //用户组件
 include ':BzMudule:comp_channelattributes' //k-v服务端存储麦位属性
+include ':BzMudule:sdk_qnim'
 //include
 
 //ui组件
@@ -62,6 +63,7 @@ include ':BzUiComponent:compui_lrcview'          //歌词组件
 include ':BzUiComponent:bzuicomp_chatdialog'     //聊天弹窗
 include ':BzUiComponent:compui_beauty'           //美颜弹窗
 include ':BzUiComponent:compui_game'
+include ':BzUiComponent:sdk_qndroidwhiteboard'
 
 //lib基础模块
 //LibComponent 基础组件

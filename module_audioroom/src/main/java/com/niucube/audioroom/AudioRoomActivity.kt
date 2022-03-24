@@ -26,6 +26,7 @@ import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
+import com.niucube.compui.game.GameFragment
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -60,7 +61,9 @@ class AudioRoomActivity : BaseActivity() {
     }
 
     private val roomVm by lazyVm<RoomViewModel>()
-
+    private val gameFragment by lazy {
+        GameFragment()
+    }
     private val micSeatAdapter by lazy {
         MicSeatsAdapter()
     }
@@ -158,6 +161,7 @@ class AudioRoomActivity : BaseActivity() {
     override fun initViewData() {
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
         isActivityDestory = false
+        gameFragment.addGameFragment(R.id.giftContainer, this)
         recyMicSeats.layoutManager = GridLayoutManager(this, 3)//
         micSeatAdapter.bindToRecyclerView(recyMicSeats)
         lifecycle.addObserver(pubChatView)
@@ -245,6 +249,10 @@ class AudioRoomActivity : BaseActivity() {
         }
         ivGift.setOnClickListener {
             GiftPanDialog().show(supportFragmentManager, "")
+        }
+
+        ivGame.setOnClickListener {
+            gameFragment.startOrHide()
         }
     }
 
