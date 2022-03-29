@@ -3,36 +3,30 @@ package com.qiniu.bzuicomp.gift
 object DataInterfaceNew {
 
     val GIFT_ICON_RES = intArrayOf(
-        R.drawable.gift_01_bell,
-        R.drawable.gift_02_icecream,
-        R.drawable.gift_03_wine,
-        R.drawable.gift_04_cake,
-        R.drawable.gift_05_ring,
-        R.drawable.gift_06_watch,
-        R.drawable.gift_07_diamond,
-        R.drawable.gift_08_rocket
+        R.drawable.gift_cake, R.drawable.gift_ballon, R.drawable.gift_flower, R.drawable.gift_necklace, R.drawable.gift_ring
     )
 
     val GIFT_ANIM_RES = intArrayOf(
-        R.drawable.gift_anim_bell,
-        R.drawable.gift_anim_icecream,
-        R.drawable.gift_anim_wine,
-        R.drawable.gift_anim_cake,
-        R.drawable.gift_anim_ring,
-        R.drawable.gift_anim_watch,
-        R.drawable.gift_anim_diamond,
-        R.drawable.gift_anim_rocket
+        R.drawable.shengdan,
+        R.drawable.cat,
+        R.drawable.lu,
+        R.drawable.gift,
+        R.drawable.gift
     )
 
-    var giftNames = arrayOf("铃铛", "冰淇凌", "红酒", "蛋糕", "戒指", "手表", "砖石", "火箭")
-
+    var giftNames = arrayOf("蛋糕", "气球", "花儿", "项链", "戒指")
 
     fun getGiftAnimRes(id: Int): Int {
-        return GIFT_ANIM_RES[id]
+        if(id<GIFT_ANIM_RES.size){
+            return GIFT_ANIM_RES[id]
+        }
+        return -1
     }
+
     fun getGiftIcon(id: Int): Int {
         return GIFT_ICON_RES[id]
     }
+
     val gifts = ArrayList<Gift>()
 
     init {

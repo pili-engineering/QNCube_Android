@@ -1,0 +1,25 @@
+{
+    "algorithm": "Rect",
+    "destPath": "Asset/Public/UI/Textures",
+    "epsilon": 20,
+    "forceSquared": true,
+    "imageFormat": "TGA",
+    "maxTextureSize": 2048,
+    "pixelFormat": "ARGB8888",
+    "pow2": true,
+    "premultiplied": true,
+    "rotateSprites": false,
+    "scale": 0,
+    "spriteBorder": 1,
+    "spriteSheetName": "Combin_01.plist",
+    "srcList": [
+        "Asset/Public/UI/Textures/BG.png",
+        "Asset/Public/UI/Textures/Celebration_Ribbon.png",
+        "Asset/Public/UI/Textures/High.png",
+        "Asset/Public/UI/Textures/HitPoint.png",
+        "Asset/Public/UI/Textures/Loading_Rewards_Bg.png",
+        "Asset/Public/UI/Textures/Number_Of_Awards.png"
+    ],
+    "textureBorder": 10,
+    "trimMode": "NoTrim"
+}
