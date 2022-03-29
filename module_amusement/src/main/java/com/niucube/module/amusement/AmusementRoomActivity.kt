@@ -181,7 +181,10 @@ class AmusementRoomActivity : BaseActivity() {
         override fun onKickOutFromMicSeat(seat: LazySitUserMicSeat, msg: String) {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
-            onUserSitUp(seat, false)
+            //onUserSitUp(seat, false)
+            if(seat.isMySeat()){
+                roomVm.sitUp()
+            }
         }
     }
 

@@ -359,35 +359,36 @@ class LazySitMutableLiverRoom(
             lazyRoom
         ) {
 
-        private fun onKickUser(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
-            lazyRoom.getUserSeat(uid)?.let {
-                if (it.isMySeat()) {
-                    lazyRoom.onlyDisableAudio()
-                    lazyRoom.onlyDisableVideo()
-                }
-                lazyRoom.mMicSeats.remove(it)
-                call.invoke(it)
-                it.clear()
-            }
-        }
-
-        private fun onKickUserMic(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
-            lazyRoom.getUserSeat(uid)?.let {
-                if (it.isMySeat()) {
+//        private fun onKickUser(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
+//            lazyRoom.getUserSeat(uid)?.let {
+//                if (it.isMySeat()) {
 //                    lazyRoom.onlyDisableAudio()
 //                    lazyRoom.onlyDisableVideo()
-                    if (rtcRoom.getIAudiencePlayerView() == null) {
-                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_AUDIENCE)
-                    } else {
-                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_PULLER)
-                        lazyRoom.mClient.leave()
-                    }
-                }
-                lazyRoom.mMicSeats.remove(it)
-                call.invoke(it)
-                it.clear()
-            }
-        }
+//
+//                }
+//                lazyRoom.mMicSeats.remove(it)
+//                call.invoke(it)
+//                it.clear()
+//            }
+//        }
+//
+//        private fun onKickUserMic(uid: String, call: (seat: LazySitUserMicSeat) -> Unit) {
+//            lazyRoom.getUserSeat(uid)?.let {
+//                if (it.isMySeat()) {
+////                    lazyRoom.onlyDisableAudio()
+////                    lazyRoom.onlyDisableVideo()
+//                    if (rtcRoom.getIAudiencePlayerView() == null) {
+//                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_AUDIENCE)
+//                    } else {
+//                        lazyRoom.setClientRoleForce(ClientRoleType.CLIENT_ROLE_PULLER)
+//                        lazyRoom.mClient.leave()
+//                    }
+//                }
+//                lazyRoom.mMicSeats.remove(it)
+//                call.invoke(it)
+//                it.clear()
+//            }
+//        }
 
         override fun onNewMsgSignaling(msg: String, peerId: String): Boolean {
             when (msg.optAction()) {
@@ -403,16 +404,17 @@ class LazySitMutableLiverRoom(
                             type
                         )
                             ?: return true
-                    onKickUserMic(seat.userMicSeat?.uid ?: "") {
-                        lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(it, msg)
-                    }
+//                    onKickUserMic(seat.seat?.uid ?: "") {
+//                        lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(it, msg)
+//                    }
+                    lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(seat.seat, msg)
                     return true
                 }
                 action_rtc_kickOutFromRoom -> {
                     val uidAndMsg =
                         JsonUtils.parseObject(msg.optData(), UidAndMsg::class.java)
                             ?: return true
-                    onKickUser(uidAndMsg.uid) {}
+                   // onKickUser(uidAndMsg.uid) {}
                     lazyRoom.mTrackSeatListener.onKickOutFromRoom(uidAndMsg.uid, msg)
                     return true
                 }

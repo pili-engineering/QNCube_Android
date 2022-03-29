@@ -26,7 +26,7 @@ import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.compui.game.GameFragment
+
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -61,9 +61,10 @@ class AudioRoomActivity : BaseActivity() {
     }
 
     private val roomVm by lazyVm<RoomViewModel>()
-    private val gameFragment by lazy {
-        GameFragment()
-    }
+
+    //    private val gameFragment by lazy {
+//        GameFragment()
+//    }
     private val micSeatAdapter by lazy {
         MicSeatsAdapter()
     }
@@ -139,7 +140,9 @@ class AudioRoomActivity : BaseActivity() {
         override fun onKickOutFromMicSeat(seat: LazySitUserMicSeat, msg: String) {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
-            onUserSitUp(seat, false)
+            if (seat.isMySeat()) {
+                roomVm.sitUp()
+            }
         }
 
         override fun onSyncMicSeats(seats: List<LazySitUserMicSeat>) {
@@ -161,7 +164,7 @@ class AudioRoomActivity : BaseActivity() {
     override fun initViewData() {
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
         isActivityDestory = false
-        gameFragment.addGameFragment(R.id.giftContainer, this)
+        // gameFragment.addGameFragment(R.id.giftContainer, this)
         recyMicSeats.layoutManager = GridLayoutManager(this, 3)//
         micSeatAdapter.bindToRecyclerView(recyMicSeats)
         lifecycle.addObserver(pubChatView)
@@ -179,7 +182,7 @@ class AudioRoomActivity : BaseActivity() {
         roomVm.mDanmuTrackManager.addTrackView(danmu2)
         var lastGiftId = ""
         roomVm.mGiftTrackManager.extGiftMsgCall = {
-            if (it.sendGift.giftId != lastGiftId ) {
+            if (it.sendGift.giftId != lastGiftId) {
                 lastGiftId = it.sendGift.giftId
                 roomVm.mBigGiftManager.playInQueen(it)
             }
@@ -210,9 +213,9 @@ class AudioRoomActivity : BaseActivity() {
             }
 
         tvLeaveRoom.setOnClickListener {
-            if(roomVm.mRtcRoom.mClientRole==ClientRoleType.CLIENT_ROLE_BROADCASTER
+            if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER
                 && RoomManager.mCurrentRoom?.isRoomHost() == false
-            ){
+            ) {
                 roomVm.sitUp()
                 return@setOnClickListener
             }
@@ -223,7 +226,7 @@ class AudioRoomActivity : BaseActivity() {
         ivMicStatus.setOnClickListener {
             val toOpen = !ivMicStatus.isSelected
             val mySeat = roomVm.mRtcRoom.getUserSeat(UserInfoManager.getUserId())
-            if (mySeat?.isForbiddenAudioByManager ==true) {
+            if (mySeat?.isForbiddenAudioByManager == true) {
                 "管理关了你的麦".asToast()
                 return@setOnClickListener
             }
@@ -251,9 +254,10 @@ class AudioRoomActivity : BaseActivity() {
             GiftPanDialog().show(supportFragmentManager, "")
         }
 
-        ivGame.setOnClickListener {
-            gameFragment.startOrHide()
-        }
+        //  ivGame.visibility = View.GONE
+//        ivGame.setOnClickListener {
+//            gameFragment.startOrHide()
+//        }
     }
 
     override fun onDestroy() {
@@ -380,7 +384,7 @@ class AudioRoomActivity : BaseActivity() {
                 }
             }
             val isHost = RoomManager.mCurrentRoom?.isRoomHost() ?: false
-            if (isHost&&data.indexOf(item)>0) {
+            if (isHost && data.indexOf(item) > 0) {
                 helper.itemView.ivOpPopup.visibility = View.VISIBLE
             } else {
                 helper.itemView.ivOpPopup.visibility = View.GONE

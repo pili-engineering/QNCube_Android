@@ -9,7 +9,7 @@ import com.niucube.absroom.seat.UserExtension
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.compui.game.GameFragment
+//import com.niucube.compui.game.GameFragment
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -25,9 +25,9 @@ class AmusementRoomFragment : BaseFragment() {
 
     private val roomVm by activityVm<RoomViewModel>()
     private val mInputMsgReceiver = InputMsgReceiver()
-    private val gameFragment by lazy {
-        GameFragment()
-    }
+//    private val gameFragment by lazy {
+//        GameFragment()
+//    }
 
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomJoined(roomEntity: RoomEntity) {
@@ -73,7 +73,7 @@ class AmusementRoomFragment : BaseFragment() {
     }
 
     override fun initViewData() {
-        gameFragment.addGameFragment(R.id.flGameContainer, requireActivity())
+       // gameFragment.addGameFragment(R.id.flGameContainer, requireActivity())
         roomVm.mTotalUsersLivedata.observe(this) {
             tvRoomMemb.text = it.toString()
         }
@@ -127,9 +127,9 @@ class AmusementRoomFragment : BaseFragment() {
                 .show(childFragmentManager, "")
         }
 
-        ivGame.setOnClickListener {
-            gameFragment.startOrHide()
-        }
+//        ivGame.setOnClickListener {
+//            gameFragment.startOrHide()
+//        }
     }
 
     override fun getLayoutId(): Int {

@@ -32,8 +32,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 202
+        versionName "2.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
