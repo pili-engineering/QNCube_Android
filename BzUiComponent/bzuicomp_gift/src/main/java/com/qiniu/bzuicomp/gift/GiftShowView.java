@@ -245,7 +245,7 @@ public class GiftShowView extends RelativeLayout implements TrackView<GiftMsg> {
         mtvGiftName.setText(giftaModel.getSendGift().getGiftName());
         String header = giftaModel.getSenderAvatar();
         rlGiftRoot.setVisibility(View.VISIBLE);
-        int showImage =(DataInterface.getGiftIconNameById(giftaModel.getSendGift().getGiftId()));
+        int showImage =(DataInterfaceNew.INSTANCE.getGiftIcon(Integer.parseInt(giftaModel.getSendGift().getGiftId())));
 
         //还没有滑动
         if (currentAnimaStep == 0) {

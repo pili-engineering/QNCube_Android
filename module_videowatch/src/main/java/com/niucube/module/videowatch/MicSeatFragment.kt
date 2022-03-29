@@ -160,12 +160,19 @@ class MicSeatFragment : BaseFragment() {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
             //  onUserSitUp(seat, false)
+            if(seat.isMySeat()){
+                roomVm.sitUp()
+            }
         }
 
         override fun onKickOutFromRoom(userId: String, msg: String) {
             super.onKickOutFromRoom(userId, msg)
+
             if (userId == UserInfoManager.getUserId()) {
                 "房主请你离开房间".asToast()
+                if(roomVm.mRtcRoom.mClientRole==ClientRoleType.CLIENT_ROLE_BROADCASTER){
+                    roomVm.sitUp()
+                }
                 requireActivity().finish()
             }
         }

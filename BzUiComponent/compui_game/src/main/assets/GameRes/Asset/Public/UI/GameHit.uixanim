@@ -1,0 +1,97 @@
+MOXB<?xml version="1.0" encoding="GB2312"?>
+<Root>
+ <Node Name="GameHit" Type="UIAnimBase.UIAnimation" FilterPath="" BindUINodeName="GuideHit_Tips_Label" ManualTimeMode="1" ManualStartTime="0" ManualEndTime="3000000">
+	<Node Name="Image_1" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Transform" Type="TrackBase.Transform" TransformType="1">
+		<Node Name="Location" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float"/>
+		 <Node Name="Y" Type="TrackBase.Float"/>
+		</Node>
+		<Node Name="Scale" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float">
+			<Node Name="Curve_3" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="20" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_1" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="979986" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_39" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1006666" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_37" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_48" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2033333" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_42" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		 <Node Name="Y" Type="TrackBase.Float">
+			<Node Name="Curve_4" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="20" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_2" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="979986" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_40" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1006666" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_36" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_49" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2033333" Value="2" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_43" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		</Node>
+		<Node Name="Rotation" Type="TrackBase.Float">
+		 <Node Name="Curve_6" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="20" Value="30" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_5" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="979986" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_41" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1006699" Value="30" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_35" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_50" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2033333" Value="30" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_44" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float">
+		 <Node Name="Curve_11" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="200" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_12" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1013301" Value="255" ArriveTangent="27.49725" LeaveTangent="27.49725" InterpMode="1"/>
+		 <Node Name="Curve_32" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_45" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+		<Node Name="Blue" Type="TrackBase.Float">
+		 <Node Name="Curve_10" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_13" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1013333" Value="255" ArriveTangent="127.48725" LeaveTangent="127.48725" InterpMode="1"/>
+		 <Node Name="Curve_33" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_46" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_8" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="13201" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_7" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="826187" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_9" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1013288" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_38" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1786666" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_34" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2000200" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_51" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2733333" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_47" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="3000000" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GuideHit_Tips_Image" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_52" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="50" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_25" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1513288" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_53" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2993500" Value="50" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GuideHit_Tips_Label" Type="UIAnimBase.Binding.Transform.UINode.Label" FilterPath="">
+	 <Node Name="TextColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_27" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="128" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_23" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1513288" Value="255" ArriveTangent="63.088413" LeaveTangent="63.088413" InterpMode="1"/>
+		 <Node Name="Curve_30" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2993494" Value="128" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	 <Node Name="OutLineColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_28" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="128" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_24" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="1513288" Value="255" ArriveTangent="63.088413" LeaveTangent="63.088413" InterpMode="1"/>
+		 <Node Name="Curve_31" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2993494" Value="128" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+ </Node>
+</Root>

@@ -9,6 +9,7 @@ import com.niucube.absroom.seat.UserExtension
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
+//import com.niucube.compui.game.GameFragment
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -24,6 +25,9 @@ class AmusementRoomFragment : BaseFragment() {
 
     private val roomVm by activityVm<RoomViewModel>()
     private val mInputMsgReceiver = InputMsgReceiver()
+//    private val gameFragment by lazy {
+//        GameFragment()
+//    }
 
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomJoined(roomEntity: RoomEntity) {
@@ -69,6 +73,7 @@ class AmusementRoomFragment : BaseFragment() {
     }
 
     override fun initViewData() {
+       // gameFragment.addGameFragment(R.id.flGameContainer, requireActivity())
         roomVm.mTotalUsersLivedata.observe(this) {
             tvRoomMemb.text = it.toString()
         }
@@ -87,8 +92,8 @@ class AmusementRoomFragment : BaseFragment() {
         ivMicrophoneStatus.setOnClickListener {
             val toOpen = ivMicrophoneStatus.isSelected
             val mySeat = roomVm.mRtcRoom.getUserSeat(UserInfoManager.getUserId())
-            if (mySeat?.isForbiddenAudioByManager ==true) {
-               "管理关了你的麦".asToast()
+            if (mySeat?.isForbiddenAudioByManager == true) {
+                "管理关了你的麦".asToast()
                 return@setOnClickListener
             }
             roomVm.mRtcRoom.muteLocalAudio(!toOpen)
@@ -97,7 +102,7 @@ class AmusementRoomFragment : BaseFragment() {
         ivCameraStatus.setOnClickListener {
             val toOpen = ivCameraStatus.isSelected
             val mySeat = roomVm.mRtcRoom.getUserSeat(UserInfoManager.getUserId())
-            if (mySeat?.isForbiddenVideoByManager ==true) {
+            if (mySeat?.isForbiddenVideoByManager == true) {
                 "管理关了你的麦".asToast()
                 return@setOnClickListener
             }
@@ -121,6 +126,10 @@ class AmusementRoomFragment : BaseFragment() {
             }
                 .show(childFragmentManager, "")
         }
+
+//        ivGame.setOnClickListener {
+//            gameFragment.startOrHide()
+//        }
     }
 
     override fun getLayoutId(): Int {

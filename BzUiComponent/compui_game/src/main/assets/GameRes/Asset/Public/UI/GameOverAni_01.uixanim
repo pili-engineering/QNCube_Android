@@ -1,0 +1,157 @@
+MOXB<?xml version="1.0" encoding="GB2312"?>
+<Root>
+ <Node Name="GameOverAni_01" Type="UIAnimBase.UIAnimation" FilterPath="" BindUINodeName="GameOver_BGImage1" ManualTimeMode="1" ManualStartTime="0" ManualEndTime="995115">
+	<Node Name="GameOver_Widget" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Visibility" Type="TrackBase.Bool.Visibility">
+		<Node Name="xbool_3" Type="KeyframeData.xbool" FilterPath="" StartTime="0" Value="0"/>
+		<Node Name="xbool_2" Type="KeyframeData.xbool" FilterPath="" StartTime="33333" Value="1"/>
+	 </Node>
+	 <Node Name="Transform" Type="TrackBase.Transform" TransformType="1">
+		<Node Name="Location" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float"/>
+		 <Node Name="Y" Type="TrackBase.Float"/>
+		</Node>
+		<Node Name="Scale" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float">
+			<Node Name="Curve_25" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2621" Value="0.5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_3" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="726655" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		 <Node Name="Y" Type="TrackBase.Float">
+			<Node Name="Curve_26" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="2621" Value="0.5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_4" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="726655" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		</Node>
+		<Node Name="Rotation" Type="TrackBase.Float"/>
+	 </Node>
+	</Node>
+	<Node Name="GameOver_BGImage" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_7" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="207500" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_8" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="987500" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GameOver_Words_Label" Type="UIAnimBase.Binding.Transform.UINode.Label" FilterPath="">
+	 <Node Name="TextColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_9" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="213333" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_10" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="484994" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	 <Node Name="OutLineColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_32" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="213300" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_31" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="484994" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GameOver_Scroe_Label" Type="UIAnimBase.Binding.Transform.UINode.Label" FilterPath="">
+	 <Node Name="TextColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_11" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="484994" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_12" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="709152" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	 <Node Name="OutLineColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_34" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="484994" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_33" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="709200" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="Btn_Image" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_13" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="709152" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_15" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="969146" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="Btn_Label" Type="UIAnimBase.Binding.Transform.UINode.Label" FilterPath="">
+	 <Node Name="TextColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_14" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="709152" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_16" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="969146" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GameOver_Image" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Transform" Type="TrackBase.Transform" TransformType="1">
+		<Node Name="Location" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float"/>
+		 <Node Name="Y" Type="TrackBase.Float"/>
+		</Node>
+		<Node Name="Scale" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float">
+			<Node Name="Curve_17" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="12516" Value="0.0099999998" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_19" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="636694" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		 <Node Name="Y" Type="TrackBase.Float">
+			<Node Name="Curve_18" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="12516" Value="0.0099999998" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_20" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="636700" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		</Node>
+		<Node Name="Rotation" Type="TrackBase.Float"/>
+	 </Node>
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_27" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="50011" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_28" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="510122" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="CurrentScroe_Widget" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Visibility" Type="TrackBase.Bool.Visibility">
+		<Node Name="xbool_4" Type="KeyframeData.xbool" FilterPath="" StartTime="0" Value="1"/>
+		<Node Name="xbool_5" Type="KeyframeData.xbool" FilterPath="" StartTime="287001" Value="0"/>
+	 </Node>
+	</Node>
+	<Node Name="CurrentScroe_Label" Type="UIAnimBase.Binding.Transform.UINode.Label" FilterPath="">
+	 <Node Name="TextColor" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_23" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_24" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="213499" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="GameOver_BGImage1" Type="UIAnimBase.Binding.Transform.UINode" FilterPath="">
+	 <Node Name="Color" Type="TrackBase.Color">
+		<Node Name="Red" Type="TrackBase.Float"/>
+		<Node Name="Green" Type="TrackBase.Float"/>
+		<Node Name="Blue" Type="TrackBase.Float"/>
+		<Node Name="Alpha" Type="TrackBase.Float">
+		 <Node Name="Curve_29" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="50000" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 <Node Name="Curve_30" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="510100" Value="255" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		</Node>
+	 </Node>
+	</Node>
+ </Node>
+</Root>

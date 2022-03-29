@@ -1,0 +1,69 @@
+MOXB<?xml version="1.0" encoding="GB2312"?>
+<Root>
+ <Node Name="Effect" Type="SeqBase.Sequencer" FilterPath="" ManualTimeMode="1" ManualStartTime="0" ManualEndTime="742171" LoopAtEnd="0" LoopAtEndStartTime="0" EventDispatcherEnable="0" DispatcherEventScriptTickable="0" EventDispatcherScriptAssetPath="">
+	<Node Name="Atmosphere04_HeadFx_2" Type="SeqBase.Binding.Transform.Actor" FilterPath="" BindActorName="Atmosphere04_HeadFx_2" BindActorIdString="061380f769400000" BindAssetPath="Asset/Public/Atmosphere04_HeadFx/Atmosphere04_HeadFx.mdl">
+	 <Node Name="Visibility" Type="TrackBase.Bool.Visibility">
+		<Node Name="xbool_1" Type="KeyframeData.xbool" FilterPath="" StartTime="0" Value="0"/>
+		<Node Name="xbool_2" Type="KeyframeData.xbool" FilterPath="" StartTime="26666" Value="1"/>
+	 </Node>
+	 <Node Name="ActorComponent" Type="TrackBase">
+		<Node Name="MaterialParameter" Type="TrackBase">
+		 <Node Name="Layer Multiplier" Type="TrackBase">
+			<Node Name="X" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="Layer Multiplier" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="20" ParameterIndex="0">
+			 <Node Name="Curve_1" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="10701" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			 <Node Name="Curve_2" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="42700" Value="1" ArriveTangent="1.9893768" LeaveTangent="1.9893768" InterpMode="1"/>
+			 <Node Name="Curve_4" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="513371" Value="1" ArriveTangent="-1.4296519" LeaveTangent="-1.4296519" InterpMode="1"/>
+			 <Node Name="Curve_3" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="742171" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			</Node>
+		 </Node>
+		 <Node Name="DetailTex Tilling and Offset" Type="TrackBase">
+			<Node Name="X" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="DetailTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="6" ParameterIndex="0"/>
+			<Node Name="Y" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="DetailTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="6" ParameterIndex="1"/>
+			<Node Name="Z" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="DetailTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="6" ParameterIndex="2"/>
+			<Node Name="W" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="DetailTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="6" ParameterIndex="3"/>
+		 </Node>
+		 <Node Name="MainTex Tilling and Offset" Type="TrackBase">
+			<Node Name="X" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="MainTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="3" ParameterIndex="0"/>
+			<Node Name="Y" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="MainTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="3" ParameterIndex="1"/>
+			<Node Name="Z" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="MainTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="3" ParameterIndex="2">
+			 <Node Name="Curve_15" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="0" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			 <Node Name="Curve_16" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="742200" Value="1" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			</Node>
+			<Node Name="W" Type="TrackBase.Float.Virtual.MaterialInsParameter" ParameterName="MainTex Tilling and Offset" ActorName="Atmosphere04_HeadFx_2" SkinId="0" LodId="0" MeshId="0" MacroId="-1" ParameterId="3" ParameterIndex="3"/>
+		 </Node>
+		</Node>
+	 </Node>
+	</Node>
+	<Node Name="Baseball_Actor" Type="SeqBase.Binding.Transform.Actor" FilterPath="" BindActorName="Baseball_Actor" BindActorIdString="060e452f0880000b" BindAssetPath="Asset/Public/Baseball/Baseball.mdl">
+	 <Node Name="Transform" Type="TrackBase.Transform" TransformType="1">
+		<Node Name="Location" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float"/>
+		 <Node Name="Y" Type="TrackBase.Float"/>
+		 <Node Name="Z" Type="TrackBase.Float"/>
+		</Node>
+		<Node Name="Rotation" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float"/>
+		 <Node Name="Y" Type="TrackBase.Float"/>
+		 <Node Name="Z" Type="TrackBase.Float"/>
+		</Node>
+		<Node Name="Scale" Type="TrackBase">
+		 <Node Name="X" Type="TrackBase.Float">
+			<Node Name="Curve_20" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="7.5" ArriveTangent="13.889429" LeaveTangent="13.889429" InterpMode="1"/>
+			<Node Name="Curve_17" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="73327" Value="10" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_23" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="746650" Value="7.5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		 <Node Name="Y" Type="TrackBase.Float">
+			<Node Name="Curve_21" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="7.5" ArriveTangent="-13.889429" LeaveTangent="-13.889429" InterpMode="1"/>
+			<Node Name="Curve_18" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="73327" Value="5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_24" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="746650" Value="7.5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		 <Node Name="Z" Type="TrackBase.Float">
+			<Node Name="Curve_22" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="0" Value="7.5" ArriveTangent="-13.889429" LeaveTangent="-13.889429" InterpMode="1"/>
+			<Node Name="Curve_19" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="73327" Value="5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+			<Node Name="Curve_25" Type="KeyframeData.xfloat32.Curve" FilterPath="" StartTime="746650" Value="7.5" ArriveTangent="0" LeaveTangent="0" InterpMode="1"/>
+		 </Node>
+		</Node>
+	 </Node>
+	</Node>
+ </Node>
+</Root>

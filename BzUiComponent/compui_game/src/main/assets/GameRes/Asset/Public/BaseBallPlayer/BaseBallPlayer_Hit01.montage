@@ -1,0 +1,13 @@
+MOXB<?xml version="1.0" encoding="GB2312"?>
+<Montage>
+ <Node Name="default" Type="AnimMonMontage" FilterPath="" ManualTimeMode="1" ManualStartTime="0" ManualEndTime="598857" LoopAtEnd="0" LoopAtEndStartTime="0" EventDispatcherEnable="0" DispatcherEventScriptTickable="0" SkinModelAssetPath="Asset/Public/BaseBallPlayer/BaseBallPlayer.mdl" EventDispatcherScriptAssetPath="">
+	<Node Name="AnimMonTrack_1" Type="AnimMonTrack" FilterPath="">
+	 <Node Name="ModelAnimation_1" Type="AnimMonElement.ModelAnimation" FilterPath="" InterruptEnable="0" AnimLayer="Asset/Public/BaseBallPlayer/BaseBallPlayer_Hit01.seq">
+		<Segment StartTime="-67410" EndTime="599133" ClipStartTime="0" ClipEndTime="599133" SortIndex="0"/>
+	 </Node>
+	</Node>
+	<Node Name="AnimMonTrack_2" Type="AnimMonTrack" FilterPath="">
+	 <Node Name="Particle_1" Type="AnimMonNotify.Particle" FilterPath="" InterruptEnable="0" StartTime="1000" SectionMode="0" SectionEndTime="1000" SpawnMode="0" DestroyImmediately="0" Location="-0.500000,1.000000,-1.000000" Rotation="0.000000,0.000000,0.000000,1.000000" Scale="0.020000,0.020000,0.020000" ParticleTemplateAssetPath="Asset/Public/UI/fx/Sample/UI/Hit_tk"/>
+	</Node>
+ </Node>
+</Montage>

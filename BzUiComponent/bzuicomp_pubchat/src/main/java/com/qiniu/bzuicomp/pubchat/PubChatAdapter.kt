@@ -19,8 +19,8 @@ class PubChatAdapter  : BaseQuickAdapter<IChatMsg, BaseViewHolder>(R.layout.bzui
                val drawable: Drawable = mContext.resources.getDrawable(id, null)
                drawable.setBounds(
                    0, 0,
-                  ((drawable.intrinsicWidth *0.5).toInt()),
-                  ((drawable.intrinsicHeight *0.5).toInt()));
+                  ((drawable.intrinsicWidth *0.3).toInt()),
+                  ((drawable.intrinsicHeight *0.3).toInt()));
                drawable
            }, null);
     }

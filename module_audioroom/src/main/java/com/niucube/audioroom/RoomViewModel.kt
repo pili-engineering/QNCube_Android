@@ -69,14 +69,19 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 .show(it, "rtctimeout")
         }
     }
+
     //弹幕管理
     val mDanmuTrackManager = DanmuTrackManager()
+
     //公聊
     val mInputMsgReceiver = InputMsgReceiver()
+
     //欢迎消息
     val mWelComeReceiver = WelComeReceiver()
+
     //礼物轨道管理
     val mGiftTrackManager = GiftTrackManager()
+
     //大礼物队列
     val mBigGiftManager = BigGiftManager<GiftMsg>()
 
@@ -92,19 +97,22 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 showReceiveInvitation(invitation)
             }
         }
-       //发起上麦请求超时
+
+        //发起上麦请求超时
         override fun onInvitationTimeout(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
             }
             Log.d("InvitationProcessor", "onInvitationTimeout ${invitation.receiver}")
         }
-       //对方取消
+
+        //对方取消
         override fun onReceiveCanceled(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
                 return
             }
         }
+
         //申请通过
         override fun onInviteeAccepted(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
@@ -113,6 +121,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
             "${invitation.receiver}接受了你的上麦请求".asToast()
             sitDown()
         }
+
         //申请被拒绝
         override fun onInviteeRejected(invitation: Invitation) {
             if (invitation.channelId != RoomManager.mCurrentRoom?.provideImGroupId()) {
@@ -232,7 +241,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 //开启心跳
                 heartBeatJob()
             }
-            catchError {e->
+            catchError { e ->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
             }
@@ -281,8 +290,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     AudioTrackParams()
                 )
             }
-            catchError {
-                e->
+            catchError { e ->
                 e.message?.asToast()
                 finishedActivityCall?.invoke()
             }
@@ -294,18 +302,27 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //下麦
     fun sitUp() {
-        bgDefault {
-            mRtcRoom.sitUpAsAudience()
-            RoomAttributesManager.sitUp(
-                RoomManager.mCurrentRoom?.provideRoomId() ?: "",
-                RoomManager.mCurrentRoom?.provideMeId() ?: ""
-            )
+        backGround {
+            showLoadingCall?.invoke(true)
+            doWork {
+                mRtcRoom.sitUpAsAudience()
+                RoomAttributesManager.sitUp(
+                    RoomManager.mCurrentRoom?.provideRoomId() ?: "",
+                    RoomManager.mCurrentRoom?.provideMeId() ?: ""
+                )
+            }
+            catchError {
+                it.message?.asToast()
+            }
+            onFinally {
+                showLoadingCall?.invoke(false)
+            }
         }
     }
 
     private var isEnd = false
     fun endRoom() {
-        mWelComeReceiver.sendQuitMsg("${UserInfoManager.getUserInfo()?.nickname}退出了房间")
+        mWelComeReceiver.sendQuitMsg("退出了房间")
         isEnd = true
         val room = (RoomManager.mCurrentRoom)?.asBaseRoomEntity() ?: return
         bgDefault {

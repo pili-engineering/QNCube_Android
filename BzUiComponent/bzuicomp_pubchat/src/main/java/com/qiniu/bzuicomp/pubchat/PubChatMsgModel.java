@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 public class PubChatMsgModel implements IChatMsg, Serializable {
 
-    public static String action_pubText="pubChatText";
+    public static String action_pubText="pub_chat_text";
     public String senderId;
     public String senderName;
     public String msgContent;

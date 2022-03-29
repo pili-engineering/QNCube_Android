@@ -1,0 +1,1372 @@
+MOXB<XUI Version="12">
+ <Node Name="Canvas" UserData="" Type="Scene" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2811471444" CollisionLayer="0">
+	<Scale x="0.5" y="0.5"/>
+	<Position x="100" y="100"/>
+	<Anchor x="0" y="0"/>
+	<Size x="750" y="1334"/>
+	<Components>
+	 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+	</Components>
+	<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+	 <color a="1" r="1" g="1" b="1"/>
+	 <TouchAreaOffset x="0" y="0"/>
+	 <TouchAreaSize x="0" y="0"/>
+	</Widget>
+	<Panel RenderOrder="0" AutoBatch="0"/>
+	<Scene>
+	 <DesignResolution x="750" y="1334"/>
+	 <Policy Policy="5"/>
+	 <AdaptNotch AdaptNotch="0"/>
+	 <CustomPolicy CustomPolicy="0"/>
+	 <CustomAspect CustomAspect="1.777"/>
+	 <UpperPolicy UpperPolicy="5"/>
+	 <LowerPolicy LowerPolicy="4"/>
+	 <UsePhysical UsePhysical="0"/>
+	 <Layer_0 Layer_0="Layer_0"/>
+	 <Layer_1 Layer_1="Layer_1"/>
+	 <Layer_2 Layer_2="Layer_2"/>
+	 <Layer_3 Layer_3="Layer_3"/>
+	 <Layer_4 Layer_4="Layer_4"/>
+	 <Layer_5 Layer_5="Layer_5"/>
+	 <Layer_6 Layer_6="Layer_6"/>
+	 <Layer_7 Layer_7="Layer_7"/>
+	 <Collision2DLayerPairState_0 Collision2DLayerPairState_0="1,0,0,0,0,0,0,0,0"/>
+	 <Collision2DLayerPairState_1 Collision2DLayerPairState_1="0,0,0,0,0,0,0,0,0"/>
+	 <Collision2DLayerPairState_2 Collision2DLayerPairState_2="0,0,0,0,0,0,0,0,0"/>
+	 <Collision2DLayerPairState_3 Collision2DLayerPairState_3="0,0,0,0,0,0,0,0,0"/>
+	</Scene>
+	<Children>
+	 <Node Name="ScroePanel" UserData="" Type="PANEL" Protected="0" LZ="0" GZ="-1000" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1219145924" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="959"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="750" y="750"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="1" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="2" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Panel RenderOrder="-1000" AutoBatch="1">
+		 <MaterialInsArr>
+			<MaterialIns strType="UI_IMAGE_PLIST" Z="0" Type="3" Layer="0" Asset="Asset/Public/UI/Textures/Combin_01.plist" CustomData="" Mask="0"/>
+			<MaterialIns strType="UI_FONT_TTF" Z="0" Type="6" Layer="0" Asset="S-GLOBALFONT-Asset/Public/UI/TTF/simhei.ttf" CustomData="" Mask="0"/>
+		 </MaterialInsArr>
+		</Panel>
+		<Children>
+		 <Node Name="CurrentScroe_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1093504227" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="-320"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="0" y="0"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="1" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Children>
+			 <Node Name="CurrentScroe_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="0" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2157202386" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="272" y="50"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+					<Font FontSize="50" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="当前得分 : 0" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+					 <TextColor a="1" r="1" g="1" b="1"/>
+					 <TextUpperColor a="1" r="1" g="1" b="1"/>
+					 <TextLowerColor a="1" r="1" g="1" b="1"/>
+					 <OutlineColor a="1" r="1" g="1" b="1"/>
+					</Font>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Label FontSize="50" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="当前得分 : 0" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Label>
+				<Children/>
+			 </Node>
+			 <Node Name="GuideHitWidget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1555069871" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="5.7954102" y="428.45508"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="0" y="0"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Children>
+				 <Node Name="GuideHit_Tips_Image" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2505055389" CollisionLayer="0">
+					<Scale x="1" y="1"/>
+					<Position x="0" y="-300"/>
+					<Anchor x="0.5" y="0.5"/>
+					<Size x="800" y="150"/>
+					<Components>
+					 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+					 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+						<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+						 <CurrentTag CurrentTag="0"/>
+						 <UVTile x="1" y="1"/>
+						 <ImageType ImageType="0"/>
+						 <ImageFillMode ImageFillMode="0"/>
+						 <FillOrigin FillOrigin="0"/>
+						 <TListUVLT x="0.009765625" y="0.38867188"/>
+						 <TListUVBR x="0.7421875" y="0.56347656"/>
+						 <CameraLocation x="0" y="0" z="0"/>
+						 <CameraRotation x="0" y="0" z="0" w="1"/>
+						 <Textures Number="1">
+							<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+						 </Textures>
+						 <MaskTexture UseMaskTexture="0"/>
+						</SpriteRenderComponent>
+					 </UINodeComponent>
+					</Components>
+					<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+					 <color a="0.19607845" r="0.99215686" g="0.86274511" b="0.43137255"/>
+					 <TouchAreaOffset x="0" y="0"/>
+					 <TouchAreaSize x="0" y="0"/>
+					</Widget>
+					<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.38867188"/>
+					 <TListUVBR x="0.7421875" y="0.56347656"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</Image>
+					<Children>
+					 <Node Name="GuideHit_Tips_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1051876183" CollisionLayer="0">
+						<Scale x="1" y="1"/>
+						<Position x="0" y="0"/>
+						<Anchor x="0.5" y="0.5"/>
+						<Size x="360" y="45"/>
+						<Components>
+						 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+						 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+							<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="4" ChangeOutlineColor="1">
+							 <TextColor a="0.50196081" r="1" g="1" b="1"/>
+							 <TextUpperColor a="1" r="1" g="1" b="1"/>
+							 <TextLowerColor a="1" r="1" g="1" b="1"/>
+							 <OutlineColor a="0.50196081" r="0.48235294" g="0.30588236" b="0"/>
+							</Font>
+						 </UINodeComponent>
+						</Components>
+						<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+						 <color a="1" r="1" g="1" b="1"/>
+						 <TouchAreaOffset x="0" y="0"/>
+						 <TouchAreaSize x="0" y="0"/>
+						</Widget>
+						<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="4" ChangeOutlineColor="0">
+						 <TextColor a="0.50196081" r="1" g="1" b="1"/>
+						 <TextUpperColor a="1" r="1" g="1" b="1"/>
+						 <TextLowerColor a="1" r="1" g="1" b="1"/>
+						 <OutlineColor a="0.50196081" r="0.48235294" g="0.30588236" b="0"/>
+						</Label>
+						<Children/>
+					 </Node>
+					</Children>
+				 </Node>
+				</Children>
+			 </Node>
+			</Children>
+		 </Node>
+		 <Node Name="GameOver_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1947411356" CollisionLayer="0">
+			<Scale x="0.5" y="0.5"/>
+			<Position x="0" y="-175"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="0" y="0"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="1" Type="WidgetAlignment" Align_HEdge="4" Align_VEdge="1" Align_LMargin="0" Align_RMargin="0" Align_TMargin="200" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Children>
+			 <Node Name="GameOver_Image" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1148087540" CollisionLayer="0">
+				<Scale x="0.0099999998" y="0.0099999998"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="566" y="387"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.009765625"/>
+					 <TListUVBR x="0.5625" y="0.38769531"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="Celebration_Ribbon.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="0" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.009765625" y="0.009765625"/>
+				 <TListUVBR x="0.5625" y="0.38769531"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="Celebration_Ribbon.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			 <Node Name="GameOver_BGImage" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3573612029" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="750" y="200"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="0" SliceR="0.97500002" SliceT="89.5" SliceB="89.5" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="1"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.56445312"/>
+					 <TListUVBR x="0.7421875" y="0.73925781"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="Loading_Rewards_Bg.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="0" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="0" SliceR="0.97500002" SliceT="89.5" SliceB="89.5" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="1"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.009765625" y="0.56445312"/>
+				 <TListUVBR x="0.7421875" y="0.73925781"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="Loading_Rewards_Bg.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children>
+				 <Node Name="GameOver_BGImage1" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="859161170" CollisionLayer="0">
+					<Scale x="1" y="1"/>
+					<Position x="0" y="0"/>
+					<Anchor x="0.5" y="0.5"/>
+					<Size x="750" y="200"/>
+					<Components>
+					 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+					 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+						<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="0" SliceR="0.97500002" SliceT="89.5" SliceB="89.5" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+						 <CurrentTag CurrentTag="0"/>
+						 <UVTile x="1" y="1"/>
+						 <ImageType ImageType="1"/>
+						 <ImageFillMode ImageFillMode="0"/>
+						 <FillOrigin FillOrigin="0"/>
+						 <TListUVLT x="0.009765625" y="0.56445312"/>
+						 <TListUVBR x="0.7421875" y="0.73925781"/>
+						 <CameraLocation x="0" y="0" z="0"/>
+						 <CameraRotation x="0" y="0" z="0" w="1"/>
+						 <Textures Number="1">
+							<Texture Tag="0" Type="1" Name="Loading_Rewards_Bg.png" Path="Textures/Combin_01.plist" Relative="1"/>
+						 </Textures>
+						 <MaskTexture UseMaskTexture="0"/>
+						</SpriteRenderComponent>
+					 </UINodeComponent>
+					</Components>
+					<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+					 <color a="0" r="1" g="1" b="1"/>
+					 <TouchAreaOffset x="0" y="0"/>
+					 <TouchAreaSize x="0" y="0"/>
+					</Widget>
+					<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="0" SliceR="0.97500002" SliceT="89.5" SliceB="89.5" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="1"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.56445312"/>
+					 <TListUVBR x="0.7421875" y="0.73925781"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="Loading_Rewards_Bg.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</Image>
+					<Children/>
+				 </Node>
+				</Children>
+			 </Node>
+			 <Node Name="GameOver_Words_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3145007094" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="-30"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="24" y="59"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+					<Font FontSize="50" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="6" ChangeOutlineColor="1">
+					 <TextColor a="0" r="1" g="1" b="1"/>
+					 <TextUpperColor a="1" r="1" g="1" b="1"/>
+					 <TextLowerColor a="1" r="1" g="1" b="1"/>
+					 <OutlineColor a="0" r="0.41960785" g="0.22352941" b="0"/>
+					</Font>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Label FontSize="50" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="6" ChangeOutlineColor="0">
+				 <TextColor a="0" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="0" r="0.41960785" g="0.22352941" b="0"/>
+				</Label>
+				<Children/>
+			 </Node>
+			 <Node Name="GameOver_Scroe_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2612405734" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="30"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="161" y="45"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+					<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="1000.00" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="4" ChangeOutlineColor="1">
+					 <TextColor a="0" r="1" g="1" b="1"/>
+					 <TextUpperColor a="1" r="1" g="1" b="1"/>
+					 <TextLowerColor a="1" r="1" g="1" b="1"/>
+					 <OutlineColor a="0" r="0.41960785" g="0.22352941" b="0"/>
+					</Font>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="1000.00" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="4" ChangeOutlineColor="0">
+				 <TextColor a="0" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="0" r="0.41960785" g="0.22352941" b="0"/>
+				</Label>
+				<Children/>
+			 </Node>
+			 <Node Name="BtnWidget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="0" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3793939578" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="65"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="0" y="0"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Children>
+				 <Node Name="Btn_Image" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3869355464" CollisionLayer="0">
+					<Scale x="2" y="2"/>
+					<Position x="0" y="0"/>
+					<Anchor x="0.5" y="0.5"/>
+					<Size x="120" y="41"/>
+					<Components>
+					 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+					 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+						<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="39.5" SliceR="39.5" SliceT="0" SliceB="1.0003999" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+						 <CurrentTag CurrentTag="0"/>
+						 <UVTile x="1" y="1"/>
+						 <ImageType ImageType="1"/>
+						 <ImageFillMode ImageFillMode="0"/>
+						 <FillOrigin FillOrigin="0"/>
+						 <TListUVLT x="0.68945312" y="0.26074219"/>
+						 <TListUVBR x="0.76660156" y="0.30078125"/>
+						 <CameraLocation x="0" y="0" z="0"/>
+						 <CameraRotation x="0" y="0" z="0" w="1"/>
+						 <Textures Number="1">
+							<Texture Tag="0" Type="1" Name="Number_Of_Awards.png" Path="Textures/Combin_01.plist" Relative="1"/>
+						 </Textures>
+						 <MaskTexture UseMaskTexture="0"/>
+						</SpriteRenderComponent>
+					 </UINodeComponent>
+					</Components>
+					<Widget Enabled="1" TouchEnabled="1" PassEvent="0" Bright="1" FocusEnabled="1">
+					 <color a="0" r="1" g="1" b="1"/>
+					 <TouchAreaOffset x="0" y="0"/>
+					 <TouchAreaSize x="120" y="41"/>
+					</Widget>
+					<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" SliceL="39.5" SliceR="39.5" SliceT="0" SliceB="1.0003999" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="1"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.68945312" y="0.26074219"/>
+					 <TListUVBR x="0.76660156" y="0.30078125"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="Number_Of_Awards.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</Image>
+					<Children/>
+				 </Node>
+				 <Node Name="Btn_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2846772724" CollisionLayer="0">
+					<Scale x="1" y="1"/>
+					<Position x="0" y="0"/>
+					<Anchor x="0.5" y="0.5"/>
+					<Size x="128" y="32"/>
+					<Components>
+					 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+					 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+						<Font FontSize="32" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="0" ChangeOutlineColor="0">
+						 <TextColor a="0" r="1" g="1" b="1"/>
+						 <TextUpperColor a="1" r="1" g="1" b="1"/>
+						 <TextLowerColor a="1" r="1" g="1" b="1"/>
+						 <OutlineColor a="0" r="1" g="1" b="1"/>
+						</Font>
+					 </UINodeComponent>
+					</Components>
+					<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+					 <color a="1" r="1" g="1" b="1"/>
+					 <TouchAreaOffset x="0" y="0"/>
+					 <TouchAreaSize x="0" y="0"/>
+					</Widget>
+					<Label FontSize="32" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="1" OutlineSize="0" ChangeOutlineColor="0">
+					 <TextColor a="0" r="1" g="1" b="1"/>
+					 <TextUpperColor a="1" r="1" g="1" b="1"/>
+					 <TextLowerColor a="1" r="1" g="1" b="1"/>
+					 <OutlineColor a="0" r="1" g="1" b="1"/>
+					</Label>
+					<Children/>
+				 </Node>
+				</Children>
+			 </Node>
+			</Children>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="Hit_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1271121946" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="500.79541" y="1067.4551"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="GuideHitAniWidget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1602421479" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="0" y="0"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Children>
+			 <Node Name="Image" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1524665042" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="128" y="128"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.56347656" y="0.26074219"/>
+					 <TListUVBR x="0.68847656" y="0.38574219"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="HitPoint.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="0.49803922" r="1" g="0.72941178" b="0.29019609"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.56347656" y="0.26074219"/>
+				 <TListUVBR x="0.68847656" y="0.38574219"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="HitPoint.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			 <Node Name="Image_1" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="30" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1939666853" CollisionLayer="0">
+				<Scale x="2" y="2"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="128" y="128"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.56347656" y="0.26074219"/>
+					 <TListUVBR x="0.68847656" y="0.38574219"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="HitPoint.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="0" r="1" g="0.7843138" b="0"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.56347656" y="0.26074219"/>
+				 <TListUVBR x="0.68847656" y="0.38574219"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="HitPoint.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			</Children>
+		 </Node>
+		 <Node Name="GuideHit_Tips_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="674034225" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="-170" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="0" y="0"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Children>
+			 <Node Name="GuideHitImage_1" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1465001542" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="-56.130798" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="500" y="110"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.38867188"/>
+					 <TListUVBR x="0.7421875" y="0.56347656"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="0.99215686" g="0.86274511" b="0.43137255"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.009765625" y="0.38867188"/>
+				 <TListUVBR x="0.7421875" y="0.56347656"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			 <Node Name="GuideHitImage_1_1" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="398746066" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="-100"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="400" y="90"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.38867188"/>
+					 <TListUVBR x="0.7421875" y="0.56347656"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="0.55686277" g="0.19607843" b="0.63529414"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.009765625" y="0.38867188"/>
+				 <TListUVBR x="0.7421875" y="0.56347656"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			 <Node Name="GuideHitImage_1_2" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="179396043" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="100"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="400" y="90"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.009765625" y="0.38867188"/>
+					 <TListUVBR x="0.7421875" y="0.56347656"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="0.42745098" g="0.69803923" b="0.98823529"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="0" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.009765625" y="0.38867188"/>
+				 <TListUVBR x="0.7421875" y="0.56347656"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="BG.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			 <Node Name="GuideHitImage" UserData="" Type="Image" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3491906407" CollisionLayer="0">
+				<Scale x="1" y="1"/>
+				<Position x="0" y="0"/>
+				<Anchor x="0.5" y="0.5"/>
+				<Size x="292" y="256"/>
+				<Components>
+				 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+				 <UINodeComponent Name="SpriteRenderComponent" Enable="1" Type="SpriteRenderComponent">
+					<SpriteRenderComponent FollowTextureSize="1" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+					 <CurrentTag CurrentTag="0"/>
+					 <UVTile x="1" y="1"/>
+					 <ImageType ImageType="0"/>
+					 <ImageFillMode ImageFillMode="0"/>
+					 <FillOrigin FillOrigin="0"/>
+					 <TListUVLT x="0.56347656" y="0.009765625"/>
+					 <TListUVBR x="0.84863281" y="0.25976562"/>
+					 <CameraLocation x="0" y="0" z="0"/>
+					 <CameraRotation x="0" y="0" z="0" w="1"/>
+					 <Textures Number="1">
+						<Texture Tag="0" Type="1" Name="High.png" Path="Textures/Combin_01.plist" Relative="1"/>
+					 </Textures>
+					 <MaskTexture UseMaskTexture="0"/>
+					</SpriteRenderComponent>
+				 </UINodeComponent>
+				</Components>
+				<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+				 <color a="1" r="1" g="1" b="1"/>
+				 <TouchAreaOffset x="0" y="0"/>
+				 <TouchAreaSize x="0" y="0"/>
+				</Widget>
+				<Image FollowTextureSize="1" UseSequence="0" Fps="30" ActualNum="1" FlipX="0" UseSubView="0" FillAmount="1" ReverseFill="0" CameraFOV="0.78539819" UseDefaultSetting="1" UseSubviewFromMainEditor="0" SubviewActorName="" ModelActorName="">
+				 <CurrentTag CurrentTag="0"/>
+				 <UVTile x="1" y="1"/>
+				 <ImageType ImageType="0"/>
+				 <ImageFillMode ImageFillMode="0"/>
+				 <FillOrigin FillOrigin="0"/>
+				 <TListUVLT x="0.56347656" y="0.009765625"/>
+				 <TListUVBR x="0.84863281" y="0.25976562"/>
+				 <CameraLocation x="0" y="0" z="0"/>
+				 <CameraRotation x="0" y="0" z="0" w="1"/>
+				 <Textures Number="1">
+					<Texture Tag="0" Type="1" Name="High.png" Path="Textures/Combin_01.plist" Relative="1"/>
+				 </Textures>
+				 <MaskTexture UseMaskTexture="0"/>
+				</Image>
+				<Children/>
+			 </Node>
+			</Children>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="100M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="4070971635" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="100M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1364870015" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="300M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3691635471" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="300M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="4031345877" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="500M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1204281383" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="500M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="94074410" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="700M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2330552906" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="700M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="4200867560" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="900M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3267542254" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="900M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="4001508148" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="1100M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1692244462" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="1100M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1781874736" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="1300M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3130505211" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="1300M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="296256707" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="1500M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1977446072" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="1500M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2928191759" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="1700M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2102832225" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="1700M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2728929079" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="F100M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2230279877" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="F100M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="3912620010" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="F300M_Widget" UserData="" Type="Widget" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="1115517261" CollisionLayer="0">
+		<Scale x="1" y="1"/>
+		<Position x="375" y="667.5"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="0" y="0"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="3" Align_VEdge="3" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<Children>
+		 <Node Name="F300M_Label" UserData="" Type="Label" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="112079147" CollisionLayer="0">
+			<Scale x="1" y="1"/>
+			<Position x="0" y="0"/>
+			<Anchor x="0.5" y="0.5"/>
+			<Size x="92" y="45"/>
+			<Components>
+			 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="0" Align_VEdge="0" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+			 <UINodeComponent Name="FontRenderComponent" Enable="1" Type="FontRenderComponent">
+				<Font FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+				 <TextColor a="1" r="1" g="1" b="1"/>
+				 <TextUpperColor a="1" r="1" g="1" b="1"/>
+				 <TextLowerColor a="1" r="1" g="1" b="1"/>
+				 <OutlineColor a="1" r="1" g="1" b="1"/>
+				</Font>
+			 </UINodeComponent>
+			</Components>
+			<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+			 <color a="1" r="1" g="1" b="1"/>
+			 <TouchAreaOffset x="0" y="0"/>
+			 <TouchAreaSize x="0" y="0"/>
+			</Widget>
+			<Label FontSize="45" FontPath="TTF/simhei.ttf" ImageFontPath="../../" FontPathRelative="1" Text="100M" HAlignment="1" VAlignment="1" DimensionWidth="0" DimensionHeight="0" AdditionalKerning="0" LineSpacing="0" Wrap="0" BreakOfWesternWord="0" SystemFontName="" CurrentLabelType="0" OutlineSize="0" ChangeOutlineColor="0">
+			 <TextColor a="1" r="1" g="1" b="1"/>
+			 <TextUpperColor a="1" r="1" g="1" b="1"/>
+			 <TextLowerColor a="1" r="1" g="1" b="1"/>
+			 <OutlineColor a="1" r="1" g="1" b="1"/>
+			</Label>
+			<Children/>
+		 </Node>
+		</Children>
+	 </Node>
+	 <Node Name="UIFX_Mid" UserData="" Type="UIFX" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2990488039" CollisionLayer="0">
+		<Scale x="4" y="4"/>
+		<Position x="546.73578" y="990.79211"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="50" y="50"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="4" Align_VEdge="4" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		 <UINodeComponent Name="FXRenderComponent" Enable="1" Type="FXRenderComponent">
+			<FX FX_Path="fx/Sample/UI/Hit_tk" Relative="1" FX_AutoPlay="0" FX_Layer="0" UseNormalVelocity="0"/>
+		 </UINodeComponent>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<FX FX_Path="fx/Sample/UI/Hit_tk" Relative="1" FX_AutoPlay="0" FX_Layer="0"/>
+		<Children/>
+	 </Node>
+	 <Node Name="UIFX_High" UserData="" Type="UIFX" Protected="0" LZ="0" GZ="0" Rotation="0" Visible="1" NewLocalZ="0" NewGlobalZ="1" TellParentUseNewLocalz="0" GUID="2207464940" CollisionLayer="0">
+		<Scale x="3" y="3"/>
+		<Position x="546.73578" y="900"/>
+		<Anchor x="0.5" y="0.5"/>
+		<Size x="50" y="50"/>
+		<Components>
+		 <UINodeComponent Name="WidgetAlignment" Enable="0" Type="WidgetAlignment" Align_HEdge="4" Align_VEdge="4" Align_LMargin="0" Align_RMargin="0" Align_TMargin="0" Align_BMargin="0" Align_IsLPercent="0" Align_IsRPercent="0" Align_IsTPercent="0" Align_IsBPercent="0" Align_LMarginPercent="0" Align_RMarginPercent="0" Align_TMarginPercent="0" Align_BMarginPercent="0" TargetID="0" AlignMode="0"/>
+		 <UINodeComponent Name="FXRenderComponent" Enable="1" Type="FXRenderComponent">
+			<FX FX_Path="fx/Sample/UI/Hit_tk" Relative="1" FX_AutoPlay="0" FX_Layer="0" UseNormalVelocity="0"/>
+		 </UINodeComponent>
+		</Components>
+		<Widget Enabled="1" TouchEnabled="0" PassEvent="0" Bright="1" FocusEnabled="1">
+		 <color a="1" r="1" g="1" b="1"/>
+		 <TouchAreaOffset x="0" y="0"/>
+		 <TouchAreaSize x="0" y="0"/>
+		</Widget>
+		<FX FX_Path="fx/Sample/UI/Hit_tk" Relative="1" FX_AutoPlay="0" FX_Layer="0"/>
+		<Children/>
+	 </Node>
+	</Children>
+ </Node>
+</XUI>

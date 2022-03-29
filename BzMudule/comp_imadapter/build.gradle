@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,27 +21,23 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
-    }
 }
 
 dependencies {
-
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
      implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.coroutines()
-    api (name:'qndroid-imsdk-1.0.2',ext:"aar")
+    //api(name: 'libs/qndroid-imsdk-1.0.2', ext: 'aar')
+    api project(':BzMudule:sdk_qnim')
     implementation 'com.orhanobut:logger:2.2.0'
     api project(':1highlevlsdk:comp_rtm')
     testImplementation 'junit:junit:4.+'
