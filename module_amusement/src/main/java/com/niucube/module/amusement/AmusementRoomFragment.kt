@@ -44,7 +44,6 @@ class AmusementRoomFragment : BaseFragment() {
     private val mMicSeatListener = object : UserMicSeatListener {
 
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
-
             if (micSeat.isMySeat()) {
                 //自己上麦
                 ivCameraStatus.visibility = View.VISIBLE
@@ -82,7 +81,7 @@ class AmusementRoomFragment : BaseFragment() {
         lifecycle.addObserver(mInputMsgReceiver)
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
         roomVm.mRtcRoom.addUserMicSeatListener(mMicSeatListener)
-
+        mRTCLogView.attachRTCClient( roomVm.mRtcRoom)
         tvRoomMemb.setOnClickListener {
 
         }

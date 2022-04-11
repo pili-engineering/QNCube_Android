@@ -12,6 +12,13 @@
         android:id="@+id/flGameContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <com.niucube.rtclogview.RTCLogView
+        android:layout_marginTop="13dp"
+        android:id="@+id/mRTCLogView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

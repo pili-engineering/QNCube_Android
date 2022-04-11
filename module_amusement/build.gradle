@@ -59,5 +59,6 @@ dependencies {
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')
     implementation project(':BzMudule:comp_channelattributes' )
+    implementation project(':BzUiComponent:rtclogview')
 //    implementation project(':BzUiComponent:compui_game')
 }
