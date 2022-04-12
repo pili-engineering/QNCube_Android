@@ -1,6 +1,7 @@
 package com.niucube.rtcroom.mixstream
 
 import android.text.TextUtils
+import android.util.Log
 import com.niucube.comproom.RoomManager
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
 import com.niucube.rtcroom.RtcRoom
@@ -35,7 +36,7 @@ class MixStreamHelperImp(
                 // 转推任务创建成功时触发此回调
                 if (mQNMergeJob != null) {
                     isMixStreamIng = true
-                    resetOps()
+                    commitOpt()
                 }
                 if (mQNForwardJob != null) {
 
@@ -52,6 +53,7 @@ class MixStreamHelperImp(
 
             override fun onError(streamID: String, errorInfo: QNLiveStreamingErrorInfo) {
                 // 转推任务出错时触发此回调
+                Log.d("MixStreamHelperImp","MixStreamHelperImp onError")
             }
         })
         rtcRoom.addExtraQNRTCEngineEventListener(object : SimpleQNRTCListener {
@@ -91,7 +93,7 @@ class MixStreamHelperImp(
 
                             toDoAudioMergeOptionsMap[p0]?.let {
                                 tracksMap[track.trackID] = it
-                                resetOps()
+                                commitOpt()
                             }
 
                             toDoAudioMergeOptionsMap.remove(p0)
@@ -99,21 +101,21 @@ class MixStreamHelperImp(
                         RtcRoom.TAG_CAMERA -> {
                             toDoVideoMergeOptionsMap[p0]?.let {
                                 tracksMap[track.trackID] = it
-                                resetOps()
+                                commitOpt()
                             }
                             toDoVideoMergeOptionsMap.remove(p0)
                         }
                         RtcRoom.TAG_SCREEN -> {
                             toDoScreenMergeOptionsMap[p0]?.let {
                                 tracksMap[track.trackID] = it
-                                resetOps()
+                                commitOpt()
                             }
                             toDoScreenMergeOptionsMap[p0]
                         }
                         else -> {
                             toDoCustomMergeOptionsMap["${p0}${track.tag}"]?.let {
                                 tracksMap[track.trackID] = it
-                                resetOps()
+                                commitOpt()
                             }
                             toDoCustomMergeOptionsMap.remove("${p0}${track.tag}")
                         }
@@ -122,7 +124,6 @@ class MixStreamHelperImp(
             }
         })
     }
-
 
     //混流任务
     private var mQNMergeJob: QNTranscodingLiveStreamingConfig? = null
@@ -226,10 +227,9 @@ class MixStreamHelperImp(
         mMixStreamParams = params
     }
 
-
     override fun updateUserVideoMergeOptions(
         uid: String,
-        option: MixStreamManager.MergeTrackOption?
+        option: MixStreamManager.MergeTrackOption?,commitNow:Boolean
     ) {
         val trackId = rtcRoom.getUserVideoTrackInfo(uid)?.trackID
         if (trackId == null) {
@@ -247,13 +247,15 @@ class MixStreamHelperImp(
                 }))
                 tracksMap.remove(trackId)
             }
-            resetOps()
+            if(commitNow){
+                commitOpt()
+            }
         }
     }
 
     override fun updateUserAudioMergeOptions(
         uid: String,
-        isNeed: Boolean
+        isNeed: Boolean,commitNow:Boolean
     ) {
         val trackId = rtcRoom.getUserAudioTrackInfo(uid)?.trackID
 
@@ -272,13 +274,15 @@ class MixStreamHelperImp(
                 }))
                 tracksMap.remove(trackId)
             }
-            resetOps()
+            if(commitNow){
+                commitOpt()
+            }
         }
     }
 
     override fun updateVideoMergeOptions(
         trackID: String,
-        option: MixStreamManager.MergeTrackOption?
+        option: MixStreamManager.MergeTrackOption?,commitNow: Boolean
     ) {
         if (option != null) {
             tracksMap[trackID] = option
@@ -290,10 +294,12 @@ class MixStreamHelperImp(
             tracksMap.remove(trackID)
 
         }
-        resetOps()
+        if(commitNow){
+            commitOpt()
+        }
     }
 
-    override fun updateAudioMergeOptions(trackID: String, isNeed: Boolean) {
+    override fun updateAudioMergeOptions(trackID: String, isNeed: Boolean,commitNow: Boolean) {
         if (isNeed) {
             tracksMap[trackID] = MixStreamManager.MergeTrackOption()
         } else {
@@ -302,14 +308,15 @@ class MixStreamHelperImp(
             }))
             tracksMap.remove(trackID)
         }
-        resetOps()
+        if(commitNow){
+            commitOpt()
+        }
     }
 
     override fun updateUserScreenMergeOptions(
         uid: String,
-        option: MixStreamManager.MergeTrackOption?
+        option: MixStreamManager.MergeTrackOption?,commitNow: Boolean
     ) {
-
         val trackId = screenShareManager.getUserScreenTrackInfo(uid)?.trackID
         if (trackId == null) {
             if (option != null) {
@@ -320,21 +327,22 @@ class MixStreamHelperImp(
         } else {
             if (option != null) {
                 tracksMap[trackId] = option
-                resetOps()
+                if(commitNow){
+                    commitOpt()
+                }
             } else {
                 tracksMap.remove(trackId)
                 mEngine.removeTranscodingLiveStreamingTracks(mQNMergeJob!!.streamID, listOf(QNTranscodingLiveStreamingTrack().apply {
                     trackID = trackId
                 }))
             }
-
         }
     }
 
     override fun updateUserCustomVideoMergeOptions(
         extraTrackTag: String,
         uid: String,
-        option: MixStreamManager.MergeTrackOption?
+        option: MixStreamManager.MergeTrackOption?,commitNow: Boolean
     ) {
         val trackId = customTrackShareManager.getUserExtraTrackInfo(extraTrackTag, uid)?.trackID
         if (trackId == null) {
@@ -352,14 +360,16 @@ class MixStreamHelperImp(
                 }))
                 tracksMap.remove(trackId)
             }
-            resetOps()
+            if(commitNow){
+                commitOpt()
+            }
         }
     }
 
     override fun updateUserCustomAudioMergeOptions(
         extraTrackTag: String,
         uid: String,
-        isNeed: Boolean
+        isNeed: Boolean,commitNow: Boolean
     ) {
         val trackId = customTrackShareManager.getUserExtraTrackInfo(extraTrackTag, uid)?.trackID
         if (trackId == null) {
@@ -378,12 +388,13 @@ class MixStreamHelperImp(
                 }))
                 tracksMap.remove(trackId)
             }
-            resetOps()
+            if(commitNow){
+                commitOpt()
+            }
         }
     }
 
-
-     fun resetOps() {
+     override fun commitOpt() {
         if (isForwardJob || isMixStreamIng) {
             val mMergeTrackOptions = ArrayList<QNTranscodingLiveStreamingTrack>()
             tracksMap.entries.forEach {

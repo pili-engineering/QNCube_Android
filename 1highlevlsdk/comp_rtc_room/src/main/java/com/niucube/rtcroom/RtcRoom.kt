@@ -120,7 +120,7 @@ open class RtcRoom(
                 value.toQNClientRoleType(), object : QNClientRoleResultCallback {
                     override fun onResult(p0: QNClientRole?) {
                         val duration = System.currentTimeMillis() - startTime
-                        Log.d("setClientRole"," setClientRole duration ${duration} ")
+                        Log.d("setClientRole", " setClientRole duration ${duration} ")
                         doWorkCall.invoke()
                         call.onResult(p0)
                     }
@@ -273,24 +273,17 @@ open class RtcRoom(
         }
 
         override fun onUserLeft(p0: String) {
-            if (RoomManager.mCurrentRoom?.provideMeId() == p0) {
-                mAllTrack.clear()
-                mUserUnbindCameraWindowMap.clear()//tod0
-                localVideoTrack = null
-                localAudioTrack = null
-                isAudioEnable = false
-                isVideoEnable = false
-            } else {
-                val toRemove = ArrayList<QNTrack>()
-                mAllTrack.forEach {
-                    if (it.userID == p0) {
-                        toRemove.add(it)
-                        //mUserBindCameraWindowMap.remove(it)
-                    }
+
+            val toRemove = ArrayList<QNTrack>()
+            mAllTrack.forEach {
+                if (it.userID == p0) {
+                    toRemove.add(it)
+                    //mUserBindCameraWindowMap.remove(it)
                 }
-                mAllTrack.removeAll(toRemove)
-                mUserUnbindCameraWindowMap.remove(p0)
             }
+            mAllTrack.removeAll(toRemove)
+            mUserUnbindCameraWindowMap.remove(p0)
+
         }
 
         override fun onSubscribed(
@@ -641,25 +634,9 @@ open class RtcRoom(
         mClient.leave()
     }
 
+    protected open fun reStoreTracks() {
 
-//    protected open fun joinRoom(
-//        roomEntity: com.niucube.comproom.RoomEntity,
-//        userExt: UserExtension?,
-//        callBack: RtcOperationCallback
-//    ) {
-//
-//        GlobalScope.launch(Dispatchers.Main) {
-//            try {
-//                joinRoom(roomEntity, userExt)
-//                callBack.onSuccess()
-//            } catch (e: RtcException) {
-//                e.printStackTrace()
-//                callBack.onFailure(e.code, e.msg)
-//            } catch (e: RtmException) {
-//                callBack.onFailure(-e.code, e.msg)
-//            }
-//        }
-//    }
+    }
 
     protected open suspend fun joinRoom(
         roomEntity: com.niucube.comproom.RoomEntity,

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hrItemMicSeat"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
-    <com.qiniudemo.baseapp.widget.SquareFrameLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/sqCard"
@@ -75,8 +76,6 @@
                 android:layout_marginEnd="4dp"
                 android:layout_marginBottom="2dp" />
         </FrameLayout>
-    </com.qiniudemo.baseapp.widget.SquareFrameLayout>
-
-
+    </FrameLayout>
 
 </FrameLayout>

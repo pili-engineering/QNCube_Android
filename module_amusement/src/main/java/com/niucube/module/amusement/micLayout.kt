@@ -1,17 +1,22 @@
 package com.niucube.module.amusement
 
 import android.util.Log
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
 import com.hapi.ut.ScreenUtil
-
+import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.qiniu.droid.rtc.QNRenderMode
 
 //效果图
 val uiDesignSketchWidth = 414
 val uiDesignSketchHeight = 736
 
+val mixRatio = 1.5
 
-class Point(var x:Int,val y:Int)
+
+class Point(var x: Int, val y: Int)
+
 //效果图上的每个麦位
 val uiDesignSketchMicSeat by lazy {
     listOf<Point>(
@@ -30,25 +35,66 @@ val uiDesignSketchMicSeat by lazy {
 }
 
 //屏幕宽 / 高
-var screenWidth = ScreenUtil.getScreenWidth()
-var screenHeight = ScreenUtil.getScreenHeight()
+var screenWidth = 0//ScreenUtil.getScreenWidth()
+var screenHeight = 0// ScreenUtil.getScreenHeight()
+val micSeatLayoutParams = ArrayList<ItemLocation>()
 
 //屏幕宽高比例
-val screenWidthRatio by lazy { screenWidth / uiDesignSketchWidth }
-val screenHeightRatio by lazy { screenHeight / uiDesignSketchHeight }
+var screenWidthRatio = 0.0//by lazy { screenWidth / uiDesignSketchWidth }
+var screenHeightRatio = 0.0// by lazy { screenHeight / uiDesignSketchHeight }
 
-class ItemLocation(var left: Int, var top: Int, var right: Int, var bottom: Int)
+fun initWH(view: View, w: Int, h: Int) {
 
-//布局中每个麦位的坐标
-val micSeatLayoutParams by lazy {
-    ArrayList<ItemLocation>().apply {
-        //循环UI图上的每个麦位
-        for (i in uiDesignSketchMicSeat.indices) {
-            val left = (uiDesignSketchMicSeat[i].x * screenWidthRatio).toInt()
-            val top = (uiDesignSketchMicSeat[i].y * screenHeightRatio).toInt()
-            val right = left + if(i==0){120}else{110} * screenWidthRatio
-            val bottom = top +  if(i==0){120}else{110} * screenWidthRatio
-            add(ItemLocation(left, top, right.toInt(), bottom.toInt()))
+    val scaleCenter = {
+        //居中缩放方案
+        val wr = w / uiDesignSketchWidth.toDouble()
+        val hr = h / uiDesignSketchHeight.toDouble()
+        val ratio = Math.min(wr, hr)
+        screenWidth = (uiDesignSketchWidth * ratio).toInt()
+        screenHeight = ((uiDesignSketchHeight * ratio).toInt())
+
+        val lp = view.layoutParams
+        lp.width = screenWidth
+        lp.height = screenHeight
+        view.layoutParams = lp
+    }
+
+    scaleCenter.invoke()
+
+    //屏幕宽高比例
+    screenWidthRatio = (screenWidth / uiDesignSketchWidth.toDouble())
+    screenHeightRatio = (screenHeight / uiDesignSketchHeight.toDouble())
+    //循环UI图上的每个麦位
+    micSeatLayoutParams.clear()
+    for (i in uiDesignSketchMicSeat.indices) {
+        val left = (uiDesignSketchMicSeat[i].x * screenWidthRatio).toInt()
+        val top = (uiDesignSketchMicSeat[i].y * screenHeightRatio).toInt()
+        val right = left + if (i == 0) {
+            120
+        } else {
+            110
+        } * screenWidthRatio
+        val bottom = top + if (i == 0) {
+            120
+        } else {
+            110
+        } * screenHeightRatio
+
+        micSeatLayoutParams.add(ItemLocation(left, top, right.toInt(), bottom.toInt()))
+    }
+}
+
+class ItemLocation(var left: Int, var top: Int, var right: Int, var bottom: Int) {
+
+    fun getMergeTrackOption(): MixStreamManager.MergeTrackOption {
+
+        return MixStreamManager.MergeTrackOption().apply {
+            mX = (left / screenWidthRatio * mixRatio).toInt()
+            mY = (top / screenHeightRatio * mixRatio).toInt()
+            mZ = 0
+            mWidth = ((right - left) / screenWidthRatio * mixRatio).toInt()
+            mHeight = ((bottom - top) / screenHeightRatio * mixRatio).toInt()
+            mStretchMode = QNRenderMode.FILL
         }
     }
 }
@@ -68,6 +114,7 @@ class MicSeatLayoutManager : RecyclerView.LayoutManager() {
         if (itemCount <= 0) {
             return
         }
+
         detachAndScrapAttachedViews(recycler)
 
         //计算每个item的位置信息,存储在itemFrames里面
