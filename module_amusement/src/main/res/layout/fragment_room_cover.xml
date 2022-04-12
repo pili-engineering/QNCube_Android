@@ -96,6 +96,59 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintStart_toStartOf="parent" />
 
+
+    <com.qiniu.bzuicomp.gift.BigGiftView
+        android:id="@+id/mBigGiftView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+        <com.qiniu.bzuicomp.danmu.DanmuTrackView
+            android:id="@+id/danmu1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.qiniu.bzuicomp.danmu.DanmuTrackView
+            android:id="@+id/danmu2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -139,38 +192,61 @@
 <!--                tools:visibility="visible" />-->
 
             <ImageView
+                android:id="@+id/ivGift"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="6dp"
+                android:src="@drawable/live_bottom_btn_gift"
+
+                />
+
+            <ImageView
+                android:id="@+id/ivDanmu"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="1dp"
+
+                android:padding="4dp"
+                android:src="@drawable/danmukaiqi"
+
+                />
+
+            <ImageView
+                android:id="@+id/ivMenu"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:padding="8dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginStart="1dp"
+
+                android:src="@mipmap/xiaxian" />
+            <ImageView
                 android:id="@+id/ivMicrophoneStatus"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="3dp"
+                android:layout_marginStart="1dp"
                 android:src="@drawable/am_select_op_my_micp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/ivCameraStatus"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:layout_marginStart="3dp"
+                android:layout_marginStart="1dp"
                 android:layout_marginEnd="3dp"
                 android:src="@drawable/am_selec_op_my_video"
-                android:visibility="invisible"
+                android:visibility="gone"
                 tools:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/ivMenu"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:src="@mipmap/am_icon_room_menu" />
+
 
             <ImageView
                 android:id="@+id/ivClose"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:layout_marginStart="3dp"
+                android:layout_marginStart="1dp"
 
                 android:src="@mipmap/am_icon_close_room" />
         </LinearLayout>

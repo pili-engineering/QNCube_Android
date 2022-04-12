@@ -30,6 +30,7 @@ import com.qiniu.droid.whiteboard.model.RoomMember
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
+import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.AppConfigService
 import com.qiniudemo.baseapp.widget.CommonPagerAdapter
@@ -72,6 +73,7 @@ class OverhaulActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
+        lifecycle.addObserver(KeepLight(this))
         if (deviceMode == OverhaulListActivity.deviceMode_Glasses
             ||
             deviceMode == OverhaulListActivity.deviceMode_Glasses_test

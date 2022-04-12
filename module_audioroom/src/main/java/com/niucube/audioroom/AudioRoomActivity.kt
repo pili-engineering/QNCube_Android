@@ -36,6 +36,7 @@ import com.qiniu.bzuicomp.pubchat.PubChatAdapter
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
+import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.UserExtProfile
 import com.qiniudemo.baseapp.been.asBaseRoomEntity
 import com.qiniudemo.baseapp.been.isRoomHost
@@ -162,7 +163,9 @@ class AudioRoomActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
+        lifecycle.addObserver(KeepLight(this))
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
+        mRTCLogView.attachRTCClient(roomVm.mRtcRoom)
         isActivityDestory = false
         // gameFragment.addGameFragment(R.id.giftContainer, this)
         recyMicSeats.layoutManager = GridLayoutManager(this, 3)//

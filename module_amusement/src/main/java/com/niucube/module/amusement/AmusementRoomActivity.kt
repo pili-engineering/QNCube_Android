@@ -28,6 +28,7 @@ import com.niucube.qnrtcsdk.RoundTextureView
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
+import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.UserExtProfile
 import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.ext.asToast
@@ -195,7 +196,7 @@ class AmusementRoomActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
-
+        lifecycle.addObserver(KeepLight(this))
         val trans = supportFragmentManager.beginTransaction()
         trans.replace(R.id.flRoomCover, AmusementRoomFragment())
         trans.commit()

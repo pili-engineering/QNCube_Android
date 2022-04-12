@@ -24,6 +24,12 @@ import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
 import com.niucube.rtcroom.mixstream.MixStreamManager
 import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.bzuicomp.danmu.DanmuTrackManager
+import com.qiniu.bzuicomp.gift.BigGiftManager
+import com.qiniu.bzuicomp.gift.GiftMsg
+import com.qiniu.bzuicomp.gift.GiftTrackManager
+import com.qiniu.bzuicomp.pubchat.InputMsgReceiver
+import com.qiniu.bzuicomp.pubchat.WelComeReceiver
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
 import com.qiniu.droid.rtc.QNConnectionState
@@ -45,7 +51,20 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //进入房间订阅还是拉流模式
     var isUserJoinRTC = false
+    //弹幕管理
+    val mDanmuTrackManager = DanmuTrackManager()
 
+    //公聊
+    val mInputMsgReceiver = InputMsgReceiver()
+
+    //欢迎消息
+    val mWelComeReceiver = WelComeReceiver()
+
+    //礼物轨道管理
+    val mGiftTrackManager = GiftTrackManager()
+
+    //大礼物队列
+    val mBigGiftManager = BigGiftManager<GiftMsg>()
     private val mHander = Handler(Looper.myLooper()!!)
     private val showTimeOutTime = 10 * 1000L
     private val timeOutDialog = CommonTipDialog.TipBuild().setContent("连接超时,请检查网络设置")

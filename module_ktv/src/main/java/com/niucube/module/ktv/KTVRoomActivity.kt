@@ -51,6 +51,7 @@ import com.niucube.bzuicomp.chatdialog.DarkPubChatDialog
 import com.niucube.bzuicomp.chatdialog.LightPubChatDialog
 import com.niucube.comproom.ClientRoleType
 import com.niucube.ktvkit.TrackType
+import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.widget.BlurTransformation
 
@@ -275,6 +276,7 @@ class KTVRoomActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
+        lifecycle.addObserver(KeepLight(this))
         pubChatDialog = LightPubChatDialog(this)
         lrcView.setLabel("暂无音乐播放～")
         RoomManager.addRoomLifecycleMonitor(roomLifecycleMonitor)
