@@ -61,7 +61,6 @@ include ':BzUiComponent:compui_trackview'        //轨道管理
 include ':BzUiComponent:bzuicomp_danmu'          //弹幕
 include ':BzUiComponent:compui_lrcview'          //歌词组件
 include ':BzUiComponent:bzuicomp_chatdialog'     //聊天弹窗
-include ':BzUiComponent:compui_beauty'           //美颜弹窗
 //include ':BzUiComponent:compui_game'
 include ':BzUiComponent:sdk_qndroidwhiteboard'
 include ':BzUiComponent:rtclogview'

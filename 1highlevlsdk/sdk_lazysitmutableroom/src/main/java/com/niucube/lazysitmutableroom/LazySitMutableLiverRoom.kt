@@ -64,6 +64,20 @@ class LazySitMutableLiverRoom(
     }
 
     public override suspend fun leaveRoom() {
+        var isOnMicSeat = false
+        var mySeat: LazySitUserMicSeat? = null
+        mMicSeats.forEach {
+            if (it.isMySeat()) {
+                isOnMicSeat = true;
+                mySeat = it
+                return@forEach
+            }
+        }
+        if (isOnMicSeat) {
+            mRtcRoomSignaling.sitUp(mySeat!!)
+            mTrackSeatListener.onUserSitUp(mySeat!!, false)
+        }
+        mMicSeats.clear()
         super.leaveRoom()
     }
 

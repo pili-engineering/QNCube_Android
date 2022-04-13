@@ -44,7 +44,7 @@ open class RtcRoom(
         const val TAG_SCREEN = "screen"
         const val TAG_AUDIO = "audio"
     }
-
+    protected val mCameraTrackViewStore = CameraTrackViewStore()
     open var mClientRole: com.niucube.comproom.ClientRoleType =
         com.niucube.comproom.ClientRoleType.CLIENT_ROLE_PULLER
 
@@ -78,14 +78,14 @@ open class RtcRoom(
                 RoomManager.mCurrentRoom?.let {
                     mIAudiencePlayerView?.startAudiencePlay(it)
                 }
-                reStoreTracksToPuller()
-                removeUserView(RoomManager.mCurrentRoom?.provideMeId() ?: "")
+                mCameraTrackViewStore.reStoreTracksToPuller()
+                mCameraTrackViewStore.removeUserView(RoomManager.mCurrentRoom?.provideMeId() ?: "")
             } else
                 if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER &&
                     ((value == ClientRoleType.CLIENT_ROLE_BROADCASTER) || (value == ClientRoleType.CLIENT_ROLE_AUDIENCE))
                 ) {
                     mIAudiencePlayerView?.stopAudiencePlay()
-                    reStoreTracksToRTC()
+                    mCameraTrackViewStore.reStoreTracksToRTC()
                 }
             mClientRole = value
         }
@@ -110,14 +110,14 @@ open class RtcRoom(
                 RoomManager.mCurrentRoom?.let {
                     mIAudiencePlayerView?.startAudiencePlay(it)
                 }
-                reStoreTracksToPuller()
-                removeUserView(RoomManager.mCurrentRoom?.provideMeId() ?: "")
+                mCameraTrackViewStore.reStoreTracksToPuller()
+                mCameraTrackViewStore.removeUserView(RoomManager.mCurrentRoom?.provideMeId() ?: "")
             } else
                 if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER &&
                     ((value == ClientRoleType.CLIENT_ROLE_BROADCASTER) || (value == ClientRoleType.CLIENT_ROLE_AUDIENCE))
                 ) {
                     mIAudiencePlayerView?.stopAudiencePlay()
-                    reStoreTracksToRTC()
+                    mCameraTrackViewStore.reStoreTracksToRTC()
                 }
             mClientRole = value
         }
@@ -168,9 +168,6 @@ open class RtcRoom(
     //麦位信令
     protected open var mRtcRoomSignaling = RtcRoomSignaling()
 
-    //用户提前设置的摄像头窗口 ，还没有轨道绑定，稍后对方轨道发布后绑定
-    private val mUserUnbindVideoWindowMap = HashMap<String, QNTextureView>()
-    private val mUserBindedVideoWindowMap = HashMap<String, QNTextureView>()
 
     //  private val mUserBindCameraWindowMap = HashMap<QNTrackInfo, QNTextureView>()
     protected var mIAudiencePlayerView: IAudiencePlayerView? = null
@@ -263,9 +260,7 @@ open class RtcRoom(
                     mAllTrack.remove(it)
                 }
                 if (it is QNCameraVideoTrack) {
-                    mUserBindedVideoWindowMap.remove(p0)?.let { view ->
-                        mUserUnbindVideoWindowMap[p0] = view
-                    }
+                    mCameraTrackViewStore.move2UnbindMap(p0)
                 }
             }
         }
@@ -282,9 +277,7 @@ open class RtcRoom(
                     mAllTrack.remove(it)
                 }
                 if (it is QNRemoteVideoTrack) {
-                    mUserBindedVideoWindowMap.remove(p0)?.let { view ->
-                        mUserUnbindVideoWindowMap[p0] = view
-                    }
+                    mCameraTrackViewStore.move2UnbindMap(p0)
                 }
                 //  mUserBindCameraWindowMap.remove(it)
             }
@@ -300,7 +293,7 @@ open class RtcRoom(
                 }
             }
             mAllTrack.removeAll(toRemove)
-            removeUserView(p0)
+            mCameraTrackViewStore.removeUserView(p0)
         }
 
         override fun onSubscribed(
@@ -327,8 +320,7 @@ open class RtcRoom(
                     if (isRemote) {
                         mClient.subscribe(track as QNRemoteTrack)
                     }
-                    //提前设置了这个用户的摄像头预览窗口 现在把他绑定
-                    mUserUnbindVideoWindowMap[p0]?.let {
+                    mCameraTrackViewStore.mUserUnbindVideoWindowMap[p0]?.let {
                         if (track is QNLocalVideoTrack) {
                             track.play(it)
                         } else if (track is QNRemoteVideoTrack) {
@@ -336,14 +328,8 @@ open class RtcRoom(
                         } else {
                             throw Exception("不支持的轨道")
                         }
-
-                        mUserBindedVideoWindowMap[p0] = it
-                        Log.d(
-                            "mUserUnbindCa",
-                            "绑定摄像头" + it.width.toString() + "  " + it.height + "  " + it.visibility + "  "
-                        )
+                        mCameraTrackViewStore.move2BindedMap(p0)
                     }
-                    val v = mUserUnbindVideoWindowMap.remove(p0)
                     //  v?.let {  mUserBindCameraWindowMap.put(track,it) }
                 }
             }
@@ -379,7 +365,7 @@ open class RtcRoom(
         var isBind = false
         if (uid == com.niucube.comproom.RoomManager.mCurrentRoom?.provideMeId()) {
             setLocalCameraWindowView(view)
-            mUserBindedVideoWindowMap[uid] = view
+            mCameraTrackViewStore.put2BindedMap(uid, view)
             return
         }
         var findTrack = false
@@ -393,18 +379,16 @@ open class RtcRoom(
         }
         if (!findTrack) {
             Log.d("mUserUnbindCa", "setUserCameraWindowView  没找打${uid}")
-            mUserUnbindVideoWindowMap[uid] = view
+            mCameraTrackViewStore.put2UnbindMap(uid, view)
         } else {
-            mUserBindedVideoWindowMap[uid] = view
+            mCameraTrackViewStore.put2BindedMap(uid, view)
         }
     }
 
     protected fun clear() {
         mClientRole = ClientRoleType.CLIENT_ROLE_AUDIENCE
         mAllTrack.clear()
-        mUserUnbindVideoWindowMap.clear()
-        mUserBindedVideoWindowMap.clear()
-        //   mUserBindCameraWindowMap.clear()
+        mCameraTrackViewStore.clear()
         mIAudienceJoinListeners.clear()
     }
 
@@ -663,47 +647,6 @@ open class RtcRoom(
         mClient.leave()
     }
 
-    protected fun removeUserView(uid: String) {
-        mUserUnbindVideoWindowMap.remove(uid)
-        mUserBindedVideoWindowMap.remove(uid)
-    }
-
-//    private fun put2UnbindMap(uid: String, view: QNTextureView) {
-//        mUserUnbindVideoWindowMap[uid] = view
-//    }
-//
-//    private fun put2BindedMap(uid: String, view: QNTextureView) {
-//        mUserBindedVideoWindowMap[uid] = view
-//    }
-//
-//    private fun move2UnbindMap(uid: String) {
-//        mUserBindedVideoWindowMap.remove(uid)?.let {
-//            mUserUnbindVideoWindowMap[uid] = it
-//        }
-//    }
-//
-//    private fun move2BindedMap(uid: String) {
-//        mUserUnbindVideoWindowMap.remove(uid)?.let {
-//            mUserBindedVideoWindowMap[uid] = it
-//        }
-//    }
-
-    protected open fun reStoreTracksToPuller() {
-        mUserBindedVideoWindowMap.entries.forEach {
-            it.value.visibility = View.GONE
-            mUserUnbindVideoWindowMap[it.key] = it.value
-        }
-        mUserBindedVideoWindowMap.clear()
-    }
-
-    protected open fun reStoreTracksToRTC() {
-        mUserUnbindVideoWindowMap.entries.forEach {
-            it.value.visibility = View.VISIBLE
-        }
-        mUserBindedVideoWindowMap.entries.forEach {
-            it.value.visibility = View.VISIBLE
-        }
-    }
 
     protected open suspend fun joinRoom(
         roomEntity: com.niucube.comproom.RoomEntity,

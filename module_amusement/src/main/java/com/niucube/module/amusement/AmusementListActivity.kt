@@ -30,7 +30,8 @@ class AmusementListActivity : BaseRoomListActivity() {
                     setOnItemClickListener { _, _, position ->
 
                         CommonTipDialog.TipBuild()
-                            .setContent("是否加入rtc房间？")
+                            .setTittle("是否加入rtc房间？")
+                            .setContent("拉流模式是指，上麦互动之前采用rtmp流的方式观看,上麦后成功rtc主播,下麦切换拉流")
                             .setNegativeText("拉流播放")
                             .setPositiveText("加入订阅")
                             .setListener(object : FinalDialogFragment.BaseDialogListener() {
