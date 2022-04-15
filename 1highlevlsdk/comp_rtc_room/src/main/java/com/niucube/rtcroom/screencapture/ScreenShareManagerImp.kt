@@ -223,11 +223,18 @@ class ScreenShareManagerImp(val rtcRoom: RtcRoom) : ScreenShareManager {
         if (mScreenTrack == null) {
             mScreenTrack = createScreenTrack(params)
         }
-        rtcRoom.mClient.publish(listOf(mScreenTrack))
+        rtcRoom.mClient.publish(object : QNPublishResultCallback {
+            override fun onPublished() {
+                isLocalScreenTrackPub = true
+                rtcRoom.mQNRTCEngineEventWrap.onLocalPublished(RoomManager.mCurrentRoom?.provideMeId()?:"",
+                    listOf(mScreenTrack!!))
+            }
 
-        isLocalScreenTrackPub = true
-        rtcRoom.mQNRTCEngineEventWrap.onLocalUnpublished(RoomManager.mCurrentRoom?.provideMeId()?:"",
-            listOf(mScreenTrack!!))
+            override fun onError(p0: Int, p1: String?) {
+
+            }
+        },listOf(mScreenTrack))
+
     }
 
     /**
@@ -259,6 +266,8 @@ class ScreenShareManagerImp(val rtcRoom: RtcRoom) : ScreenShareManager {
             return
         }
         rtcRoom.mClient.unpublish(listOf(mScreenTrack))
+        rtcRoom.mQNRTCEngineEventWrap.onLocalUnpublished(RoomManager.mCurrentRoom?.provideMeId()?:"",
+            listOf(mScreenTrack!!))
         isLocalScreenTrackPub = false
     }
 

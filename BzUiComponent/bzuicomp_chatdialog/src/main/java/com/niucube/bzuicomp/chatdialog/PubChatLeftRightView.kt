@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -52,7 +53,7 @@ open class PubChatLeftRightView : FrameLayout {
     }
 
     private lateinit var tvShowInput:IInputView
-
+    private lateinit var pubchatView:RecyclerView
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -62,6 +63,8 @@ open class PubChatLeftRightView : FrameLayout {
     ) {
         val view = LayoutInflater.from(context).inflate(R.layout.view_pub_chat, this, false)
         addView(view)
+
+        pubchatView = view.findViewById(R.id.pubChatView)
         tvShowInput = getIInputView()
         val lp = pubchatView.layoutParams
         if(isShowMsgFromBottom()){
@@ -70,7 +73,7 @@ open class PubChatLeftRightView : FrameLayout {
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
         pubchatView.layoutParams=lp
-        chatContainer.addView(tvShowInput.getView())
+        view.findViewById<LinearLayout>(R.id.chatContainer).addView(tvShowInput.getView())
         init()
     }
 

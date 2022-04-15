@@ -172,6 +172,9 @@ class InterviewRoomActivity : BaseActivity() {
         }
 
         btScree.setOnClickListener {
+            if(RoomManager.mCurrentRoom?.isJoined==false){
+                return@setOnClickListener
+            }
             if (btScree.isSelected) {
                 if (bigSurfaceFront.mTargetSeat?.uid == UserInfoManager.getUserId()) {
                     mInterviewRoom.getScreenShareManager().unPubLocalScreenTrack()
@@ -182,9 +185,7 @@ class InterviewRoomActivity : BaseActivity() {
                 if (bigSurfaceFront.mTargetSeat != null) {
                     "正在共享屏幕".asToast()
                 }
-                if (!QNScreenVideoTrack.isScreenCaptureSupported()) {
-                    "当前设备不支持屏幕共享".asToast()
-                }
+
                 mInterviewRoom.getScreenShareManager().pubLocalScreenTrackWithPermissionCheck(this, object : ScreenCapturePlugin.ScreenCaptureListener {
                     override fun onSuccess() {}
                     override fun onError(code: Int, msg: String?) {}

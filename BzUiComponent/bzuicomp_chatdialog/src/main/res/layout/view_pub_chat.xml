@@ -19,7 +19,7 @@
             android:layout_weight="1"
             >
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pubchatView"
+                android:id="@+id/pubChatView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
