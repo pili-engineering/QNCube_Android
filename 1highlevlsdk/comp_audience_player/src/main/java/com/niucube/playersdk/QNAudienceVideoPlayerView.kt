@@ -12,6 +12,7 @@ import com.pili.pldroid.player.AVOptions
 import com.pili.pldroid.player.PLOnErrorListener
 import com.pili.pldroid.player.PLOnInfoListener
 import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_CONNECTED
+import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_VIDEO_RENDERING_START
 import com.pili.pldroid.player.PLOnVideoSizeChangedListener
 
 class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
@@ -40,7 +41,7 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
         options.setInteger(AVOptions.KEY_LIVE_STREAMING, 1);
         setAVOptions(options)
         setOnErrorListener(PLOnErrorListenerWrap())
-        addOnErrorListener {it,_ ->
+        addOnErrorListener { it, _ ->
             if (it == -2) {
                 if (toStart) {
                     postDelayed(reStartRun, 3000)
@@ -50,9 +51,15 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
         }
         visibility = View.INVISIBLE
         setOnInfoListener(PLOnInfoListenerWrap())
-        addPLOnInfoListener { p0: Int, p1: Int ,_->
+        addPLOnInfoListener { p0: Int, p1: Int, _ ->
             if (p0 == MEDIA_INFO_CONNECTED) {
-                if(!toStart){
+                if (!toStart) {
+                    pause()
+                    visibility = View.INVISIBLE
+                }
+            }
+            if (p0 == MEDIA_INFO_VIDEO_RENDERING_START) {
+                if (!toStart) {
                     pause()
                     visibility = View.INVISIBLE
                 }else{
@@ -67,11 +74,11 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
     private var mPLOnErrorListeners = ArrayList<PLOnErrorListener>()
 
     private inner class PLOnErrorListenerWrap : PLOnErrorListener {
-        override fun onError(p0: Int,any: Any?): Boolean {
+        override fun onError(p0: Int, any: Any?): Boolean {
             var deal = false
             Log.d("setOnErrorListener", " setOnErrorListener ${p0}")
             mPLOnErrorListeners.forEach {
-                if (it.onError(p0,any)) {
+                if (it.onError(p0, any)) {
                     deal = true
                 }
             }
@@ -82,9 +89,10 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
     private val mPLOnInfoListener = ArrayList<PLOnInfoListener>()
 
     private inner class PLOnInfoListenerWrap : PLOnInfoListener {
-        override fun onInfo(p0: Int, p1: Int,any: Any?) {
+        override fun onInfo(p0: Int, p1: Int, any: Any?) {
+
             mPLOnInfoListener.forEach {
-                it.onInfo(p0, p1,any)
+                it.onInfo(p0, p1, any)
             }
         }
     }
@@ -113,11 +121,12 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
      * 2观众角色进入房间
      */
     override fun startAudiencePlay(roomEntity: RoomEntity) {
-        visibility = View.INVISIBLE
-        toStart = true
-        mCurrentUrl = roomEntity.providePullUri()
-        setVideoURI(Uri.parse(roomEntity.providePullUri()))
-        start()
+        post {
+            toStart = true
+            mCurrentUrl = roomEntity.providePullUri()
+            setVideoURI(Uri.parse(roomEntity.providePullUri()))
+            start()
+        }
     }
 
     /**
@@ -126,9 +135,11 @@ class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
      * 2用户角色房间离开销毁
      */
     override fun stopAudiencePlay() {
-        visibility = View.GONE
-        toStart = false
-        pause()
+        post {
+            visibility = View.GONE
+            toStart = false
+            pause()
+        }
     }
 
     private fun reStart() {

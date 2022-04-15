@@ -14,12 +14,13 @@ import com.qiniudemo.baseapp.been.CreateRoomEntity
 import com.qiniudemo.baseapp.dialog.CommonCreateRoomDialog
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomService
+import com.qiniudemo.baseapp.widget.CommonTipDialog
 import kotlinx.android.synthetic.main.activity_amusement_list.*
 
 @Route(path = RouterConstant.Amusement.AmusementList)
 class AmusementListActivity : BaseRoomListActivity() {
 
-    override var defaultType: String ="show"
+    override var defaultType: String = "show"
     override fun getLayoutId(): Int = R.layout.activity_amusement_list
     override val mSmartRecycler: SmartRecyclerView
             by lazy { smartRecyclerView }
@@ -27,10 +28,40 @@ class AmusementListActivity : BaseRoomListActivity() {
             by lazy {
                 BaseRoomItemAdapter().apply {
                     setOnItemClickListener { _, _, position ->
-                        ARouter.getInstance().build(RouterConstant.Amusement.AmusementRoom)
-                            .withString("solutionType", solutionType)
-                            .withString("roomId", data[position].roomId)
-                            .navigation(this@AmusementListActivity)
+
+                        CommonTipDialog.TipBuild()
+                            .setTittle("是否加入rtc房间？")
+                            .setContent("拉流模式是指，上麦互动之前采用rtmp流的方式观看,上麦后成功rtc主播,下麦切换拉流")
+                            .setNegativeText("拉流播放")
+                            .setPositiveText("加入订阅")
+                            .setListener(object : FinalDialogFragment.BaseDialogListener() {
+                                override fun onDialogNegativeClick(
+                                    dialog: DialogFragment,
+                                    any: Any
+                                ) {
+                                    ARouter.getInstance()
+                                        .build(RouterConstant.Amusement.AmusementRoom)
+                                        .withString("solutionType", solutionType)
+                                        .withString("roomId", data[position].roomId)
+                                        .withBoolean("isUserJoinRTC", false)
+                                        .navigation(this@AmusementListActivity)
+                                }
+
+                                override fun onDialogPositiveClick(
+                                    dialog: DialogFragment,
+                                    any: Any
+                                ) {
+                                    ARouter.getInstance()
+                                        .build(RouterConstant.Amusement.AmusementRoom)
+                                        .withString("solutionType", solutionType)
+                                        .withString("roomId", data[position].roomId)
+                                        .withBoolean("isUserJoinRTC", true)
+                                        .navigation(this@AmusementListActivity)
+
+                                }
+                            }).build().show(supportFragmentManager, "")
+
+
                     }
                 }
             }
@@ -53,6 +84,7 @@ class AmusementListActivity : BaseRoomListActivity() {
                                 ARouter.getInstance().build(RouterConstant.Amusement.AmusementRoom)
                                     .withString("solutionType", solutionType)
                                     .withString("roomId", room.roomInfo!!.roomId)
+                                    .withBoolean("isUserJoinRTC", true)
                                     .navigation(this@AmusementListActivity)
                             }
                             catchError {
@@ -64,7 +96,7 @@ class AmusementListActivity : BaseRoomListActivity() {
                             }
                         }
                     }
-                }).show(supportFragmentManager,"")
+                }).show(supportFragmentManager, "")
             }
         }
     }

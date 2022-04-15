@@ -14,6 +14,7 @@ import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.bzuicomp.bottominput.RoomInputDialog
+import com.qiniu.bzuicomp.gift.GiftPanDialog
 import com.qiniu.bzuicomp.pubchat.InputMsgReceiver
 import com.qiniu.bzuicomp.pubchat.PubChatAdapter
 import com.qiniudemo.baseapp.BaseFragment
@@ -24,10 +25,7 @@ import kotlinx.android.synthetic.main.fragment_room_cover.*
 class AmusementRoomFragment : BaseFragment() {
 
     private val roomVm by activityVm<RoomViewModel>()
-    private val mInputMsgReceiver = InputMsgReceiver()
-//    private val gameFragment by lazy {
-//        GameFragment()
-//    }
+
 
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomJoined(roomEntity: RoomEntity) {
@@ -44,11 +42,11 @@ class AmusementRoomFragment : BaseFragment() {
     private val mMicSeatListener = object : UserMicSeatListener {
 
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
-
             if (micSeat.isMySeat()) {
                 //自己上麦
                 ivCameraStatus.visibility = View.VISIBLE
                 ivMicrophoneStatus.visibility = View.VISIBLE
+                ivMenu.visibility = View.VISIBLE
             }
         }
 
@@ -56,6 +54,7 @@ class AmusementRoomFragment : BaseFragment() {
             if (micSeat.isMySeat()) {
                 ivCameraStatus?.visibility = View.GONE
                 ivMicrophoneStatus?.visibility = View.GONE
+                ivMenu.visibility = View.GONE
             }
         }
 
@@ -73,15 +72,47 @@ class AmusementRoomFragment : BaseFragment() {
     }
 
     override fun initViewData() {
-       // gameFragment.addGameFragment(R.id.flGameContainer, requireActivity())
+        // gameFragment.addGameFragment(R.id.flGameContainer, requireActivity())
         roomVm.mTotalUsersLivedata.observe(this) {
             tvRoomMemb.text = it.toString()
         }
         lifecycle.addObserver(pubChatView)
         pubChatView.setAdapter(PubChatAdapter())
-        lifecycle.addObserver(mInputMsgReceiver)
+
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
         roomVm.mRtcRoom.addUserMicSeatListener(mMicSeatListener)
+        mRTCLogView.attachRTCClient(roomVm.mRtcRoom)
+
+        lifecycle.addObserver(roomVm.mInputMsgReceiver)
+        lifecycle.addObserver(roomVm.mGiftTrackManager)
+        lifecycle.addObserver(roomVm.mBigGiftManager)
+        lifecycle.addObserver(roomVm.mWelComeReceiver)
+        lifecycle.addObserver(roomVm.mDanmuTrackManager)
+        roomVm.mBigGiftManager.attch(mBigGiftView)
+        roomVm.mGiftTrackManager.addTrackView(giftShow1)
+        roomVm.mGiftTrackManager.addTrackView(giftShow2)
+        roomVm.mGiftTrackManager.addTrackView(giftShow3)
+        roomVm.mDanmuTrackManager.addTrackView(danmu1)
+        roomVm.mDanmuTrackManager.addTrackView(danmu2)
+        var lastGiftId = ""
+        roomVm.mGiftTrackManager.extGiftMsgCall = {
+            if (it.sendGift.giftId != lastGiftId) {
+                lastGiftId = it.sendGift.giftId
+                roomVm.mBigGiftManager.playInQueen(it)
+            }
+        }
+
+        ivDanmu.setOnClickListener {
+            RoomInputDialog().apply {
+                sendPubCall = {
+                    roomVm.mDanmuTrackManager.buidMsg(it)
+                }
+            }
+                .show(childFragmentManager, "")
+        }
+        ivGift.setOnClickListener {
+            GiftPanDialog().show(childFragmentManager, "")
+        }
 
         tvRoomMemb.setOnClickListener {
 
@@ -121,7 +152,7 @@ class AmusementRoomFragment : BaseFragment() {
         tvShowInput.setOnClickListener {
             RoomInputDialog().apply {
                 sendPubCall = {
-                    mInputMsgReceiver.buildMsg(it)
+                    roomVm.mInputMsgReceiver.buildMsg(it)
                 }
             }
                 .show(childFragmentManager, "")

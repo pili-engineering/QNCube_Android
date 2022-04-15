@@ -30,20 +30,21 @@ interface MixStreamManager {
     fun setMixParams(params: MixStreamParams)
 
     //主动跟新某个座位的混流参数
-    fun updateUserVideoMergeOptions(uid: String, option: MergeTrackOption?)
-    fun updateUserAudioMergeOptions(uid: String, isNeed: Boolean)
+    fun updateUserVideoMergeOptions(uid: String, option: MergeTrackOption?,commitNow:Boolean=true)
+    fun updateUserAudioMergeOptions(uid: String, isNeed: Boolean,commitNow:Boolean=true)
 
-    fun updateVideoMergeOptions(trackID: String, option: MergeTrackOption?)
-    fun updateAudioMergeOptions(trackID: String, isNeed: Boolean)
+    fun updateVideoMergeOptions(trackID: String, option: MergeTrackOption?,commitNow:Boolean=true)
+    fun updateAudioMergeOptions(trackID: String, isNeed: Boolean,commitNow:Boolean=true)
 
-    fun updateUserScreenMergeOptions(uid: String, option: MergeTrackOption?)
+    fun updateUserScreenMergeOptions(uid: String, option: MergeTrackOption?,commitNow:Boolean=true)
     fun updateUserCustomVideoMergeOptions(
         extraTrackTag: String,
         uid: String,
-        option: MergeTrackOption?
+        option: MergeTrackOption?,commitNow:Boolean=true
     )
+    fun updateUserCustomAudioMergeOptions(extraTrackTag: String, uid: String, isNeed: Boolean,commitNow:Boolean=true)
 
-    fun updateUserCustomAudioMergeOptions(extraTrackTag: String, uid: String, isNeed: Boolean)
+    fun commitOpt()
 
     class MergeTrackOption {
         var mX = 0

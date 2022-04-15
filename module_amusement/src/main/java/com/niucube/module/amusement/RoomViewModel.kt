@@ -20,11 +20,21 @@ import com.niucube.comproom.RoomManager
 import com.niucube.comproom.provideMeId
 import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
+import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.rtcroom.mixstream.MixStreamManager
 import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.bzuicomp.danmu.DanmuTrackManager
+import com.qiniu.bzuicomp.gift.BigGiftManager
+import com.qiniu.bzuicomp.gift.GiftMsg
+import com.qiniu.bzuicomp.gift.GiftTrackManager
+import com.qiniu.bzuicomp.pubchat.InputMsgReceiver
+import com.qiniu.bzuicomp.pubchat.WelComeReceiver
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
 import com.qiniu.droid.rtc.QNConnectionState
+import com.qiniu.droid.rtc.QNRenderMode
+import com.qiniu.droid.rtc.QNTranscodingLiveStreamingImage
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.been.*
 import com.qiniudemo.baseapp.ext.asToast
@@ -39,6 +49,22 @@ import kotlinx.coroutines.launch
 class RoomViewModel(application: Application, bundle: Bundle?) :
     BaseViewModel(application, bundle) {
 
+    //进入房间订阅还是拉流模式
+    var isUserJoinRTC = false
+    //弹幕管理
+    val mDanmuTrackManager = DanmuTrackManager()
+
+    //公聊
+    val mInputMsgReceiver = InputMsgReceiver()
+
+    //欢迎消息
+    val mWelComeReceiver = WelComeReceiver()
+
+    //礼物轨道管理
+    val mGiftTrackManager = GiftTrackManager()
+
+    //大礼物队列
+    val mBigGiftManager = BigGiftManager<GiftMsg>()
     private val mHander = Handler(Looper.myLooper()!!)
     private val showTimeOutTime = 10 * 1000L
     private val timeOutDialog = CommonTipDialog.TipBuild().setContent("连接超时,请检查网络设置")
@@ -83,7 +109,58 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     }
                 }
             })
+            getMixStreamHelper().apply {
+                setMixParams(MixStreamManager.MixStreamParams().apply {
+                    mixStreamWidth = (uiDesignSketchWidth * mixRatio).toInt()
+                    mixStringHeight = (uiDesignSketchHeight * mixRatio).toInt()
+                    qnBackGround = QNTranscodingLiveStreamingImage().apply {
+                        x = 0
+                        y = 0
+                        width = (uiDesignSketchWidth * mixRatio).toInt()
+                        height = (uiDesignSketchHeight * mixRatio).toInt()
+                        url = "http://qrnlrydxa.hn-bkt.clouddn.com/am_room_bg.png"
+                    }
+                })
+            }
+            addUserMicSeatListener(object : UserMicSeatListener {
+
+                private fun updateMixParam() {
+                    if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
+                        mMicSeats.forEachIndexed { index, seat ->
+                            getMixStreamHelper().updateUserVideoMergeOptions(
+                                seat.uid,
+                                micSeatLayoutParams[index].getMergeTrackOption(), false
+                            )
+                            getMixStreamHelper().updateUserAudioMergeOptions(seat.uid, true, false)
+                        }
+                        getMixStreamHelper().commitOpt()
+                    }
+                }
+
+                override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
+                    if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
+                        updateMixParam()
+                    }
+
+                }
+
+                override fun onUserSitUp(micSeat: LazySitUserMicSeat, isOffLine: Boolean) {
+                    if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
+                        getMixStreamHelper().updateUserVideoMergeOptions(micSeat.uid, null)
+                        getMixStreamHelper().updateUserAudioMergeOptions(micSeat.uid, false)
+                        updateMixParam()
+                    }
+                }
+
+                override fun onCameraStatusChanged(micSeat: LazySitUserMicSeat) {}
+                override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {}
+            })
         }
+    }
+
+    //混流工具
+    val mMixStreamHelper by lazy {
+        mRtcRoom.getMixStreamHelper()
     }
 
     //获得所有麦位
@@ -127,8 +204,13 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 ).let {
                     onGetRoomAllMicSeat(it)
                 }
-                //加入房间
-                mRtcRoom.joinRoomAsAudience(roomEntity, null)
+                if (isUserJoinRTC) {
+                    //加入房间
+                    mRtcRoom.joinRoomAsAudience(roomEntity, null)
+                } else {
+                    //加入房间 拉流角色
+                    mRtcRoom.joinRoomAsPuller(roomEntity, null)
+                }
                 //房主直接上麦
                 if (roomEntity.isRoomHost()) {
                     sitDown()
@@ -168,9 +250,15 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 //上麦
                 mRtcRoom.sitDown(
                     userExt,
-                    VideoTrackParams(),
+                    VideoTrackParams().apply {
+                        width = 480
+                        height = 480
+                    },
                     AudioTrackParams()
                 )
+                if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
+                    mMixStreamHelper.startMixStreamJob()
+                }
             }
             catchError { e ->
                 e.message?.asToast()
@@ -186,7 +274,11 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
     //下麦
     fun sitUp() {
         bgDefault {
-            mRtcRoom.sitUpAsAudience()
+            if (isUserJoinRTC) {
+                mRtcRoom.sitUpAsAudience()
+            } else {
+                mRtcRoom.sitUpAsPuller()
+            }
             RoomAttributesManager.sitUp(
                 RoomManager.mCurrentRoom?.provideRoomId() ?: "",
                 RoomManager.mCurrentRoom?.provideMeId() ?: ""

@@ -6,22 +6,33 @@
     android:layout_height="match_parent"
     android:background="@drawable/dark_background"
     android:orientation="vertical"
-    android:paddingTop="47dp"
+
     tools:context=".AudioRoomActivity">
 
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:id="@+id/recyMicSeats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="100dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.niucube.rtclogview.RTCLogView
+
+        android:layout_marginTop="16dp"
+        android:id="@+id/mRTCLogView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <RelativeLayout
+        android:layout_marginTop="40dp"
         android:id="@+id/live_participant_total_layout"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
@@ -141,6 +152,7 @@
 
 
     <FrameLayout
+
         android:id="@+id/giftContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -189,12 +201,12 @@
 <!--            android:src="@drawable/ic_game_white"-->
 
 <!--            />-->
-        
+
         <ImageView
             android:id="@+id/ivGift"
             android:layout_width="42dp"
             android:layout_height="42dp"
-          android:layout_marginEnd="6dp"
+            android:layout_marginEnd="6dp"
             android:src="@drawable/live_bottom_btn_gift"
 
             />
@@ -203,7 +215,7 @@
             android:id="@+id/ivDanmu"
             android:layout_width="42dp"
             android:layout_height="42dp"
-          android:layout_marginEnd="6dp"
+            android:layout_marginEnd="6dp"
             android:padding="4dp"
             android:src="@drawable/danmukaiqi"
 

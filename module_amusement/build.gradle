@@ -56,8 +56,12 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(':1highlevlsdk:sdk_lazysitmutableroom')
     implementation project(":baseApp")
+    implementation project(':1highlevlsdk:comp_audience_player')
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')
     implementation project(':BzMudule:comp_channelattributes' )
+    implementation project(':BzUiComponent:rtclogview')
+    implementation project(':BzUiComponent:bzuicomp_gift' )
+    implementation project(':BzUiComponent:bzuicomp_danmu')
 //    implementation project(':BzUiComponent:compui_game')
 }

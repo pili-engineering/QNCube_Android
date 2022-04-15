@@ -29,6 +29,7 @@ import com.niucube.rtcroom.screencapture.ScreenCapturePlugin
 import com.niucube.absroom.seat.ScreenMicSeat
 import com.niucube.comp.mutabletrackroom.MutableMicSeat
 import com.qiniu.droid.rtc.QNScreenVideoTrack
+import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.qiniudemo.module.interview.R
 import com.qiniudemo.module.interview.been.InterviewRoomModel
@@ -145,6 +146,7 @@ class InterviewRoomActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
+        lifecycle.addObserver(KeepLight(this))
         RoomManager.addRoomLifecycleMonitor(roomMonitor)
         // 轨道回调监听
         mInterviewRoom.addMicSeatListener(mTrackSeatListener)
