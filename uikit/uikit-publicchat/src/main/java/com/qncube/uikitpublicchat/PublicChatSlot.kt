@@ -32,6 +32,8 @@ class PublicChatSlot : QNInternalViewSlot() {
      */
     var mClickCallback: QNViewClickSlot<PubChatModel>? = null
 
+    var mRoomNoticeHeader = RoomNoticeSlot()
+
     /**
      * 没有设置代理 时候 使用的默认创建ui
      *
@@ -52,6 +54,9 @@ class PublicChatSlot : QNInternalViewSlot() {
         mViewAdapterSlot?.let {
             view.mViewAdapterSlot = it
         }
+        mRoomNoticeHeader.let {
+            view.mRoomNoticeHeader = it
+        }
         mClickCallback?.let {
             view.mClickCallback = it
         }
@@ -59,7 +64,6 @@ class PublicChatSlot : QNInternalViewSlot() {
         return view.createView(LayoutInflater.from(context.androidContext), container)
     }
 }
-
 
 
 /**
@@ -75,6 +79,8 @@ interface QNPubChatMsgShowAdapter {
 }
 
 class PublicChatSlotView : BaseSlotView() {
+
+    var mRoomNoticeHeader: RoomNoticeSlot? = null
 
     var mPubChatMsgShowAdapter: QNPubChatMsgShowAdapter = object : QNPubChatMsgShowAdapter {
         override fun showHtml(mode: PubChatModel): String {
@@ -115,6 +121,10 @@ class PublicChatSlotView : BaseSlotView() {
         super.initView()
         view!!.recyChat.layoutManager = LinearLayoutManager(context)
         view!!.recyChat.adapter = mAdapter
+        mRoomNoticeHeader?.createView(lifecycleOwner!!, kitContext!!, client!!, view as ViewGroup)
+            ?.let {
+                mAdapter.addHeaderView(it)
+            }
     }
 
     override fun onRoomLeave() {
@@ -128,6 +138,7 @@ class PublicChatSlotView : BaseSlotView() {
         context: KitContext,
         client: QNLiveRoomClient
     ) {
+
         super.attach(lifecycleOwner, context, client)
         mAdapter = mViewAdapterSlot.createAdapter(lifecycleOwner, context, client)
         if (mAdapter is PubChatAdapter) {

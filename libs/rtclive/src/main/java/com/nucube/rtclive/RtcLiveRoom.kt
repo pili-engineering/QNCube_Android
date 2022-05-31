@@ -1,6 +1,7 @@
 package com.nucube.rtclive
 
 import android.content.Context
+import android.util.Base64
 import android.util.Log
 import com.niucube.qnrtcsdk.ExtQNClientEventListener
 import com.niucube.qnrtcsdk.RtcEngineWrap
@@ -164,6 +165,7 @@ open class RtcLiveRoom(
                 cameraParams.bitrate
             )
         )
+
         localVideoTrack?.setVideoFrameListener(object : QNVideoFrameListener {
             override fun onYUVFrameAvailable(
                 p0: ByteArray?,
@@ -205,6 +207,7 @@ open class RtcLiveRoom(
                     )
                 )
         )
+
         localAudioTrack?.setAudioFrameListener { p0, p1, p2, p3, p4 ->
             mAudioFrameListener?.onAudioFrameAvailable(
                 p0,
@@ -219,7 +222,9 @@ open class RtcLiveRoom(
     suspend fun joinRtc(token: String, msg: String) =
         suspendCoroutine<Unit> { continuation ->
 
-            val json = JSONObject(token)
+            val tokens: Array<String> = token.split(":".toRegex()).toTypedArray()
+            val b64 = String(Base64.decode(tokens[2].toByteArray(), Base64.DEFAULT))
+            val json: JSONObject = JSONObject(b64)
             val mAppId = json.optString("appId")
             val mRoomName = json.optString("roomName")
             val mUserId = json.optString("userId")
@@ -255,7 +260,7 @@ open class RtcLiveRoom(
 
     suspend fun publishLocal() = suspendCoroutine<Unit> { continuation ->
         val tracks = ArrayList<QNLocalTrack>().apply {
-            localAudioTrack?.let { add(it) }
+            localVideoTrack?.let { add(it) }
             localAudioTrack?.let { add(it) }
         }
         mClient.publish(object : QNPublishResultCallback {
@@ -319,7 +324,6 @@ open class RtcLiveRoom(
         mAudioFrameListener = frameListener
     }
 
-
     /**
      * 获取某人的视频轨道 如果需要用到track
      */
@@ -336,7 +340,6 @@ open class RtcLiveRoom(
      * 获取某人的音频轨道
      */
     fun getUserAudioTrackInfo(uid: String): QNTrack? {
-
         mAllTrack.forEach {
             if (it.tag == TAG_AUDIO && it.userID == uid) {
                 return it as QNTrack

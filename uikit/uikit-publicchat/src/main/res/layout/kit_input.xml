@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="32dp"
     android:id="@+id/flInput"
+    android:layout_marginStart="8dp"
+
     android:background="@drawable/kit_shape_40000000_16"
     android:orientation="vertical">
 

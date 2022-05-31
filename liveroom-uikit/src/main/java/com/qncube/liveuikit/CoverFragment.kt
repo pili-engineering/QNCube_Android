@@ -52,6 +52,14 @@ class CoverFragment : Fragment() {
             mKitContext,
             mClient
         )
+
+        roomMemberSlot.attach(
+            QNLiveRoomUIKit.mViewSlotTable.mRoomMemberCountSlot,
+            this,
+            mKitContext,
+            mClient
+        )
+
         roomIdSlot.attach(QNLiveRoomUIKit.mViewSlotTable.mRoomIdSlot, this, mKitContext, mClient)
         roomTimerSlot.attach(
             QNLiveRoomUIKit.mViewSlotTable.mRoomTimerSlot,
@@ -60,19 +68,16 @@ class CoverFragment : Fragment() {
             mClient
         )
         inPutSlot.attach(QNLiveRoomUIKit.mViewSlotTable.mInputSlot, this, mKitContext, mClient)
-        startPKSlot.attach(QNLiveRoomUIKit.mViewSlotTable.mPKCoverSlot, this, mKitContext, mClient)
+        startPKSlot.attach(QNLiveRoomUIKit.mViewSlotTable.mStartPKSlot, this, mKitContext, mClient)
+
+
         bottomBarSlot.attach(
             QNLiveRoomUIKit.mViewSlotTable.mBottomFucBarSlot,
             this,
             mKitContext,
             mClient
         )
-        roomNoticeSlot.attach(
-            QNLiveRoomUIKit.mViewSlotTable.mRoomNoticeSlot,
-            this,
-            mKitContext,
-            mClient
-        )
+
         pubchatSlot.attach(
             QNLiveRoomUIKit.mViewSlotTable.mPublicChatSlot,
             this,
@@ -85,7 +90,9 @@ class CoverFragment : Fragment() {
             mKitContext,
             mClient
         )
-        pkSlot.attach(QNLiveRoomUIKit.mViewSlotTable.mStartPKSlot, this, mKitContext, mClient)
+
+        pkCover.attach(QNLiveRoomUIKit.mViewSlotTable.mPKCoverSlot, this, mKitContext, mClient)
+
         emptyOutSlot.attach(
             QNLiveRoomUIKit.mViewSlotTable.mOuterCoverSlot,
             this,

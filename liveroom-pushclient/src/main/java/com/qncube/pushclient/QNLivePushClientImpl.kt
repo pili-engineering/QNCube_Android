@@ -107,7 +107,7 @@ class QNLivePushClientImpl : QNLivePushClient {
                 mRtcRoom.publishLocal()
 
                 mQNLiveRoomContext.joinedRoom(roomInfo)
-                callBack?.onSuccess(null)
+                callBack?.onSuccess(roomInfo)
             }
             catchError {
                 callBack?.onError(it.getCode(), it.message)

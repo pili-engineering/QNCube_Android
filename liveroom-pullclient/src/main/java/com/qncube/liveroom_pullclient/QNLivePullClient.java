@@ -10,7 +10,7 @@ public interface QNLivePullClient extends QNLiveRoomClient {
 
     //创建实例
     static QNLivePullClient createLivePullClient(){
-        return null;
+        return new QNLivePullClientImpl();
     }
 
     //拉流客户端监听

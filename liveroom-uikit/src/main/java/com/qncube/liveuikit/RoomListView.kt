@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -29,7 +30,7 @@ class RoomListView : FrameLayout {
         defStyleAttr
     ) {
         LayoutInflater.from(context).inflate(R.layout.kit_view_room_list, this, true)
-        mSmartRecyclerView.recyclerView.layoutManager = LinearLayoutManager(context)
+        mSmartRecyclerView.recyclerView.layoutManager = GridLayoutManager(context, 2)
     }
 
     private val mAdapter = RoomListAdapter()
@@ -37,7 +38,8 @@ class RoomListView : FrameLayout {
 
     fun attach(lifecycleOwner: LifecycleOwner) {
         mLifecycleOwner = lifecycleOwner
-        mSmartRecyclerView.setUp(mAdapter, CommonEmptyView(context), 3, true, true) {
+
+        mSmartRecyclerView.setUp(mAdapter, CommonEmptyView(context), 10, true, true) {
             load(it)
         }
         mAdapter.goJoinCall = {
@@ -79,7 +81,7 @@ class RoomListView : FrameLayout {
             }
             Glide.with(mContext).load(item.coverUrl)
                 .into(helper.itemView.ivCover)
-            helper.itemView.tvRoomId.text = item.liveId
+            helper.itemView.tvRoomId.text = item.anchorInfo.nick
             helper.itemView.tvRoomName.text = item.title
             helper.itemView.tvOnlineCount.text = item.onlineCount.toString()
         }

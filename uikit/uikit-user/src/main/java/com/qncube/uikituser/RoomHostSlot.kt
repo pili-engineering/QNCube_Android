@@ -14,6 +14,7 @@ import com.qncube.uikitcore.BaseSlotView
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QNInternalViewSlot
 import com.qncube.uikitcore.QNViewClickSlot
+import com.qncube.uikitcore.ext.toHtml
 import kotlinx.android.synthetic.main.kit_view_room_host_slot.view.*
 
 class RoomHostSlot : QNInternalViewSlot() {
@@ -95,8 +96,8 @@ class RoomHostView : BaseSlotView() {
         view!!.findViewById<View>(R.id.ivHost).setOnClickListener {
             mClickCallBack?.createItemClick(kitContext!!, client!!, roomInfo.anchorInfo)
         }
-        view!!.findViewById<TextView>(R.id.tvTitle).text = showHostTitleCall.invoke(roomInfo)
-        view!!.findViewById<TextView>(R.id.tvSubTitle).text = showSubTitleCall.invoke(roomInfo)
+        view!!.findViewById<TextView>(R.id.tvTitle).text = showHostTitleCall.invoke(roomInfo).toHtml()
+        view!!.findViewById<TextView>(R.id.tvSubTitle).text = showSubTitleCall.invoke(roomInfo).toHtml()
         Glide.with(context!!)
             .load(roomInfo.anchorInfo.avatar)
             .into(view!!.findViewById<ImageView>(R.id.ivHost))

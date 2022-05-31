@@ -67,8 +67,8 @@ class LivePreView : BaseSlotView() {
 
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QNLiveRoomInfo> { cont ->
         client!!.joinRoom(roomId, object : QNLiveCallBack<QNLiveRoomInfo> {
-            override fun onError(code: Int, msg: String) {
-                cont.resumeWithException(RtcException(code, msg))
+            override fun onError(code: Int, msg: String?) {
+                cont.resumeWithException(RtcException(code, msg ?: ""))
             }
 
             override fun onSuccess(data: QNLiveRoomInfo) {
@@ -109,6 +109,7 @@ class LivePreView : BaseSlotView() {
             create(QNCreateRoomParam().apply {
                 title = titleStr
                 notice = noticeStr
+                cover_url = QNLiveRoomEngine.getCurrentUserInfo()?.avatar
             })
         }
 

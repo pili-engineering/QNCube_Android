@@ -87,7 +87,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
         backGround {
             doWork {
                 val receiver =
-                    UserDataSource().searchUserByIMUid(receiverUid)
+                    UserDataSource().searchUserByUserId(receiverUid)
                 val pkInvitation = PKInvitation()
                 pkInvitation.extensions = extensions
                 pkInvitation.initiator = user

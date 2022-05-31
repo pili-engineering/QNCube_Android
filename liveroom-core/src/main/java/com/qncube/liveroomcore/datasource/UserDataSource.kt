@@ -46,7 +46,14 @@ class UserDataSource {
      * @param uid
      */
     suspend fun searchUserByUserId(uid: String): QNLiveUser {
-        return OKHttpService.get("/client/user/${uid}", null, QNLiveUser::class.java)
+        val p = ParameterizedTypeImpl(
+            arrayOf(QNLiveUser::class.java),
+            List::class.java,
+            List::class.java
+        )
+        return OKHttpService.get<List<QNLiveUser>>("/client/user/users",  HashMap<String, String>().apply {
+            put("user_ids", uid)
+        }, null, p)[0]
     }
 
     /**
@@ -61,7 +68,7 @@ class UserDataSource {
             List::class.java,
             List::class.java
         )
-        return OKHttpService.get<List<QNLiveUser>>("", HashMap<String, String>().apply {
+        return OKHttpService.get<List<QNLiveUser>>("/client/user/imusers", HashMap<String, String>().apply {
             put("im_user_ids", imUid)
         }, null, p)[0]
     }

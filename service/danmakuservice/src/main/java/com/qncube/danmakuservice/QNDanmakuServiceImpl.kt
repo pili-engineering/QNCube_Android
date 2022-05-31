@@ -12,7 +12,7 @@ class QNDanmakuServiceImpl : QNDanmakuService, BaseService() {
     private val rtmMsgListener = object : RtmMsgListener {
         override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
             if (msg.optAction() == DanmakuModel.action_danmu) {
-                val mode = JsonUtils.parseObject(msg, DanmakuModel::class.java) ?: return true
+                val mode = JsonUtils.parseObject(msg.optData(), DanmakuModel::class.java) ?: return true
                 mDanmakuServiceListeners.forEach {
                     it.onReceiveDanmaku(mode)
                 }

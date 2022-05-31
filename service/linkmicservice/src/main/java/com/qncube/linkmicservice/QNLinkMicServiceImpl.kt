@@ -221,16 +221,23 @@ class QNLinkMicServiceImpl : QNLinkMicService, BaseService() {
 
     override fun attachRoomClient(client: QNLiveRoomClient) {
         super.attachRoomClient(client)
-        mAudienceMicLinker.attachRoomClient(client)
-        mAnchorHostMicLinker.attachRoomClient(client)
+        if (client.clientType == ClientType.CLIENT_PUSH) {
+            mAnchorHostMicLinker.attachRoomClient(client)
+        } else {
+            mAudienceMicLinker.attachRoomClient(client)
+        }
         mLinkMicInvitationHandler.attachRoomClient(client)
         RtmManager.addRtmChannelListener(mRtmMsgListener)
     }
 
     override fun onRoomEnter(roomId: String, user: QNLiveUser) {
         super.onRoomEnter(roomId, user)
-        mAudienceMicLinker.onRoomEnter(roomId, user)
-        mAnchorHostMicLinker.onRoomEnter(roomId, user)
+
+        if (client!!.clientType == ClientType.CLIENT_PUSH) {
+            mAnchorHostMicLinker.onRoomEnter(roomId, user)
+        } else {
+            mAudienceMicLinker.onRoomEnter(roomId, user)
+        }
         mLinkMicInvitationHandler.onRoomEnter(roomId, user)
     }
 
@@ -243,22 +250,36 @@ class QNLinkMicServiceImpl : QNLinkMicService, BaseService() {
             isOpenMicrophone = true
             isOpenCamera = true
         })
-        mAudienceMicLinker.onRoomJoined(roomInfo)
-        mAnchorHostMicLinker.onRoomJoined(roomInfo)
+
+        if (client!!.clientType == ClientType.CLIENT_PUSH) {
+            mAnchorHostMicLinker.onRoomJoined(roomInfo)
+        } else {
+            mAudienceMicLinker.onRoomJoined(roomInfo)
+        }
+
         mLinkMicInvitationHandler.onRoomJoined(roomInfo)
     }
 
     override fun onRoomLeave() {
         super.onRoomLeave()
-        mAudienceMicLinker.onRoomLeave()
-        mAnchorHostMicLinker.onRoomLeave()
+
+        if (client!!.clientType == ClientType.CLIENT_PUSH) {
+            mAnchorHostMicLinker.onRoomLeave()
+        } else {
+            mAudienceMicLinker.onRoomLeave()
+        }
+
         mLinkMicInvitationHandler.onRoomLeave()
     }
 
     override fun onRoomClose() {
         super.onRoomClose()
-        mAudienceMicLinker.onRoomClose()
-        mAnchorHostMicLinker.onRoomClose()
+        if (client!!.clientType == ClientType.CLIENT_PUSH) {
+            mAnchorHostMicLinker.onRoomClose()
+        } else {
+            mAudienceMicLinker.onRoomClose()
+        }
+
         mLinkMicInvitationHandler.onRoomClose()
         RtmManager.removeRtmChannelListener(mRtmMsgListener)
     }

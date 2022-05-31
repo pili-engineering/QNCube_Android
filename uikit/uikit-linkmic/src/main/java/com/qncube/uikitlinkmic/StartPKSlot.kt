@@ -100,7 +100,7 @@ class StartPKView : BaseSlotView() {
         super.initView()
        view!!. flPkBtn.setOnClickListener {
             showingPKListDialog = PKAbleListDialog()
-            showingPKListDialog?.inviteCall = {
+            showingPKListDialog?.setInviteCall {
                 showInvite(it)
             }
             showingPKListDialog?.setDefaultListener(object :

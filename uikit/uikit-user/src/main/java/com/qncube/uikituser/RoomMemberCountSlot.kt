@@ -97,11 +97,11 @@ class RoomMemberCountView : BaseSlotView() {
     }
 
     private fun checkTextSize() {
-        if (view!!.tvCount.text.length > 2) {
-            view!!.tvCount.textSize = ViewUtil.sp2px(10f).toFloat()
-        } else {
-            view!!.tvCount.textSize = ViewUtil.sp2px(14f).toFloat()
-        }
+//        if (view!!.tvCount.text.length > 2) {
+//            view!!.tvCount.textSize = ViewUtil.sp2px(3f).toFloat()
+//        } else {
+//            view!!.tvCount.textSize = ViewUtil.sp2px(14f).toFloat()
+//        }
     }
 
     private val mScheduler = Scheduler(5000) {

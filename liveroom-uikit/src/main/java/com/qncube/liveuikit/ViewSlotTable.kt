@@ -55,10 +55,6 @@ class ViewSlotTable {
      */
     val mPublicChatSlot = PublicChatSlot()
 
-    /**
-     * 公告槽位
-     */
-    val mRoomNoticeSlot = RoomNoticeSlot()
 
     /**
      * 主播开始pk槽位置

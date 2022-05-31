@@ -2,7 +2,11 @@ package com.qncube.liveuikit
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.qbcube.pkservice.QNPKService
@@ -92,6 +96,13 @@ class RoomPullActivity : BaseFrameActivity() {
         })
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
+        }
+        super.onCreate(savedInstanceState)
+    }
     override fun init() {
         mRoomId = intent.getStringExtra("roomId") ?: ""
         mRoomClient.pullPreview = player
@@ -139,6 +150,20 @@ class RoomPullActivity : BaseFrameActivity() {
         }
     }
 
+    //安卓重写返回键事件
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo!=null
+        ) {
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        mRoomClient.closeRoom()
+        startCallBack = null
+    }
     override fun getLayoutId(): Int {
         return R.layout.activity_room_pull
     }

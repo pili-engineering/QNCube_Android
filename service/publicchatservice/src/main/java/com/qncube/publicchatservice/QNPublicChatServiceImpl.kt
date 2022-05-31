@@ -47,7 +47,7 @@ class QNPublicChatServiceImpl : QNPublicChatService, BaseService() {
         RtmManager.rtmClient.sendChannelMsg(
             msg,
             roomInfo?.chatId ?: "",
-            false,
+            true,
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack?.onSuccess(model)

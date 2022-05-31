@@ -11,6 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/kit_hape_000000_99000000"
+        />
+
     <TextView
         android:id="@+id/tvRoomId"
         android:layout_width="wrap_content"

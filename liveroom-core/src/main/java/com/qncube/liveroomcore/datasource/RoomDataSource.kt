@@ -101,7 +101,7 @@ class RoomDataSource {
     }
 
     suspend fun joinRoom(liveId: String): QNLiveRoomInfo {
-        return OKHttpService.put(
+        return OKHttpService.post(
             "/client/live/room/user/${liveId}",
             "{}",
             QNLiveRoomInfo::class.java
@@ -130,6 +130,6 @@ class RoomDataSource {
     }
 
     suspend fun heartbeat(liveId: String) {
-        OKHttpService.get("/live/room/heartbeat/${liveId}", null, Any::class.java)
+        OKHttpService.get("/client/live/room/heartbeat/${liveId}", null, Any::class.java)
     }
 }

@@ -25,7 +25,6 @@
             android:orientation="horizontal"
             tools:background="#000000"
             tools:layout_height="70dp">
-
             <!--             左上-->
 
             <com.qncube.liveuikit.SlotWrapView
@@ -33,33 +32,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/llTopRight"
+            <com.qncube.liveuikit.SlotWrapView
+                android:id="@+id/onLineUserSlot"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:orientation="vertical">
-                <!--             右上-->
+                android:layout_weight="1" />
 
-                <com.qncube.liveuikit.SlotWrapView
-                    android:id="@+id/onLineUserSlot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+            <com.qncube.liveuikit.SlotWrapView
+                android:id="@+id/roomMemberSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llTopRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/llTopBar"
+            android:gravity="end"
+            android:orientation="vertical">
+            <!--             右上-->
+
+            <com.qncube.liveuikit.SlotWrapView
+                android:id="@+id/roomIdSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
 
-                <com.qncube.liveuikit.SlotWrapView
-                    android:id="@+id/roomIdSlot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
-                <com.qncube.liveuikit.SlotWrapView
-                    android:id="@+id/roomTimerSlot"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+            <com.qncube.liveuikit.SlotWrapView
+                android:id="@+id/roomTimerSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
@@ -69,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
             android:orientation="horizontal"
             tools:background="#998844"
             tools:layout_height="100dp">
@@ -93,41 +100,27 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <com.qncube.liveuikit.SlotWrapView
+            android:id="@+id/pubchatSlot"
             android:layout_width="wrap_content"
             android:layout_height="250dp"
             android:layout_above="@+id/llBottom"
             android:orientation="vertical"
             tools:background="#000000"
-            tools:layout_width="100dp">
-
-            <com.qncube.liveuikit.SlotWrapView
-                android:id="@+id/roomNoticeSlot"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <com.qncube.liveuikit.SlotWrapView
-                android:id="@+id/pubchatSlot"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-        </LinearLayout>
-        
+            tools:layout_width="100dp" />
 
         <com.qncube.liveuikit.SlotWrapView
+            android:id="@+id/pkCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="#99000000" />
 
+
+        <com.qncube.liveuikit.SlotWrapView
             android:id="@+id/danmakuSlot"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:background="#99000000" />
-
-
-        <com.qncube.liveuikit.SlotWrapView
-            android:id="@+id/pkSlot"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:background="#99000000" />
-
     </RelativeLayout>
 
     <!--             外层-->

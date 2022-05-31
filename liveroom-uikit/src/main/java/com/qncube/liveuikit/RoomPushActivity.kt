@@ -3,10 +3,15 @@ package com.qncube.liveuikit
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.nucube.rtclive.QNCameraParams
+import com.nucube.rtclive.QNMicrophoneParams
 import com.qbcube.pkservice.QNPKService
 import com.qncube.chatservice.QNChatRoomService
 import com.qncube.danmakuservice.QNDanmakuService
@@ -94,6 +99,13 @@ class RoomPushActivity : BaseFrameActivity() {
         override fun onRoomClose() {}
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//设置透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
+        }
+        super.onCreate(savedInstanceState)
+    }
     private fun start() {
         flPkContainer.attach(
             QNLiveRoomUIKit.mViewSlotTable.mPKAnchorPreviewSlot,
@@ -123,6 +135,7 @@ class RoomPushActivity : BaseFrameActivity() {
         )
 
         mRoomClient.enableCamera(QNCameraParams())
+        mRoomClient.enableMicrophone(QNMicrophoneParams())
         mRoomClient.localPreView = preTextureView
         vpCover.visibility = View.INVISIBLE
         vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
@@ -132,6 +145,7 @@ class RoomPushActivity : BaseFrameActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mRoomClient.closeRoom()
         startCallBack?.onError(-1, "")
         startCallBack = null
     }
@@ -154,7 +168,15 @@ class RoomPushActivity : BaseFrameActivity() {
                 finish()
             }
         }
-
+    }
+    //安卓重写返回键事件
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo!=null
+        ) {
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun isToolBarEnable(): Boolean {

@@ -21,6 +21,7 @@ class QNLiveRoomContext(private val mClient: QNLiveRoomClient) {
         val constructor = classImpl.getConstructor()
         val obj = constructor.newInstance() as QNLiveService
         serviceMap[serviceClass] = obj
+        mLifeCycleListener.add(obj)
         obj.attachRoomClient(mClient)
 
     }

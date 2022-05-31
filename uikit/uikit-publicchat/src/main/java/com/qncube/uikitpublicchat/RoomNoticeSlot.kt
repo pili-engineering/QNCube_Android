@@ -26,6 +26,7 @@ class RoomNoticeSlot : QNInternalViewSlot() {
     //背景
     var backgroundView: Int = -1
 
+
     override fun createViewInternal(
         lifecycleOwner: LifecycleOwner,
         context: KitContext,
@@ -39,6 +40,7 @@ class RoomNoticeSlot : QNInternalViewSlot() {
         noticeHtmlShowAdapter?.let {
             view.noticeHtmlShowAdapter = it
         }
+
         view.attach(lifecycleOwner, context, client)
         return view.createView(LayoutInflater.from(context.androidContext), container)
     }
@@ -47,8 +49,9 @@ class RoomNoticeSlot : QNInternalViewSlot() {
 class RoomNoticeView : BaseSlotView() {
 
     var noticeHtmlShowAdapter: ((notice: String) -> String) = {
-        "<font color='#ffffff'>${it}</font>"
+        "  <font color='#3ce1ff'>官方公告</font>" + " <font color='#ffb83c'>" + ":${it}</font>";
     }
+
     //背景
     var backgroundView: Int = R.drawable.kit_shape_40000000_6
 
@@ -58,11 +61,12 @@ class RoomNoticeView : BaseSlotView() {
 
     override fun initView() {
         super.initView()
-        view!!. tvNotice.setBackgroundResource(backgroundView)
+        view!!.tvNotice.setBackgroundResource(backgroundView)
     }
+
     override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
         super.onRoomJoined(roomInfo)
-       view!!. tvNotice.text = noticeHtmlShowAdapter.invoke(roomInfo.notice).toHtml()
+        view!!.tvNotice.text = noticeHtmlShowAdapter.invoke(roomInfo.notice).toHtml()
     }
 
 

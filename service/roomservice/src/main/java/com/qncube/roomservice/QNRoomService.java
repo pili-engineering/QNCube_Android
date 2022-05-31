@@ -33,6 +33,7 @@ public interface QNRoomService extends QNLiveService {
      */
     public QNLiveRoomInfo getCurrentRoomInfo();
 
+
     /**
      * 刷新房间信息
      */

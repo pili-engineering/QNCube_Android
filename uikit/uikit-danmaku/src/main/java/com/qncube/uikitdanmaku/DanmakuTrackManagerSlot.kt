@@ -64,7 +64,7 @@ class DanmakuTrackManagerViewFrame : BaseSlotView() {
         }
 
         override fun topMargin(): Int {
-            return ViewUtil.dip2px(20f)
+            return ViewUtil.dip2px(120f)
         }
     }
 
