@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="32dp"
+    android:orientation="horizontal"
+    android:id="@+id/flPkBtn"
+    >
+
+
+    <LinearLayout
+        android:id="@+id/llStartPK"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/kit_ic_p" />
+
+        <ImageView
+            android:layout_width="19dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/kit_ic_k" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvStopPK"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:background="@drawable/kit_shape_ef4149_16"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/room_stop_pk"
+        android:textColor="#ffffff"
+        android:textSize="12sp"
+        android:visibility="gone">
+
+    </TextView>
+
+</FrameLayout>

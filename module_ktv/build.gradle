@@ -52,9 +52,9 @@ dependencies {
     implementation depend.constraintLayout()
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation project(':1highlevlsdk:comp_audience_player')
-    
-    
+    implementation project(':1highlevlsdk:comp_player')
+
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

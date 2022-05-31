@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="238dp"
+    android:layout_marginStart="8dp"
+    android:id="@+id/tvNotice"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:textColor="#ffffff"
+    android:textSize="13sp">
+
+</TextView>

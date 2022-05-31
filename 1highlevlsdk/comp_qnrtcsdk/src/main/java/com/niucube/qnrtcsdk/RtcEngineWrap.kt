@@ -21,6 +21,9 @@ open class RtcEngineWrap(
         mQNRTCEngineEventWrap.addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener)
     }
 
+    fun addExtraQNRTCEngineEventListenerToHead(extraQNRTCEngineEventListener: ExtQNClientEventListener) {
+        mQNRTCEngineEventWrap.addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener,true)
+    }
     /**
      * 移除额外的监听
      */

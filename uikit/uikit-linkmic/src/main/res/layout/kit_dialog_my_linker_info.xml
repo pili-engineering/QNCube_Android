@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="296dp"
+    android:layout_gravity="bottom"
+    android:background="@drawable/kit_shape_ccffffff_top_16"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTile"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:gravity="center"
+        android:text="语音连麦"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+
+    <com.qncube.uikitcore.view.CircleImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="27dp"
+        android:textColor="#666666"
+        android:textSize="14sp"
+        tools:text="asdsad" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivCameraStatus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/kit_select_my_mic" />
+
+        <TextView
+            android:id="@+id/tvHangup"
+            android:layout_width="130dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/kit_shape_ffffff_20"
+            android:gravity="center"
+            android:text="挂断"
+            android:textColor="#EF4149"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivMicStatus"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/kit_select_my_mic" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

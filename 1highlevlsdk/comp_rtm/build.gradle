@@ -32,11 +32,8 @@ android {
 dependencies {
 
     api project(":LibComponent:lib_json")
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:1.7.0"
-    implementation depend.appcompat()
-    implementation depend.design()
-    implementation depend.coroutines()
+    api depend.coroutines()
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

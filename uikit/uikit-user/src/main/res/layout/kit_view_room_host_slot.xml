@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="32dp"
+    android:layout_marginStart="8dp"
+    android:background="@drawable/kit_shape_40000000_52"
+    android:orientation="horizontal">
+
+    <com.qncube.uikitcore.view.CircleImageView
+        android:id="@+id/ivHost"
+        android:layout_width="32dp"
+        android:layout_height="32dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxWidth="80dp"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            tools:text="aaaa" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="27dp">
+
+            <ImageView
+                android:id="@+id/tvSubIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/kit_ic_host_sub" />
+
+            <TextView
+                android:id="@+id/tvSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:ellipsize="marquee"
+                android:maxWidth="80dp"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="9sp"
+                tools:text="aaaa" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
