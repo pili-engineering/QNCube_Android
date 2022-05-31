@@ -29,7 +29,7 @@ include ':module_update'
 //抽象业务层，抽象业务核心流程实现可以定制和扩展业务快速实现自己的业务
 include ':1highlevlsdk:sdk_MutableTrackRoom'     //多人不定麦位房间
 include ':1highlevlsdk:sdk_lazysitmutableroom'  // 多人固定麦位房间
-include ':1highlevlsdk:sdk_InvitationSignal'     //呼叫邀请信令
+
 
 include ':1highlevlsdk:comp_audience_player'      //播放拉流器
 include ':1highlevlsdk:comp_ktvplayercore'       //ktv歌曲同步播放器
@@ -77,3 +77,4 @@ include ':LibComponent:lib_json'               //json库
 include ':ai:audio2text'     //语音识别
 rootProject.name = "QINIU_SDK_ALL_IN_ONE"
 
+include ':module_lowcodeliving'

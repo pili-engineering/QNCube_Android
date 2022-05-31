@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.niucube.rtm.RtmCallBack;
 import com.niucube.rtm.RtmManager;
 import com.niucube.rtm.msg.RtmTextMsg;
+import com.qiniu.jsonutil.JsonUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,12 +25,10 @@ public class InvitationProcessor {
      * 邀请 业务号 ex:"pk"
      */
     public String invitationName = "";
-    private int flag = 0;
+    public int flag = (int) (Math.random() * 1000);
+
     private android.os.Handler handler = new android.os.Handler(Looper.myLooper());
-    /**
-     * 超时
-     */
-    public long timeoutThreshold = 60 * 1000;
+
     private HashMap<Integer, Invitation> sentInvitations = new HashMap<Integer, Invitation>();
     private HashMap<Integer, Runnable> timeOutRuns = new HashMap<Integer, Runnable>();
     private InvitationCallBack mInvitationCallBack;
@@ -37,12 +36,10 @@ public class InvitationProcessor {
     /**
      * 构造方法
      *
-     * @param invitationName   邀请业务名字 如 pk邀请 /上麦邀请 ...
-     * @param timeoutThreshold 邀请过期时间
+     * @param invitationName 邀请业务名字 如 pk邀请 /上麦邀请 ...
      */
-    public InvitationProcessor(String invitationName, long timeoutThreshold, InvitationCallBack invitationCallBack) {
+    public InvitationProcessor(String invitationName, InvitationCallBack invitationCallBack) {
         this.invitationName = invitationName;
-        this.timeoutThreshold = timeoutThreshold;
         this.mInvitationCallBack = invitationCallBack;
     }
 
@@ -55,50 +52,59 @@ public class InvitationProcessor {
      * @param callback
      * @return
      */
-    public Invitation invite(String msg, String peerId, String channelId, RtmCallBack callback) {
+    public Invitation invite(String msg, String peerId, String channelId, long timeoutThreshold, RtmCallBack callback) {
+
+        InvitationMsg invitation = createInvitation(msg, peerId, channelId, timeoutThreshold);
+        RtmTextMsg<InvitationMsg> rtmTextMsg = new RtmTextMsg<InvitationMsg>(ACTION_SEND, invitation);
+
+        RtmCallBack call = new RtmCallBack() {
+            @Override
+            public void onSuccess() {
+                addTimeOutRun(invitation.getInvitation());
+                callback.onSuccess();
+            }
+            @Override
+            public void onFailure(int code, @NotNull String msg) {
+                callback.onFailure(code, msg);
+            }
+        };
+
+        if (TextUtils.isEmpty(channelId)) {
+            RtmManager.INSTANCE.getRtmClient().sendC2cMsg(rtmTextMsg.toJsonString(), peerId, false, call);
+        } else {
+            RtmManager.INSTANCE.getRtmClient().sendChannelMsg(rtmTextMsg.toJsonString(), channelId, false, call);
+        }
+        return invitation.getInvitation();
+    }
+
+    public InvitationMsg createInvitation(String msg, String peerId, String channelId, long timeoutThreshold) {
         Invitation invitation = new Invitation();
         invitation.setMsg(msg);
         invitation.setChannelId(channelId);
         invitation.setInitiatorUid(RtmManager.INSTANCE.getRtmClient().getLoginUserId());
         invitation.setFlag(flag++);
         invitation.setReceiver(peerId);
+        invitation.setTimeStamp(timeoutThreshold);
         invitation.setTimeStamp(System.currentTimeMillis());
         InvitationMsg invitationMsg = new InvitationMsg();
         invitationMsg.setInvitation(invitation);
         invitationMsg.setInvitationName(invitationName);
-        RtmTextMsg<InvitationMsg> rtmTextMsg = new RtmTextMsg<InvitationMsg>(ACTION_SEND, invitationMsg);
-
-        RtmCallBack call = new RtmCallBack() {
-            @Override
-            public void onSuccess() {
-                addTimeOutRun(invitation);
-                callback.onSuccess();
-            }
-
-            @Override
-            public void onFailure(int code, @NotNull String msg) {
-                callback.onFailure(code, msg);
-            }
-        };
-        if (TextUtils.isEmpty(channelId)) {
-            RtmManager.INSTANCE.getRtmClient().sendC2cMsg(rtmTextMsg.toJsonString(), peerId, false, call);
-        } else {
-            RtmManager.INSTANCE.getRtmClient().sendChannelMsg(rtmTextMsg.toJsonString(), channelId, false, call);
-        }
-        return invitation;
+        return invitationMsg;
     }
 
     protected void addTimeOutRun(Invitation invitation) {
-        Runnable timeOut = new Runnable() {
-            @Override
-            public void run() {
-                onInvitationTimeout(invitation);
-                reMoveTimeOutRun(invitation);
-            }
-        };
-        sentInvitations.put(invitation.getFlag(), invitation);
-        timeOutRuns.put(invitation.getFlag(), timeOut);
-        handler.postDelayed(timeOut, timeoutThreshold);
+        if (invitation.getTimeoutThreshold() >= 0) {
+            Runnable timeOut = new Runnable() {
+                @Override
+                public void run() {
+                    onInvitationTimeout(invitation);
+                    reMoveTimeOutRun(invitation);
+                }
+            };
+            sentInvitations.put(invitation.getFlag(), invitation);
+            timeOutRuns.put(invitation.getFlag(), timeOut);
+            handler.postDelayed(timeOut, invitation.getTimeoutThreshold());
+        }
     }
 
     protected void reMoveTimeOutRun(Invitation invitation) {

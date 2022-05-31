@@ -86,7 +86,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
     val mBigGiftManager = BigGiftManager<GiftMsg>()
 
     //邀请信令
-    val mInvitationProcessor = InvitationProcessor("audioroomupmic", 10000, object :
+    val mInvitationProcessor = InvitationProcessor("audioroomupmic", object :
         InvitationCallBack {
         //收到上麦请求
         override fun onReceiveInvitation(invitation: Invitation) {
@@ -254,6 +254,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
             "用户${UserInfoManager.getUserInfo()?.nickname}发起上麦申请，是否同意？",
             RoomManager.mCurrentRoom?.hostId(),
             RoomManager.mCurrentRoom?.provideImGroupId(),
+            -1,
             object : RtmCallBack {
                 override fun onSuccess() {
                     "正在请求上麦，等待房主同意".asToast()

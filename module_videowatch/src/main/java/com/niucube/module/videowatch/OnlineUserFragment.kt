@@ -142,7 +142,7 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
                         roomVm.mInvitationProcessor.invite(
                             "用户 ${UserInfoManager.getUserInfo()?.nickname} 邀请你一起连麦，是否加入？",
                             it.mRoomMember.userId,
-                            RoomManager.mCurrentRoom?.provideImGroupId() ?: "",
+                            RoomManager.mCurrentRoom?.provideImGroupId() ?: "",-1,
                             object : RtmCallBack {
                                 override fun onSuccess() {
                                     sendedUserCount--

@@ -15,7 +15,7 @@ import com.qiniusdk.userinfoprovide.UserInfoProvider
 class DanmuTrackManager : TrackManager<DanmuEntity>(), LifecycleObserver {
 
     private val mRtmChannelListener = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, peerId: String): Boolean {
+        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
 
             if ((action_danmu == msg.optAction()
                         )

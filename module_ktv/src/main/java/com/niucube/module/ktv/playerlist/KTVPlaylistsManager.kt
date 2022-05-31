@@ -116,7 +116,7 @@ class KTVPlaylistsManager(val context: Context) {
     }
 
     private val mRtmMsgListener = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, peerId: String): Boolean {
+        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
             when (msg.optAction()) {
                 action_player_list_add -> {
                     val music =

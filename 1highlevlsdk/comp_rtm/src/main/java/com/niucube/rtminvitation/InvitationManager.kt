@@ -1,6 +1,5 @@
 package com.niucube.rtminvitation
 
-import android.telephony.ims.ImsManager
 import com.niucube.rtm.RtmManager
 import com.niucube.rtm.RtmMsgListener
 import com.niucube.rtm.optAction
@@ -16,7 +15,7 @@ object InvitationManager {
     private var mInvitationProcessor = ArrayList<InvitationProcessor>()
 
     private var mRtmMsgIntercept = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, peerId: String): Boolean {
+        override fun onNewMsg(msg: String, f:String ,peerId: String): Boolean {
 
             var isIntercept = false
 

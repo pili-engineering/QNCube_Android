@@ -1,4 +1,4 @@
-package com.qiniu.invitation
+package com.nucube.module.lowcodeliving
 
 import org.junit.Test
 

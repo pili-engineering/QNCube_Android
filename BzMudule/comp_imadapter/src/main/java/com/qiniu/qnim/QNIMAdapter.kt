@@ -1,10 +1,7 @@
-package com.qiniu.qnim
+package com.qiniu.qnim;
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
-import com.orhanobut.logger.Logger
-import com.qiniu.ImLoginException
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtm.RtmAdapter
 import com.qiniu.droid.imsdk.QNIMClient
@@ -12,7 +9,7 @@ import im.floo.floolib.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.File
+import kotlin.concurrent.thread
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -36,6 +33,7 @@ class QNIMAdapter : RtmAdapter {
 
     class MsgCallTemp(
         val msg: String,
+        val fromId: String,
         val peerId: String,
         val isDispatchToLocal: Boolean,
         val callBack: RtmCallBack?,
@@ -43,8 +41,10 @@ class QNIMAdapter : RtmAdapter {
     )
 
     private val mMsgCallMap: HashMap<Long, MsgCallTemp> = HashMap<Long, MsgCallTemp>()
-    private var c2cMessageReceiver: (msg: String, peerId: String) -> Unit = { _, _ -> }
-    private var channelMsgReceiver: (msg: String, peerId: String) -> Unit = { _, _ -> }
+    private var c2cMessageReceiver: (msg: String, fromId: String, toId: String) -> Unit =
+        { _, _, _ -> }
+    private var channelMsgReceiver: (msg: String, fromId: String, toId: String) -> Unit =
+        { _, _, _ -> }
     private val mChatListener: BMXChatServiceListener = object : BMXChatServiceListener() {
 
         override fun onStatusChanged(msg: BMXMessage, error: BMXErrorCode) {
@@ -58,8 +58,9 @@ class QNIMAdapter : RtmAdapter {
                     if (call.isDispatchToLocal) {
                         if (call.isC2c) c2cMessageReceiver(
                             call.msg,
+                            call.fromId,
                             call.peerId
-                        ) else channelMsgReceiver(call.msg, call.peerId)
+                        ) else channelMsgReceiver(call.msg, call.fromId, call.peerId)
                     }
 
                     call.callBack?.onSuccess()
@@ -78,6 +79,7 @@ class QNIMAdapter : RtmAdapter {
                 list[i]?.let { message ->
 //目标ID
                     val targetId = message.toId().toString()
+                    val from = message.fromId().toString()
                     val msgContent = if (message.contentType() == BMXMessage.ContentType.Text
                         || message.contentType() == BMXMessage.ContentType.Command
                     ) {
@@ -85,15 +87,14 @@ class QNIMAdapter : RtmAdapter {
                     } else {
                         ""
                     }
-                    Logger.t(LOG_TAG).d("onReceived  ${msgContent} ")
 
                     GlobalScope.launch(Dispatchers.Main) {
                         when (message.type()) {
                             BMXMessage.MessageType.Group -> {
-                                channelMsgReceiver(msgContent, targetId)
+                                channelMsgReceiver(msgContent, from, targetId)
                             }
                             BMXMessage.MessageType.Single -> {
-                                c2cMessageReceiver(msgContent, targetId)
+                                c2cMessageReceiver(msgContent, from, targetId)
                             }
                             else -> {
                             }
@@ -106,7 +107,6 @@ class QNIMAdapter : RtmAdapter {
     private val mBMXUserServiceListener = object : BMXUserServiceListener() {
         override fun onConnectStatusChanged(status: BMXConnectStatus) {
             super.onConnectStatusChanged(status)
-            Logger.t(LOG_TAG).d("ConnectionStatus ${status.name}")
         }
 
         override fun onOtherDeviceSingIn(deviceSN: Int) {
@@ -130,6 +130,25 @@ class QNIMAdapter : RtmAdapter {
         }
     }
 
+    fun login(
+        uid: String,
+        loginImUid: String,
+        name: String,
+        pwd: String,
+        rtmCallBack: RtmCallBack
+    ) {
+        loginUid = uid
+        this.loginImUid = loginImUid
+        QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
+            if (p0 == BMXErrorCode.NoError) {
+                isLogin = true
+                rtmCallBack.onSuccess()
+            } else {
+                rtmCallBack.onFailure(p0.swigValue(), p0.name)
+            }
+        }
+    }
+
     suspend fun loginSuspend(uid: String, loginImUid: String, name: String, pwd: String) =
         suspendCoroutine<Boolean> { continuation ->
             loginUid = uid
@@ -138,7 +157,6 @@ class QNIMAdapter : RtmAdapter {
             QNIMClient.getUserManager().signInByName(name, pwd) { p0 ->
                 if (p0 == BMXErrorCode.NoError) {
                     isLogin = true
-                    Logger.t(LOG_TAG).d("rongyun login onSuccess ")
                     continuation.resume(true)
                 } else {
                     continuation.resumeWithException(
@@ -173,7 +191,7 @@ class QNIMAdapter : RtmAdapter {
 
         mMsgCallMap.put(
             clientTime,
-            MsgCallTemp(msg, peerId, isDispatchToLocal, callBack, false)
+            MsgCallTemp(msg, loginImUid, peerId, isDispatchToLocal, callBack, false)
         )
 
         QNIMClient.sendMessage(imMsg)
@@ -205,7 +223,7 @@ class QNIMAdapter : RtmAdapter {
 
         mMsgCallMap.put(
             clientTime,
-            MsgCallTemp(msg, channelId, isDispatchToLocal, callBack, false)
+            MsgCallTemp(msg, loginImUid, channelId, isDispatchToLocal, callBack, false)
         )
         QNIMClient.sendMessage(imMsg)
     }
@@ -268,8 +286,8 @@ class QNIMAdapter : RtmAdapter {
      * @param channelMsgReceiver 群消息接收器
      */
     override fun registerOriginImListener(
-        c2cMessageReceiver: (msg: String, peerId: String) -> Unit,
-        channelMsgReceiver: (msg: String, channel: String) -> Unit
+        c2cMessageReceiver: (msg: String, fromId: String, toId: String) -> Unit,
+        channelMsgReceiver: (msg: String, fromId: String, toId: String) -> Unit
     ) {
         this.c2cMessageReceiver = c2cMessageReceiver
         this.channelMsgReceiver = channelMsgReceiver

@@ -12,7 +12,7 @@ import com.qiniusdk.userinfoprovide.UserInfoProvider
 class InputMsgReceiver :LifecycleObserver{
 
     private val channelListener = object : RtmMsgListener {
-        override fun onNewMsg(msg: String, channelId: String):Boolean {
+        override fun onNewMsg(msg: String, fromId: String, toId: String):Boolean {
             if ((PubChatMsgModel.action_pubText == msg.optAction()
                         )
             ) {
