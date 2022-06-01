@@ -56,7 +56,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
         }
         refreshInfo()
         ivCameraStatus.setDoubleCheckClickListener {
-            service.audienceMicLinker.muteLocalCamera(!ivCameraStatus.isSelected,
+            service.audienceMicLinker.muteLocalCamera(ivCameraStatus.isSelected,
                 object : QNLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
@@ -68,7 +68,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
                 })
         }
         ivMicStatus.setDoubleCheckClickListener {
-            service.audienceMicLinker.muteLocalMicrophone(!ivMicStatus.isSelected,
+            service.audienceMicLinker.muteLocalMicrophone(ivMicStatus.isSelected,
                 object : QNLiveCallBack<Void> {
                     override fun onError(code: Int, msg: String?) {
                         msg?.asToast()
@@ -109,8 +109,8 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
             }
         }
         myMic ?: return
-        ivCameraStatus.isSelected = !myMic!!.isOpenCamera
-        ivMicStatus.isSelected = !myMic!!.isOpenMicrophone
+        ivCameraStatus.isSelected = myMic!!.isOpenCamera
+        ivMicStatus.isSelected = myMic!!.isOpenMicrophone
 
     }
 

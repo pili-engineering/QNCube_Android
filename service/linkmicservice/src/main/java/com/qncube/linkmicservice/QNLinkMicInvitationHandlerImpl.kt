@@ -18,8 +18,13 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
             object : InvitationCallBack {
 
                 override fun onReceiveInvitation(invitation: Invitation) {
+
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
+
+                    if (linkInvitation.receiverRoomId != roomInfo?.liveId) {
+                        return
+                    }
                     linkInvitation.invitationId = invitation.flag
                     invitationMap[invitation.flag] = invitation
                     listeners.forEach { it.onReceivedApply(linkInvitation) }
@@ -28,33 +33,52 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
                 override fun onInvitationTimeout(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
-                    linkInvitation.invitationId = invitation.flag
-                    listeners.forEach { it.onApplyTimeOut(linkInvitation) }
+
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    listeners.forEach { it.onApplyTimeOut(linkInvitation) }
+                    linkInvitation.invitationId = invitation.flag
+
                 }
 
                 override fun onReceiveCanceled(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
+
                     linkInvitation.invitationId = invitation.flag
-                    listeners.forEach { it.onApplyCanceled(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.receiverRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    listeners.forEach { it.onApplyCanceled(linkInvitation) }
+
                 }
 
                 override fun onInviteeAccepted(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
-                    listeners.forEach { it.onAccept(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    listeners.forEach { it.onAccept(linkInvitation) }
+
                 }
 
                 override fun onInviteeRejected(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
-                    listeners.forEach { it.onReject(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+
+                    listeners.forEach { it.onReject(linkInvitation) }
+
                 }
             })
 
@@ -195,6 +219,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
         super.onRoomClose()
         InvitationManager.removeInvitationProcessor(mInvitationProcessor)
     }
+
     override fun attachRoomClient(client: QNLiveRoomClient) {
         super.attachRoomClient(client)
         InvitationManager.addInvitationProcessor(mInvitationProcessor)

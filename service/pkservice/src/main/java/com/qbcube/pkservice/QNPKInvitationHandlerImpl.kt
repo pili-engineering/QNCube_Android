@@ -16,9 +16,15 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
     private val mInvitationProcessor =
         InvitationProcessor("liveroom-pk-invitation",
             object : InvitationCallBack {
+
                 override fun onReceiveInvitation(invitation: Invitation) {
+
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
+
+                    if (linkInvitation.receiverRoomId != roomInfo?.liveId) {
+                        return
+                    }
                     linkInvitation.invitationId = invitation.flag
                     invitationMap[invitation.flag] = invitation
                     mListeners.forEach { it.onReceivedApply(linkInvitation) }
@@ -27,36 +33,54 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
                 override fun onInvitationTimeout(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
-                    linkInvitation.invitationId = invitation.flag
-                    mListeners.forEach { it.onApplyTimeOut(linkInvitation) }
+
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    mListeners.forEach { it.onApplyTimeOut(linkInvitation) }
+                    linkInvitation.invitationId = invitation.flag
+
                 }
 
                 override fun onReceiveCanceled(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
+
                     linkInvitation.invitationId = invitation.flag
-                    mListeners.forEach { it.onApplyCanceled(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.receiverRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    mListeners.forEach { it.onApplyCanceled(linkInvitation) }
+
                 }
 
                 override fun onInviteeAccepted(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
-                    mListeners.forEach { it.onAccept(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+                    mListeners.forEach { it.onAccept(linkInvitation) }
+
                 }
 
                 override fun onInviteeRejected(invitation: Invitation) {
                     val linkInvitation =
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
-                    mListeners.forEach { it.onReject(linkInvitation) }
                     invitationMap.remove(invitation.flag)
+                    if (linkInvitation.initiatorRoomId != roomInfo?.liveId) {
+                        return
+                    }
+
+                    mListeners.forEach { it.onReject(linkInvitation) }
+
                 }
-            }
-        )
+            })
 
     override fun addPKInvitationListener(listener: QNPKInvitationHandler.PKInvitationListener) {
         mListeners.add(listener)

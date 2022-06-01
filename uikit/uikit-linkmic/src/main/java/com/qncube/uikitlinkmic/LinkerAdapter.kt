@@ -35,7 +35,7 @@ class LinkerAdapter() :
 
     override fun convert(helper: BaseViewHolder, item: QNMicLinker) {
 
-        if (item.isOpenCamera) {
+        if (!item.isOpenCamera) {
             helper.itemView.ivMicStatusOut.visibility = View.INVISIBLE
             helper.itemView.flSurfaceContainer.visibility = View.INVISIBLE
         } else {

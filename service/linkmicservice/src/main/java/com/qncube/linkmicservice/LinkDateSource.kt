@@ -50,11 +50,7 @@ class LinkDateSource {
             }
         )
         jsonObj.put(
-            "status", if (isOpen) {
-                "on"
-            } else {
-                "off"
-            }
+            "status", isOpen
         )
         OKHttpService.put("/client/mic/switch", jsonObj.toString(), Any::class.java)
     }

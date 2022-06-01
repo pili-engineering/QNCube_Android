@@ -118,8 +118,8 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         val linker = QNMicLinker()
 
         linker.extensions = extensions
-        linker.isOpenCamera = cameraParams == null
-        linker.isOpenMicrophone = microphoneParams == null
+        linker.isOpenCamera = cameraParams != null
+        linker.isOpenMicrophone = microphoneParams != null
         linker.userRoomId = roomInfo?.liveId ?: ""
 
         val msg = RtmTextMsg<QNMicLinker>(
@@ -261,6 +261,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     roomInfo!!.chatId, false
                 )
                 context.mRtcLiveRoom.muteLocalCamera(muted)
+                mMeLinker?.isOpenCamera = !muted
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -291,6 +292,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     roomInfo!!.chatId, false
                 )
                 context.mRtcLiveRoom.muteLocalMicrophone(muted)
+                mMeLinker?.isOpenMicrophone = !muted
                 callBack?.onSuccess(null)
             }
             catchError {
