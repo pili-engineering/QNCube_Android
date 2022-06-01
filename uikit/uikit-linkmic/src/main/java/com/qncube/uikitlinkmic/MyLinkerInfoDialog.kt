@@ -26,6 +26,7 @@ class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
     private val mScheduler = Scheduler(1000) {
         tvTime?.text = formatTime(timeDiff)
     }
+
     private fun formatTime(time: Int): String {
         val decimalFormat = DecimalFormat("00")
         val hh: String = decimalFormat.format(time / 3600)

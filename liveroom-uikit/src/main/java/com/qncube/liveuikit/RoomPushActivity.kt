@@ -106,7 +106,14 @@ class RoomPushActivity : BaseFrameActivity() {
         }
         super.onCreate(savedInstanceState)
     }
+
     private fun start() {
+
+        bgImgContainer.attach(
+            QNLiveRoomUIKit.mViewSlotTable.mRoomBackGroundSlot,
+            this, mKitContext, mRoomClient
+        )
+
         flPkContainer.attach(
             QNLiveRoomUIKit.mViewSlotTable.mPKAnchorPreviewSlot,
             this, mKitContext, mRoomClient
@@ -169,10 +176,11 @@ class RoomPushActivity : BaseFrameActivity() {
             }
         }
     }
+
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo!=null
+            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo != null
         ) {
             return true
         }

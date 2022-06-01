@@ -43,6 +43,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         this.streamId = streamId
         mEngine.setLiveStreamingListener(object : QNLiveStreamingListener {
             override fun onStarted(streamID: String) {
+                Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted ${isMixStreamIng}")
                 // 转推任务创建成功时触发此回调
                 if (mQNMergeJob != null) {
                     isMixStreamIng = true
@@ -52,7 +53,6 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
                 }
                 isForwardJob = mQNForwardJob != null
 
-                Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted")
             }
 
             override fun onStopped(streamID: String) {
@@ -139,6 +139,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId; // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+            Log.d("MixStreamHelperImp", "createMergeJob${url} ")
             width = mMixStreamParams!!.mixStreamWidth; // 设置合流画布的宽度
             height = mMixStreamParams!!.mixStringHeight; // 设置合流画布的高度
             videoFrameRate = mMixStreamParams!!.fps; // 设置合流任务的视频帧率
@@ -204,6 +205,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
      */
     fun startMixStreamJob() {
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
+        isMixStreamIng = false
         if (mQNForwardJob != null) {
             stopForwardJob()
         }
@@ -227,6 +229,9 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId; // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
+
+            Log.d("MixStreamHelperImp", "startNewMixStreamJob${url} ")
+
             width = mixStreamParams.mixStreamWidth; // 设置合流画布的宽度
             height = mixStreamParams.mixStringHeight; // 设置合流画布的高度
             videoFrameRate = mixStreamParams.fps; // 设置合流任务的视频帧率
@@ -315,7 +320,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
     fun commitOpt() {
 
-        if (isForwardJob || isMixStreamIng) {
+        if (isMixStreamIng) {
             val mMergeTrackOptions = ArrayList<QNTranscodingLiveStreamingTrack>()
             tracksMap.entries.forEach {
                 val key = it.key
@@ -336,6 +341,11 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
                         trackID = key
                     })
                 }
+
+                Log.d("MixStreamHelperImp",
+                    "commitOpt fab发布混流参数  " + mMergeTrackOptions.get(mMergeTrackOptions.size - 1)
+                        .toJsonObject().toString()
+                )
             }
             mEngine.setTranscodingLiveStreamingTracks(mQNMergeJob!!.streamID, mMergeTrackOptions)
         }

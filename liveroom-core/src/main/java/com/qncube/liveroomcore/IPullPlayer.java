@@ -1,5 +1,7 @@
 package com.qncube.liveroomcore;
 
+import android.view.View;
+
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo;
 
 public interface IPullPlayer {
@@ -18,4 +20,6 @@ public interface IPullPlayer {
      * @param roleType
      */
     void changeClientRole(ClientRoleType roleType);
+
+    View getView();
 }

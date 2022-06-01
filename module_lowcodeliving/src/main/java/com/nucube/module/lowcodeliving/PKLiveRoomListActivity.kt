@@ -3,6 +3,7 @@ package com.nucube.module.lowcodeliving
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
@@ -84,7 +85,10 @@ class PKLiveRoomListActivity : BaseActivity() {
                     start()
                 }
                 catchError {
-                    it.message?.asToast()
+                    if(it.message?.isEmpty()==true){
+                        Toast.makeText(this@PKLiveRoomListActivity,it.message,Toast.LENGTH_SHORT).show()
+                    }
+                   // it.message?.asToast()
                     finish()
                 }
             }

@@ -21,7 +21,7 @@ open class RtcLiveRoom(
         QNClientMode.LIVE,
         QNClientRole.BROADCASTER
     )
-) : RtcEngineWrap(appContext, mQNRTCSetting, mClientConfig) {
+) : RtcEngineWrap(appContext, mQNRTCSetting, mClientConfig, true) {
 
     private val TAG = "RtcRoom"
 
@@ -42,9 +42,9 @@ open class RtcLiveRoom(
 
     private val mCameraTrackViewStore = CameraTrackViewStore()
     var localVideoTrack: QNCameraVideoTrack? = null
-    private set
+        private set
     var localAudioTrack: QNMicrophoneAudioTrack? = null
-    private set
+        private set
     private var mVideoFrameListener: QNVideoFrameListener? = null
     private var mAudioFrameListener: QNAudioFrameListener? = null
 
@@ -279,6 +279,8 @@ open class RtcLiveRoom(
 
     suspend fun leave() {
         mClient.leave()
+        localAudioTrack?.destroy()
+        localVideoTrack?.destroy()
         localAudioTrack = null
         localVideoTrack = null
         mCameraTrackViewStore.clear()

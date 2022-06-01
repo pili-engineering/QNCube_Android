@@ -97,12 +97,18 @@ class PublicChatSlotView : BaseSlotView() {
 
     private lateinit var mAdapter: BaseQuickAdapter<PubChatModel, BaseViewHolder>
 
+    private var hasHeader = false
     private val mPublicChatServiceLister = QNPublicChatService.QNPublicChatServiceLister {
         if (it.senderRoomId != roomInfo?.liveId) {
             return@QNPublicChatServiceLister
         }
         mAdapter.addData(it)
-        view!!.recyChat.smoothScrollToPosition(mAdapter.data.size - 1)
+        val position = if (hasHeader) {
+            mAdapter.data.size
+        } else {
+            mAdapter.data.size - 1
+        }
+        view!!.recyChat.smoothScrollToPosition(position)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -123,6 +129,7 @@ class PublicChatSlotView : BaseSlotView() {
         view!!.recyChat.adapter = mAdapter
         mRoomNoticeHeader?.createView(lifecycleOwner!!, kitContext!!, client!!, view as ViewGroup)
             ?.let {
+                hasHeader = true
                 mAdapter.addHeaderView(it)
             }
     }

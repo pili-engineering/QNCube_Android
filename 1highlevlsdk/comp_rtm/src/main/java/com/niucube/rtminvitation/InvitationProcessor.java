@@ -82,7 +82,7 @@ public class InvitationProcessor {
         Invitation invitation = new Invitation();
         invitation.setMsg(msg);
         invitation.setChannelId(channelId);
-        invitation.setInitiatorUid(RtmManager.INSTANCE.getRtmClient().getLoginUserId());
+        invitation.setInitiatorUid(RtmManager.INSTANCE.getRtmClient().getLoginUserIMUId());
         invitation.setFlag(flag++);
         invitation.setReceiver(peerId);
         invitation.setTimeoutThreshold(timeoutThreshold);

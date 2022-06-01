@@ -3,6 +3,8 @@ package com.qncube.liveroom_pullclient
 import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
+import android.util.Log
+import android.view.View
 import com.pili.pldroid.player.widget.PLVideoTextureView
 import com.qncube.liveroomcore.ClientRoleType
 import com.qncube.liveroomcore.IPullPlayer
@@ -16,7 +18,7 @@ class QNPLPlayer : PLVideoTextureView, IPullPlayer {
         context,
         attrs,
         defStyleAttr
-    ){
+    ) {
 
     }
 
@@ -24,8 +26,10 @@ class QNPLPlayer : PLVideoTextureView, IPullPlayer {
      * 开始播放
      * @param roomInfo
      */
+    private var lastUrl = ""
     override fun start(roomInfo: QNLiveRoomInfo) {
-        setVideoURI(Uri.parse(roomInfo.rtmpUrl))
+        lastUrl = roomInfo.rtmpUrl
+        setVideoURI(Uri.parse(lastUrl))
         start()
     }
 
@@ -39,9 +43,16 @@ class QNPLPlayer : PLVideoTextureView, IPullPlayer {
      */
     override fun changeClientRole(roleType: ClientRoleType) {
         if (roleType == ClientRoleType.ROLE_PULL) {
+            setVideoURI(Uri.parse(lastUrl))
             start()
+            Log.d("LinkerSlot", " 啦流 开始播放")
         } else {
-            pause()
+            stop()
+            Log.d("LinkerSlot", " 啦流 停止播放")
         }
+    }
+
+    override fun getView(): View {
+        return this
     }
 }

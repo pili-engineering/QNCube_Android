@@ -60,10 +60,13 @@ class MicLinkContext {
         override fun onUserLeft(p0: String) {
             val mic = getMicLinker(p0)
             if (mic != null) {
+                removeLinker(p0)
                 mMicLinkerListeners.forEach {
                     it.onUserLeft(mic)
                 }
             }
+
+
         }
     }
     lateinit var mRtcLiveRoom: RtcLiveRoom

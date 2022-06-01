@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.pili.pldroid.player.PLOnVideoSizeChangedListener
 import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
 import com.qncube.chatservice.QNChatRoomService
@@ -28,6 +29,8 @@ import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.view.CommonPagerAdapter
 import com.qncube.uikitcore.view.EmptyFragment
 import kotlinx.android.synthetic.main.activity_room_pull.*
+import kotlinx.android.synthetic.main.activity_room_pull.bgImgContainer
+import kotlinx.android.synthetic.main.activity_room_pull.flPkContainer
 import kotlinx.android.synthetic.main.activity_room_pull.linkerCotiner
 import kotlinx.android.synthetic.main.activity_room_pull.vpCover
 import kotlin.coroutines.resume
@@ -111,45 +114,51 @@ class RoomPullActivity : BaseFrameActivity() {
         vpCover.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
         vpCover.currentItem = 1
 
+        bgImgContainer.attach(
+            QNLiveRoomUIKit.mViewSlotTable.mRoomBackGroundSlot,
+            this, mKitContext, mRoomClient
+        )
+
         linkerCotiner.attach(
             QNLiveRoomUIKit.mViewSlotTable.mLinkerSlot,
             this, mKitContext, mRoomClient
         )
-        QNLiveRoomUIKit.mViewSlotTable.mAnchorReceivedPKApplySlot.createView(
-            this,
-            mKitContext,
-            mRoomClient,
-            null
-        )
-        QNLiveRoomUIKit.mViewSlotTable.mAnchorReceivedLinkMicApplySlot.createView(
-            this,
-            mKitContext,
-            mRoomClient,
-            null
+
+        flPkContainer.attach(
+            QNLiveRoomUIKit.mViewSlotTable.mPKAnchorPreviewSlot,
+            this, mKitContext, mRoomClient
         )
 
-        bg {
-            showLoading(true)
-            doWork {
-                val room = suspendJoinRoom(mRoomId)
-                //  c?.onSuccess(null)
+        vpCover.post {
+            bg {
+                showLoading(true)
+                doWork {
+                    val room = suspendJoinRoom(mRoomId)
+                    //  c?.onSuccess(null)
 
-                vpCover.visibility = View.VISIBLE
-                startCallBack?.onSuccess(room)
-            }
-            catchError {
-                it.message?.asToast()
-                startCallBack?.onError(it.getCode(), it.message)
-                finish()
-                //  c?.onError(it.getCode(), it.message)
-            }
+                    vpCover.visibility = View.VISIBLE
+                    startCallBack?.onSuccess(room)
+                }
+                catchError {
+                    it.message?.asToast()
+                    startCallBack?.onError(it.getCode(), it.message)
+                    finish()
+                    //  c?.onError(it.getCode(), it.message)
+                }
 
-            onFinally {
-                startCallBack = null
-                showLoading(false)
+                onFinally {
+                    startCallBack = null
+                    showLoading(false)
+                }
             }
         }
+
         player.displayAspectRatio = PLVideoView.ASPECT_RATIO_PAVED_PARENT
+
+        player.setOnVideoSizeChangedListener { w, h ->
+
+        }
+
     }
 
     //安卓重写返回键事件

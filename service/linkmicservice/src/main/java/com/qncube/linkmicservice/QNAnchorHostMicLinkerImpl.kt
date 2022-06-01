@@ -1,5 +1,6 @@
 package com.qncube.linkmicservice
 
+import android.util.Log
 import com.nucube.rtclive.CameraMergeOption
 import com.nucube.rtclive.MicrophoneMergeOption
 import com.nucube.rtclive.RtcLiveRoom
@@ -17,6 +18,7 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
 
         override fun onInitLinkers(linkers: MutableList<QNMicLinker>) {}
         override fun onUserJoinLink(micLinker: QNMicLinker) {
+            Log.d("MixStreamHelperImp", "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager .roomUser}")
             if (context.mRtcLiveRoom.mMixStreamManager.mQNMergeJob == null) {
                 context.mRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
@@ -43,9 +45,9 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
          * @param micLinker
          */
         override fun onUserLeft(micLinker: QNMicLinker) {
-
+            Log.d("MixStreamHelperImp", "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager .roomUser}")
             if (context.mRtcLiveRoom.mMixStreamManager
-                    .roomUser == 1
+                    .roomUser == 0
             ) {
                 context.mRtcLiveRoom.mMixStreamManager.startForwardJob()
                 return

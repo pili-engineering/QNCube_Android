@@ -1,5 +1,6 @@
 package com.qncube.linkmicservice
 
+import android.util.Log
 import com.niucube.rtm.RtmException
 import com.niucube.rtm.RtmManager
 import com.niucube.rtm.msg.RtmTextMsg
@@ -14,6 +15,7 @@ import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclink
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_join
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_left
 import com.qncube.linkmicservice.QNLinkMicServiceImpl.Companion.liveroom_miclinker_microphone_mute
+import com.qncube.liveroom_pullclient.QNLivePullClient
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.MuteMode
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
@@ -24,7 +26,12 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
 
     private val mLinkDateSource = LinkDateSource()
 
-    private var mPlayer: IPullPlayer? = null
+    private val mPlayer: IPullPlayer?
+        get() {
+            return (client as QNLivePullClient).pullPreview
+        }
+
+
     private val mLinkMicListeners = ArrayList<QNAudienceMicLinker.LinkMicListener>()
     private val mMeLinker: QNMicLinker?
         get() {
@@ -68,6 +75,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         context.mRtcLiveRoom = RtcLiveRoom(AppCache.appContext)
         context.mRtcLiveRoom.addExtraQNRTCEngineEventListener(context.mExtQNClientEventListener)
         context.mRtcLiveRoom.addExtraQNRTCEngineEventListener(mAudienceExtQNClientEventListener)
+
     }
 
     override fun onRoomClose() {
@@ -122,7 +130,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         backGround {
             doWork {
 
-               val token= mLinkDateSource.upMic(linker)
+                val token = mLinkDateSource.upMic(linker)
 
                 linker.user = user
                 RtmManager.rtmClient.sendChannelMsg(
@@ -136,19 +144,19 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                 cameraParams?.let {
                     context.mRtcLiveRoom.enableCamera(it)
                 }
+
                 microphoneParams?.let {
                     context.mRtcLiveRoom.enableMicrophone(it)
                 }
-                context.mRtcLiveRoom.joinRtc(token.rtc_token, msg)
-
+                context.mRtcLiveRoom.joinRtc(token.rtc_token, JsonUtils.toJson(linker))
+                context.mRtcLiveRoom.publishLocal()
+                mLinkMicListeners.forEach {
+                    it.lonLocalRoleChange(true)
+                }
                 context.mExtQNClientEventListener.onUserJoined(
                     user?.userId ?: "",
                     JsonUtils.toJson(linker)
                 )
-
-                mLinkMicListeners.forEach {
-                    it.lonLocalRoleChange(true)
-                }
 
                 mPlayer?.changeClientRole(ClientRoleType.ROLE_PUSH)
                 callBack?.onSuccess(null)
@@ -180,6 +188,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         }
         backGround {
             doWork {
+                Log.d("QNAudience", "下麦 ")
                 mLinkDateSource.downMic(mMeLinker!!)
                 val mode = UidMode().apply {
                     uid = user?.userId
@@ -203,16 +212,19 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     }
                 }
                 context.mRtcLiveRoom.leave()
+
                 if (sendMsg) {
                     context.mExtQNClientEventListener.onUserLeft(
                         user?.userId ?: ""
                     )
                 }
+                Log.d("QNAudience", "下麦 1")
+                context.removeLinker(user!!.userId)
                 mLinkMicListeners.forEach {
                     it.lonLocalRoleChange(false)
                 }
                 mPlayer?.changeClientRole(ClientRoleType.ROLE_PULL)
-
+                callBack?.onSuccess(null)
             }
             catchError {
                 callBack?.onError(it.getCode(), it.message)
@@ -249,9 +261,11 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     roomInfo!!.chatId, false
                 )
                 context.mRtcLiveRoom.muteLocalCamera(muted)
+                callBack?.onSuccess(null)
             }
             catchError {
-                it.printStackTrace()
+                callBack?.onError(it.getCode(),it.message)
+
             }
         }
     }
@@ -277,9 +291,10 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     roomInfo!!.chatId, false
                 )
                 context.mRtcLiveRoom.muteLocalMicrophone(muted)
+                callBack?.onSuccess(null)
             }
             catchError {
-                it.printStackTrace()
+                callBack?.onError(it.getCode(),it.message)
             }
         }
 
@@ -293,15 +308,6 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         context.mRtcLiveRoom.setAudioFrameListener(frameListener)
     }
 
-    /**
-     * 绑定原来的拉流预览
-     * 连麦后 会禁用原来的拉流预览
-     *
-     * @param player
-     */
-    override fun attachPullPlayer(player: IPullPlayer) {
-        mPlayer = player
-    }
 
     override fun onRoomLeave() {
         super.onRoomLeave()

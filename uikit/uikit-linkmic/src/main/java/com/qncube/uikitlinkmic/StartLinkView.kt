@@ -79,9 +79,10 @@ class StartLinkView : BaseSlotView() {
     override fun initView() {
         super.initView()
         view!!.setOnClickListener {
-            if (roomInfo == null) {
+            if (roomInfo == null || client == null || user == null) {
                 return@setOnClickListener
             }
+
             if (StartLinkStore.isInviting) {
                 "正在申请中，请稍后".asToast()
                 return@setOnClickListener

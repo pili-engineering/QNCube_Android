@@ -7,11 +7,20 @@
     android:keepScreenOn="true"
     tools:context=".RoomPushActivity">
 
+    <com.qncube.liveuikit.SlotWrapView
+        android:id="@+id/bgImgContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <com.qncube.liveroom_pullclient.QNPLPlayer
         android:id="@+id/player"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.qncube.liveuikit.SlotWrapView
+        android:id="@+id/flPkContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.qncube.liveuikit.SlotWrapView
         android:id="@+id/linkerCotiner"

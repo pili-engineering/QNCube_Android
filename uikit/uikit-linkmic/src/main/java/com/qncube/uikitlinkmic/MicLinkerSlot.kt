@@ -1,5 +1,6 @@
 package com.qncube.uikitlinkmic
 
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.niucube.qnrtcsdk.RoundTextureView
+import com.qiniu.droid.rtc.QNConnectionState
 import com.qiniu.droid.rtc.QNTextureView
 import com.qncube.linkmicservice.QNAnchorHostMicLinker
+import com.qncube.linkmicservice.QNAudienceMicLinker
 import com.qncube.linkmicservice.QNLinkMicService
 import com.qncube.linkmicservice.QNMicLinker
 import com.qncube.liveroomcore.*
@@ -78,6 +81,7 @@ class MicLinkerView : BaseSlotView() {
         }
 
         override fun onUserJoinLink(micLinker: QNMicLinker) {
+            Log.d("LinkerSlot", " onUserJoinLink 有人上麦 ${micLinker.user.nick}")
             mLinkerAdapter.addData(micLinker)
             if (isMyOnMic()) {
                 addLinkerPreview(micLinker)
@@ -85,7 +89,9 @@ class MicLinkerView : BaseSlotView() {
         }
 
         override fun onUserLeft(micLinker: QNMicLinker) {
+            Log.d("LinkerSlot", " onUserLeft 有人下麦 ${micLinker.user.nick}")
             removePreview(micLinker)
+            mLinkerAdapter.remove(mLinkerAdapter.data.indexOf(micLinker))
         }
 
         override fun onUserMicrophoneStatusChange(micLinker: QNMicLinker) {
@@ -115,6 +121,35 @@ class MicLinkerView : BaseSlotView() {
         }
     }
 
+    private val mQNAudienceMicLinker = object : QNAudienceMicLinker.LinkMicListener {
+        /**
+         * 连麦模式连接状态
+         * 连接成功后 连麦器会主动禁用推流器 改用rtc
+         * @param state
+         */
+        override fun onConnectionStateChanged(state: QNConnectionState) {
+
+        }
+
+        /**
+         * 本地角色变化
+         */
+        override fun lonLocalRoleChange(isLinker: Boolean) {
+            Log.d("LinkerSlot", " lonLocalRoleChange 本地角色变化 ${isLinker}")
+            if (isLinker) {
+                client?.getService(QNLinkMicService::class.java)?.allLinker?.forEach {
+                    Log.d("LinkerSlot", "  添加窗口 ${it.user.nick}")
+                    addLinkerPreview(it)
+                }
+            } else {
+                client?.getService(QNLinkMicService::class.java)?.allLinker?.forEach {
+                    Log.d("LinkerSlot", "  移除窗口 ${it.user.nick}")
+                    removePreview(it)
+                }
+            }
+        }
+    }
+
     private val mMixStreamAdapter =
         QNAnchorHostMicLinker.MixStreamAdapter { micLinkers, target, isJoin ->
             LinkerUIHelper.getLinkers(micLinkers, roomInfo!!)
@@ -127,7 +162,7 @@ class MicLinkerView : BaseSlotView() {
     override fun initView() {
         super.initView()
         view!!.recyLinker.layoutManager = LinearLayoutManager(context)
-        view!!. flLinkContent.post {
+        view!!.flLinkContent.post {
             init()
         }
     }
@@ -146,8 +181,7 @@ class MicLinkerView : BaseSlotView() {
 
     private fun addLinkerPreview(micLinker: QNMicLinker) {
         if (micLinker.user.userId != roomInfo?.anchorInfo?.userId) {
-
-            view!!. recyLinker.post {
+            view!!.recyLinker.post {
                 val index = mLinkerAdapter.data.indexOf(micLinker)
                 val container = (mLinkerAdapter.getViewByPosition(
                     index,
@@ -168,7 +202,9 @@ class MicLinkerView : BaseSlotView() {
                 )
             }
         } else {
-            view!!. flAnchorSurfaceCotiner.addView(
+            Log.d("LinkerSlot", "  添加窗口房主")
+            view!!.flAnchorSurfaceCotiner.visibility = View.VISIBLE
+            view!!.flAnchorSurfaceCotiner.addView(
                 QNTextureView(context).apply {
                     linkService.setUserPreview(micLinker.user?.userId ?: "", this)
                 },
@@ -188,17 +224,19 @@ class MicLinkerView : BaseSlotView() {
                 R.id.flSurfaceContainer
             ) as ViewGroup?)
             container?.removeAllViews()
-            mLinkerAdapter.remove(mLinkerAdapter.data.indexOf(micLinker))
         } else {
-            view!!.  flAnchorSurfaceCotiner.removeAllViews()
+            Log.d("LinkerSlot", "  移除窗口房主")
+            view!!.flAnchorSurfaceCotiner.removeAllViews()
+            view!!.flAnchorSurfaceCotiner.visibility = View.INVISIBLE
         }
     }
 
     private fun init() {
-        LinkerUIHelper.attachUIWidth(    view!!. flLinkContent.width,     view!!.flLinkContent.height)
-        val rcLp: FrameLayout.LayoutParams = view!!. recyLinker.layoutParams as FrameLayout.LayoutParams
+        LinkerUIHelper.attachUIWidth(view!!.flLinkContent.width, view!!.flLinkContent.height)
+        val rcLp: FrameLayout.LayoutParams =
+            view!!.recyLinker.layoutParams as FrameLayout.LayoutParams
         rcLp.topMargin = LinkerUIHelper.uiTopMargin
-        view!!. recyLinker.adapter = mLinkerAdapter
+        mLinkerAdapter.bindToRecyclerView(view!!.recyLinker)
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -208,7 +246,10 @@ class MicLinkerView : BaseSlotView() {
                 client?.getService(QNLinkMicService::class.java)?.anchorHostMicLinker?.setMixStreamAdapter(
                     null
                 )
-
+            } else {
+                client?.getService(QNLinkMicService::class.java)?.audienceMicLinker?.removeLinkMicListener(
+                    mQNAudienceMicLinker
+                )
             }
             client?.getService(QNLinkMicService::class.java)
                 ?.removeMicLinkerListener(mMicLinkerListener)
@@ -227,6 +268,10 @@ class MicLinkerView : BaseSlotView() {
         if (client.clientType == ClientType.CLIENT_PUSH) {
             client.getService(QNLinkMicService::class.java).anchorHostMicLinker.setMixStreamAdapter(
                 mMixStreamAdapter
+            )
+        } else {
+            client.getService(QNLinkMicService::class.java).audienceMicLinker.addLinkMicListener(
+                mQNAudienceMicLinker
             )
         }
         client.getService(QNLinkMicService::class.java).addMicLinkerListener(mMicLinkerListener)

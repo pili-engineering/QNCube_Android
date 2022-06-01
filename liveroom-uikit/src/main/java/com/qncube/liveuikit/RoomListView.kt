@@ -5,9 +5,12 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.liveroomcore.QNLiveCallBack
@@ -15,6 +18,7 @@ import com.qncube.liveroomcore.datasource.RoomDataSource
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.liveroomcore.asToast
 import com.qncube.uikitcore.dialog.LoadingDialog
+import com.qncube.uikitcore.ext.ViewUtil
 import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.refresh.CommonEmptyView
 import kotlinx.android.synthetic.main.kit_roomlist_item_room.view.*
@@ -54,7 +58,9 @@ class RoomListView : FrameLayout {
                 }
             })
         }
-        mSmartRecyclerView.startRefresh()
+        mLifecycleOwner?.lifecycleScope?.launchWhenResumed {
+            mSmartRecyclerView.startRefresh()
+        }
     }
 
     private fun load(page: Int) {
@@ -80,6 +86,7 @@ class RoomListView : FrameLayout {
                 goJoinCall.invoke(item)
             }
             Glide.with(mContext).load(item.coverUrl)
+                .apply(RequestOptions().transform(RoundedCorners(ViewUtil.dip2px(8f))))
                 .into(helper.itemView.ivCover)
             helper.itemView.tvRoomId.text = item.anchorInfo.nick
             helper.itemView.tvRoomName.text = item.title

@@ -18,7 +18,7 @@ abstract class BaseSlotView : ISlotView {
 
 
     var view: View? = null
-    fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
+   open fun createView(inflater: LayoutInflater, container: ViewGroup?): View {
         view = inflater.inflate(getLayoutId(), container, false)
         initView()
         return view!!

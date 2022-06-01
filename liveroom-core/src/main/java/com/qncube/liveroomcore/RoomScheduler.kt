@@ -10,20 +10,26 @@ class RoomScheduler : QNRoomLifeCycleListener {
     protected var roomInfo: QNLiveRoomInfo? = null
     protected var client: QNLiveRoomClient? = null
 
+    private var initRoomStatus = -100
+
     var roomStatusChange: (status: Int) -> Unit = {
 
     }
+
     private val roomDataSource = RoomDataSource()
     private val mHeartBeatJob = Scheduler(4000) {
         backGround {
             doWork {
-//                roomDataSource.heartbeat(roomInfo?.liveId ?: "")
-//                val room = roomDataSource.refreshRoomInfo(roomInfo?.liveId ?: "")
+                roomDataSource.heartbeat(roomInfo?.liveId ?: "")
+                // val room = roomDataSource.refreshRoomInfo(roomInfo?.liveId ?: "")
 //                if (room.liveStatus != roomInfo?.liveStatus
 //                    && room.liveId == roomInfo?.liveId
 //                ) {
 //                    roomStatusChange.invoke(room.liveStatus)
 //                }
+                if(initRoomStatus<=0){
+                    initRoomStatus
+                }
             }
             catchError {
 
@@ -45,6 +51,7 @@ class RoomScheduler : QNRoomLifeCycleListener {
     open override fun onRoomLeave() {
         user = null
         mHeartBeatJob.cancel()
+        initRoomStatus = -100
     }
 
 

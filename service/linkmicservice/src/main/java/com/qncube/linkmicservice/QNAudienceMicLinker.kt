@@ -75,11 +75,5 @@ interface QNAudienceMicLinker {
 
     fun setAudioFrameListener(frameListener: QNAudioFrameListener)
 
-    /**
-     * 绑定原来的拉流预览
-     * 连麦后 会禁用原来的拉流预览
-     *
-     * @param player
-     */
-    fun attachPullPlayer(player: IPullPlayer)
+
 }

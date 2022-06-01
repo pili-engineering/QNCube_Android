@@ -13,6 +13,8 @@ import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
 import com.qiniu.droid.rtc.QNTextureView
 import com.qncube.linkmicservice.QNLinkMicService
+import com.qncube.liveroom_pullclient.QNLivePullClient
+import com.qncube.liveroomcore.ClientType
 import com.qncube.liveroomcore.Extension
 import com.qncube.liveroomcore.QNLiveRoomClient
 import com.qncube.pushclient.QNLivePushClient
@@ -32,11 +34,81 @@ class PKAnchorPreviewSlot : QNInternalViewSlot() {
         client: QNLiveRoomClient,
         container: ViewGroup?
     ): View {
-        val view = PKAnchorPreview()
+        val view =
+            if (client.clientType == ClientType.CLIENT_PULL) {
+                PKAudiencePreview()
+            } else {
+                PKAnchorPreview()
+            }
         view.attach(lifecycleOwner, context, client)
         return view.createView(LayoutInflater.from(context.androidContext), container)
     }
 }
+
+class PKAudiencePreview : BaseSlotView() {
+
+    private val mPKServiceListener = object : QNPKService.PKServiceListener {
+        override fun onInitPKer(pkSession: QNPKSession) {
+            addView()
+        }
+
+        override fun onStart(pkSession: QNPKSession) {
+            addView()
+        }
+
+        override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
+            removeView()
+        }
+
+        override fun onWaitPeerTimeOut(pkSession: QNPKSession) {}
+
+
+        override fun onPKExtensionUpdate(pkSession: QNPKSession, extension: Extension) {
+        }
+    }
+
+    private var originParent: ViewGroup? = null
+    private var originIndex = 0
+    private fun addView() {
+
+        val player = (client as QNLivePullClient).pullPreview.view
+        val parent = player.parent as ViewGroup
+        originParent = parent
+        originIndex = parent.indexOfChild(player)
+        parent.removeView(player)
+        view!!.llPKContainer.addView(player)
+
+    }
+
+    private fun removeView() {
+        val player = (client as QNLivePullClient).pullPreview.view
+        view!!.llPKContainer.removeView(player)
+        originParent?.addView(player, originIndex)
+    }
+
+    override fun getLayoutId(): Int {
+        return R.layout.kit_anchor_pk_preview
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        super.onStateChanged(source, event)
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            client?.getService(QNPKService::class.java)?.removePKServiceListener(mPKServiceListener)
+
+        }
+    }
+
+    override fun attach(
+        lifecycleOwner: LifecycleOwner,
+        context: KitContext,
+        client: QNLiveRoomClient
+    ) {
+        super.attach(lifecycleOwner, context, client)
+        client.getService(QNPKService::class.java).addPKServiceListener(mPKServiceListener)
+    }
+
+}
+
 
 class PKAnchorPreview : BaseSlotView() {
 

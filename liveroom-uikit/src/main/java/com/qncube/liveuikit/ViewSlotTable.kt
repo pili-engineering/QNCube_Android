@@ -16,6 +16,11 @@ import com.qncube.uikituser.*
 class ViewSlotTable {
 
     /**
+     * 房间背景图
+     */
+    val mRoomBackGroundSlot = RoomBackGroundSlot()
+
+    /**
      * 房间左上角房主，房主槽位置
      */
     val mRoomHostSlot = RoomHostSlot()
