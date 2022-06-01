@@ -32,7 +32,6 @@ class AnchorReceivedLinkMicApplySlot : QNInternalViewSlot() {
         handler.attach(lifecycleOwner,context, client)
         return null
     }
-
 }
 
 class AnchorLinkerHandler : ISlotView{
@@ -47,8 +46,8 @@ class AnchorLinkerHandler : ISlotView{
 
         override fun onReceivedApply(linkInvitation: LinkInvitation) {
             CommonTipDialog.TipBuild()
-                .setTittle(" ${linkInvitation.initiator.nick} 申请连麦是否同意，是否接受")
-                .setContent("")
+                .setTittle("连麦申请")
+                .setContent(" ${linkInvitation.initiator.nick} 申请连麦是否同意，是否接受")
                 .setNegativeText("拒绝")
                 .setPositiveText("接受")
                 .setListener(object : FinalDialogFragment.BaseDialogListener() {

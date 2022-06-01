@@ -108,7 +108,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
             return
         }
         val linker = QNMicLinker()
-        linker.user = user
+
         linker.extensions = extensions
         linker.isOpenCamera = cameraParams == null
         linker.isOpenMicrophone = microphoneParams == null
@@ -122,8 +122,9 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         backGround {
             doWork {
 
+               val token= mLinkDateSource.upMic(linker)
 
-                mLinkDateSource.upMic(linker)
+                linker.user = user
                 RtmManager.rtmClient.sendChannelMsg(
                     RtmTextMsg<QNMicLinker>(
                         liveroom_miclinker_join,
@@ -138,7 +139,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                 microphoneParams?.let {
                     context.mRtcLiveRoom.enableMicrophone(it)
                 }
-                context.mRtcLiveRoom.joinRtc("", msg)
+                context.mRtcLiveRoom.joinRtc(token.rtc_token, msg)
 
                 context.mExtQNClientEventListener.onUserJoined(
                     user?.userId ?: "",
@@ -162,7 +163,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
      * 我是不是麦上用户
      */
     override fun isLinked(): Boolean {
-        return mMeLinker == null
+        return mMeLinker != null
     }
 
     /**

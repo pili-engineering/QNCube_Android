@@ -104,7 +104,7 @@ class RoomMemberCountView : BaseSlotView() {
 //        }
     }
 
-    private val mScheduler = Scheduler(5000) {
+    private val mScheduler = Scheduler(15000) {
         if (roomInfo == null) {
             return@Scheduler
         }

@@ -41,6 +41,8 @@ interface RtmAdapter {
      */
     fun getLoginUserId():String
 
+    fun getLoginUserIMUId():String
+
     /**
      * 注册监听
      * @param c2cMessageReceiver  c2c消息接收器

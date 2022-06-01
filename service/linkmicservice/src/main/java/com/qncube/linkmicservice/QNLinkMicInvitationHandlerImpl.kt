@@ -1,10 +1,7 @@
 package com.qncube.linkmicservice
 
 import com.niucube.rtm.RtmCallBack
-import com.niucube.rtminvitation.Invitation
-import com.niucube.rtminvitation.InvitationCallBack
-import com.niucube.rtminvitation.InvitationProcessor
-import com.niucube.rtminvitation.suspendInvite
+import com.niucube.rtminvitation.*
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.datasource.UserDataSource
@@ -25,7 +22,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
                         JsonUtils.parseObject(invitation.msg, LinkInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
                     invitationMap[invitation.flag] = invitation
-                    listeners.forEach { it.onAccept(linkInvitation) }
+                    listeners.forEach { it.onReceivedApply(linkInvitation) }
                 }
 
                 override fun onInvitationTimeout(invitation: Invitation) {
@@ -86,7 +83,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
         backGround {
             doWork {
                 val receiver =
-                    UserDataSource().searchUserByIMUid(receiverUid)
+                    UserDataSource().searchUserByUserId(receiverUid)
 
                 val linkInvitation = LinkInvitation()
                 linkInvitation.linkType = 1
@@ -95,7 +92,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
                 linkInvitation.extensions = extensions
                 linkInvitation.receiver = receiver
                 linkInvitation.receiverRoomId = receiverRoomId
-                val channel = if (receiverRoomId != roomInfo!!.liveId) {
+                val channel = if (receiverRoomId == roomInfo!!.liveId) {
                     roomInfo!!.chatId
                 } else {
                     ""
@@ -149,7 +146,7 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
             linkInvitation.extensions[it.key] = it.value
         }
         invitation.msg = JsonUtils.toJson(linkInvitation)
-        mInvitationProcessor.cancel(invitation, object : RtmCallBack {
+        mInvitationProcessor.accept(invitation, object : RtmCallBack {
             override fun onSuccess() {
                 invitationMap.remove(invitationId)
                 callBack?.onSuccess(null)
@@ -191,6 +188,16 @@ class QNLinkMicInvitationHandlerImpl : QNLinkMicInvitationHandler, BaseService()
                 callBack?.onError(code, msg)
             }
         })
+    }
+
+
+    override fun onRoomClose() {
+        super.onRoomClose()
+        InvitationManager.removeInvitationProcessor(mInvitationProcessor)
+    }
+    override fun attachRoomClient(client: QNLiveRoomClient) {
+        super.attachRoomClient(client)
+        InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }
 
 }

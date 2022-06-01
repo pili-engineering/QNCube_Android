@@ -107,6 +107,7 @@ class StartLinkView : BaseSlotView() {
                             null,
                             object : QNLiveCallBack<LinkInvitation> {
                                 override fun onError(code: Int, msg: String?) {
+                                    msg?.asToast()
                                     LoadingDialog.cancelLoadingDialog()
                                 }
 

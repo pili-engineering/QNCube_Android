@@ -7,8 +7,8 @@ import com.qiniu.droid.rtc.*
 
 class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
-    private val localVideoTrack: QNLocalVideoTrack? = null
-    private val localAudioTrack: QNLocalAudioTrack? = null
+    private var localVideoTrack: QNLocalVideoTrack? = null
+    private var localAudioTrack: QNLocalAudioTrack? = null
 
     var mMixStreamParams: MixStreamParams? = null
         private set
@@ -31,6 +31,11 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         private set
 
     var isInit = false
+    fun setTrack(videoTrack: QNLocalVideoTrack?, audioTrack: QNLocalAudioTrack?) {
+        this.localVideoTrack = videoTrack
+        this.localAudioTrack = audioTrack
+    }
+
     fun init(streamId: String, pushUrl: String, mixStreamParams: MixStreamParams) {
         isInit = true
         this.mMixStreamParams = mixStreamParams
@@ -46,6 +51,8 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
                     isMixStreamIng = false
                 }
                 isForwardJob = mQNForwardJob != null
+
+                Log.d("MixStreamHelperImp", "MixStreamHelperImp onStarted")
             }
 
             override fun onStopped(streamID: String) {
@@ -58,7 +65,10 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
             override fun onError(streamID: String, errorInfo: QNLiveStreamingErrorInfo) {
                 // 转推任务出错时触发此回调
-                Log.d("MixStreamHelperImp", "MixStreamHelperImp onError")
+                Log.d(
+                    "MixStreamHelperImp",
+                    "MixStreamHelperImp onError" + errorInfo.message + "  " + errorInfo.code
+                )
             }
         })
         mRtcLiveRoom.addExtraQNRTCEngineEventListenerToHead(object : SimpleQNRTCListener {
@@ -125,6 +135,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
     }
 
     private fun createMergeJob() {
+        Log.d("MixStreamHelperImp", "createMergeJob ")
         mQNMergeJob = QNTranscodingLiveStreamingConfig().apply {
             streamID = streamId; // 设置 stream id，该 id 为合流任务的唯一标识符
             url = pushUrl + "?serialnum=${serialnum++}"; // 设置合流任务的推流地址
@@ -142,17 +153,20 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
     //创建前台转推
     private fun createForwardJob() {
-        mQNForwardJob = QNDirectLiveStreamingConfig().apply {
-            val mDirectLiveStreamingConfig = QNDirectLiveStreamingConfig()
-            mDirectLiveStreamingConfig.streamID = streamId
-            mDirectLiveStreamingConfig.url = pushUrl + "?serialnum=${serialnum++}"
-            localAudioTrack?.let {
-                mDirectLiveStreamingConfig.audioTrack = it
-            }
-            localVideoTrack?.let {
-                mDirectLiveStreamingConfig.videoTrack = it
-            }
+
+        val mDirectLiveStreamingConfig = QNDirectLiveStreamingConfig()
+        mDirectLiveStreamingConfig.streamID = streamId
+        mDirectLiveStreamingConfig.url = pushUrl + "?serialnum=${serialnum++}"
+        Log.d("MixStreamHelperImp", "createForwardJob ${mDirectLiveStreamingConfig.url}")
+        localAudioTrack?.let {
+            mDirectLiveStreamingConfig.audioTrack = it
         }
+        localVideoTrack?.let {
+            mDirectLiveStreamingConfig.videoTrack = it
+        }
+        mQNForwardJob = mDirectLiveStreamingConfig
+
+        Log.d("MixStreamHelperImp", "createForwardJob ")
     }
 
     private var isMixStreamIng = false
@@ -169,7 +183,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         if (mQNForwardJob == null) {
             createForwardJob()
         }
-
+        Log.d("MixStreamHelperImp", "startForwardJob ")
         mEngine.startLiveStreaming(mQNForwardJob);
     }
 
@@ -177,6 +191,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
      * 停止前台推流
      */
     fun stopForwardJob() {
+        Log.d("MixStreamHelperImp", "stopForwardJob ")
         mQNForwardJob?.let {
             mEngine.stopLiveStreaming(mQNForwardJob)
         }
@@ -188,6 +203,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
      * 开始混流转推
      */
     fun startMixStreamJob() {
+        Log.d("MixStreamHelperImp", "startMixStreamJob ")
         if (mQNForwardJob != null) {
             stopForwardJob()
         }
@@ -201,6 +217,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
      * 启动新的混流任务
      */
     fun startNewMixStreamJob(mixStreamParams: MixStreamParams) {
+        Log.d("MixStreamHelperImp", "startNewMixStreamJob ")
         if (mQNForwardJob != null) {
             stopForwardJob()
         }
@@ -224,8 +241,8 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
     }
 
 
-
     fun stopMixStreamJob() {
+        Log.d("MixStreamHelperImp", "stopMixStreamJob ")
         tracksMap.clear()
         toDoAudioMergeOptionsMap.clear()
         toDoVideoMergeOptionsMap.clear()
@@ -297,6 +314,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
     }
 
     fun commitOpt() {
+
         if (isForwardJob || isMixStreamIng) {
             val mMergeTrackOptions = ArrayList<QNTranscodingLiveStreamingTrack>()
             tracksMap.entries.forEach {

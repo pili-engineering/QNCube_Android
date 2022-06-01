@@ -22,7 +22,7 @@ class UserDataSource {
     suspend fun getOnlineUser(liveId: String, page_num: Int, page_size: Int): PageData<QNLiveUser> {
 
         val p = ParameterizedTypeImpl(
-            arrayOf(QNLiveRoomInfo::class.java),
+            arrayOf(QNLiveUser::class.java),
             PageData::class.java,
             PageData::class.java
         )

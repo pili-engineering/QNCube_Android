@@ -6,7 +6,7 @@ import com.qncube.liveroomcore.mode.QNLiveUser;
 import java.util.Map;
 
 public class InnerUser  extends QNLiveUser {
-
+    @JSONField (serialize = false)
     public String im_password;
 
 }

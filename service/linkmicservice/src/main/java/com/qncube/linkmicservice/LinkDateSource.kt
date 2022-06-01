@@ -24,12 +24,12 @@ class LinkDateSource {
         return resp
     }
 
-    suspend fun upMic(linker: QNMicLinker) {
-        OKHttpService.post("client/mic", JsonUtils.toJson(linker), Any::class.java)
+    suspend fun upMic(linker: QNMicLinker): TokenData {
+        return OKHttpService.post("/client/mic", JsonUtils.toJson(linker), TokenData::class.java)
     }
 
     suspend fun downMic(linker: QNMicLinker) {
-        OKHttpService.delete("client/mic", JsonUtils.toJson(linker), Any::class.java)
+        OKHttpService.delete("/client/mic", JsonUtils.toJson(linker), Any::class.java)
     }
 
     suspend fun updateExt(linker: QNMicLinker, extension: Extension) {
@@ -37,7 +37,7 @@ class LinkDateSource {
         jsonObj.put("live_id", linker.userRoomId)
         jsonObj.put("user_id", linker.user.userId)
         jsonObj.put("extends", extension)
-        OKHttpService.put("/mic/room", jsonObj.toString(), Any::class.java)
+        OKHttpService.put("/client/mic/room", jsonObj.toString(), Any::class.java)
     }
 
     suspend fun switch(linker: QNMicLinker, isMic: Boolean, isOpen: Boolean) {
@@ -58,6 +58,6 @@ class LinkDateSource {
                 "off"
             }
         )
-        OKHttpService.put("/mic/switch", jsonObj.toString(), Any::class.java)
+        OKHttpService.put("/client/mic/switch", jsonObj.toString(), Any::class.java)
     }
 }

@@ -8,7 +8,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.qncube.uikitcore.R
-import kotlinx.android.synthetic.main.dialog_common_tip.*
+import kotlinx.android.synthetic.main.kit_dialog_common_tip.*
 import java.lang.reflect.Field
 
 
@@ -55,7 +55,7 @@ class CommonTipDialog : FinalDialogFragment() {
     }
 
     override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip
+        return R.layout.kit_dialog_common_tip
     }
 
     override fun init() {
@@ -67,7 +67,7 @@ class CommonTipDialog : FinalDialogFragment() {
                 tvTitle.text = title
             }
             val content = getString("content")
-            secret_pwd.text = Html.fromHtml(content)
+            tvContent.text = (content)
             val isNeedCancelBtn = getBoolean("isNeedCancelBtn", true)
             if (!isNeedCancelBtn) {
                 vV.visibility = View.GONE

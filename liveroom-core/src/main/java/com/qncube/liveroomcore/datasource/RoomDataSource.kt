@@ -99,6 +99,9 @@ class RoomDataSource {
     suspend fun pubRoom(liveId: String): QNLiveRoomInfo {
         return OKHttpService.put("/client/live/room/${liveId}", "{}", QNLiveRoomInfo::class.java)
     }
+    suspend fun unPubRoom(liveId: String): QNLiveRoomInfo {
+        return OKHttpService.delete("/client/live/room/${liveId}", "{}", QNLiveRoomInfo::class.java)
+    }
 
     suspend fun joinRoom(liveId: String): QNLiveRoomInfo {
         return OKHttpService.post(

@@ -97,16 +97,24 @@ class QNLivePushClientImpl : QNLivePushClient {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatId)
                 }
                 if (!mRtcRoom.mMixStreamManager.isInit) {
-                    mRtcRoom.mMixStreamManager.init(roomId,  roomInfo.pushUrl, MixStreamParams().apply {
-                        this.mixStreamWidth = mCameraParams.width
-                        this.mixBitrate = mCameraParams.bitrate + mQNMicrophoneParams.mBitrate
-                        this.fps = mCameraParams.fps
-                    })
+                    mRtcRoom.mMixStreamManager.init(
+                        roomId,
+                        roomInfo.pushUrl,
+                        MixStreamParams().apply {
+                            this.mixStreamWidth = mCameraParams.width
+                            this.mixBitrate = mCameraParams.bitrate + mQNMicrophoneParams.mBitrate
+                            this.fps = mCameraParams.fps
+                        })
+                    mRtcRoom.mMixStreamManager.setTrack(
+                        mRtcRoom.localVideoTrack,
+                        mRtcRoom.localAudioTrack
+                    )
                 }
                 mRtcRoom.joinRtc(roomInfo.roomToken, "")
                 mRtcRoom.publishLocal()
-
+                mRtcRoom.mMixStreamManager.startForwardJob()
                 mQNLiveRoomContext.joinedRoom(roomInfo)
+
                 callBack?.onSuccess(roomInfo)
             }
             catchError {
@@ -124,7 +132,7 @@ class QNLivePushClientImpl : QNLivePushClient {
     override fun leaveRoom(callBack: QNLiveCallBack<Void>?) {
         backGround {
             doWork {
-                mRoomSource.leaveRoom(mQNLiveRoomContext.roomInfo?.liveId ?: "")
+                mRoomSource.unPubRoom(mQNLiveRoomContext.roomInfo?.liveId ?: "")
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.leaveChannel(mQNLiveRoomContext.roomInfo?.chatId ?: "")
                 }

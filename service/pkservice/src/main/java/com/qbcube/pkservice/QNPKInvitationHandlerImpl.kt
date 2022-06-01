@@ -1,10 +1,7 @@
 package com.qbcube.pkservice
 
 import com.niucube.rtm.RtmCallBack
-import com.niucube.rtminvitation.Invitation
-import com.niucube.rtminvitation.InvitationCallBack
-import com.niucube.rtminvitation.InvitationProcessor
-import com.niucube.rtminvitation.suspendInvite
+import com.niucube.rtminvitation.*
 import com.qiniu.jsonutil.JsonUtils
 import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.datasource.UserDataSource
@@ -24,7 +21,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
                         JsonUtils.parseObject(invitation.msg, PKInvitation::class.java) ?: return
                     linkInvitation.invitationId = invitation.flag
                     invitationMap[invitation.flag] = invitation
-                    mListeners.forEach { it.onAccept(linkInvitation) }
+                    mListeners.forEach { it.onReceivedApply(linkInvitation) }
                 }
 
                 override fun onInvitationTimeout(invitation: Invitation) {
@@ -151,7 +148,7 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
             linkInvitation.extensions[it.key] = it.value
         }
         invitation.msg = JsonUtils.toJson(linkInvitation)
-        mInvitationProcessor.cancel(invitation, object : RtmCallBack {
+        mInvitationProcessor.accept(invitation, object : RtmCallBack {
             override fun onSuccess() {
                 invitationMap.remove(invitationId)
                 callBack?.onSuccess(null)
@@ -192,5 +189,15 @@ class QNPKInvitationHandlerImpl : QNPKInvitationHandler, BaseService() {
                 callBack?.onError(code, msg)
             }
         })
+    }
+
+
+    override fun onRoomClose() {
+        super.onRoomClose()
+        InvitationManager.removeInvitationProcessor(mInvitationProcessor)
+    }
+    override fun attachRoomClient(client: QNLiveRoomClient) {
+        super.attachRoomClient(client)
+        InvitationManager.addInvitationProcessor(mInvitationProcessor)
     }
 }

@@ -67,8 +67,8 @@ class QNLivePullClientImpl : QNLivePullClient {
                 if (RtmManager.isInit) {
                     RtmManager.rtmClient.joinChannel(roomInfo.chatId)
                 }
-
                 mQNLiveRoomContext.joinedRoom(roomInfo)
+                mPlayer?.start(roomInfo)
                 callBack?.onSuccess(roomInfo)
             }
             catchError {
@@ -90,6 +90,7 @@ class QNLivePullClientImpl : QNLivePullClient {
                     RtmManager.rtmClient.leaveChannel(mQNLiveRoomContext.roomInfo?.chatId ?: "")
                 }
                 mQNLiveRoomContext.leaveRoom()
+                mPlayer?.stopPlay()
                 callBack?.onSuccess(null)
             }
             catchError {
@@ -103,6 +104,7 @@ class QNLivePullClientImpl : QNLivePullClient {
      */
     override fun closeRoom() {
         mQNLiveRoomContext.close()
+        mPlayer?.stopPlay()
     }
 
     override fun getClientType(): ClientType {

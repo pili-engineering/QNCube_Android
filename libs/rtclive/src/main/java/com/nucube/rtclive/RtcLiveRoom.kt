@@ -41,8 +41,10 @@ open class RtcLiveRoom(
         private set
 
     private val mCameraTrackViewStore = CameraTrackViewStore()
-    private var localVideoTrack: QNCameraVideoTrack? = null
-    private var localAudioTrack: QNMicrophoneAudioTrack? = null
+    var localVideoTrack: QNCameraVideoTrack? = null
+    private set
+    var localAudioTrack: QNMicrophoneAudioTrack? = null
+    private set
     private var mVideoFrameListener: QNVideoFrameListener? = null
     private var mAudioFrameListener: QNAudioFrameListener? = null
 

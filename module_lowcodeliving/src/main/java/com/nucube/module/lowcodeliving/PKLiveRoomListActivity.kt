@@ -72,7 +72,7 @@ class PKLiveRoomListActivity : BaseActivity() {
     }
 
     override fun initViewData() {
-
+        setToolbarTitle("主播列表")
         if (!isInit) {
             bg {
                 doWork {
@@ -91,7 +91,6 @@ class PKLiveRoomListActivity : BaseActivity() {
         } else {
             start()
         }
-        title = "直播列表"
     }
 
     override fun getLayoutId(): Int {

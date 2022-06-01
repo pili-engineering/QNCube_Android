@@ -17,13 +17,13 @@ class RoomScheduler : QNRoomLifeCycleListener {
     private val mHeartBeatJob = Scheduler(4000) {
         backGround {
             doWork {
-                roomDataSource.heartbeat(roomInfo?.liveId ?: "")
-                val room = roomDataSource.refreshRoomInfo(roomInfo?.liveId ?: "")
-                if (room.liveStatus != roomInfo?.liveStatus
-                    && room.liveId == roomInfo?.liveId
-                ) {
-                    roomStatusChange.invoke(room.liveStatus)
-                }
+//                roomDataSource.heartbeat(roomInfo?.liveId ?: "")
+//                val room = roomDataSource.refreshRoomInfo(roomInfo?.liveId ?: "")
+//                if (room.liveStatus != roomInfo?.liveStatus
+//                    && room.liveId == roomInfo?.liveId
+//                ) {
+//                    roomStatusChange.invoke(room.liveStatus)
+//                }
             }
             catchError {
 

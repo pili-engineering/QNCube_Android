@@ -16,16 +16,21 @@ class QNPLPlayer : PLVideoTextureView, IPullPlayer {
         context,
         attrs,
         defStyleAttr
-    )
+    ){
+
+    }
 
     /**
      * 开始播放
      * @param roomInfo
      */
     override fun start(roomInfo: QNLiveRoomInfo) {
-        //todo
-        setVideoURI(Uri.parse(roomInfo.liveId))
+        setVideoURI(Uri.parse(roomInfo.rtmpUrl))
         start()
+    }
+
+    override fun stopPlay() {
+        stop()
     }
 
     /**

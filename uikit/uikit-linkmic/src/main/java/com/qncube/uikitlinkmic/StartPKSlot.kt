@@ -26,7 +26,10 @@ class StartPKSlot : QNInternalViewSlot() {
         context: KitContext,
         client: QNLiveRoomClient,
         container: ViewGroup?
-    ): View {
+    ): View? {
+        if (client.clientType == ClientType.CLIENT_PULL) {
+            return null
+        }
         val view = StartPKView()
         view.attach(lifecycleOwner, context, client)
         return view.createView(LayoutInflater.from(context.androidContext), container)
@@ -40,13 +43,13 @@ class StartPKView : BaseSlotView() {
     private val mPKServiceListener = object : QNPKService.PKServiceListener {
         override fun onInitPKer(pkSession: QNPKSession) {}
         override fun onStart(pkSession: QNPKSession) {
-            view!!. llStartPK.visibility = View.GONE
-            view!!. tvStopPK.visibility = View.VISIBLE
+            view!!.llStartPK.visibility = View.GONE
+            view!!.tvStopPK.visibility = View.VISIBLE
         }
 
         override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
-            view!!.  llStartPK.visibility = View.VISIBLE
-            view!!.  tvStopPK.visibility = View.GONE
+            view!!.llStartPK.visibility = View.VISIBLE
+            view!!.tvStopPK.visibility = View.GONE
         }
 
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
@@ -98,7 +101,7 @@ class StartPKView : BaseSlotView() {
 
     override fun initView() {
         super.initView()
-       view!!. flPkBtn.setOnClickListener {
+        view!!.flPkBtn.setOnClickListener {
             showingPKListDialog = PKAbleListDialog()
             showingPKListDialog?.setInviteCall {
                 showInvite(it)
@@ -117,7 +120,7 @@ class StartPKView : BaseSlotView() {
     private fun showInvite(room: QNLiveRoomInfo) {
         client!!.getService(QNPKService::class.java)
             .pkInvitationHandler
-            .applyJoin(60 * 1000, room.liveId, room.anchorInfo.userId, null,
+            .applyJoin(10 * 1000, room.liveId, room.anchorInfo.userId, null,
                 object : QNLiveCallBack<PKInvitation> {
                     override fun onError(code: Int, msg: String?) {
                         "邀请失败${msg}".asToast()

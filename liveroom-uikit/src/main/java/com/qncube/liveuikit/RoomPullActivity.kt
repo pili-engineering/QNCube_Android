@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
 import com.qncube.chatservice.QNChatRoomService
 import com.qncube.danmakuservice.QNDanmakuService
@@ -29,7 +30,6 @@ import com.qncube.uikitcore.view.EmptyFragment
 import kotlinx.android.synthetic.main.activity_room_pull.*
 import kotlinx.android.synthetic.main.activity_room_pull.linkerCotiner
 import kotlinx.android.synthetic.main.activity_room_pull.vpCover
-import kotlinx.android.synthetic.main.activity_room_push.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -103,6 +103,7 @@ class RoomPullActivity : BaseFrameActivity() {
         }
         super.onCreate(savedInstanceState)
     }
+
     override fun init() {
         mRoomId = intent.getStringExtra("roomId") ?: ""
         mRoomClient.pullPreview = player
@@ -132,7 +133,7 @@ class RoomPullActivity : BaseFrameActivity() {
             doWork {
                 val room = suspendJoinRoom(mRoomId)
                 //  c?.onSuccess(null)
-                prevContainer.visibility = View.GONE
+
                 vpCover.visibility = View.VISIBLE
                 startCallBack?.onSuccess(room)
             }
@@ -148,22 +149,29 @@ class RoomPullActivity : BaseFrameActivity() {
                 showLoading(false)
             }
         }
+        player.displayAspectRatio = PLVideoView.ASPECT_RATIO_PAVED_PARENT
     }
 
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK
-            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo!=null
+            && mRoomClient.getService(QNRoomService::class.java).currentRoomInfo != null
         ) {
             return true
         }
         return super.onKeyDown(keyCode, event)
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mRoomClient.closeRoom()
         startCallBack = null
     }
+
+    override fun isToolBarEnable(): Boolean {
+        return false
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_room_pull
     }

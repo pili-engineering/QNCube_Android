@@ -1,6 +1,7 @@
 package com.qncube.uikitlinkmic
 
 import android.content.DialogInterface
+import android.view.Gravity
 import android.view.View
 import com.bumptech.glide.Glide
 import com.qncube.linkmicservice.QNLinkMicService
@@ -17,13 +18,15 @@ import java.text.DecimalFormat
 class MyLinkerInfoDialog(val service: QNLinkMicService, val me: QNLiveUser) :
     FinalDialogFragment() {
 
+    init {
+        applyGravityStyle(Gravity.BOTTOM)
+    }
+
     private var timeDiff = 0
     private val mScheduler = Scheduler(1000) {
         tvTime?.text = formatTime(timeDiff)
     }
-
     private fun formatTime(time: Int): String {
-
         val decimalFormat = DecimalFormat("00")
         val hh: String = decimalFormat.format(time / 3600)
         val mm: String = decimalFormat.format(time % 3600 / 60)

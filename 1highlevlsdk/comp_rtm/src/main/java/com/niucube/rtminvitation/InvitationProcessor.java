@@ -63,6 +63,7 @@ public class InvitationProcessor {
                 addTimeOutRun(invitation.getInvitation());
                 callback.onSuccess();
             }
+
             @Override
             public void onFailure(int code, @NotNull String msg) {
                 callback.onFailure(code, msg);
@@ -84,7 +85,7 @@ public class InvitationProcessor {
         invitation.setInitiatorUid(RtmManager.INSTANCE.getRtmClient().getLoginUserId());
         invitation.setFlag(flag++);
         invitation.setReceiver(peerId);
-        invitation.setTimeStamp(timeoutThreshold);
+        invitation.setTimeoutThreshold(timeoutThreshold);
         invitation.setTimeStamp(System.currentTimeMillis());
         InvitationMsg invitationMsg = new InvitationMsg();
         invitationMsg.setInvitation(invitation);

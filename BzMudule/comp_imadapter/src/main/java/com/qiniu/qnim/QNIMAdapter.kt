@@ -280,6 +280,10 @@ class QNIMAdapter : RtmAdapter {
         return loginUid
     }
 
+    override fun getLoginUserIMUId(): String {
+        return loginImUid
+    }
+
     /**
      * 注册监听
      * @param c2cMessageReceiver  c2c消息接收器
