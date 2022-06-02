@@ -96,12 +96,20 @@ class MicLinkerView : BaseSlotView() {
 
         override fun onUserMicrophoneStatusChange(micLinker: QNMicLinker) {
             val index = mLinkerAdapter.data.indexOf(micLinker)
-            mLinkerAdapter.notifyItemChanged(index)
+            if(mLinkerAdapter is LinkerAdapter){
+                (mLinkerAdapter as LinkerAdapter).convertItem(index)
+            }else{
+                mLinkerAdapter.notifyItemChanged(index)
+            }
         }
 
         override fun onUserCameraStatusChange(micLinker: QNMicLinker) {
             val index = mLinkerAdapter.data.indexOf(micLinker)
-            mLinkerAdapter.notifyItemChanged(index)
+            if(mLinkerAdapter is LinkerAdapter){
+                (mLinkerAdapter as LinkerAdapter).convertItem(index)
+            }else{
+                mLinkerAdapter.notifyItemChanged(index)
+            }
         }
 
         override fun onUserBeKick(micLinker: QNMicLinker, msg: String) {
@@ -192,7 +200,7 @@ class MicLinkerView : BaseSlotView() {
                 container.addView(
                     RoundTextureView(context).apply {
                         linkService.setUserPreview(micLinker.user?.userId ?: "", this)
-                        setRadius(ViewUtil.dip2px(size / 2f).toFloat())
+                        setRadius((container.measuredWidth/2).toFloat())
                     },
                     FrameLayout.LayoutParams(
                         size,

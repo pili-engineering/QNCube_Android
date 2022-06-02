@@ -23,7 +23,6 @@ import com.qncube.liveroomcore.mode.UidMode
 
 class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker, BaseService() {
 
-
     private val mLinkDateSource = LinkDateSource()
 
     private val mPlayer: IPullPlayer?
@@ -31,12 +30,25 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
             return (client as QNLivePullClient).pullPreview
         }
 
-
     private val mLinkMicListeners = ArrayList<QNAudienceMicLinker.LinkMicListener>()
     private val mMeLinker: QNMicLinker?
         get() {
             return context.getMicLinker(user?.userId ?: "hjhb")
         }
+    private val mMicListJob = Scheduler(5000) {
+        if (roomInfo == null) {
+            return@Scheduler
+        }
+
+        if (isLinked()) {
+            return@Scheduler
+        }
+        backGround {
+            doWork {
+               val list= mLinkDateSource.getMicList(roomInfo?.liveId ?: "")
+            }
+        }
+    }
 
     /**
      *  添加连麦监听
@@ -258,14 +270,14 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                         liveroom_miclinker_camera_mute,
                         mode
                     ).toJsonString(),
-                    roomInfo!!.chatId, false
+                    roomInfo!!.chatId, true
                 )
                 context.mRtcLiveRoom.muteLocalCamera(muted)
                 mMeLinker?.isOpenCamera = !muted
                 callBack?.onSuccess(null)
             }
             catchError {
-                callBack?.onError(it.getCode(),it.message)
+                callBack?.onError(it.getCode(), it.message)
 
             }
         }
@@ -289,14 +301,15 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                         liveroom_miclinker_microphone_mute,
                         mode
                     ).toJsonString(),
-                    roomInfo!!.chatId, false
+                    roomInfo!!.chatId, true
                 )
                 context.mRtcLiveRoom.muteLocalMicrophone(muted)
+
                 mMeLinker?.isOpenMicrophone = !muted
                 callBack?.onSuccess(null)
             }
             catchError {
-                callBack?.onError(it.getCode(),it.message)
+                callBack?.onError(it.getCode(), it.message)
             }
         }
 

@@ -102,7 +102,8 @@ class QNLivePushClientImpl : QNLivePushClient {
                         roomInfo.pushUrl,
                         MixStreamParams().apply {
                             this.mixStreamWidth = mCameraParams.width
-                            this.mixBitrate = mCameraParams.bitrate + mQNMicrophoneParams.mBitrate
+                            this.mixStringHeight = mCameraParams.height
+                            this.mixBitrate = mCameraParams.bitrate
                             this.fps = mCameraParams.fps
                         })
                     mRtcRoom.mMixStreamManager.setTrack(
@@ -176,6 +177,7 @@ class QNLivePushClientImpl : QNLivePushClient {
 
     override fun setLocalPreView(view: QNRenderView) {
         mRtcRoom.setLocalPreView(view)
+        mLocalPreView=view
     }
 
     override fun getLocalPreView(): QNRenderView? {

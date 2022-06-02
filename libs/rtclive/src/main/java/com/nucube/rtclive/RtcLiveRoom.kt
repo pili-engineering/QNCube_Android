@@ -315,7 +315,7 @@ open class RtcLiveRoom(
     //禁/不禁 本地摄像头推流
     fun muteLocalMicrophone(muted: Boolean): Boolean {
         localAudioTrack?.isMuted = muted
-        return localVideoTrack != null
+        return localAudioTrack != null
     }
 
     //设置视频帧回调

@@ -8,6 +8,7 @@ import com.qncube.liveroomcore.Extension
 import com.qncube.liveroomcore.QNLiveCallBack
 import com.qncube.liveroomcore.backGround
 import com.qncube.liveroomcore.getCode
+import com.qncube.liveroomcore.innermodel.HearBeatResp
 import com.qncube.liveroomcore.mode.QNCreateRoomParam
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import org.json.JSONObject
@@ -132,7 +133,7 @@ class RoomDataSource {
         )
     }
 
-    suspend fun heartbeat(liveId: String) {
-        OKHttpService.get("/client/live/room/heartbeat/${liveId}", null, Any::class.java)
+    suspend fun heartbeat(liveId: String) :HearBeatResp{
+        return OKHttpService.get("/client/live/room/heartbeat/${liveId}", null, HearBeatResp::class.java)
     }
 }

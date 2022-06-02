@@ -14,7 +14,7 @@ public class PKInfo {
     @JSONField(name = "start_at")
     public String startAt;
     @JSONField(name = "created_at")
-    public String createdAt;
+    public long createdAt;
     @JSONField(name = "id")
     public String id;
     @JSONField(name = "init_user_id")

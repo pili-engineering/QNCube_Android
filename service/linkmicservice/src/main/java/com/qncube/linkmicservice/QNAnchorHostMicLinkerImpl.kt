@@ -3,6 +3,7 @@ package com.qncube.linkmicservice
 import android.util.Log
 import com.nucube.rtclive.CameraMergeOption
 import com.nucube.rtclive.MicrophoneMergeOption
+import com.nucube.rtclive.QNMergeOption
 import com.nucube.rtclive.RtcLiveRoom
 import com.qncube.liveroomcore.BaseService
 import com.qncube.liveroomcore.Extension
@@ -16,14 +17,22 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
 
     private val mMicLinkerListener = object : QNLinkMicService.MicLinkerListener {
 
+        private val mOps = HashMap<String, QNMergeOption>()
+
         override fun onInitLinkers(linkers: MutableList<QNMicLinker>) {}
         override fun onUserJoinLink(micLinker: QNMicLinker) {
-            Log.d("MixStreamHelperImp", "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager .roomUser}")
+            Log.d(
+                "MixStreamHelperImp",
+                "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager.roomUser}"
+            )
             if (context.mRtcLiveRoom.mMixStreamManager.mQNMergeJob == null) {
+                // context.mRtcLiveRoom.mMixStreamManager.clear()
                 context.mRtcLiveRoom.mMixStreamManager.startMixStreamJob()
             }
             val ops = mMixStreamAdapter?.onResetMixParam(context.allLinker, micLinker, true)
+            mOps.clear()
             ops?.forEach {
+                mOps.put(it.uid, it)
                 context.mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
@@ -45,7 +54,10 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
          * @param micLinker
          */
         override fun onUserLeft(micLinker: QNMicLinker) {
-            Log.d("MixStreamHelperImp", "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager .roomUser}")
+            Log.d(
+                "MixStreamHelperImp",
+                "context.mRtcLiveRoom.mMixStreamManager .roomUser ${context.mRtcLiveRoom.mMixStreamManager.roomUser}"
+            )
             if (context.mRtcLiveRoom.mMixStreamManager
                     .roomUser == 0
             ) {
@@ -65,7 +77,9 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
                 false
             )
 
+            mOps.clear()
             ops?.forEach {
+                mOps.put(it.uid, it)
                 context.mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
                     it.uid,
                     it.microphoneMergeOption,
@@ -80,9 +94,34 @@ class QNAnchorHostMicLinkerImpl(private val context: MicLinkContext) : QNAnchorH
             context.mRtcLiveRoom.mMixStreamManager.commitOpt()
         }
 
-        override fun onUserMicrophoneStatusChange(micLinker: QNMicLinker) {}
-        override fun onUserCameraStatusChange(micLinker: QNMicLinker) {}
-        override fun onUserBeKick(micLinker: QNMicLinker, msg: String) {}
+        override fun onUserMicrophoneStatusChange(micLinker: QNMicLinker) {
+
+        }
+
+        override fun onUserCameraStatusChange(micLinker: QNMicLinker) {
+            if (micLinker.isOpenCamera) {
+                //打开了
+                mOps.get(micLinker.user.userId)?.cameraMergeOption?.let {
+                    context.mRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+                        micLinker.user.userId,
+                        it,
+                        true
+                    )
+                }
+            } else {
+                //关闭了摄像头
+                context.mRtcLiveRoom.mMixStreamManager.updateUserVideoMergeOptions(
+                    micLinker.user.userId,
+                    CameraMergeOption(),
+                    true
+                )
+            }
+        }
+
+        override fun onUserBeKick(micLinker: QNMicLinker, msg: String) {
+
+        }
+
         override fun onUserExtension(micLinker: QNMicLinker, extension: Extension) {}
     }
 

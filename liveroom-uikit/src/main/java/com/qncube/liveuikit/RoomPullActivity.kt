@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
@@ -17,6 +18,7 @@ import com.qncube.danmakuservice.QNDanmakuService
 import com.qncube.linkmicservice.QNLinkMicService
 import com.qncube.liveroom_pullclient.QNLivePullClient
 import com.qncube.liveroomcore.QNLiveCallBack
+import com.qncube.liveroomcore.QNLiveLogUtil
 import com.qncube.liveroomcore.asToast
 import com.qncube.liveroomcore.getCode
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
@@ -70,6 +72,9 @@ class RoomPullActivity : BaseFrameActivity() {
             registerService(
                 QNRoomService::class.java
             )
+            setPullClientListener { liveRoomStatus, msg ->
+                QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
+            }
         }
     }
 
@@ -156,7 +161,7 @@ class RoomPullActivity : BaseFrameActivity() {
         player.displayAspectRatio = PLVideoView.ASPECT_RATIO_PAVED_PARENT
 
         player.setOnVideoSizeChangedListener { w, h ->
-
+            Log.d("player", "  setOnVideoSizeChangedListener ${w} ${h}");
         }
 
     }

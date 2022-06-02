@@ -124,6 +124,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
             }
 
             override fun onUserLeft(p0: String) {
+
                 roomUser--
                 if (mRtcLiveRoom.meId == p0) {
                     onRoomLeft()
@@ -205,6 +206,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
      */
     fun startMixStreamJob() {
         Log.d("MixStreamHelperImp", "startMixStreamJob ")
+        clear()
         isMixStreamIng = false
         if (mQNForwardJob != null) {
             stopForwardJob()
@@ -215,11 +217,18 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
         mEngine.startLiveStreaming(mQNMergeJob)
     }
 
+    private fun clear() {
+        tracksMap.clear()
+        toDoAudioMergeOptionsMap.clear()
+        toDoVideoMergeOptionsMap.clear()
+    }
+
     /**
      * 启动新的混流任务
      */
     fun startNewMixStreamJob(mixStreamParams: MixStreamParams) {
         Log.d("MixStreamHelperImp", "startNewMixStreamJob ")
+        clear()
         if (mQNForwardJob != null) {
             stopForwardJob()
         }
@@ -248,9 +257,7 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
 
     fun stopMixStreamJob() {
         Log.d("MixStreamHelperImp", "stopMixStreamJob ")
-        tracksMap.clear()
-        toDoAudioMergeOptionsMap.clear()
-        toDoVideoMergeOptionsMap.clear()
+        clear()
 
         if (!TextUtils.isEmpty(mQNMergeJob?.streamID)) {
             mEngine.stopLiveStreaming(mQNMergeJob)
@@ -342,7 +349,8 @@ class MixStreamManager(val mRtcLiveRoom: RtcLiveRoom) {
                     })
                 }
 
-                Log.d("MixStreamHelperImp",
+                Log.d(
+                    "MixStreamHelperImp",
                     "commitOpt fab发布混流参数  " + mMergeTrackOptions.get(mMergeTrackOptions.size - 1)
                         .toJsonObject().toString()
                 )

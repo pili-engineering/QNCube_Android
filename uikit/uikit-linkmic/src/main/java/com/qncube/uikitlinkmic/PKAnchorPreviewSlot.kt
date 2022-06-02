@@ -9,6 +9,7 @@ import com.nucube.rtclive.CameraMergeOption
 import com.nucube.rtclive.MicrophoneMergeOption
 import com.nucube.rtclive.MixStreamParams
 import com.nucube.rtclive.QNMergeOption
+import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
 import com.qbcube.pkservice.QNPKSession
 import com.qiniu.droid.rtc.QNTextureView
@@ -76,14 +77,31 @@ class PKAudiencePreview : BaseSlotView() {
         originParent = parent
         originIndex = parent.indexOfChild(player)
         parent.removeView(player)
-        view!!.llPKContainer.addView(player)
+
+        view!!.llPKContainer.addView(
+            player,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            )
+        )
+
+        player.requestLayout()
 
     }
 
     private fun removeView() {
         val player = (client as QNLivePullClient).pullPreview.view
         view!!.llPKContainer.removeView(player)
-        originParent?.addView(player, originIndex)
+        originParent?.addView(
+            player,
+            originIndex,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+            )
+        )
+        player.requestLayout()
     }
 
     override fun getLayoutId(): Int {
@@ -174,6 +192,8 @@ class PKAnchorPreview : BaseSlotView() {
     }
 
     private var originPreViewParent: ViewGroup? = null
+    private var originIndex = -1;
+
     private var localRenderView: View? = null
     private val mPKServiceListener = object : QNPKService.PKServiceListener {
 
@@ -187,6 +207,7 @@ class PKAnchorPreview : BaseSlotView() {
             }
             localRenderView = (client as QNLivePushClient).localPreView as View
             originPreViewParent = localRenderView!!.parent as ViewGroup
+            originIndex = originPreViewParent?.indexOfChild(localRenderView) ?: 0
             originPreViewParent?.removeView(localRenderView)
             view!!.flMeContainer.addView(localRenderView)
             view!!.flPeerContainer.addView(
@@ -204,7 +225,7 @@ class PKAnchorPreview : BaseSlotView() {
         override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
             view!!.flMeContainer.removeView(localRenderView)
             originPreViewParent?.addView(
-                localRenderView, ViewGroup.LayoutParams(
+                localRenderView, originIndex, ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )

@@ -17,6 +17,7 @@ import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QNInternalViewSlot
 import com.qncube.uikitcore.dialog.FinalDialogFragment
 import com.qncube.uikitcore.dialog.LoadingDialog
+import com.qncube.uikitcore.ext.setDoubleCheckClickListener
 import kotlinx.android.synthetic.main.kit_start_pk_view.view.*
 
 class StartPKSlot : QNInternalViewSlot() {
@@ -40,16 +41,21 @@ class StartPKSlot : QNInternalViewSlot() {
 class StartPKView : BaseSlotView() {
 
     private var showingPKListDialog: PKAbleListDialog? = null
+
+    private var mPkSession: QNPKSession? = null
+
     private val mPKServiceListener = object : QNPKService.PKServiceListener {
         override fun onInitPKer(pkSession: QNPKSession) {}
         override fun onStart(pkSession: QNPKSession) {
             view!!.llStartPK.visibility = View.GONE
             view!!.tvStopPK.visibility = View.VISIBLE
+            mPkSession = pkSession
         }
 
         override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
             view!!.llStartPK.visibility = View.VISIBLE
             view!!.tvStopPK.visibility = View.GONE
+            mPkSession = null
         }
 
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
@@ -73,7 +79,8 @@ class StartPKView : BaseSlotView() {
         }
 
         override fun onAccept(pkInvitation: PKInvitation) {
-            "主播 ${pkInvitation.receiver.nick} 接收".asToast()
+            LoadingDialog.cancelLoadingDialog()
+            "主播 ${pkInvitation.receiver.nick} 接受".asToast()
             client?.getService(QNPKService::class.java)?.start(20 * 1000,
                 pkInvitation.receiverRoomId, pkInvitation.receiver.userId, null,
                 object : QNLiveCallBack<QNPKSession> {
@@ -82,6 +89,7 @@ class StartPKView : BaseSlotView() {
                     }
 
                     override fun onSuccess(data: QNPKSession) {
+
                     }
                 })
             showingPKListDialog?.dismiss()
@@ -90,7 +98,7 @@ class StartPKView : BaseSlotView() {
 
         override fun onReject(pkInvitation: PKInvitation) {
             "主播 ${pkInvitation.receiver.nick} 拒绝".asToast()
-
+            LoadingDialog.cancelLoadingDialog()
         }
     }
 
@@ -101,19 +109,33 @@ class StartPKView : BaseSlotView() {
 
     override fun initView() {
         super.initView()
-        view!!.flPkBtn.setOnClickListener {
-            showingPKListDialog = PKAbleListDialog()
-            showingPKListDialog?.setInviteCall {
-                showInvite(it)
-            }
-            showingPKListDialog?.setDefaultListener(object :
-                FinalDialogFragment.BaseDialogListener() {
-                override fun onDismiss(dialog: DialogFragment) {
-                    super.onDismiss(dialog)
-                    showingPKListDialog = null
+        view!!.flPkBtn.setDoubleCheckClickListener {
+
+            if (mPkSession != null) {
+                client?.getService(QNPKService::class.java)?.stop(object : QNLiveCallBack<Void> {
+                    override fun onError(code: Int, msg: String?) {
+                        msg?.asToast()
+                    }
+
+                    override fun onSuccess(data: Void?) {
+
+                    }
+
+                })
+            } else {
+                showingPKListDialog = PKAbleListDialog()
+                showingPKListDialog?.setInviteCall {
+                    showInvite(it)
                 }
-            })
-            showingPKListDialog?.show(kitContext!!.fm, "")
+                showingPKListDialog?.setDefaultListener(object :
+                    FinalDialogFragment.BaseDialogListener() {
+                    override fun onDismiss(dialog: DialogFragment) {
+                        super.onDismiss(dialog)
+                        showingPKListDialog = null
+                    }
+                })
+                showingPKListDialog?.show(kitContext!!.fm, "")
+            }
         }
     }
 

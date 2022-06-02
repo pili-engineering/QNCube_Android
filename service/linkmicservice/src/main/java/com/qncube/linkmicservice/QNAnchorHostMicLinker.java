@@ -22,6 +22,8 @@ public interface QNAnchorHostMicLinker {
          * @return 返回重设后的每个连麦者的混流布局
          */
         List<QNMergeOption> onResetMixParam(List<QNMicLinker> micLinkers, QNMicLinker target, boolean isJoin);
+
+
     }
 
     /**

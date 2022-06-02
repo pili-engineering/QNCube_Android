@@ -7,15 +7,20 @@ import org.json.JSONObject
 
 class PKDateSource {
 
-    suspend fun startPk(recv_room_id: String, recv_user_id: String): PKOutline {
+    suspend fun startPk(
+        init_room_id: String,
+        recv_room_id: String,
+        recv_user_id: String
+    ): PKOutline {
         val jsonObj = JSONObject()
+        jsonObj.put("init_room_id", init_room_id)
         jsonObj.put("recv_room_id", recv_room_id)
         jsonObj.put("recv_user_id", recv_user_id)
         return OKHttpService.post("/client/relay/start", jsonObj.toString(), PKOutline::class.java)
     }
 
     suspend fun recevPk(relay_id: String): PKOutline {
-        return OKHttpService.post("/client/relay/${relay_id}/agree", "{}", PKOutline::class.java)
+        return OKHttpService.get("/client/relay/${relay_id}/token", null, PKOutline::class.java)
     }
 
     suspend fun stopPk(relay_id: String) {
@@ -23,7 +28,7 @@ class PKDateSource {
     }
 
     suspend fun ackACKPk(relay_id: String) {
-        OKHttpService.post("/client/relay/${relay_id}/token", "{}", Any::class.java)
+        OKHttpService.post("/client/relay/${relay_id}/started", "{}", Any::class.java)
     }
 
     suspend fun getPkInfo(relay_id: String): PKInfo {

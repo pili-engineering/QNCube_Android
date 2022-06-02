@@ -17,7 +17,7 @@ object LinkerUIHelper {
     var uiMicWidth = 0
     var uiMicHeight = 0
 
-    var mixTopMargin = 111 + 30
+    var mixTopMargin = 174
     var uiTopMargin = 0
 
     /**
@@ -33,7 +33,7 @@ object LinkerUIHelper {
     /**
      * 混流参数 每个麦位右间距
      */
-    var micRightMixMargin = 30
+    var micRightMixMargin = 30*3
 
     /**
      * UI
@@ -79,6 +79,8 @@ object LinkerUIHelper {
         val ops = ArrayList<QNMergeOption>()
         var lastX =
             LinkerUIHelper.mixWidth - LinkerUIHelper.mixMicWidth - LinkerUIHelper.micRightMixMargin
+
+
         var lastY = LinkerUIHelper.mixTopMargin
         micLinkers.forEach {
             if (it.user.userId == roomInfo?.anchorInfo?.userId) {
@@ -103,7 +105,7 @@ object LinkerUIHelper {
                     cameraMergeOption = CameraMergeOption().apply {
                         isNeed = true
                         mX = lastX
-                        mY = lastX
+                        mY = lastY
                         mZ = 1
                         mWidth = LinkerUIHelper.mixMicWidth
                         mHeight = LinkerUIHelper.mixMicHeight

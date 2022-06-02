@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager
 import com.nucube.rtclive.QNCameraParams
 import com.nucube.rtclive.QNMicrophoneParams
 import com.qbcube.pkservice.QNPKService
+import com.qiniu.droid.rtc.QNConnectionState
 import com.qncube.chatservice.QNChatRoomService
 import com.qncube.danmakuservice.QNDanmakuService
 import com.qncube.linkmicservice.QNLinkMicService
@@ -21,6 +22,7 @@ import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.publicchatservice.QNPublicChatService
 import com.qncube.pushclient.QNLivePushClient
+import com.qncube.pushclient.QNPushClientListener
 import com.qncube.roomservice.QNRoomService
 import com.qncube.rtcexcepion.RtcException
 import com.qncube.uikitcore.KitContext
@@ -67,6 +69,23 @@ class RoomPushActivity : BaseFrameActivity() {
             registerService(
                 QNRoomService::class.java
             )
+            setPushClientListener(object : QNPushClientListener {
+                override fun onConnectionStateChanged(state: QNConnectionState?, msg: String?) {
+
+                }
+
+                override fun onRoomStatusChange(liveRoomStatus: Int, msg: String?) {
+                    QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
+                }
+
+                override fun onCameraStatusChange(isOpen: Boolean) {
+
+                }
+
+                override fun onMicrophoneStatusChange(isOpen: Boolean) {
+
+                }
+            })
         }
     }
 

@@ -1,6 +1,7 @@
 package com.qbcube.pkservice
 
 import android.text.TextUtils
+import android.util.Base64
 import com.niucube.rtm.*
 import com.niucube.rtm.msg.RtmTextMsg
 import com.nucube.rtclive.CameraMergeOption
@@ -45,20 +46,17 @@ class QNPKServiceImpl : QNPKService, BaseService() {
     private fun checkReceivePk(pkTemp: QNPKSession?, uidTem: String) {
         if (pkTemp != null) {
             mPKSessionTemp = pkTemp
-        } else {
-            return
         }
         if (!TextUtils.isEmpty(uidTem)) {
             trackUidTemp = uidTem
         }
         if (mPKSessionTemp != null && !TextUtils.isEmpty(trackUidTemp) &&
             mPKSessionTemp?.initiator?.userId == trackUidTemp
-
         ) {
             //开始收到pk
             backGround {
                 doWork {
-                   val pkOutline= mPKDateSource.recevPk(mPKSession?.sessionId?:"")
+                    val pkOutline = mPKDateSource.recevPk(mPKSessionTemp?.sessionId ?: "")
 
                     val field = client!!.getRtc()
                     val room: RtcLiveRoom = field.get(client) as RtcLiveRoom
@@ -66,8 +64,13 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     val sourceInfo = QNMediaRelayInfo(room.roomName, room.roomToken)
                     val configuration = QNMediaRelayConfiguration(sourceInfo)
 
-                    val json = JSONObject(pkOutline.relay_token)
+                    val tokens: Array<String> =
+                        pkOutline.relay_token.split(":".toRegex()).toTypedArray()
+                    val b64 = String(Base64.decode(tokens[2].toByteArray(), Base64.DEFAULT))
+                    val json: JSONObject = JSONObject(b64)
+                    val mAppId = json.optString("appId")
                     val peerRoomName = json.optString("roomName")
+
                     val destInfo1 = QNMediaRelayInfo(peerRoomName, pkOutline.relay_token)
                     configuration.addDestRoomInfo(destInfo1)
                     startMediaRelay(peerRoomName, room.mClient, configuration)
@@ -76,7 +79,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     mPKSession = mPKSessionTemp
                     mPKSession?.status = PK_STATUS_OK
                     try {
-                        mPKDateSource.ackACKPk(mPKSession?.sessionId?:"")
+                        mPKDateSource.ackACKPk(mPKSession?.sessionId ?: "")
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -99,6 +102,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     QNLiveLogUtil.LogE("pk 接收方确认回复pk成功 ")
                 }
                 catchError {
+                    it.message?.asToast()
                     QNLiveLogUtil.LogE("pk 接收方确认回复pk 错误 ${it.getCode()} ${it.message}")
                 }
                 onFinally {
@@ -117,6 +121,15 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     JsonUtils.parseObject(msg.optData(), QNPKSession::class.java) ?: return true
                 checkReceivePk(pk, "")
             }
+
+            if (msg.optAction() == liveroom_pk_stop) {
+                val pk =
+                    JsonUtils.parseObject(msg.optData(), QNPKSession::class.java) ?: return true
+                if (mPKSession?.sessionId == pk.sessionId) {
+                    loopStop()
+                }
+            }
+
             return false
         }
     }
@@ -135,7 +148,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     val pk =
                         JsonUtils.parseObject(msg.optData(), QNPKSession::class.java) ?: return true
                     pkServiceListeners.forEach {
-                        it.onStart(pk)
+                        it.onStop(pk,1,"")
                     }
 
                 }
@@ -159,7 +172,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                 }
                 try {
 
-                    mPKDateSource.stopPk(mPKSession?.sessionId?:"")
+                    mPKDateSource.stopPk(mPKSession?.sessionId ?: "")
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -217,36 +230,27 @@ class QNPKServiceImpl : QNPKService, BaseService() {
             }
             if (p0 == mPKSession?.receiver?.userId) {
                 QNLiveLogUtil.LogE("pk 对方离开房间 ")
-                loopStop(mPKSession!!.initiator!!.userId)
+                loopStop()
             }
 
-            if (p0 === mPKSession?.initiator?.userId) {
+            if (p0 == mPKSession?.initiator?.userId) {
                 QNLiveLogUtil.LogE("pk 对方离开房间 ")
-                loopStop(mPKSession!!.receiver!!.userId)
+                loopStop()
             }
         }
     }
 
-    private fun loopStop(peerId: String) {
+    private fun loopStop() {
+
         backGround {
             doWork {
-                var report = false
-                var repCount = 0
-                do {
-                    try {
-                        mPKDateSource.stopPk(mPKSession?.sessionId ?: "")
-                        report = true
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        QNLiveLogUtil.LogE("pk 对方离开房间 上报结束失败 ${e.message} ")
-                    }
-                    repCount++
-                    if (!report) {
-                        delay(200)
-                    } else {
-                        QNLiveLogUtil.LogE("pk 对方离开房间 上报结束 成功")
-                    }
-                } while (!report || repCount < 10)
+
+                try {
+                    mPKDateSource.stopPk(mPKSession?.sessionId ?: "")
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    QNLiveLogUtil.LogE("pk 对方离开房间 上报结束失败 ${e.message} ")
+                }
 
                 stopMediaRelay()
                 try {
@@ -286,13 +290,11 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         val mRtcLiveRoom: RtcLiveRoom = field.get(client) as RtcLiveRoom
 
         if (mPKSession != null) {
-            if (mRtcLiveRoom.mMixStreamManager.mQNMergeJob == null) {
-                mRtcLiveRoom.mMixStreamManager.startNewMixStreamJob(
-                    mPKMixStreamAdapter!!.onPKMixStreamStart(
-                        mPKSession!!
-                    )
+            mRtcLiveRoom.mMixStreamManager.startNewMixStreamJob(
+                mPKMixStreamAdapter!!.onPKMixStreamStart(
+                    mPKSession!!
                 )
-            }
+            )
             val ops = mPKMixStreamAdapter?.onPKLinkerJoin(mPKSession!!)
             ops?.forEach {
                 mRtcLiveRoom.mMixStreamManager.updateUserAudioMergeOptions(
@@ -439,9 +441,10 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         }
         backGround {
             doWork {
-                val pkOutline = mPKDateSource.startPk(receiverRoomId, receiverUid)
+                val pkOutline =
+                    mPKDateSource.startPk(roomInfo?.liveId ?: "", receiverRoomId, receiverUid)
                 val receiver =
-                    UserDataSource().searchUserByIMUid(receiverUid)
+                    UserDataSource().searchUserByUserId(receiverUid)
 
                 val pkSession = QNPKSession()
                 pkSession.extensions = extensions
@@ -466,8 +469,16 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                 //转发
                 val sourceInfo = QNMediaRelayInfo(room.roomName, room.roomToken)
                 val configuration = QNMediaRelayConfiguration(sourceInfo)
-                val json = JSONObject(pkOutline.relay_token)
+
+
+                val tokens: Array<String> =
+                    pkOutline.relay_token.split(":".toRegex()).toTypedArray()
+                val b64 = String(Base64.decode(tokens[2].toByteArray(), Base64.DEFAULT))
+                val json: JSONObject = JSONObject(b64)
+                val mAppId = json.optString("appId")
                 val peerRoomName = json.optString("roomName")
+
+
                 val destInfo1 = QNMediaRelayInfo(peerRoomName, pkOutline.relay_token)
                 configuration.addDestRoomInfo(destInfo1)
 
@@ -532,9 +543,14 @@ class QNPKServiceImpl : QNPKService, BaseService() {
         }
         backGround {
             doWork {
-
+                val peer = if (mPKSession!!.initiator.userId == user?.userId) {
+                    mPKSession!!.receiver
+                } else {
+                    mPKSession!!.initiator
+                }
                 mPKDateSource.stopPk(mPKSession?.sessionId ?: "")
                 stopMediaRelay()
+
                 try {
                     RtmManager.rtmClient.sendChannelMsg(
                         RtmTextMsg<QNPKSession>(
@@ -549,14 +565,10 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                 pkServiceListeners.forEach {
                     it.onStop(mPKSession!!, 0, "positive stop")
                 }
-                val peer = if (mPKSession!!.initiator.userId == user?.userId) {
-                    mPKSession!!.receiver.userId
-                } else {
-                    mPKSession!!.initiator.userId
-                }
+
                 mPKSession = null
                 callBack?.onSuccess(null)
-                resetMixStream(peer)
+                resetMixStream(peer.userId)
             }
             catchError {
                 callBack?.onError(it.getCode(), it.message)

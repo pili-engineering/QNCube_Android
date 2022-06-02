@@ -110,6 +110,7 @@ public interface QNPKService extends QNLiveService {
     //结束
     void stop(QNLiveCallBack<Void> callBack);
 
+
     /**
      * 设置某人的连麦预览
      *

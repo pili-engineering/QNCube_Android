@@ -49,8 +49,8 @@ class AnchorReceivedPkHandler : ISlotView {
     private val mPKInvitationListener = object : QNPKInvitationHandler.PKInvitationListener {
         override fun onReceivedApply(pkInvitation: PKInvitation) {
             CommonTipDialog.TipBuild()
-                .setTittle(" ${pkInvitation.receiver.nick} 邀请你PK，是否接受")
-                .setContent("")
+                .setTittle("PK邀请")
+                .setContent("${pkInvitation.receiver.nick} 邀请你PK，是否接受")
                 .setNegativeText("拒绝")
                 .setPositiveText("接受")
                 .setListener(object : FinalDialogFragment.BaseDialogListener() {

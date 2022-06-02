@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="end"
     android:orientation="vertical"
-
+     android:id="@+id/flLinkerContent"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
@@ -39,7 +39,8 @@
                 android:layout_gravity="center_vertical|end"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="18dp"
-                android:src="@mipmap/kit_ic_show_input" />
+                android:src="@drawable/kit_select_seat_mic"
+                />
 
             <FrameLayout
                 android:id="@+id/flSurfaceContainer"
@@ -68,5 +69,5 @@
         android:layout_height="12dp"
         android:layout_gravity="center_horizontal|bottom"
 
-        android:src="@mipmap/kit_ic_show_input" />
+        android:src="@drawable/kit_select_seat_mic" />
 </FrameLayout>
