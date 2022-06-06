@@ -11,6 +11,8 @@ import com.qncube.liveroomcore.ClientType
 import com.qncube.liveroomcore.QNLiveCallBack
 import com.qncube.liveroomcore.QNLiveRoomClient
 import com.qncube.liveroomcore.asToast
+import com.qncube.liveroomcore.mode.QNLiveRoomInfo
+import com.qncube.publicchatservice.QNPublicChatService
 import com.qncube.uikitcore.BaseSlotView
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.QNInternalViewSlot
@@ -19,6 +21,7 @@ import com.qncube.uikitdanmaku.SendDanmakuView
 import com.qncube.uikitlinkmic.StartLinkView
 import com.qucube.uikitinput.RoomInputDialog
 import kotlinx.android.synthetic.main.kit_bottom_bar.view.*
+import kotlinx.android.synthetic.main.kit_close_menu_view.view.*
 import kotlin.collections.ArrayList
 
 //发弹幕菜单
@@ -66,26 +69,45 @@ class CloseRoomFucMenu : QNInternalViewSlot() {
         client: QNLiveRoomClient,
         container: ViewGroup?
     ): View {
-        val view = LayoutInflater.from(context.androidContext)
-            .inflate(R.layout.kit_close_menu_view, container, false)
-        view.setOnClickListener {
-            LoadingDialog.showLoading(context.fm)
-            client.leaveRoom(object : QNLiveCallBack<Void> {
-                override fun onError(code: Int, msg: String?) {
-                    LoadingDialog.cancelLoadingDialog()
-                    msg?.asToast()
-                }
-
-                override fun onSuccess(data: Void?) {
-                    LoadingDialog.cancelLoadingDialog()
-                    client.closeRoom()
-                    context.currentActivity.finish()
-                }
-            })
-        }
-        return view
+        val view = CloseRoomView()
+        view.attach(lifecycleOwner, context, client)
+        return view.createView(LayoutInflater.from(context.androidContext), container)
     }
 
+    class CloseRoomView : BaseSlotView() {
+
+        override fun getLayoutId(): Int {
+            return R.layout.kit_close_menu_view
+        }
+
+        override fun initView() {
+            super.initView()
+            view!!.ivClose.setOnClickListener {
+                LoadingDialog.showLoading(kitContext!!.fm)
+                client?.getService(QNPublicChatService::class.java)
+                    ?.sendByeBye("离开了房间", null)
+
+                client?.leaveRoom(object : QNLiveCallBack<Void> {
+                    override fun onError(code: Int, msg: String?) {
+                        LoadingDialog.cancelLoadingDialog()
+                        msg?.asToast()
+                    }
+
+                    override fun onSuccess(data: Void?) {
+                        LoadingDialog.cancelLoadingDialog()
+                        client?.closeRoom()
+                        kitContext?.currentActivity?.finish()
+                    }
+                })
+            }
+        }
+
+        override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
+            super.onRoomJoined(roomInfo)
+            client?.getService(QNPublicChatService::class.java)
+                ?.sendWelCome("进人了房间", null)
+        }
+    }
 }
 
 class ShowBeautyFucMenu : QNInternalViewSlot() {
@@ -130,9 +152,9 @@ class BottomFucBarSlot : QNInternalViewSlot() {
         container: ViewGroup?
     ): View {
         val bar = BottomFucBar()
-        bar.views = if(client.clientType==ClientType.CLIENT_PUSH){
+        bar.views = if (client.clientType == ClientType.CLIENT_PUSH) {
             mAnchorFuncMenus
-        }else{
+        } else {
             mAudienceFuncMenus
         }
         bar.attach(lifecycleOwner, context, client)

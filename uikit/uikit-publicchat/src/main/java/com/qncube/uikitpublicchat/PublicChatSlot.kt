@@ -145,7 +145,6 @@ class PublicChatSlotView : BaseSlotView() {
         context: KitContext,
         client: QNLiveRoomClient
     ) {
-
         super.attach(lifecycleOwner, context, client)
         mAdapter = mViewAdapterSlot.createAdapter(lifecycleOwner, context, client)
         if (mAdapter is PubChatAdapter) {

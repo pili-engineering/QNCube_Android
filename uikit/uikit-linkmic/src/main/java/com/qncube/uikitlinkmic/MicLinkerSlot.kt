@@ -74,6 +74,7 @@ class MicLinkerView : BaseSlotView() {
     private val mMicLinkerListener = object : QNLinkMicService.MicLinkerListener {
 
         override fun onInitLinkers(linkers: MutableList<QNMicLinker>) {
+            Log.d("LinkerSlot", " 同步麦位")
             val lcs = linkers.filter {
                 it.user.userId != roomInfo?.anchorInfo?.userId
             }
@@ -91,23 +92,23 @@ class MicLinkerView : BaseSlotView() {
         override fun onUserLeft(micLinker: QNMicLinker) {
             Log.d("LinkerSlot", " onUserLeft 有人下麦 ${micLinker.user.nick}")
             removePreview(micLinker)
-            mLinkerAdapter.remove(mLinkerAdapter.data.indexOf(micLinker))
+            mLinkerAdapter.remove(mLinkerAdapter.indexOf(micLinker))
         }
 
         override fun onUserMicrophoneStatusChange(micLinker: QNMicLinker) {
-            val index = mLinkerAdapter.data.indexOf(micLinker)
-            if(mLinkerAdapter is LinkerAdapter){
+            val index = mLinkerAdapter.indexOf(micLinker)
+            if (mLinkerAdapter is LinkerAdapter) {
                 (mLinkerAdapter as LinkerAdapter).convertItem(index)
-            }else{
+            } else {
                 mLinkerAdapter.notifyItemChanged(index)
             }
         }
 
         override fun onUserCameraStatusChange(micLinker: QNMicLinker) {
-            val index = mLinkerAdapter.data.indexOf(micLinker)
-            if(mLinkerAdapter is LinkerAdapter){
+            val index = mLinkerAdapter.indexOf(micLinker)
+            if (mLinkerAdapter is LinkerAdapter) {
                 (mLinkerAdapter as LinkerAdapter).convertItem(index)
-            }else{
+            } else {
                 mLinkerAdapter.notifyItemChanged(index)
             }
         }
@@ -190,7 +191,7 @@ class MicLinkerView : BaseSlotView() {
     private fun addLinkerPreview(micLinker: QNMicLinker) {
         if (micLinker.user.userId != roomInfo?.anchorInfo?.userId) {
             view!!.recyLinker.post {
-                val index = mLinkerAdapter.data.indexOf(micLinker)
+                val index = mLinkerAdapter.indexOf(micLinker)
                 val container = (mLinkerAdapter.getViewByPosition(
                     index,
                     R.id.flSurfaceContainer
@@ -200,7 +201,7 @@ class MicLinkerView : BaseSlotView() {
                 container.addView(
                     RoundTextureView(context).apply {
                         linkService.setUserPreview(micLinker.user?.userId ?: "", this)
-                        setRadius((container.measuredWidth/2).toFloat())
+                        setRadius((container.measuredWidth / 2).toFloat())
                     },
                     FrameLayout.LayoutParams(
                         size,
@@ -226,7 +227,7 @@ class MicLinkerView : BaseSlotView() {
 
     private fun removePreview(micLinker: QNMicLinker) {
         if (micLinker.user.userId != roomInfo?.anchorInfo?.userId) {
-            val index = mLinkerAdapter.data.indexOf(micLinker)
+            val index = mLinkerAdapter.indexOf(micLinker)
             val container = (mLinkerAdapter.getViewByPosition(
                 index,
                 R.id.flSurfaceContainer
@@ -237,6 +238,15 @@ class MicLinkerView : BaseSlotView() {
             view!!.flAnchorSurfaceCotiner.removeAllViews()
             view!!.flAnchorSurfaceCotiner.visibility = View.INVISIBLE
         }
+    }
+
+    private fun BaseQuickAdapter<QNMicLinker, BaseViewHolder>.indexOf(linker: QNMicLinker): Int {
+        data.forEachIndexed { index, qnMicLinker ->
+            if (qnMicLinker.user?.userId == linker.user?.userId) {
+                return index
+            }
+        }
+        return -1
     }
 
     private fun init() {
