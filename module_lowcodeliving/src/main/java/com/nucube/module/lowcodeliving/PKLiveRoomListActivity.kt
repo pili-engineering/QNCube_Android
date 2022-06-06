@@ -60,7 +60,10 @@ class PKLiveRoomListActivity : BaseActivity() {
         QNLiveRoomEngine.updateUserInfo(
             UserInfoManager.getUserInfo()?.avatar,
             UserInfoManager.getUserInfo()?.nickname,
-            null,
+            HashMap<String, String>().apply {
+                         put("vip","1") //自定义vip等级
+                         put("level","22")
+            },
             object : QNLiveCallBack<QNLiveUser> {
                 override fun onError(code: Int, msg: String?) {
                     ct.resumeWithException(Exception(msg ?: ""))
