@@ -77,6 +77,7 @@ class PKLiveRoomListActivity : BaseActivity() {
         if (!isInit) {
             bg {
                 doWork {
+
                     val token = RetrofitManager.create(LiveSdkService::class.java)
                         .getRoomMicInfo(UserInfoManager.getUserId(), UserInfoManager.getUserId())
                     suspendInit(applicationContext, token.accessToken)

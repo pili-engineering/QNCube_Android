@@ -11,8 +11,10 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.qncube.chatservice.QNChatRoomService
 import com.qncube.chatservice.QNChatRoomServiceListener
 import com.qncube.liveroomcore.QNLiveRoomClient
+import com.qncube.liveroomcore.Scheduler
 import com.qncube.liveroomcore.mode.QNLiveUser
 import com.qncube.liveroomcore.datasource.UserDataSource
+import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.uikitcore.*
 import com.qncube.uikitcore.ext.bg
 import kotlinx.android.synthetic.main.kit_view_online.view.*
@@ -105,9 +107,14 @@ class OnlineUserView : BaseSlotView() {
     }
 
     private var roomId = ""
-    private val lazyFreshRun = Runnable {
+
+    private val lazyFreshJob = Scheduler(30000) {
+        refresh()
+    }
+
+    private fun refresh() {
         if (roomId.isEmpty()) {
-            return@Runnable
+            return
         }
         lifecycleOwner?.bg {
             doWork {
@@ -119,21 +126,22 @@ class OnlineUserView : BaseSlotView() {
         }
     }
 
-    private fun refresh(delayed: Long = 2000) {
-        view!!.removeCallbacks(lazyFreshRun)
-        view!!.postDelayed(lazyFreshRun, delayed)
-    }
-
     override fun onRoomEnter(roomId: String, user: QNLiveUser) {
         super.onRoomEnter(roomId, user)
         this.roomId = roomId
-        lazyFreshRun.run()
+
+    }
+
+    override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
+        super.onRoomJoined(roomInfo)
+        lazyFreshJob.start()
     }
 
     override fun onRoomLeave() {
         super.onRoomLeave()
         roomId = ""
         adapter.setNewData(ArrayList<QNLiveUser>())
+        lazyFreshJob.cancel()
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {

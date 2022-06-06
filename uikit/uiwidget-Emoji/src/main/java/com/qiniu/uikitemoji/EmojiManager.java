@@ -1,4 +1,4 @@
-package com.qiniu.bzui.emoji;
+package com.qiniu.uikitemoji;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,9 +13,10 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
 
+import  com.qiniu.uikitemoji.R;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 
 public class EmojiManager {

@@ -10,11 +10,17 @@ class Scheduler(
 ) {
     private var job: Job? = null
 
-    fun start() {
+    fun start(delayBefore:Boolean = false) {
         job = coroutineScope.launch(Dispatchers.Main) {
             while (true) {
-                action()
-                delay(delayTimeMillis)
+                if(delayBefore){
+                    delay(delayTimeMillis)
+                    action()
+                }else{
+                    action()
+                    delay(delayTimeMillis)
+                }
+
             }
         }
     }

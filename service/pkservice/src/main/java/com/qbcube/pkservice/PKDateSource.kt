@@ -32,6 +32,6 @@ class PKDateSource {
     }
 
     suspend fun getPkInfo(relay_id: String): PKInfo {
-        return OKHttpService.get("/client/relay/${relay_id}/token", null, PKInfo::class.java)
+        return OKHttpService.get("/client/relay/${relay_id}", null, PKInfo::class.java)
     }
 }

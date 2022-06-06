@@ -2,6 +2,7 @@ package com.qbcube.pkservice
 
 import com.qbcube.pkservice.mode.PKInfo
 import com.qncube.liveroomcore.*
+import com.qncube.liveroomcore.datasource.RoomDataSource
 import com.qncube.liveroomcore.datasource.UserDataSource
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.liveroomcore.mode.QNLiveUser
@@ -15,21 +16,46 @@ class AudiencePKSynchro() : BaseService() {
     var mPKSession: QNPKSession? = null
         private set
 
-    private val repeatSynchroJob = Scheduler(3000) {
+    private val repeatSynchroJob = Scheduler(6000) {
 
+        if (roomInfo == null) {
+            return@Scheduler
+        }
         backGround {
             doWork {
-//                    val temp = mPKSession
-//                    val info = mPKDateSource.getPkInfo(mPKSession?.sessionId ?: "")
-//                    if (info.status == 2) {
-//                        mListenersCall?.invoke()?.forEach {
-//                            it.onStop(temp!!, 0, "")
-//                        }
-//                    }
 
+                if (roomInfo?.pkId?.isEmpty() == false) {
+                    //当前房间在PK
+                    val info = mPKDateSource.getPkInfo(roomInfo?.liveId ?: "")
+                    if (info.status == PKStatus.RelaySessionStatusStopped.intValue && mPKSession != null) {
+                        roomInfo?.pkId = ""
+                        mListenersCall?.invoke()?.forEach {
+                            it.onStop(mPKSession!!, -1, "time out")
+                        }
+                        mPKSession = null
+                    }
+                } else {
+                    val reFreshRoom = RoomDataSource().refreshRoomInfo(roomInfo!!.liveId)
+                    if (!reFreshRoom.pkId.isEmpty() && mPKSession == null) {
 
+                        val info = mPKDateSource.getPkInfo(reFreshRoom.liveId ?: "")
+                        if (info.status == PKStatus.RelaySessionStatusSuccess.intValue) {
+
+                            val recever = mUserSource.searchUserByUserId(info.recvUserId)
+                            val inver = mUserSource.searchUserByUserId(info.initUserId)
+                            val pk = fromPkInfo(info, inver, recever)
+                            mPKSession = pk
+                            roomInfo?.pkId = reFreshRoom.pkId
+                            mListenersCall?.invoke()?.forEach {
+                                it.onStart(mPKSession!!)
+                            }
+                        }
+
+                    }
+                }
             }
             catchError {
+
             }
         }
 
@@ -41,12 +67,13 @@ class AudiencePKSynchro() : BaseService() {
 
         override fun onStart(pkSession: QNPKSession) {
             mPKSession = pkSession
-            repeatSynchroJob.start()
+            // repeatSynchroJob.start()
         }
 
         override fun onStop(pkSession: QNPKSession, code: Int, msg: String) {
             mPKSession = null
-            repeatSynchroJob.cancel()
+            // repeatSynchroJob.cancel()
+            roomInfo?.pkId = ""
         }
 
         override fun onWaitPeerTimeOut(pkSession: QNPKSession) {
@@ -66,26 +93,33 @@ class AudiencePKSynchro() : BaseService() {
      * @param user
      */
     override fun onRoomEnter(liveId: String, user: QNLiveUser) {
-
     }
 
     override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
         super.onRoomJoined(roomInfo)
         if (!roomInfo.pkId.isEmpty()) {
-//            backGround {
-//                doWork {
-//                    val info = mPKDateSource.getPkInfo(mPKSession?.sessionId ?: "")
-//                    if (info.status == PKStatus.RelaySessionStatusSuccess.intValue) {
-//
-//                        val recever = mUserSource.searchUserByUserId(info.recvUserId)
-//                        val inver = mUserSource.searchUserByUserId(info.initUserId)
-//                        val pk = fromPkInfo(info)
-//                        mListenersCall?.invoke()?.forEach {
-//                            it.onInitPKer(pk)
-//                        }
-//                    }
-//                }
-//            }
+            backGround {
+                doWork {
+                    val info = mPKDateSource.getPkInfo(roomInfo.pkId ?: "")
+                    if (info.status == PKStatus.RelaySessionStatusSuccess.intValue) {
+                        val recever = mUserSource.searchUserByUserId(info.recvUserId)
+                        val inver = mUserSource.searchUserByUserId(info.initUserId)
+                        val pk = fromPkInfo(info, inver, recever)
+                        mPKSession = pk
+                        mListenersCall?.invoke()?.forEach {
+                            it.onInitPKer(pk)
+                        }
+                    }
+                }
+                catchError {
+
+                }
+                onFinally {
+                    repeatSynchroJob.start(true)
+                }
+            }
+        } else {
+            repeatSynchroJob.start(true)
         }
     }
 
@@ -99,7 +133,7 @@ class AudiencePKSynchro() : BaseService() {
     }
 
 
-    fun fromPkInfo(info: PKInfo, inver: QNLiveUser, recver: QNLiveUser): QNPKSession {
+    private fun fromPkInfo(info: PKInfo, inver: QNLiveUser, recver: QNLiveUser): QNPKSession {
         return QNPKSession().apply {
             //PK场次ID
             sessionId = info.id

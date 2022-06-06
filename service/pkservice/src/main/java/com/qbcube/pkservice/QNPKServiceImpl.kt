@@ -37,7 +37,11 @@ class QNPKServiceImpl : QNPKService, BaseService() {
     private val pkPKInvitationHandlerImpl: QNPKInvitationHandlerImpl = QNPKInvitationHandlerImpl()
     private val pkServiceListeners = LinkedList<QNPKService.PKServiceListener>()
     private var mPKMixStreamAdapter: QNPKService.PKMixStreamAdapter? = null
-    private val mAudiencePKSynchro = AudiencePKSynchro()
+    private val mAudiencePKSynchro = AudiencePKSynchro().apply {
+        mListenersCall = {
+            pkServiceListeners
+        }
+    }
     var mPKSession: QNPKSession? = null
         private set
 
@@ -148,7 +152,7 @@ class QNPKServiceImpl : QNPKService, BaseService() {
                     val pk =
                         JsonUtils.parseObject(msg.optData(), QNPKSession::class.java) ?: return true
                     pkServiceListeners.forEach {
-                        it.onStop(pk,1,"")
+                        it.onStop(pk, 1, "")
                     }
 
                 }

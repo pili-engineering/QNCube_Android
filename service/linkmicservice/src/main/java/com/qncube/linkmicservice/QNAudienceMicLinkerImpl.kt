@@ -35,17 +35,21 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         get() {
             return context.getMicLinker(user?.userId ?: "hjhb")
         }
+
+
     private val mMicListJob = Scheduler(5000) {
         if (roomInfo == null) {
             return@Scheduler
         }
-
         if (isLinked()) {
             return@Scheduler
         }
         backGround {
             doWork {
-               val list= mLinkDateSource.getMicList(roomInfo?.liveId ?: "")
+                val list = mLinkDateSource.getMicList(roomInfo?.liveId ?: "")
+                context.mMicLinkerListeners.forEach {
+                    it.onInitLinkers(list)
+                }
             }
         }
     }
@@ -97,19 +101,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
 
     override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
         super.onRoomJoined(roomInfo)
-        backGround {
-            doWork {
-                val result = mLinkDateSource.getMicList(roomInfo.liveId)
-                result.forEach {
-                    context.addLinker(it)
-                }
-                if (!result.isEmpty()) {
-                    context.mMicLinkerListeners.forEach {
-                        it.onInitLinkers(result)
-                    }
-                }
-            }
-        }
+        mMicListJob.start()
     }
 
     /**
@@ -326,6 +318,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
 
     override fun onRoomLeave() {
         super.onRoomLeave()
+        mMicListJob.cancel()
         if (mMeLinker != null) {
             stopInner(true, null)
         }

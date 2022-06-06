@@ -14,19 +14,18 @@ import com.pili.pldroid.player.PLOnVideoSizeChangedListener
 import com.pili.pldroid.player.widget.PLVideoView
 import com.qbcube.pkservice.QNPKService
 import com.qncube.chatservice.QNChatRoomService
+import com.qncube.chatservice.QNChatRoomServiceListener
 import com.qncube.danmakuservice.QNDanmakuService
 import com.qncube.linkmicservice.QNLinkMicService
 import com.qncube.liveroom_pullclient.QNLivePullClient
-import com.qncube.liveroomcore.QNLiveCallBack
-import com.qncube.liveroomcore.QNLiveLogUtil
-import com.qncube.liveroomcore.asToast
-import com.qncube.liveroomcore.getCode
+import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.publicchatservice.QNPublicChatService
 import com.qncube.roomservice.QNRoomService
 import com.qncube.rtcexcepion.RtcException
 import com.qncube.uikitcore.KitContext
 import com.qncube.uikitcore.activity.BaseFrameActivity
+import com.qncube.uikitcore.dialog.CommonTipDialog
 import com.qncube.uikitcore.ext.bg
 import com.qncube.uikitcore.view.CommonPagerAdapter
 import com.qncube.uikitcore.view.EmptyFragment
@@ -73,6 +72,10 @@ class RoomPullActivity : BaseFrameActivity() {
                 QNRoomService::class.java
             )
             setPullClientListener { liveRoomStatus, msg ->
+                if (liveRoomStatus == LiveStatus.LiveStatusOff.intValue) {
+                    LiveStatus.LiveStatusOff.tipMsg.asToast()
+                    finish()
+                }
                 QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
             }
         }
@@ -91,6 +94,7 @@ class RoomPullActivity : BaseFrameActivity() {
             override var currentActivity: FragmentActivity = this@RoomPullActivity
         }
     }
+
 
     private suspend fun suspendJoinRoom(roomId: String) = suspendCoroutine<QNLiveRoomInfo> { cont ->
         mRoomClient.joinRoom(roomId, object : QNLiveCallBack<QNLiveRoomInfo> {

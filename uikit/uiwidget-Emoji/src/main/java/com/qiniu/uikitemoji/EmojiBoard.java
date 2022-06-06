@@ -1,4 +1,4 @@
-package com.qiniu.bzui.emoji;
+package com.qiniu.uikitemoji;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,6 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 
+import  com.qiniu.uikitemoji.R;
 
 import java.util.ArrayList;
 import java.util.List;

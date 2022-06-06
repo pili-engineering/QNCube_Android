@@ -7,6 +7,9 @@ import im.floo.floolib.BMXErrorCode
 import im.floo.floolib.BMXGroup
 import im.floo.floolib.BMXGroupServiceListener
 import im.floo.floolib.ListOfLongLong
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
 
@@ -52,8 +55,14 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             }
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
-                mChatServiceListeners.forEach {
-                    it.onAdminAdd(id.toString())
+                GlobalScope.launch(Dispatchers.Main) {
+                    try {
+                        mChatServiceListeners.forEach {
+                            it.onAdminAdd(id.toString())
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
@@ -65,8 +74,14 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             }
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
-                mChatServiceListeners.forEach {
-                    it.onAdminRemoved(id.toString(), reason ?: "")
+                GlobalScope.launch(Dispatchers.Main) {
+                    try {
+                        mChatServiceListeners.forEach {
+                            it.onAdminRemoved(id.toString(), reason ?: "")
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
         }
@@ -76,10 +91,15 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             if (group.groupId().toString() != roomInfo?.chatId) {
                 return
             }
-            mChatServiceListeners.forEach {
-                it.onUserLevel(memberId.toString())
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    mChatServiceListeners.forEach {
+                        it.onUserLevel(memberId.toString())
+                    }
+                }catch (e:Exception){
+                    e.printStackTrace()
+                }
             }
-            //todo
         }
 
         override fun onMemberJoined(group: BMXGroup, memberId: Long, inviter: Long) {
@@ -87,8 +107,15 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             if (group.groupId().toString() != roomInfo?.chatId) {
                 return
             }
-            mChatServiceListeners.forEach {
-                it.onUserJoin(memberId.toString())
+
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    mChatServiceListeners.forEach {
+                        it.onUserJoin(memberId.toString())
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -99,9 +126,17 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             }
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
-                mChatServiceListeners.forEach {
-                    it.onUserBeMuted(true, id.toString(), duration)
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    try {
+                        mChatServiceListeners.forEach {
+                            it.onUserBeMuted(true, id.toString(), duration)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+
             }
         }
 
@@ -112,9 +147,17 @@ class QNChatRoomServiceImpl : BaseService(), QNChatRoomService {
             }
             for (i in 0 until members.size().toInt()) {
                 val id = members[i]
-                mChatServiceListeners.forEach {
-                    it.onUserBeMuted(false, id.toString(),0)
+
+                GlobalScope.launch(Dispatchers.Main) {
+                    try {
+                        mChatServiceListeners.forEach {
+                            it.onUserBeMuted(false, id.toString(),0)
+                        }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
+
             }
         }
     }
