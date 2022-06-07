@@ -32,6 +32,7 @@ open class RoomScheduler : QNRoomLifeCycleListener {
                     anchorStatus = room.anchorStatus
                     roomStatusChange.invoke(anchorStatus.anchorStatusToLiveStatus())
                 }
+                QNLiveLogUtil.LogE("res.liveStatus ${res.liveStatus}   room.anchorStatus ${room.anchorStatus} ")
             }
             catchError {
 

@@ -7,6 +7,8 @@ import com.qncube.liveroomcore.QNLiveCallBack;
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo;
 import com.qncube.uikitcore.ext.permission.PermissionAnywhere;
 
+import kotlinx.coroutines.GlobalScope;
+
 /**
  * ui kit
  */

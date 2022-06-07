@@ -1,13 +1,11 @@
 package com.qncube.liveroomcore
 
-enum class LiveStatus(val intValue: Int, var tipMsg: String) {
-
-    LiveStatusPrepare(0, ""),
-    LiveStatusOn(1, "ss"),
-    LiveStatusAnchorOnline(2, "ss"),
-    LiveStatusAnchorOffline(3, "主播已离线"),
-    LiveStatusOff(4, "房间已关闭")
-
+enum class LiveStatus(var tipMsg: String) {
+    LiveStatusPrepare(""),
+    LiveStatusOn("ss"),
+    LiveStatusAnchorOnline("ss"),
+    LiveStatusAnchorOffline("主播已离线"),
+    LiveStatusOff("房间已关闭")
 }
 
 fun Int.roomStatusToLiveStatus(): LiveStatus {
@@ -19,10 +17,9 @@ fun Int.roomStatusToLiveStatus(): LiveStatus {
 }
 
 fun Int.anchorStatusToLiveStatus(): LiveStatus {
-
     return when (this) {
-        0 -> LiveStatus.LiveStatusAnchorOnline
-        1 -> LiveStatus.LiveStatusAnchorOffline
+        1 -> LiveStatus.LiveStatusAnchorOnline
+        0 -> LiveStatus.LiveStatusAnchorOffline
         else -> LiveStatus.LiveStatusAnchorOffline
     }
 }

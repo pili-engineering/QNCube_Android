@@ -17,13 +17,11 @@ class AudiencePKSynchro() : BaseService() {
         private set
 
     private val repeatSynchroJob = Scheduler(6000) {
-
         if (roomInfo == null) {
             return@Scheduler
         }
         backGround {
             doWork {
-
                 if (roomInfo?.pkId?.isEmpty() == false) {
                     //当前房间在PK
                     val info = mPKDateSource.getPkInfo(roomInfo?.liveId ?: "")
@@ -55,7 +53,6 @@ class AudiencePKSynchro() : BaseService() {
                 }
             }
             catchError {
-
             }
         }
 

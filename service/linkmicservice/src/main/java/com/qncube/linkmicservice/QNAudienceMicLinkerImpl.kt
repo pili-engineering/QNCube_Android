@@ -62,7 +62,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         return newKey == oldKey
     }
 
-    private val mMicListJob = Scheduler(15000) {
+    private val mMicListJob = Scheduler(5000) {
         if (roomInfo == null) {
             return@Scheduler
         }
@@ -72,9 +72,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         backGround {
             doWork {
                 val list = mLinkDateSource.getMicList(roomInfo?.liveId ?: "")
-                if (list.isEmpty()) {
-                    return@doWork
-                }
+
                 if (compare(context.allLinker, list)) {
                     return@doWork
                 }
@@ -106,6 +104,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
             }
         }
     }
+
 
     /**
      *  添加连麦监听
@@ -208,6 +207,14 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                     context.mRtcLiveRoom.enableMicrophone(it)
                 }
                 context.mRtcLiveRoom.joinRtc(token.rtc_token, JsonUtils.toJson(linker))
+
+//                val users = ArrayList<QNMicLinker>()
+//                context.mRtcLiveRoom.mClient.remoteUsers.forEach {
+//                    if (it.userID != roomInfo?.anchorInfo?.userId) {
+//                        val linck = JsonUtils.parseObject(it.userData, QNMicLinker::class.java)
+//                    }
+//                }
+
                 context.mRtcLiveRoom.publishLocal()
                 mLinkMicListeners.forEach {
                     it.lonLocalRoleChange(true)
@@ -360,7 +367,6 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                 callBack?.onError(it.getCode(), it.message)
             }
         }
-
     }
 
     override fun setVideoFrameListener(frameListener: QNVideoFrameListener) {
@@ -370,7 +376,6 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
     override fun setAudioFrameListener(frameListener: QNAudioFrameListener) {
         context.mRtcLiveRoom.setAudioFrameListener(frameListener)
     }
-
 
     override fun onRoomLeave() {
         super.onRoomLeave()
