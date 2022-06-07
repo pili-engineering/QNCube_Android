@@ -15,7 +15,7 @@ class QNLivePullClientImpl : QNLivePullClient {
 
     init {
         mQNLiveRoomContext.mRoomScheduler.roomStatusChange = {
-            mPullClientListener?.onRoomStatusChange(it, "")
+            mPullClientListener?.onRoomStatusChange(it, it.tipMsg)
         }
     }
 

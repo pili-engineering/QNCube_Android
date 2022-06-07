@@ -72,9 +72,12 @@ class RoomPullActivity : BaseFrameActivity() {
                 QNRoomService::class.java
             )
             setPullClientListener { liveRoomStatus, msg ->
-                if (liveRoomStatus == LiveStatus.LiveStatusOff.intValue) {
+                if (liveRoomStatus == LiveStatus.LiveStatusOff) {
                     LiveStatus.LiveStatusOff.tipMsg.asToast()
                     finish()
+                }
+                if (liveRoomStatus == LiveStatus.LiveStatusAnchorOffline) {
+                    LiveStatus.LiveStatusAnchorOffline.tipMsg.asToast()
                 }
                 QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
             }

@@ -42,7 +42,7 @@ class QNLivePushClientImpl : QNLivePushClient {
         )
 
         mQNLiveRoomContext.mRoomScheduler.roomStatusChange = {
-            mQNPushClientListener?.onRoomStatusChange(it, "")
+            mQNPushClientListener?.onRoomStatusChange(it, it.tipMsg)
         }
     }
 
@@ -177,7 +177,7 @@ class QNLivePushClientImpl : QNLivePushClient {
 
     override fun setLocalPreView(view: QNRenderView) {
         mRtcRoom.setLocalPreView(view)
-        mLocalPreView=view
+        mLocalPreView = view
     }
 
     override fun getLocalPreView(): QNRenderView? {

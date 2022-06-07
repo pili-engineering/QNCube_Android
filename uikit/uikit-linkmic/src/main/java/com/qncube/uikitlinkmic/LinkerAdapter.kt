@@ -20,10 +20,10 @@ class LinkerAdapter() :
         tempLp.height = LinkerUIHelper.micBottomUIMargin
         helper.itemView.tempView.layoutParams = tempLp
 
-        val sfLp = helper.itemView.flSurfaceContainer.layoutParams
+        val sfLp = helper.itemView.tempSurfaceContainer.layoutParams
         sfLp.width = LinkerUIHelper.uiMicWidth
         sfLp.height = LinkerUIHelper.uiMicHeight
-        helper.itemView.flSurfaceContainer.layoutParams = sfLp
+        helper.itemView.tempSurfaceContainer.layoutParams = sfLp
 
         val llLp: FrameLayout.LayoutParams =
             helper.itemView.llContiner.layoutParams as FrameLayout.LayoutParams
@@ -37,49 +37,24 @@ class LinkerAdapter() :
         if (!item.isOpenCamera) {
             //没有摄像头
             helper.itemView.ivMicStatusOut.visibility = View.INVISIBLE
-            helper.itemView.flSurfaceContainer.visibility = View.INVISIBLE
-
             helper.itemView.ivMicStatusInner.visibility = View.VISIBLE
             helper.itemView.ivAvatarInner.visibility = View.VISIBLE
 
         } else {
             //开摄像头
             helper.itemView.ivMicStatusOut.visibility = View.VISIBLE
-            helper.itemView.flSurfaceContainer.visibility = View.VISIBLE
-
-
             helper.itemView.ivMicStatusInner.visibility = View.INVISIBLE
             helper.itemView.ivAvatarInner.visibility = View.INVISIBLE
-
         }
 
         Glide.with(mContext).load(item.user.avatar)
             .into(helper.itemView.ivAvatarInner)
-
         helper.itemView.ivMicStatusInner.isSelected = item.isOpenMicrophone
         helper.itemView.ivMicStatusOut.isSelected = item.isOpenMicrophone
     }
 
-    fun convertItem(index: Int) {
-        val view = getViewByPosition(index, R.id.flLinkerContent) ?: return
-        val item = data.get(index)
-
-
-        if (!item.isOpenCamera) {
-            view.ivMicStatusOut.visibility = View.INVISIBLE
-            view.flSurfaceContainer.visibility = View.INVISIBLE
-
-            view.ivMicStatusInner.visibility = View.VISIBLE
-            view.ivAvatarInner.visibility = View.VISIBLE
-        } else {
-            view.ivMicStatusOut.visibility = View.VISIBLE
-            view.flSurfaceContainer.visibility = View.VISIBLE
-
-            view.ivMicStatusInner.visibility = View.INVISIBLE
-            view.ivAvatarInner.visibility = View.INVISIBLE
-        }
-        view.ivMicStatusInner.isSelected = item.isOpenMicrophone
-        view.ivMicStatusOut.isSelected = item.isOpenMicrophone
-    }
-
 }
+
+
+
+

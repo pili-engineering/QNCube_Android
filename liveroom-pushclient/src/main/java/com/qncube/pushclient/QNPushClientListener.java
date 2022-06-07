@@ -1,6 +1,7 @@
 package com.qncube.pushclient;
 
 import com.qiniu.droid.rtc.QNConnectionState;
+import com.qncube.liveroomcore.LiveStatus;
 
 //推流客户端监听
 public interface QNPushClientListener {
@@ -19,7 +20,7 @@ public interface QNPushClientListener {
      * @param liveRoomStatus
      * @param msg
      */
-    void onRoomStatusChange(int liveRoomStatus, String msg);
+    void onRoomStatusChange(LiveStatus liveRoomStatus, String msg);
 
     /**
      * 摄像头状态回调

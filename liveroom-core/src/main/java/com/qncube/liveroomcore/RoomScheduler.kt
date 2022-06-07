@@ -9,24 +9,29 @@ open class RoomScheduler : QNRoomLifeCycleListener {
     protected var user: QNLiveUser? = null
     protected var roomInfo: QNLiveRoomInfo? = null
     protected var client: QNLiveRoomClient? = null
-    private var initRoomStatus = -100
+    private var roomStatus = 0
+    private var anchorStatus = 1
 
-    var roomStatusChange: (status: Int) -> Unit = {}
+    var roomStatusChange: (status: LiveStatus) -> Unit = {}
 
     private val roomDataSource = RoomDataSource()
-    private val mHeartBeatJob = Scheduler(4000) {
+    private val mHeartBeatJob = Scheduler(8000) {
         if (roomInfo == null) {
             return@Scheduler
         }
         backGround {
             doWork {
                 val res = roomDataSource.heartbeat(roomInfo?.liveId ?: "")
+                val room = roomDataSource.refreshRoomInfo(roomInfo?.liveId ?: "")
 
-                initRoomStatus = res.liveStatus
-                if (roomInfo?.liveStatus != initRoomStatus) {
-                    roomStatusChange.invoke(initRoomStatus)
+                if (res.liveStatus != roomStatus) {
+                    roomStatus = res.liveStatus
+                    roomStatusChange.invoke(roomStatus.roomStatusToLiveStatus())
                 }
-                roomInfo?.liveStatus != initRoomStatus
+                if (anchorStatus != room.anchorStatus) {
+                    anchorStatus = room.anchorStatus
+                    roomStatusChange.invoke(anchorStatus.anchorStatusToLiveStatus())
+                }
             }
             catchError {
 
@@ -41,6 +46,8 @@ open class RoomScheduler : QNRoomLifeCycleListener {
 
     override fun onRoomJoined(roomInfo: QNLiveRoomInfo) {
         this.roomInfo = roomInfo
+        roomStatus = roomInfo.liveStatus
+        anchorStatus = roomInfo.anchorStatus
         mHeartBeatJob.start()
     }
 
@@ -48,7 +55,7 @@ open class RoomScheduler : QNRoomLifeCycleListener {
     open override fun onRoomLeave() {
         user = null
         mHeartBeatJob.cancel()
-        initRoomStatus = -100
+
     }
 
 

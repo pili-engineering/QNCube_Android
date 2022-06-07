@@ -74,7 +74,7 @@ class RoomPushActivity : BaseFrameActivity() {
 
                 }
 
-                override fun onRoomStatusChange(liveRoomStatus: Int, msg: String?) {
+                override fun onRoomStatusChange(liveRoomStatus: LiveStatus, msg: String?) {
                     QNLiveLogUtil.LogE("房间状态变更  ${liveRoomStatus}")
                 }
 

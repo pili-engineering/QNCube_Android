@@ -70,5 +70,8 @@ public class QNLiveRoomInfo {
     @JSONField(name = "live_status")
     public int liveStatus;
 
+    @JSONField(name = "anchor_status")
+    public int anchorStatus;
+
 
 }

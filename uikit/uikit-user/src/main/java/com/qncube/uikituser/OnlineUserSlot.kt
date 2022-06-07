@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.kit_view_online.view.*
 
 class OnlineUserSlot : QNInternalViewSlot() {
 
-
     /**
      * 内置槽位 设置每个用户item自定义布局
      */
@@ -118,8 +117,11 @@ class OnlineUserView : BaseSlotView() {
         }
         lifecycleOwner?.bg {
             doWork {
-                val users = mUserDataSource.getOnlineUser(roomId, 1, 10)
-                adapter.setNewData(users.list ?: ArrayList<QNLiveUser>())
+                val users = mUserDataSource.getOnlineUser(roomId, 1, 10).list.filter {
+                    it.userId != roomInfo?.anchorInfo?.userId
+                }
+
+                adapter.setNewData(users)
             }
             catchError {
             }

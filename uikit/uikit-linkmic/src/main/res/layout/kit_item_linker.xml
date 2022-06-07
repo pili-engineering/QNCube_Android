@@ -43,7 +43,7 @@
                 />
 
             <FrameLayout
-                android:id="@+id/flSurfaceContainer"
+                android:id="@+id/tempSurfaceContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:layout_height="96dp"

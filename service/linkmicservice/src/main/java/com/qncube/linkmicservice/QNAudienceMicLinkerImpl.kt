@@ -20,6 +20,9 @@ import com.qncube.liveroomcore.*
 import com.qncube.liveroomcore.mode.MuteMode
 import com.qncube.liveroomcore.mode.QNLiveRoomInfo
 import com.qncube.liveroomcore.mode.UidMode
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker, BaseService() {
 
@@ -36,8 +39,30 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
             return context.getMicLinker(user?.userId ?: "hjhb")
         }
 
+    private fun compare(old: List<QNMicLinker>, new: List<QNMicLinker>): Boolean {
+        if (old.size - new.size != 1) {
+            return false
+        }
+        var oldKey = ""
+        old.forEach {
+            if (it.user.userId == roomInfo?.anchorInfo?.userId) {
 
-    private val mMicListJob = Scheduler(5000) {
+            } else {
+                oldKey += it.user.userId
+            }
+        }
+        var newKey = ""
+
+        new.forEach {
+            if (it.user.userId == roomInfo?.anchorInfo?.userId) {
+            } else {
+                newKey += it.user.userId
+            }
+        }
+        return newKey == oldKey
+    }
+
+    private val mMicListJob = Scheduler(15000) {
         if (roomInfo == null) {
             return@Scheduler
         }
@@ -47,8 +72,36 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         backGround {
             doWork {
                 val list = mLinkDateSource.getMicList(roomInfo?.liveId ?: "")
+                if (list.isEmpty()) {
+                    return@doWork
+                }
+                if (compare(context.allLinker, list)) {
+                    return@doWork
+                }
+                val toRemve = LinkedList<QNMicLinker>()
+
+                context.allLinker.forEach { old ->
+                    var isContainer = false
+                    if (old.user.userId == roomInfo?.anchorInfo?.userId) {
+                        isContainer = true
+                    } else {
+                        list.forEach { new ->
+                            if (new.user.userId == old.user.userId) {
+                                isContainer = true
+                            }
+                        }
+                    }
+                    if (!isContainer) {
+                        toRemve.add(old)
+                    }
+                }
+
+                context.allLinker.removeAll(toRemve)
+                list.forEach {
+                    context.addLinker(it)
+                }
                 context.mMicLinkerListeners.forEach {
-                    it.onInitLinkers(list)
+                    it.onInitLinkers(context.allLinker)
                 }
             }
         }
@@ -115,8 +168,10 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
         extensions: HashMap<String, String>?, cameraParams: QNCameraParams?,
         microphoneParams: QNMicrophoneParams?, callBack: QNLiveCallBack<Void>?
     ) {
+        mMicListJob.cancel()
         if (roomInfo == null) {
             callBack?.onError(-1, "roomInfo==null")
+            mMicListJob.start(true)
             return
         }
         val linker = QNMicLinker()
@@ -166,6 +221,7 @@ class QNAudienceMicLinkerImpl(val context: MicLinkContext) : QNAudienceMicLinker
                 callBack?.onSuccess(null)
             }
             catchError {
+                mMicListJob.start(true)
                 callBack?.onError(it.getCode(), it.message)
             }
         }
