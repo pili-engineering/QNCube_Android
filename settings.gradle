@@ -76,25 +76,3 @@ include ':LibComponent:lib_json'               //json库
 include ':ai:audio2text'     //语音识别
 rootProject.name = "QINIU_SDK_ALL_IN_ONE"
 
-
-include ':service:danmakuservice'
-include ':liveroom-uikit'
-include ':service:pkservice'
-include ':service:roomservice'
-include ':liveroom-pullclient'
-include ':service:chatservice'
-include ':uikit:uikit-linkmic'
-include ':service:publicchatservice'
-include ':uikit:uikit-livepreview'
-include ':libs:rtcexcepion'
-include ':service:linkmicservice'
-include ':uikit:uikit-publicchat'
-include ':uikit:uikit-danmaku'
-include ':liveroom-core'
-include ':libs:comp_http'
-include ':libs:rtclive'
-include ':liveroom-pushclient'
-include ':liveroom-uikit-core'
-include ':uikit:uikit-user'
-include ':uikit:uiwidget-input'
-include ':uikit:uiwidget-Emoji'
