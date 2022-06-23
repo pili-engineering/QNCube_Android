@@ -6,7 +6,9 @@ import com.qiniu.droid.rtc.*
 open class RtcEngineWrap(
     val context: Context,
     val setting: QNRTCSetting = QNRTCSetting(),
-    val mQNRTCClientConfig:QNRTCClientConfig = QNRTCClientConfig(QNClientMode.LIVE, QNClientRole.BROADCASTER)
+    val mQNRTCClientConfig: QNRTCClientConfig = QNRTCClientConfig(
+        QNClientMode.LIVE, QNClientRole.BROADCASTER,
+    ), val isAutoSubscribe: Boolean = false
 ) {
 
     /**
@@ -19,6 +21,10 @@ open class RtcEngineWrap(
      */
     fun addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener: ExtQNClientEventListener) {
         mQNRTCEngineEventWrap.addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener)
+    }
+
+    fun addExtraQNRTCEngineEventListenerToHead(extraQNRTCEngineEventListener: ExtQNClientEventListener) {
+        mQNRTCEngineEventWrap.addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener, true)
     }
 
     /**
@@ -38,8 +44,8 @@ open class RtcEngineWrap(
      *  rtc
      */
     val mClient by lazy {
-        QNRTC.createClient(mQNRTCClientConfig,mQNRTCEngineEventWrap).apply {
-            setAutoSubscribe(false)
+        QNRTC.createClient(mQNRTCClientConfig, mQNRTCEngineEventWrap).apply {
+            setAutoSubscribe(isAutoSubscribe)
         }
     }
 

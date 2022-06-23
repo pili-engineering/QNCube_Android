@@ -19,7 +19,7 @@ class GiftTrackManager : SpanTrackManager<GiftMsg>(), LifecycleObserver {
 
     private val mRtmChannelListener = object : RtmMsgListener {
 
-        override fun onNewMsg(msg: String, peerId: String): Boolean {
+        override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
             if ((action_gift == msg.optAction()
                         )
             ) {

@@ -129,7 +129,7 @@ class VideoRoomVm(application: Application, bundle: Bundle?) :
     }
 
     //邀请信令
-    val mInvitationProcessor = InvitationProcessor("watchMoviesTogether", 10000, object :
+    val mInvitationProcessor = InvitationProcessor("watchMoviesTogether", object :
         InvitationCallBack {
         override fun onReceiveInvitation(invitation: Invitation) {
             if (mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {

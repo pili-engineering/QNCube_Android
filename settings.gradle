@@ -9,6 +9,7 @@ include ':appsub:app_ktv'                   //独立运行ktv
 include ':appsub:app_amusement'             //独立运行互动娱乐
 include ':appsub:app_overhaul'              //独立运行检修场景
 include ':appsub:app_audioroom'             //独立运行语聊房间
+include ':appsub:app_lowcodelive'
 
 //场景模块
 include ':module_interview'                   //面试场景
@@ -24,14 +25,14 @@ include ':routerTable'                        // 路由
 include ':module_user'                        //用户模块
 include ':module_login'                       // 登录
 include ':module_update'
+include ':module_lowcodeliving'
 
 // highlevlsdk
 //抽象业务层，抽象业务核心流程实现可以定制和扩展业务快速实现自己的业务
 include ':1highlevlsdk:sdk_MutableTrackRoom'     //多人不定麦位房间
 include ':1highlevlsdk:sdk_lazysitmutableroom'  // 多人固定麦位房间
-include ':1highlevlsdk:sdk_InvitationSignal'     //呼叫邀请信令
 
-include ':1highlevlsdk:comp_audience_player'      //播放拉流器
+include ':1highlevlsdk:comp_player'      //播放拉流器
 include ':1highlevlsdk:comp_ktvplayercore'       //ktv歌曲同步播放器
 include ':1highlevlsdk:comp_roommanager'         //房间生命周期管理
 include ':1highlevlsdk:comp_rtm'                 //im 信令
@@ -39,7 +40,6 @@ include ':1highlevlsdk:comp_qnrtcsdk'            //rtc sdk
 include ':1highlevlsdk:comp_absroom'             //抽象房间
 include ':1highlevlsdk:comp_rtc_room'            //rtc房间
 include ':1highlevlsdk:comp_baseMutableRoom'
-
 
 //业务组件
 include ':BzMudule:comp_imadapter'   //容云
@@ -64,7 +64,6 @@ include ':BzUiComponent:bzuicomp_chatdialog'     //聊天弹窗
 //include ':BzUiComponent:compui_game'
 include ':BzUiComponent:sdk_qndroidwhiteboard'
 include ':BzUiComponent:rtclogview'
-
 //lib基础模块
 //LibComponent 基础组件
 include ':LibComponent:lib_network'            //网络
@@ -77,3 +76,6 @@ include ':LibComponent:lib_json'               //json库
 include ':ai:audio2text'     //语音识别
 rootProject.name = "QINIU_SDK_ALL_IN_ONE"
 
+
+include ':lowcodelive-sdk:qlive-sdk'
+include ':lowcodelive-sdk:qlive-sdk-uikit'

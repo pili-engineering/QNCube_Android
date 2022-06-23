@@ -91,7 +91,7 @@ task buildDebug{
 
 dependencies {
 
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     api depend.lifecycle()
@@ -112,4 +112,5 @@ dependencies {
     implementation project(":module_videowatch")
     implementation project(":module_audioroom")
     implementation project(":module_update")
+    implementation project(":module_lowcodeliving")
 }

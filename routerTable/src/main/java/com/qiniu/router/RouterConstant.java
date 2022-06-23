@@ -71,4 +71,9 @@ public class RouterConstant {
         public static final String VideoHome = rootPath + "/VideoHome";
     }
 
+    public static class LowCodePKLive{
+        private static final String rootPath = "/LowCodePKLive";
+        public static final String LiveRoomList = rootPath + "/LiveRoomList";
+    }
+
 }

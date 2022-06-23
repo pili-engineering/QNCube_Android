@@ -78,7 +78,7 @@ class ScreenShareManagerImp(val rtcRoom: RtcRoom) : ScreenShareManager {
         /**
          * 收到消息
          */
-        override fun onNewMsg(msg: String, peerId: String): Boolean {
+        override fun onNewMsg(msg: String, fromId: String, peerId: String): Boolean {
             if (peerId != RoomManager.mCurrentRoom?.provideRoomId()) {
                 return false
             }

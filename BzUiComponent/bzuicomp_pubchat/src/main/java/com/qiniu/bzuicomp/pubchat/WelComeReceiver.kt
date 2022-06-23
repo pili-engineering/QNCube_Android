@@ -16,7 +16,7 @@ class WelComeReceiver : LifecycleObserver {
         /**
          * 收到群消息
          */
-        override fun onNewMsg(msg: String, channelId: String) :Boolean{
+        override fun onNewMsg(msg: String, fromId: String, toId: String) :Boolean{
             if ((PubChatWelCome.action_welcome == msg.optAction()
                         )
             ) {

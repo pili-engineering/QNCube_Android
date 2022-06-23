@@ -52,7 +52,7 @@ dependencies {
     implementation depend.constraintLayout()
     implementation 'com.hyman:flowlayout-lib:1.1.2'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation project(':1highlevlsdk:comp_audience_player')
+    implementation project(':1highlevlsdk:comp_player')
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
 
@@ -68,7 +68,7 @@ dependencies {
     implementation project(':BzUiComponent:bzuicomp_pubchat')
     implementation project(':BzMudule:comp_channelattributes')
     implementation project(':BzUiComponent:bzuicomp_chatdialog')
-    implementation project(':1highlevlsdk:sdk_InvitationSignal')
+
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
    // implementation project(':BzUiComponent:compui_beauty')

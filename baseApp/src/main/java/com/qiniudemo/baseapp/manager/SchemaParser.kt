@@ -8,7 +8,7 @@ import com.qiniudemo.webview.WebActivity
 
 object SchemaParser {
 
-    fun parseRouter(context: Context, url: String):Boolean {
+    fun parseRouter(context: Context, url: String): Boolean {
         val router = Uri.parse(url)
         val scheme = router.scheme
         val host = router.host
@@ -34,14 +34,14 @@ object SchemaParser {
                             .withString("interviewId", param).navigation(context)
                     }
                 }
-                isSupport =true
+                isSupport = true
             }
             "repair" -> {
                 when (path) {
                     "/index" -> ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulList)
                         .navigation(context)
                 }
-                isSupport =true
+                isSupport = true
             }
 
             "ktv" -> {
@@ -51,7 +51,7 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
-                isSupport =true
+                isSupport = true
             }
             "show" -> {
                 val param = router.getQueryParameter("type")
@@ -60,7 +60,7 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
-                isSupport =true
+                isSupport = true
             }
             "movie" -> {
                 val param = router.getQueryParameter("type")
@@ -69,19 +69,31 @@ object SchemaParser {
                         .withString("solutionType", param)
                         .navigation(context)
                 }
-                isSupport =true
+                isSupport = true
             }
             "voiceChatRoom" -> {
                 val param = router.getQueryParameter("type")
                 when (path) {
-                    "/index" -> ARouter.getInstance().build(RouterConstant.VoiceChatRoom.voiceChatRoomList)
+                    "/index" -> ARouter.getInstance()
+                        .build(RouterConstant.VoiceChatRoom.voiceChatRoomList)
                         .withString("solutionType", param)
                         .navigation(context)
                 }
-                isSupport =true
+                isSupport = true
             }
-            else->{
-                isSupport =false
+            "liveKit" -> {
+                val param = router.getQueryParameter("type")
+                when (path) {
+                    "/index" -> ARouter.getInstance()
+                        .build(RouterConstant.LowCodePKLive.LiveRoomList)
+                        .withString("solutionType", param)
+                        .navigation(context)
+                }
+                isSupport = true
+            }
+
+            else -> {
+                isSupport = false
             }
         }
 

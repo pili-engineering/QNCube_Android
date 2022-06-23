@@ -22,7 +22,7 @@ object RoomAttributesManager {
 
     init {
         RtmManager.addRtmChannelListener(object : RtmMsgListener {
-            override fun onNewMsg(msg: String, peerId: String): Boolean {
+            override fun onNewMsg(msg: String, fromId: String, toId: String): Boolean {
                 when (msg.optAction()) {
                     "channelAttributes_change" -> {
                         val data = msg.optData()

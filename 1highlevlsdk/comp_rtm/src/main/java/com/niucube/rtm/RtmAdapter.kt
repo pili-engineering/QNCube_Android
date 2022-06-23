@@ -41,11 +41,13 @@ interface RtmAdapter {
      */
     fun getLoginUserId():String
 
+    fun getLoginUserIMUId():String
+
     /**
      * 注册监听
      * @param c2cMessageReceiver  c2c消息接收器
      * @param channelMsgReceiver 群消息接收器
      */
-    fun registerOriginImListener(c2cMessageReceiver:(msg: String, peerId: String)->Unit , channelMsgReceiver:(msg: String, peerId: String)->Unit)
+    fun registerOriginImListener(c2cMessageReceiver:(msg: String, fromId: String, toId: String)->Unit , channelMsgReceiver:(msg: String, fromId: String, toId: String)->Unit)
 
 }

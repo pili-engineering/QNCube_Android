@@ -2,6 +2,7 @@ package com.niucube.qnrtcsdk
 
 import android.util.Log
 import com.qiniu.droid.rtc.*
+import java.util.*
 
 
 /**
@@ -10,23 +11,35 @@ import com.qiniu.droid.rtc.*
 class QNRTCEngineEventWrap : ExtQNClientEventListener {
 
     private val TAG = "QNRTCEngineEventWrap"
-    private val extraQNRTCEngineEventListeners: ArrayList<QNClientEventListener> = ArrayList()
+    private val extraQNRTCEngineEventListeners: LinkedList<QNClientEventListener> = LinkedList()
 
-    fun addExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener: QNClientEventListener) {
-        extraQNRTCEngineEventListeners.add(extraQNRTCEngineEventListener)
+    fun addExtraQNRTCEngineEventListener(
+        extraQNRTCEngineEventListener: QNClientEventListener,
+        toHead: Boolean = false
+    ) {
+
+        if (toHead) {
+            extraQNRTCEngineEventListeners.addFirst(extraQNRTCEngineEventListener)
+        } else {
+            extraQNRTCEngineEventListeners.add(extraQNRTCEngineEventListener)
+        }
     }
+
 
     fun removeExtraQNRTCEngineEventListener(extraQNRTCEngineEventListener: QNClientEventListener) {
         extraQNRTCEngineEventListeners.remove(extraQNRTCEngineEventListener)
     }
 
+    fun clear() {
+        extraQNRTCEngineEventListeners.clear()
+    }
 
     override fun onConnectionStateChanged(
         p0: QNConnectionState?,
         p1: QNConnectionDisconnectedInfo?
     ) {
         val iterator = extraQNRTCEngineEventListeners.iterator()
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             val item = iterator.next()
             item.onConnectionStateChanged(p0, p1)
         }
@@ -101,7 +114,7 @@ class QNRTCEngineEventWrap : ExtQNClientEventListener {
     }
 
     override fun onMediaRelayStateChanged(p0: String, p1: QNMediaRelayState) {
-        Log.d("onMediaRelay","${p0} ${p1.name}")
+        Log.d("onMediaRelay", "${p0} ${p1.name}")
         extraQNRTCEngineEventListeners.forEach {
             it.onMediaRelayStateChanged(p0, p1)
         }
