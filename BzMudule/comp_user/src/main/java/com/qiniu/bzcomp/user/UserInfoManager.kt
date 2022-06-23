@@ -14,7 +14,8 @@ object UserInfoManager {
 
     private var uid = ""
     private var mUserInfo: UserInfo? = null
-    private var mLoginToken: LoginToken? = null
+    var mLoginToken: LoginToken? = null
+    private set
 
     fun init() {
         mUserInfo = JsonUtils.parseObject(

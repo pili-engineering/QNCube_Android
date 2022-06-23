@@ -105,12 +105,12 @@ open class BaseApplication : Application() {
 
             override suspend fun onLogin(loginToken: LoginToken) {
                 //登陆成功后
-//                QNIMManager.mRtmAdapter.loginSuspend(
-//                    loginToken.accountId,
-//                    loginToken.imConfig.imUid,
-//                    loginToken.imConfig.imUsername,
-//                    loginToken.imConfig.imPassword
-//                )
+                QNIMManager.mRtmAdapter.loginSuspend(
+                    loginToken.accountId,
+                    loginToken.imConfig.imUid,
+                    loginToken.imConfig.imUsername,
+                    loginToken.imConfig.imPassword
+                )
             }
 
             //用户信息变更

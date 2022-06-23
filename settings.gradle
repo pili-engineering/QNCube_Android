@@ -76,3 +76,6 @@ include ':LibComponent:lib_json'               //json库
 include ':ai:audio2text'     //语音识别
 rootProject.name = "QINIU_SDK_ALL_IN_ONE"
 
+
+include ':lowcodelive-sdk:qlive-sdk'
+include ':lowcodelive-sdk:qlive-sdk-uikit'

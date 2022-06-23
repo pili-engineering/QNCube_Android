@@ -4,10 +4,17 @@ import android.content.Context
 
 import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.hipi.vm.backGround
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
+import com.qiniu.qnim.QNIMManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
+import com.qiniudemo.baseapp.ext.asToast
+import com.qlive.core.QLiveCallBack
+import com.qlive.core.QSdkConfig
+import com.qlive.sdk.QLive
+import com.qlive.sdk.QUserInfo
 import kotlinx.android.synthetic.main.activity_pklive_room_list.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -16,64 +23,87 @@ import kotlin.coroutines.suspendCoroutine
 @Route(path = RouterConstant.LowCodePKLive.LiveRoomList)
 class PKLiveRoomListActivity : BaseActivity() {
 
-    companion object {
-        private var isInit = false
-    }
+    /**
+     * 初始化sdk
+     */
+    suspend fun suspendInit() =
+        suspendCoroutine<Unit> { coroutine ->
+            QLive.init(application, QSdkConfig(),
+                { callback ->
+                    //业务方获取token
+                    backGround {
+                        doWork {
+                            val token = RetrofitManager.create(LiveSdkService::class.java)
+                                .getTokenInfo(
+                                    UserInfoManager.getUserId(),
+                                    Math.random().toString() + ""
+                                )
+                            callback.onSuccess(token.accessToken)
+                        }
+                        catchError {
+                            it.printStackTrace()
+                        }
+                    }
+                }, object : QLiveCallBack<Void> {
+                    override fun onError(code: Int, msg: String?) {
+                        Toast.makeText(this@PKLiveRoomListActivity, msg, Toast.LENGTH_SHORT).show()
+                        coroutine.resumeWithException(Exception("getTokenError"))
+                    }
 
-    private fun start() {
-
-    }
-
-    suspend fun suspendInit(context: Context, token: String) =
-        suspendCoroutine<Unit> { ct ->
-
+                    override fun onSuccess(data: Void?) {
+                        coroutine.resume(Unit)
+                    }
+                })
         }
 
-//    suspend fun suspendUpdateUserInfo(
-//    ) = suspendCoroutine<QNLiveUser>
-//    { ct ->
-//        QNLiveRoomEngine.updateUserInfo(
-//            UserInfoManager.getUserInfo()?.avatar,
-//            UserInfoManager.getUserInfo()?.nickname,
-//            HashMap<String, String>().apply {
-//                         put("vip","1") //自定义vip等级
-//                         put("level","22")
-//            },
-//            object : QNLiveCallBack<QNLiveUser> {
-//                override fun onError(code: Int, msg: String?) {
-//                    ct.resumeWithException(Exception(msg ?: ""))
-//                }
-//
-//                override fun onSuccess(data: QNLiveUser) {
-//                    ct.resume(data)
-//                }
-//            })
-//    }
+    /**
+     *  //绑定用户信息 绑定后房间在线用户能返回绑定设置的字段
+     */
+    suspend fun suspendSetUser() =
+        suspendCoroutine<Unit> { coroutine ->
+            //绑定用户信息 绑定后房间在线用户能返回绑定设置的字段
+            QLive.setUser(QUserInfo().apply {
+                avatar = UserInfoManager.getUserInfo()?.avatar ?: ""
+                nick = UserInfoManager.getUserInfo()?.nickname ?: ""
+                extension = HashMap<String, String>().apply {
+                    put("phone", "13141616037")
+                    put("customFiled", "i am customFile")
+                }
+            }, object : QLiveCallBack<Void> {
+                override fun onError(code: Int, msg: String?) {
+                    Toast.makeText(this@PKLiveRoomListActivity, msg, Toast.LENGTH_SHORT).show()
+                    coroutine.resumeWithException(Exception("getTokenError"))
+                }
+
+                override fun onSuccess(data: Void?) {
+                    coroutine.resume(Unit)
+                }
+            })
+        }
 
     override fun initViewData() {
-        setToolbarTitle("主播列表")
-//        if (!isInit) {
-//            bg {
-//                doWork {
-//
-//                    val token = RetrofitManager.create(LiveSdkService::class.java)
-//                        .getRoomMicInfo(UserInfoManager.getUserId(), UserInfoManager.getUserId())
-//                    suspendInit(applicationContext, token.accessToken)
-//                    suspendUpdateUserInfo()
-//                    isInit = true
-//                    start()
-//                }
-//                catchError {
-//                    if(it.message?.isEmpty()==true){
-//                        Toast.makeText(this@PKLiveRoomListActivity,it.message,Toast.LENGTH_SHORT).show()
-//                    }
-//                   // it.message?.asToast()
-//                    finish()
-//                }
-//            }
-//        } else {
-//            start()
-//        }
+        showLoading(true)
+        backGround {
+            doWork {
+                //低代码im和牛魔方冲突
+                QNIMManager.mRtmAdapter.suspendLoginOut()
+                suspendInit()
+                suspendSetUser()
+                QLive.getLiveUIKit().launch(this@PKLiveRoomListActivity)
+            }
+            catchError {
+                it.message?.asToast()
+                it.printStackTrace()
+            }
+            onFinally {
+                showLoading(false)
+                finish()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     override fun getLayoutId(): Int {
@@ -81,7 +111,7 @@ class PKLiveRoomListActivity : BaseActivity() {
     }
 
     override fun isToolBarEnable(): Boolean {
-        return true
+        return false
     }
 
     override fun isTitleCenter(): Boolean {

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtm.RtmAdapter
+import com.niucube.rtm.RtmException
 import com.qiniu.droid.imsdk.QNIMClient
 import im.floo.floolib.*
 import kotlinx.coroutines.Dispatchers
@@ -126,8 +127,21 @@ class QNIMAdapter : RtmAdapter {
     }
 
     fun loginOut() {
+        isLogin = false
         QNIMClient.getUserManager().signOut {
         }
+    }
+
+    suspend fun suspendLoginOut() = suspendCoroutine<Unit> { ct ->
+        QNIMClient.getUserManager().signOut {
+            if (it == BMXErrorCode.NoError) {
+                isLogin = false
+                ct.resume(Unit)
+            } else {
+                ct.resumeWithException(RtmException(it.swigValue(), it.name))
+            }
+        }
+
     }
 
     fun login(

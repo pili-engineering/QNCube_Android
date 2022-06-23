@@ -5,6 +5,7 @@
     <application>
         <activity
             android:name=".PKLiveRoomListActivity"
+            android:theme="@style/TranslucentStyle"
             android:exported="false" />
     </application>
 

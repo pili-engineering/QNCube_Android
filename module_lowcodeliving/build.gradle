@@ -42,10 +42,17 @@ android {
 }
 
 dependencies {
+    implementation project (':lowcodelive-sdk:qlive-sdk')
+    implementation project (':lowcodelive-sdk:qlive-sdk-uikit')
 
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
-   // implementation project( ':liveroom-uikit')
+    compileOnly project (':1highlevlsdk:comp_qnrtcsdk')            //rtc sdk
+    compileOnly project (':1highlevlsdk:comp_player')            //rtc sdk
+    compileOnly project (':BzMudule:sdk_qnim')            //rtc sdk
+
+
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()

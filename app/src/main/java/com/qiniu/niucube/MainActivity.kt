@@ -4,13 +4,17 @@ package com.qiniu.niucube
 import android.util.Log
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtm.RtmManager
+import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.qnim.QNIMManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonPagerAdapter
+import com.qiniudemo.baseapp.widget.LoadingDialog
 import com.qiniudemo.module.user.MineFragment
 import com.qizhou.bzupdate.UpdateHelper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -71,6 +75,37 @@ class MainActivity : BaseActivity() {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //跳转到了低代码sdk 登陆了其他im
+        if (!QNIMManager.mRtmAdapter.isLogin) {
+            backGround {
+                doWork {
+                    QNIMManager.mRtmAdapter.suspendLoginOut()
+                    val loginToken = UserInfoManager.mLoginToken!!
+                    LoadingDialog.showLoading(supportFragmentManager)
+                    QNIMManager.mRtmAdapter.login(
+                        loginToken.accountId,
+                        loginToken.imConfig.imUid,
+                        loginToken.imConfig.imUsername,
+                        loginToken.imConfig.imPassword,
+                        object : RtmCallBack {
+                            override fun onSuccess() {
+                                LoadingDialog.cancelLoadingDialog()
+                            }
+
+                            override fun onFailure(code: Int, msg: String) {
+                                LoadingDialog.cancelLoadingDialog()
+                                "msg".asToast()
+                                finish()
+                            }
+                        }
+                    )
+                }
+            }
+        }
     }
 
 }
