@@ -1,10 +1,12 @@
 package com.qiniudemo.baseapp.manager
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import androidx.core.content.ContextCompat.startActivity
 import com.alibaba.android.arouter.launcher.ARouter
 import com.qiniu.router.RouterConstant
-import com.qiniudemo.webview.WebActivity
+
 
 object SchemaParser {
 
@@ -14,7 +16,10 @@ object SchemaParser {
         val host = router.host
         val path = router.path
         if (scheme?.startsWith("http") == true) {
-            WebActivity.start(url, context)
+           // WebActivity.start(url, context)
+            val uri = Uri.parse(url)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            context.startActivity(intent)
             return true
         }
         var isSupport = false
