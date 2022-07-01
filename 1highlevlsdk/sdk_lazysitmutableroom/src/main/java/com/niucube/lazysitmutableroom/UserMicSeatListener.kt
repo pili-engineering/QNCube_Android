@@ -1,10 +1,9 @@
 package com.niucube.lazysitmutableroom
 
-import com.niucube.absroom.seat.MicSeat
 import com.niucube.basemutableroom.BaseMicSeatListener
+import com.niucube.basemutableroom.absroom.seat.MicSeat
 
 interface UserMicSeatListener : BaseMicSeatListener<LazySitUserMicSeat>{
-
 
     //麦位被管理员禁麦变化
     fun onVideoForbiddenStatusChanged(seat: LazySitUserMicSeat, msg: String){}

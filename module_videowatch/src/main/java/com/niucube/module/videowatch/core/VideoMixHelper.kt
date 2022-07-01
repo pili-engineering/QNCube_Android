@@ -6,7 +6,7 @@ import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
-import com.niucube.rtcroom.adminTrack.AdminTrackManager
+import com.niucube.basemutableroom.adminTrack.AdminTrackManager
 import com.qiniu.droid.rtc.QNRemoteTrack
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.been.hostId

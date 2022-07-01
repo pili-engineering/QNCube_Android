@@ -7,14 +7,14 @@ import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
+import com.niucube.basemutableroom.absroom.VideoTrackParams
+import com.niucube.basemutableroom.absroom.seat.UserExtension
 import com.niucube.overhaul.mode.OverhaulRoom
 import com.niucube.comproom.*
 import com.qiniu.bzuicomp.pubchat.WelComeReceiver
 import com.niucube.comp.mutabletrackroom.MutableTrackRoom
 import com.qiniu.comp.network.RetrofitManager
-import com.niucube.rtcroom.mixstream.MixStreamManager
-import com.niucube.absroom.VideoTrackParams
-import com.niucube.absroom.seat.UserExtension
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.droid.whiteboard.QNWhiteBoard
 import com.qiniu.droid.whiteboard.model.JoinConfig
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
@@ -22,7 +22,6 @@ import com.qiniu.droid.rtc.*
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

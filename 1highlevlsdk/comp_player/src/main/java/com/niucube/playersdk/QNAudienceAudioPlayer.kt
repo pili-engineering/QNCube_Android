@@ -1,16 +1,14 @@
 package com.niucube.playersdk
 
 import android.content.Context
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.niucube.absroom.IAudiencePlayerView
+import com.niucube.comproom.IAudiencePlayerView
 import com.niucube.comproom.RoomEntity
-import com.niucube.rtm.RtmManager
 import com.pili.pldroid.player.AVOptions
 import com.pili.pldroid.player.PLMediaPlayer
 import com.pili.pldroid.player.PLOnErrorListener

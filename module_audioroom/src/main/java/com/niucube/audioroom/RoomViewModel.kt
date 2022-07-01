@@ -12,9 +12,8 @@ import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.absroom.AudioTrackParams
-import com.niucube.absroom.RtcOperationCallback
-import com.niucube.absroom.seat.UserExtension
+import com.niucube.basemutableroom.absroom.AudioTrackParams
+import com.niucube.basemutableroom.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.ClientRoleType
@@ -205,7 +204,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     it.attrs.findValueOfKey("isMuteAudioByMe") == "1"
             })
         }
-        mRtcRoom?.userClientTypeSyncMicSeats(micSeats)
+        mRtcRoom.userClientTypeSyncMicSeats(micSeats)
     }
 
     init {

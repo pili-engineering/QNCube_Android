@@ -9,11 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.absroom.AudioTrackParams
-import com.niucube.absroom.RtcOperationCallback
-import com.niucube.absroom.RtcOperationException
-import com.niucube.absroom.VideoTrackParams
-import com.niucube.absroom.seat.UserExtension
+import com.niucube.basemutableroom.absroom.AudioTrackParams
+import com.niucube.basemutableroom.absroom.VideoTrackParams
+import com.niucube.basemutableroom.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.RoomManager
@@ -22,7 +20,7 @@ import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
-import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.bzuicomp.danmu.DanmuTrackManager
 import com.qiniu.bzuicomp.gift.BigGiftManager
@@ -33,7 +31,6 @@ import com.qiniu.bzuicomp.pubchat.WelComeReceiver
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
 import com.qiniu.droid.rtc.QNConnectionState
-import com.qiniu.droid.rtc.QNRenderMode
 import com.qiniu.droid.rtc.QNTranscodingLiveStreamingImage
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.been.*
@@ -41,9 +38,7 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomIdType
 import com.qiniudemo.baseapp.service.RoomService
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.handleCoroutineException
 import kotlinx.coroutines.launch
 
 class RoomViewModel(application: Application, bundle: Bundle?) :

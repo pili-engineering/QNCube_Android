@@ -4,8 +4,7 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
-import com.hapi.ut.ScreenUtil
-import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.droid.rtc.QNRenderMode
 
 //效果图

@@ -24,19 +24,6 @@ object RoomManager {
             it.onRoomJoined(roomEntity)
         }
     }
-//
-//    fun dispatchRoomJoinFail(roomEntity: RoomEntity) {
-//        mCurrentRoom?.isJoined = false
-//        mRoomLifecycleMonitors.forEach {
-//            it.onRoomJoinFail(roomEntity)
-//        }
-//    }
-
-    fun dispatchRoomChannelJoin(joined: Boolean){
-//        mRoomLifecycleMonitors.forEach {
-//            it.onRoomChannelJoin(joined)
-//        }
-    }
 
     fun dispatchCloseRoom() {
 

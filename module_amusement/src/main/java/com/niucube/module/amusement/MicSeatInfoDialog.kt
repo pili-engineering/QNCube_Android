@@ -5,15 +5,12 @@ import android.view.Gravity
 import android.view.View
 import com.bumptech.glide.Glide
 import com.hipi.vm.activityVm
-import com.hipi.vm.bgDefault
-import com.niucube.absroom.RtcOperationCallback
+import com.niucube.basemutableroom.absroom.RtcOperationCallback
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.qiniu.bzcomp.user.UserInfoManager
-import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.BaseDialogFragment
 import com.qiniudemo.baseapp.been.UserExtProfile
-import com.qiniudemo.baseapp.service.UserService
 import kotlinx.android.synthetic.main.amusemenet_seatinfo_dialog.*
 
 class MicSeatInfoDialog : BaseDialogFragment() {

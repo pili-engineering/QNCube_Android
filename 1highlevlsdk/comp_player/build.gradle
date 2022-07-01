@@ -37,7 +37,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api project(':1highlevlsdk:comp_absroom')
+    api project(':1highlevlsdk:comp_roommanager')
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation "androidx.core:core-ktx:1.7.0"

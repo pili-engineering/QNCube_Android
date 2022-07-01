@@ -1,10 +1,13 @@
 package com.niucube.basemutableroom
 
 import android.content.Context
-import com.niucube.absroom.*
+import com.niucube.basemutableroom.absroom.action_rtc_cameraStatus
+import com.niucube.basemutableroom.absroom.action_rtc_microphoneStatus
+import com.niucube.basemutableroom.absroom.action_rtc_sitDown
+import com.niucube.basemutableroom.absroom.action_rtc_sitUp
 import com.niucube.comproom.*
-import com.niucube.rtcroom.customtrack.CustomTrackShareManager
-import com.niucube.rtcroom.screencapture.ScreenShareManager
+import com.niucube.basemutableroom.customtrack.CustomTrackShareManager
+import com.niucube.basemutableroom.screencapture.ScreenShareManager
 import com.niucube.rtm.optAction
 import com.niucube.rtm.optData
 import com.qiniu.compim.*
@@ -12,7 +15,6 @@ import com.qiniu.droid.rtc.*
 import com.qiniu.jsonutil.JsonUtils
 import com.niucube.qnrtcsdk.QNRTCEngineEventWrap
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
-import com.niucube.rtcroom.RtcRoom
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 

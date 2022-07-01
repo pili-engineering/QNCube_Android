@@ -5,7 +5,7 @@ import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import com.niucube.absroom.IAudiencePlayerView
+import com.niucube.comproom.IAudiencePlayerView
 import com.pili.pldroid.player.widget.PLVideoView
 import com.niucube.comproom.RoomEntity
 import com.pili.pldroid.player.AVOptions
@@ -13,7 +13,6 @@ import com.pili.pldroid.player.PLOnErrorListener
 import com.pili.pldroid.player.PLOnInfoListener
 import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_CONNECTED
 import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_VIDEO_RENDERING_START
-import com.pili.pldroid.player.PLOnVideoSizeChangedListener
 
 class QNAudienceVideoPlayerView : PLVideoView, IAudiencePlayerView {
 

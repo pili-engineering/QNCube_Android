@@ -1,19 +1,15 @@
 package com.niucube.playersdk
 
 import android.content.Context
-import android.graphics.SurfaceTexture
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.TextureView
 import android.view.View
 import android.widget.FrameLayout
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.OnLifecycleEvent
-import com.niucube.absroom.IAudiencePlayerView
+import com.niucube.comproom.IAudiencePlayerView
 import com.niucube.comproom.RoomEntity
 import com.pili.pldroid.player.*
 import com.pili.pldroid.player.PLOnInfoListener.MEDIA_INFO_VIDEO_RENDERING_START

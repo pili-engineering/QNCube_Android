@@ -37,8 +37,6 @@ include ':1highlevlsdk:comp_ktvplayercore'       //ktv歌曲同步播放器
 include ':1highlevlsdk:comp_roommanager'         //房间生命周期管理
 include ':1highlevlsdk:comp_rtm'                 //im 信令
 include ':1highlevlsdk:comp_qnrtcsdk'            //rtc sdk
-include ':1highlevlsdk:comp_absroom'             //抽象房间
-include ':1highlevlsdk:comp_rtc_room'            //rtc房间
 include ':1highlevlsdk:comp_baseMutableRoom'
 
 //业务组件

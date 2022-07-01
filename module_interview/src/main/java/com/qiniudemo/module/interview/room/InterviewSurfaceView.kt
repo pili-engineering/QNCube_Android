@@ -7,10 +7,10 @@ import android.view.View
 import androidx.lifecycle.LifecycleObserver
 import com.bumptech.glide.Glide
 import com.niucube.comp.mutabletrackroom.MutableTrackRoom
-import com.niucube.rtcroom.mixstream.MixStreamManager
-import com.niucube.absroom.seat.MicSeat
-import com.niucube.absroom.seat.ScreenMicSeat
-import com.niucube.absroom.seat.UserMicSeat
+import com.niucube.basemutableroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.absroom.seat.MicSeat
+import com.niucube.basemutableroom.absroom.seat.ScreenMicSeat
+import com.niucube.basemutableroom.absroom.seat.UserMicSeat
 import com.qiniudemo.baseapp.widget.round.RoundFrameLayout
 import com.qiniudemo.module.interview.R
 import com.qiniudemo.module.interview.been.InterviewRoomModel

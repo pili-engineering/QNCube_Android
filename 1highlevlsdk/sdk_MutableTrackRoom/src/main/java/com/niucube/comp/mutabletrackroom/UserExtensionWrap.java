@@ -1,6 +1,5 @@
 package com.niucube.comp.mutabletrackroom;
-
-import com.niucube.absroom.seat.UserExtension;
+import com.niucube.basemutableroom.absroom.seat.UserExtension;
 
 public class UserExtensionWrap extends UserExtension {
 
