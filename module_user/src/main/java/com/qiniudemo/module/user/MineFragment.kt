@@ -39,29 +39,29 @@ class MineFragment : BaseFragment() {
         flLiability.setOnClickListener {
             WebActivity.start("https://www.qiniu.com/user-agreement", requireContext())
         }
-//        flUpLoadLog.setOnClickListener {
-//            if (SwitchEnvHelper.get().envType == EnvType.Dev) {
-//                val type = "application/json;charset=utf-8".toMediaType()
-//                val body = JsonUtils.toJson(NewVersionInfo()).toString().toRequestBody(type)
-//                showLoading(true)
-//                backGround {
-//                    doWork {
-//                        val ret=async(Dispatchers.IO) {
-//                            RetrofitManager.postJsonUserExtraClient(base_url + "/v2/app/updates", body)
-//                        }
-//                        ret.await()
-//                        "上传完成".asToast()
-//                    }
-//                    catchError {
-//                        it.message?.asToast()
-//                        it.printStackTrace()
-//                    }
-//                    onFinally {
-//                        showLoading(false)
-//                    }
-//                }
-//            }
-//        }
+        flUpLoadLog.setOnClickListener {
+            if (SwitchEnvHelper.get().envType == EnvType.Dev) {
+                val type = "application/json;charset=utf-8".toMediaType()
+                val body = JsonUtils.toJson(NewVersionInfo()).toString().toRequestBody(type)
+                showLoading(true)
+                backGround {
+                    doWork {
+                        val ret=async(Dispatchers.IO) {
+                            RetrofitManager.postJsonUserExtraClient(base_url + "v2/app/updates", body)
+                        }
+                        ret.await()
+                        "上传完成".asToast()
+                    }
+                    catchError {
+                        it.message?.asToast()
+                        it.printStackTrace()
+                    }
+                    onFinally {
+                        showLoading(false)
+                    }
+                }
+            }
+        }
         ivAvatar.setOnClickListener {
 
         }
