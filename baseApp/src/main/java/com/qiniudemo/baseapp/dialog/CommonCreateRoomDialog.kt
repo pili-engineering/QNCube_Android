@@ -2,7 +2,6 @@ package com.qiniudemo.baseapp.dialog
 
 import android.text.TextUtils
 import android.view.Gravity
-import androidx.compose.ui.unit.TextUnit
 import com.qiniu.baseapp.R
 import com.qiniudemo.baseapp.BaseDialogFragment
 import com.qiniudemo.baseapp.ext.asToast

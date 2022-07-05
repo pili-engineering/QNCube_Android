@@ -3,10 +3,8 @@ package com.hapi.base_mvvm.mvvm
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.hapi.base_mvvm.R
-import com.hapi.refresh.IEmptyView
-import com.hapi.refresh.SmartRecyclerView
-
-import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.hapi.base_mvvm.refresh.IEmptyView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 
 abstract class BaseRecyclerActivity<T> : BaseVmActivity() {
 
@@ -33,7 +31,6 @@ abstract class BaseRecyclerActivity<T> : BaseVmActivity() {
      */
     abstract fun getEmptyView(): IEmptyView?
 
-    abstract fun getGetRefreshHeader(): RefreshHeader
     open fun isRefreshAtOnStart():Boolean{
         return true
     }
@@ -44,7 +41,6 @@ abstract class BaseRecyclerActivity<T> : BaseVmActivity() {
 
     override fun initViewData() {
         mSmartRecycler.recyclerView.layoutManager = layoutManager
-        mSmartRecycler.setReFreshHearfer(getGetRefreshHeader())
         mSmartRecycler.setUp(
             adapter,
             getEmptyView(),

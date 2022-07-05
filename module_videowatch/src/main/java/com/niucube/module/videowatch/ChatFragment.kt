@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout.HORIZONTAL
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,12 +15,6 @@ import com.hipi.vm.activityVm
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.lazysitmutableroom.LazySitUserMicSeat
-import com.niucube.lazysitmutableroom.UserMicSeatListener
-import com.niucube.module.videowatch.OnlineUserFragment.Companion.option_type_invite
-import com.niucube.module.videowatch.OnlineUserFragment.Companion.option_type_manager
-import com.niucube.module.videowatch.OnlineUserFragment.Companion.option_type_view
-import com.qiniu.bzcomp.user.UserInfo
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.been.BaseRoomEntity
 import com.qiniudemo.baseapp.been.RoomMember

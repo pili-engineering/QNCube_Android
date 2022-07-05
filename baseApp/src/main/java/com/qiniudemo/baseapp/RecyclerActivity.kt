@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hapi.base_mvvm.mvvm.BaseRecyclerActivity
-import com.hapi.refresh.IEmptyView
+import com.hapi.base_mvvm.refresh.IEmptyView
 import com.hapi.ut.StatusBarUtil
 import com.hapi.ut.ViewUtil
 import com.qiniu.baseapp.R
 import com.qiniudemo.baseapp.widget.CommonEmptyView
 import com.qiniudemo.baseapp.widget.LoadingDialog
-import com.scwang.smartrefresh.header.MaterialHeader
-import com.scwang.smartrefresh.layout.api.RefreshHeader
 
 
 abstract class RecyclerActivity<T> : BaseRecyclerActivity<T>() {
@@ -55,9 +53,6 @@ abstract class RecyclerActivity<T> : BaseRecyclerActivity<T>() {
         return null
     }
 
-    override fun getGetRefreshHeader(): RefreshHeader {
-        return MaterialHeader(this)
-    }
     open fun checkDefaultAutowired(){}
     override fun onCreate(savedInstanceState: Bundle?) {
         ARouter.getInstance().inject(this)

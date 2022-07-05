@@ -122,7 +122,6 @@ object RoomAttributesManager {
         mMicSeatAttributesListeners.remove(callback)
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     //跟新房间key - values
     fun putRoomAttributes(
         roomId: String,

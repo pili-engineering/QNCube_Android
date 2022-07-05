@@ -1,12 +1,8 @@
 package com.niucube.app.verhaul
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.compose.material.Text
 import com.alibaba.android.arouter.facade.Postcard
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hipi.vm.LifecycleUiCall
-import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseStartActivity
 

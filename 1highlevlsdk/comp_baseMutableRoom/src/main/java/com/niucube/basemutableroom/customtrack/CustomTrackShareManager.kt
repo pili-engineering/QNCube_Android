@@ -1,7 +1,7 @@
 package com.niucube.basemutableroom.customtrack
 
-import com.niucube.absroom.AudioTrackParams
-import com.niucube.absroom.VideoTrackParams
+import com.niucube.basemutableroom.absroom.AudioTrackParams
+import com.niucube.basemutableroom.absroom.VideoTrackParams
 import com.qiniu.droid.rtc.QNTextureView
 import com.qiniu.droid.rtc.QNTrack
 

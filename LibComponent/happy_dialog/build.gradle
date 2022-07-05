@@ -2,18 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
-
-
-
-
 android {
     compileSdkVersion depend.compileSdkVersion
     defaultConfig {
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -22,19 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     api depend.appcompat()
-    api depend.design()
-    api depend.constraintLayout()
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api project(":LibComponent:happy_vm")
 
 }

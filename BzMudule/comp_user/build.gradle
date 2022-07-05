@@ -31,7 +31,6 @@ android {
 dependencies {
     api project(":LibComponent:lib_util")
     api project(":LibComponent:lib_json")
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':BzMudule:UserInfoProvide')
     implementation depend.coroutines()
     testImplementation 'junit:junit:4.+'

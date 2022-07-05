@@ -5,7 +5,7 @@ import android.view.Gravity
 import android.view.View
 import com.bumptech.glide.Glide
 import com.hipi.vm.activityVm
-import com.niucube.absroom.RtcOperationCallback
+import com.niucube.basemutableroom.absroom.RtcOperationCallback
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.jsonutil.JsonUtils

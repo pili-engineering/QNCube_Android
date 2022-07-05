@@ -7,7 +7,7 @@
     android:background="#ffffff"
     android:fitsSystemWindows="true">
 
-    <com.hapi.refresh.SmartRecyclerView
+    <com.hapi.base_mvvm.refresh.SmartRecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

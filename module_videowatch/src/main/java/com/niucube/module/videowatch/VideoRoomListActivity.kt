@@ -18,7 +18,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 
 import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.refresh.SmartRecyclerView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hipi.vm.backGround
 import com.niucube.module.videowatch.mode.Movie
 import com.niucube.module.videowatch.mode.MovieSignal

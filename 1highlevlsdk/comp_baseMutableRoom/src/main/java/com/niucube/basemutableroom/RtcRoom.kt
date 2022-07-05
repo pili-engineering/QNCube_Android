@@ -39,10 +39,12 @@ open class RtcRoom(
 
     companion object {
         const val TAG_CAMERA = "camera"
+
         //屏幕采集轨道的标记
         const val TAG_SCREEN = "screen"
         const val TAG_AUDIO = "audio"
     }
+
     protected val mCameraTrackViewStore = CameraTrackViewStore()
     open var mClientRole: ClientRoleType =
         com.niucube.comproom.ClientRoleType.CLIENT_ROLE_PULLER
@@ -100,7 +102,7 @@ open class RtcRoom(
         }
     }
 
-    open protected fun setClientRole(value: ClientRoleType, call: QNClientRoleResultCallback) {
+    protected open fun setClientRole(value: ClientRoleType, call: QNClientRoleResultCallback) {
         val doWorkCall = {
             //主播变观众
             if ((mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER || mClientRole == ClientRoleType.CLIENT_ROLE_AUDIENCE) &&
@@ -644,10 +646,19 @@ open class RtcRoom(
         mClient.leave()
     }
 
+    private var isInit = false
+    private fun checkInit() {
+        if (!isInit) {
+            RtmManager.addRtmChannelListener(mRtcRoomSignalingLister)
+            isInit = true
+        }
+    }
+
     protected open suspend fun joinRoom(
         roomEntity: com.niucube.comproom.RoomEntity,
         userExt: UserExtension?
     ) {
+        checkInit()
         mUserExt = userExt
         com.niucube.comproom.RoomManager.dispatchRoomEntering(roomEntity)
         //加入im房间
@@ -675,7 +686,6 @@ open class RtcRoom(
         }
         //分发房间进入
         com.niucube.comproom.RoomManager.dispatchRoomJoined(roomEntity)
-        RtmManager.addRtmChannelListener(mRtcRoomSignalingLister)
     }
 
     /**

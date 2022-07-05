@@ -1,6 +1,6 @@
 package com.qiniudemo.baseapp
 
-import com.hapi.refresh.SmartRecyclerView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import kotlinx.android.synthetic.main.act_smart_recy.*
 
 abstract class CommonRecyclerFragment<T> : RecyclerFragment<T>() {

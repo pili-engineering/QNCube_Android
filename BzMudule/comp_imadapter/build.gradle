@@ -31,11 +31,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:1.7.0"
-    implementation depend.appcompat()
-    implementation depend.design()
-    implementation depend.coroutines()
+
     //api(name: 'libs/qndroid-imsdk-1.0.2', ext: 'aar')
     api project(':BzMudule:sdk_qnim')
     implementation 'com.orhanobut:logger:2.2.0'

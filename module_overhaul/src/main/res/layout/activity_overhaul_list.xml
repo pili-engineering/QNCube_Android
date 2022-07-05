@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
-    <com.hapi.refresh.SmartRecyclerView
+    <com.hapi.base_mvvm.refresh.SmartRecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/smartRecyclerView"

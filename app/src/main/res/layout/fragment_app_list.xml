@@ -16,7 +16,7 @@
         android:textColor="#ffffff"
         android:textSize="17sp" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,7 +51,7 @@
         </FrameLayout>
 
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>

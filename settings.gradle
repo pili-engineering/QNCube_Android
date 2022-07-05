@@ -77,3 +77,4 @@ rootProject.name = "QINIU_SDK_ALL_IN_ONE"
 
 include ':lowcodelive-sdk:qlive-sdk'
 include ':lowcodelive-sdk:qlive-sdk-uikit'
+include ':lowcodelive-sdk:qlive_beauty'

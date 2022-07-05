@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:autoChangeOrientation="true"
         app:centerCropError="0.1"
-        app:engine="PLPlayer"
+        app:engine="mediaPlayer"
         app:heightRatio="0.5625"
         app:isFirstFrameAsCover="true"
         app:isFromLastPosition="false"

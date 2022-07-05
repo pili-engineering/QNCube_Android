@@ -36,7 +36,7 @@ dependencies {
     api depend.kotlin()
     api depend.lifecycle()
     api depend.coroutines()
-    implementation depend.viewModel()
+    api depend.viewModel()
     api depend.activityKtx()
     api depend.fragmentKtx()
 }

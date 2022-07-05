@@ -36,11 +36,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
   //  api project(':1highlevlsdk:comp_roommanager')
     api project(':BzUiComponent:sdk_qndroidwhiteboard')
-
+    implementation depend.corektx()
     implementation "com.louiscad.splitties:splitties-dimensions:3.0.0"
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-    implementation "androidx.core:core-ktx:1.7.0"
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()

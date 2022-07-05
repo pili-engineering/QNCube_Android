@@ -3,7 +3,6 @@ package com.niucube.module.videowatch
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Rect
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -13,21 +12,15 @@ import android.widget.FrameLayout
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.activityVm
-import com.hipi.vm.bgDefault
-import com.niucube.absroom.RtcOperationCallback
+import com.niucube.basemutableroom.absroom.RtcOperationCallback
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
-//import com.niucube.compui.beauty.StickerDialog
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
