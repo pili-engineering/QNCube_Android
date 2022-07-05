@@ -62,37 +62,10 @@ android {
 
 dependencies {
 
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.core:core-ktx:1.7.0"
+    
     implementation depend.appcompat()
     implementation depend.design()
     implementation project(path: ':1highlevlsdk:comp_roommanager')
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    //gitpack comm
-    api 'androidx.compose.ui:ui:1.1.0-alpha05'
-    // Tooling support (Previews, etc.)
-    api 'androidx.compose.ui:ui-tooling:1.1.0-alpha05'
-    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    api 'androidx.compose.foundation:foundation:1.1.0-alpha05'
-    // Material Design
-    api 'androidx.compose.material:material:1.1.0-alpha05'
-    // Material design icons
-    api 'androidx.compose.material:material-icons-core:1.1.0-alpha05'
-    api 'androidx.compose.material:material-icons-extended:1.1.0-alpha05'
-    // Integration with activities
-    api 'androidx.activity:activity-compose:1.4.0-beta01'
-    // Integration with ViewModels
-    api 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0-rc01'
-    // Integration with observables
-    api 'androidx.compose.runtime:runtime-livedata:1.1.0-alpha05'
-    api 'androidx.compose.runtime:runtime-rxjava2:1.1.0-alpha05'
-
-    // UI Tests
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.0-alpha05'
-
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
     api 'com.github.lihangleo2:ShadowLayout:3.2.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
@@ -109,5 +82,12 @@ dependencies {
     api project(':BzMudule:comp_imadapter')
     api project(':routerTable')
     api project(':module_web')
+
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // UI Tests
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.0-alpha05'
 
 }

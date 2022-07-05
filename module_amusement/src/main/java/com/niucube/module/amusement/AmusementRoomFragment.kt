@@ -2,10 +2,6 @@ package com.niucube.module.amusement
 
 import android.view.View
 import com.hipi.vm.activityVm
-import com.hipi.vm.bgDefault
-import com.hipi.vm.lazyVm
-import com.niucube.absroom.IAudienceJoinListener
-import com.niucube.absroom.seat.UserExtension
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
@@ -25,7 +21,6 @@ import kotlinx.android.synthetic.main.fragment_room_cover.*
 class AmusementRoomFragment : BaseFragment() {
 
     private val roomVm by activityVm<RoomViewModel>()
-
 
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomJoined(roomEntity: RoomEntity) {
@@ -157,7 +152,6 @@ class AmusementRoomFragment : BaseFragment() {
             }
                 .show(childFragmentManager, "")
         }
-
 //        ivGame.setOnClickListener {
 //            gameFragment.startOrHide()
 //        }

@@ -10,9 +10,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.refresh.SmartRecyclerView
-import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.niucube.ktvkit.KTVMusic
 import com.niucube.ktvkit.KTVSerialPlayer.Companion.key_current_music

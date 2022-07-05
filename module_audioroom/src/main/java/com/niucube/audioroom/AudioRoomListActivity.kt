@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.refresh.SmartRecyclerView
 import com.hipi.vm.backGround
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.router.RouterConstant

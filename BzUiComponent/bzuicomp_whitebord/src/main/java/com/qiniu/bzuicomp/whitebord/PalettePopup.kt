@@ -10,9 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import androidx.appcompat.widget.ViewUtils
-import androidx.core.view.isNotEmpty
-import androidx.core.view.setMargins
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import splitties.dimensions.dip
@@ -137,14 +134,14 @@ class PalettePopup(private val context: Context) {
      * 加载一个[ChipGroup]
      */
     private fun loadChipGroup(): ChipGroup {
-        if (parent.isNotEmpty()) {
+        if (parent!=null) {
             parent.addView(
                 View(context).apply {
                     setBackgroundColor(Color.DKGRAY)
                 },
                 ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, context.dip(1))
                     .apply {
-                        setMargins(context.dip(8))
+                        setMargins(context.dip(8),context.dip(8),context.dip(8),context.dip(8))
                     })
         }
 

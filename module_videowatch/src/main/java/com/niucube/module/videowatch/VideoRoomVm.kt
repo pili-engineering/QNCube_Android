@@ -15,10 +15,10 @@ import com.hapi.happy_dialog.FinalDialogFragment
 import com.hapi.ut.helper.ActivityManager
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.bgDefault
-import com.niucube.absroom.AudioTrackParams
-import com.niucube.absroom.RtcOperationCallback
-import com.niucube.absroom.VideoTrackParams
-import com.niucube.absroom.seat.UserExtension
+import com.niucube.basemutableroom.absroom.AudioTrackParams
+import com.niucube.basemutableroom.absroom.RtcOperationCallback
+import com.niucube.basemutableroom.absroom.VideoTrackParams
+import com.niucube.basemutableroom.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.ClientRoleType

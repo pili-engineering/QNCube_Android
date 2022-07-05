@@ -1,6 +1,6 @@
 package com.niucube.basemutableroom
+import com.niucube.basemutableroom.absroom.seat.UserMicSeat
 
-import com.niucube.absroom.seat.UserMicSeat
 
 //基础多人麦位置
 open class BaseMutableMicSeat : UserMicSeat() {

@@ -2,15 +2,16 @@ package com.niucube.comp.mutabletrackroom
 
 import android.content.Context
 import android.text.TextUtils
-import com.niucube.absroom.*
 import com.niucube.comproom.*
-import com.niucube.absroom.seat.UserExtension
 import com.niucube.qnrtcsdk.QNRTCEngineEventWrap
 import com.niucube.basemutableroom.*
-import com.niucube.rtcroom.RtcException
-import com.niucube.rtcroom.joinRtc
-import com.qiniu.droid.rtc.*
+import com.niucube.basemutableroom.RtcException
+import com.niucube.basemutableroom.absroom.AudioTrackParams
+import com.niucube.basemutableroom.absroom.VideoTrackParams
+import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.basemutableroom.joinRtc
 import com.niucube.rtm.RtmException
+import com.qiniu.droid.rtc.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -244,7 +245,6 @@ class MutableTrackRoom(
             if (mutableRoom.getUserSeat(p0) != null) {
                 return
             }
-
             val seat = MutableMicSeat().apply {
                 uid = p0
                 if (!TextUtils.isEmpty(p1)) {
@@ -262,9 +262,10 @@ class MutableTrackRoom(
                     userExtension = ext
                 }
             }
-
           //如果加入rtc房间里的人是主播角色 则回调上麦
-            if ((seat.userExtension as UserExtensionWrap?)?.clientRoleType ?: -1 == ClientRoleType.CLIENT_ROLE_BROADCASTER.role) {
+            if (((seat.userExtension as UserExtensionWrap?)?.clientRoleType
+                    ?: -1) == ClientRoleType.CLIENT_ROLE_BROADCASTER.role
+            ) {
                 mutableRoom.mMicSeats.add(seat)
                 mutableRoom.mTrackSeatListener.onUserSitDown(seat)
             }

@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.refresh.SmartRefreshHelper
+import com.hapi.base_mvvm.refresh.SmartRefreshHelper
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.backGround
 import com.qiniu.comp.network.RetrofitManager
@@ -18,7 +18,6 @@ import com.qiniudemo.baseapp.been.QiniuApp
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.SchemaParser
 import com.qiniudemo.baseapp.service.AppConfigService
-import com.scwang.smartrefresh.header.MaterialHeader
 import kotlinx.android.synthetic.main.fragment_app_list.*
 import kotlinx.android.synthetic.main.item_qiniu_app.view.*
 
@@ -57,7 +56,7 @@ class AppsListFragment : BaseFragment() {
     }
 
     override fun initViewData() {
-        refreshLayout.setRefreshHeader(MaterialHeader(requireContext()))
+
         mRecyclerView.adapter = adapter
         mRecyclerView.layoutManager = layoutManager
         mRecyclerView.addItemDecoration(SplitLine())

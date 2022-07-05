@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import com.hapi.refresh.IEmptyView;
+import com.hapi.base_mvvm.refresh.IEmptyView;
 import com.hapi.ut.AppCache;
 import com.hapi.ut.NetUtil;
 import com.qiniu.baseapp.R;

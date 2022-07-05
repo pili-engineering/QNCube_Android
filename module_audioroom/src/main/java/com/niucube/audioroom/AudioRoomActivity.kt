@@ -21,7 +21,6 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.lazyVm
-import com.niucube.absroom.RtcOperationCallback
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor

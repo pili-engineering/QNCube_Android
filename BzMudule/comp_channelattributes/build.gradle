@@ -31,12 +31,11 @@ android {
 dependencies {
 
     implementation project(":LibComponent:lib_json")
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation project(':1highlevlsdk:comp_rtm')
     implementation project(':BzMudule:comp_network')
     implementation project(':1highlevlsdk:comp_roommanager')
     implementation project(":baseApp")
-    implementation depend.coroutines()
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

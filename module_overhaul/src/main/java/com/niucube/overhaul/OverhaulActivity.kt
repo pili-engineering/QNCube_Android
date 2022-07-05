@@ -20,7 +20,7 @@ import com.pili.pldroid.player.widget.PLVideoView
 import com.niucube.comp.mutabletrackroom.MicSeatListener
 import com.niucube.comproom.RoomManager
 import com.qiniu.comp.network.RetrofitManager
-import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.niucube.comp.mutabletrackroom.MutableMicSeat
 import com.qiniu.droid.audio2text.QNRtcAISdkManager
 import com.qiniu.droid.whiteboard.QNWhiteBoard

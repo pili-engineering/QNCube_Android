@@ -15,20 +15,19 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.lazyVm
+import com.niucube.basemutableroom.absroom.seat.ScreenMicSeat
 import com.niucube.comp.mutabletrackroom.MicSeatListener
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniu.bzcomp.user.UserInfoManager
-import com.niucube.rtcroom.screencapture.ScreenMicSeatListener
+import com.niucube.basemutableroom.screencapture.ScreenMicSeatListener
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
 import com.niucube.comproom.provideMeId
-import com.niucube.rtcroom.screencapture.ScreenCapturePlugin
-import com.niucube.absroom.seat.ScreenMicSeat
+import com.niucube.basemutableroom.screencapture.ScreenCapturePlugin
 import com.niucube.comp.mutabletrackroom.MutableMicSeat
-import com.qiniu.droid.rtc.QNScreenVideoTrack
 import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.qiniudemo.module.interview.R
@@ -90,20 +89,20 @@ class InterviewRoomActivity : BaseActivity() {
                 checkIsRoomOnlyMe()
             }
 
-            override fun onCameraStatusChanged(targetSeat: MutableMicSeat) {
+            override fun onCameraStatusChanged(micSeat: MutableMicSeat) {
 
-                if (targetSeat.isMySeat()) {
-                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, targetSeat)
+                if (micSeat.isMySeat()) {
+                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
                 } else {
-                    bigSurfaceBack.onTrackStatusChange(mInterviewRoom, targetSeat)
+                    bigSurfaceBack.onTrackStatusChange(mInterviewRoom, micSeat)
                 }
             }
 
-            override fun onMicAudioStatusChanged(targetSeat: MutableMicSeat) {
-                if (targetSeat.isMySeat()) {
-                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, targetSeat)
+            override fun onMicAudioStatusChanged(micSeat: MutableMicSeat) {
+                if (micSeat.isMySeat()) {
+                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
                 } else {
-                    bigSurfaceBack.onTrackStatusChange(mInterviewRoom, targetSeat)
+                    bigSurfaceBack.onTrackStatusChange(mInterviewRoom, micSeat)
                 }
             }
         }
@@ -111,20 +110,19 @@ class InterviewRoomActivity : BaseActivity() {
 
     //屏幕共享监听
     private var mScreenMicSeatListener = object : ScreenMicSeatListener {
-        override fun onScreenMicSeatAdd(targetSeat: ScreenMicSeat) {
+        override fun onScreenMicSeatAdd(seat: ScreenMicSeat) {
             //屏幕轨道
-            bigSurfaceFront.onScreenSeatAdd(mInterviewRoom, targetSeat)
-            onScreenTrackOn(targetSeat)
+            bigSurfaceFront.onScreenSeatAdd(mInterviewRoom, seat)
+            onScreenTrackOn(seat)
             btScree.isSelected = true
         }
 
-        override fun onScreenMicSeatRemove(targetSeat: ScreenMicSeat) {
-            bigSurfaceFront.onScreenSeatRemoved(mInterviewRoom, targetSeat)
+        override fun onScreenMicSeatRemove(seat: ScreenMicSeat) {
+            bigSurfaceFront.onScreenSeatRemoved(mInterviewRoom, seat)
             onScreenTrackOff()
             btScree.isSelected = false
             checkIsRoomOnlyMe()
         }
-
     }
 
     /**
@@ -388,7 +386,6 @@ class InterviewRoomActivity : BaseActivity() {
     private fun streamerBackToLiving() {
         //   mInterviewRoom.pushCameraTrackWithImage(null)
     }
-
 
     inner class BigSurfaceViewAdapter :
         RecyclerView.Adapter<BigSurfaceViewAdapter.ViewPagerViewHolder>() {

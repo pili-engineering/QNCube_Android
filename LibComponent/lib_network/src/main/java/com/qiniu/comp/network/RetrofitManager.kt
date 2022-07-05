@@ -52,9 +52,12 @@ object RetrofitManager {
         return call.execute()
     }
 
-    private val okHttpExt by lazy { OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }).build() }
+    private val okHttpExt by lazy {
+        OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }).build()
+    }
+
     fun postFormUserExtraClient(
         url: String,
         body: RequestBody,

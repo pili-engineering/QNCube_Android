@@ -1,24 +1,19 @@
 package com.niucube.module.videowatch
 
-
 import android.os.Bundle
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.refresh.SmartRecyclerView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hipi.vm.activityVm
 import com.hipi.vm.backGround
-import com.niucube.absroom.RtcOperationCallback
+import com.niucube.basemutableroom.absroom.RtcOperationCallback
 import com.niucube.comproom.RoomManager
-import com.niucube.module.videowatch.mode.Movie
 import com.niucube.rtm.RtmCallBack
-import com.qiniu.bzcomp.user.UserInfo
 import com.qiniu.bzcomp.user.UserInfoManager
-import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.RecyclerFragment
 import com.qiniudemo.baseapp.been.RoomMember
 import com.qiniudemo.baseapp.ext.asToast

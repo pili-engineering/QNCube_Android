@@ -5,8 +5,8 @@ import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
-import com.niucube.rtcroom.adminTrack.AdminTrackManager
-import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.adminTrack.AdminTrackManager
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.droid.rtc.QNRemoteTrack
 import com.qiniu.droid.rtc.QNRenderMode
 import com.qiniudemo.baseapp.been.hostId

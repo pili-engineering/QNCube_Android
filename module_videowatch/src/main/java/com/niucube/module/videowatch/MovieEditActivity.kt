@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.refresh.SmartRecyclerView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
 import com.niucube.module.videowatch.mode.Movie

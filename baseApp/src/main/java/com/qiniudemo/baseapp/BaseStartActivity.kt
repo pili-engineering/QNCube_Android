@@ -47,23 +47,6 @@ abstract class BaseStartActivity : BaseActivity() {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).subscribe {}
-
-        // ui 没有给 闪屏图  接口返回闪屏
-//        val lastImg =  SpUtil.get(SPConstant.User.SpName).readString("welcomeImg","")
-//        if(!TextUtils.isEmpty(lastImg)){
-//            Glide.with(this@BaseStartActivity)
-//                .load(lastImg)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .into(ivSplash)
-//        }else{
-//            if(getDefaultImg()>0){
-//                Glide.with(this@BaseStartActivity)
-//                    .load(getDefaultImg())
-//                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                    .into(ivSplash)
-//            }
-//        }
-
         lifecycleScope.launch(Dispatchers.Main) {
 
             var config: AppConfigModel? = null

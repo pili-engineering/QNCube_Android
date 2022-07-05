@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
+    android:layout_height="match_parent">
 
 
     <FrameLayout
         android:id="@+id/flRecyContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="match_parent" />
 
-<!--        <com.rare.chat.view.CommonEmptyView-->
-<!--            android:id="@+id/emptyView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            tools:visibility="visible" />-->
+        <!--        <com.rare.chat.view.CommonEmptyView-->
+        <!--            android:id="@+id/emptyView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            tools:visibility="visible" />-->
 
     </FrameLayout>
 
 
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

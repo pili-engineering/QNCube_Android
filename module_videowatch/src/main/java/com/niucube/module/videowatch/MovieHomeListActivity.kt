@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.base_mvvm.mvvm.BaseRecyclerActivity
-import com.hapi.refresh.SmartRecyclerView
+import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hapi.ut.StatusBarUtil
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager

@@ -28,32 +28,32 @@ class PKLiveRoomListActivity : BaseActivity() {
      */
     suspend fun suspendInit() =
         suspendCoroutine<Unit> { coroutine ->
-            QLive.init(application, QSdkConfig(),
-                { callback ->
-                    //业务方获取token
-                    backGround {
-                        doWork {
-                            val token = RetrofitManager.create(LiveSdkService::class.java)
-                                .getTokenInfo(
-                                    UserInfoManager.getUserId(),
-                                    Math.random().toString() + ""
-                                )
-                            callback.onSuccess(token.accessToken)
-                        }
-                        catchError {
-                            it.printStackTrace()
-                        }
+            QLive.init(application, QSdkConfig()
+            ) { callback ->
+                //业务方获取token
+                backGround {
+                    doWork {
+                        val token = RetrofitManager.create(LiveSdkService::class.java)
+                            .getTokenInfo(
+                                UserInfoManager.getUserId(),
+                                Math.random().toString() + ""
+                            )
+                        callback.onSuccess(token.accessToken)
                     }
-                }, object : QLiveCallBack<Void> {
-                    override fun onError(code: Int, msg: String?) {
-                        Toast.makeText(this@PKLiveRoomListActivity, msg, Toast.LENGTH_SHORT).show()
-                        coroutine.resumeWithException(Exception("getTokenError"))
+                    catchError {
+                        it.printStackTrace()
                     }
+                }
+            }
+            QLive.auth(object : QLiveCallBack<Void>{
+                override fun onError(p0: Int, p1: String?) {
+                    coroutine.resumeWithException(Exception("$p1 "))
+                }
 
-                    override fun onSuccess(data: Void?) {
-                        coroutine.resume(Unit)
-                    }
-                })
+                override fun onSuccess(p0: Void?) {
+                    coroutine.resume(Unit)
+                }
+            })
         }
 
     /**

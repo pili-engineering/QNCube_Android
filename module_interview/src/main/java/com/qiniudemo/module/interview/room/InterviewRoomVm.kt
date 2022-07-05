@@ -17,7 +17,7 @@ import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.rtcroom.mixstream.MixStreamManager
+import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import com.qiniudemo.baseapp.ext.asToast

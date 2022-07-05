@@ -30,18 +30,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
-     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     api project(":LibComponent:happy_vm")
     implementation depend.lifecycle()
     api depend.recyclerview()
     api depend.appcompat()
-    api depend.design()
-    api depend.constraintLayout()
-    implementation depend.recyclerview()
-    api 'com.github.MJLblabla:samrtload:1.0.5'
-    api "androidx.activity:activity-ktx:1.3.1"
-    api "androidx.core:core-ktx:1.6.0"
-    api "androidx.core:core:1.7.0-beta01"
+    api depend.recyclerview()
+    api "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
+
 }
 repositories {
     mavenCentral()
