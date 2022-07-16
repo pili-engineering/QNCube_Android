@@ -59,7 +59,7 @@ interface MixStreamManager {
 
         var mixStreamWidth: Int = 0
         var mixStringHeight: Int = 0
-        var mixBitrate: Int = 3420 * 1000
+        var mixBitrate: Int = 1500
         var fps: Int = 15
         var qnBackGround: QNTranscodingLiveStreamingImage? = null
         var watermarks: List<QNTranscodingLiveStreamingImage>? = null
@@ -67,7 +67,7 @@ interface MixStreamManager {
         constructor(
             mixStreamWidth: Int = 0,
             mixStringHeight: Int = 0,
-            mixBitrate: Int = 3420 * 1000,
+            mixBitrate: Int = 1500 ,
             fps: Int = 15,
             qnBackGround: QNTranscodingLiveStreamingImage? = null
         ) {

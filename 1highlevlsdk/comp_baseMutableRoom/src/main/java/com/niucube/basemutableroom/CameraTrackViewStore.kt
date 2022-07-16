@@ -40,7 +40,7 @@ class CameraTrackViewStore {
 
     fun reStoreTracksToPuller() {
         mUserBindedVideoWindowMap.entries.forEach {
-            it.value.visibility = View.GONE
+           // it.value.visibility = View.GONE
             mUserUnbindVideoWindowMap[it.key] = it.value
         }
         mUserBindedVideoWindowMap.clear()

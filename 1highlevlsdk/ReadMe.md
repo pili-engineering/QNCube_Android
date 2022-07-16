@@ -511,7 +511,7 @@ class VideoTrackParams {
     var width = 480
     var height = 640
     var fps = 15
-    var bitrate = 3420 * 1000
+    var bitrate = 1600 
     var isMaster = true
 
 }

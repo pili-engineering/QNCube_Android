@@ -96,7 +96,7 @@ class OverhaulVm(application: Application, bundle: Bundle?) :
             MixStreamManager.MixStreamParams(
                 videoWidth,
                 videoHeight,
-                3420,
+                1600,
                 15,
                 null
             )

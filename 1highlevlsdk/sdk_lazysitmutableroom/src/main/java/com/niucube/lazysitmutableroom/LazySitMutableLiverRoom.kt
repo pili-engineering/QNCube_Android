@@ -2,6 +2,7 @@ package com.niucube.lazysitmutableroom
 
 import android.content.Context
 import android.text.TextUtils
+import android.util.Log
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
 import com.niucube.comproom.*
 import com.niucube.basemutableroom.*
@@ -31,10 +32,6 @@ class LazySitMutableLiverRoom(
 
     override val mRtcRoomSignalingLister by lazy { FixRtcRoomSignalingLister(this) }
     override val mTrackSeatListener by lazy { FixRoomUserMicSeatListener(this) }
-
-    override fun setClientRole(role: ClientRoleType, call: QNClientRoleResultCallback) {
-        super.setClientRole(role, call)
-    }
 
     //添加麦位监听
     fun addUserMicSeatListener(listener: UserMicSeatListener) {
@@ -95,14 +92,14 @@ class LazySitMutableLiverRoom(
         cameraParams: VideoTrackParams?,
         micphoneParams: AudioTrackParams?
     ) {
+        Log.d("sitDown","joinRtc")
         if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
             //如果是从拉流角色上麦需要加入房间 拉流角色是指使用rtmp等协议播放合流
             joinRtc(RoomManager.mCurrentRoom?.provideRoomToken() ?: "", "")
         }
-
-        //设置角色为主播
+        Log.d("sitDown","setClientRoleSuspend")
         setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_BROADCASTER)
-
+        //设置角色为主播
         val seatTemp = LazySitUserMicSeat().apply {
             isOwnerOpenAudio = micphoneParams != null
             isOwnerOpenVideo = cameraParams != null
@@ -111,7 +108,7 @@ class LazySitMutableLiverRoom(
         seatTemp.userExtension = userExt
         //发送上麦信令
         mRtcRoomSignaling.sitDown(seatTemp)
-        mMicSeats.add(seatTemp)
+        Log.d("sitDown","setCameraVideoTrackParams")
         //创建视频轨道
         cameraParams?.let {
             setCameraVideoTrackParams(it)
@@ -122,16 +119,19 @@ class LazySitMutableLiverRoom(
             setMicrophoneAudioParams(it)
             createVideoTrack()
         }
-        //回调本地自己上麦
-        mTrackSeatListener.onUserSitDown(seatTemp)
+        Log.d("sitDown","suspendEnableVideo")
         //发布流
         cameraParams?.let {
             suspendEnableVideo()
         }
+        Log.d("sitDown","suspendEnableAudio")
         //发布流
         micphoneParams?.let {
             suspendEnableAudio()
         }
+        mMicSeats.add(seatTemp)
+        //回调本地自己上麦
+        mTrackSeatListener.onUserSitDown(seatTemp)
     }
 
     /**
@@ -161,6 +161,7 @@ class LazySitMutableLiverRoom(
         super.onlyDisableAudio()
         super.onlyDisableVideo()
         mClient.leave()
+
         mMicSeats.remove(seat)
         mTrackSeatListener.onUserSitUp(seat, false)
         seat.clear()
@@ -197,12 +198,10 @@ class LazySitMutableLiverRoom(
             callBack.onFailure(error_seat_status, "seatId error")
             return
         }
-
         if (TextUtils.isEmpty(seat.uid)) {
             callBack.onFailure(error_seat_status, "seat is  empty")
             return
         }
-
         mRtcRoomSignaling.kickOutFromMicSeat(
             UserMicSeatMsg(seat, msg),
             object : RtmCallBack {
@@ -292,7 +291,6 @@ class LazySitMutableLiverRoom(
                 override fun onSuccess() {
                     callBack.onSuccess()
                 }
-
                 override fun onFailure(code: Int, msg: String) {
                     callBack.onFailure(-code, msg)
                 }

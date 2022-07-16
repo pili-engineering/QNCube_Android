@@ -63,7 +63,11 @@ class MutableTrackRoom(
                 }
 
                 override fun onError(p0: Int, p1: String) {
-                    continuation.resumeWithException(RtcException(p0, p1))
+                    if(p0==24007){
+                        continuation.resume(Unit)
+                    }else{
+                        continuation.resumeWithException(RtcException(p0, p1))
+                    }
                 }
             })
         }
@@ -74,7 +78,6 @@ class MutableTrackRoom(
             //初始化设置
             super.setClientRole(value, call)
         } else {
-
             val roleTemp = mClientRole
             //主播变观众
             if ((mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) &&
@@ -262,7 +265,7 @@ class MutableTrackRoom(
                     userExtension = ext
                 }
             }
-          //如果加入rtc房间里的人是主播角色 则回调上麦
+            //如果加入rtc房间里的人是主播角色 则回调上麦
             if (((seat.userExtension as UserExtensionWrap?)?.clientRoleType
                     ?: -1) == ClientRoleType.CLIENT_ROLE_BROADCASTER.role
             ) {

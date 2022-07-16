@@ -31,9 +31,7 @@ android {
 }
 
 dependencies {
-    api files('libs/qndroid-rtc-4.0.2.jar')
-    api  'com.qiniu:happy-dns:1.0.1'
-
+    api files('libs/qndroid-rtc-5.1.1.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

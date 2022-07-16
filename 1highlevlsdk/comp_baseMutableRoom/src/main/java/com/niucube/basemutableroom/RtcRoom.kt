@@ -65,7 +65,11 @@ open class RtcRoom(
                 }
 
                 override fun onError(p0: Int, p1: String) {
-                    continuation.resumeWithException(RtcException(p0, p1))
+                    if (p0 == 24007) {
+                        continuation.resume(Unit)
+                    } else {
+                        continuation.resumeWithException(RtcException(p0, p1))
+                    }
                 }
             })
         }
@@ -122,30 +126,30 @@ open class RtcRoom(
                 }
             mClientRole = value
         }
-        if (value != ClientRoleType.CLIENT_ROLE_PULLER) {
-            val startTime = System.currentTimeMillis()
-            mClient.setClientRole(
-                value.toQNClientRoleType(), object : QNClientRoleResultCallback {
-                    override fun onResult(p0: QNClientRole?) {
-                        val duration = System.currentTimeMillis() - startTime
-                        Log.d("setClientRole", " setClientRole duration ${duration} ")
-                        doWorkCall.invoke()
-                        call.onResult(p0)
-                    }
 
-                    override fun onError(p0: Int, p1: String?) {
-                        if (24001 == p0) {
-                            doWorkCall.invoke()
-                            call.onResult(value.toQNClientRoleType())
-                        } else {
-                            call.onError(p0, p1)
-                        }
+        val startTime = System.currentTimeMillis()
+
+        mClient.setClientRole(
+            value.toQNClientRoleType(), object : QNClientRoleResultCallback {
+                override fun onResult(p0: QNClientRole?) {
+                    val duration = System.currentTimeMillis() - startTime
+                    Log.d("sitDown", " setClientRole duration ${duration} ")
+                    doWorkCall.invoke()
+                    call.onResult(p0)
+                }
+
+                override fun onError(p0: Int, p1: String?) {
+                    Log.d("sitDown", " setClientRole onError ${p0} ")
+                    if (24001 == p0 || 24007 == p0) {
+                        doWorkCall.invoke()
+                        Log.d("sitDown", " doWorkCall.invoke()")
+                        call.onResult(value.toQNClientRoleType())
+                        Log.d("sitDown", " onResult.invoke()")
+                    } else {
+                        call.onError(p0, p1)
                     }
-                })
-        } else {
-            doWorkCall.invoke()
-            call.onResult(value.toQNClientRoleType())
-        }
+                }
+            })
     }
 
     //房间里存在的所以轨道
@@ -521,11 +525,13 @@ open class RtcRoom(
      */
     protected open fun disableVideo() {
         if (com.niucube.comproom.RoomManager.mCurrentRoom?.isJoined == true) {
-            mClient.unpublish(listOf(localVideoTrack))
-            mQNRTCEngineEventWrap.onLocalUnpublished(
-                RoomManager.mCurrentRoom?.provideMeId() ?: "",
-                listOf(localVideoTrack!!)
-            )
+//            mClient.unpublish(listOf(localVideoTrack))
+//            mQNRTCEngineEventWrap.onLocalUnpublished(
+//                RoomManager.mCurrentRoom?.provideMeId() ?: "",
+//                listOf(localVideoTrack!!)
+//            )
+            localVideoTrack?.destroy()
+            localVideoTrack = null
         }
         isVideoEnable = false
     }
@@ -535,11 +541,13 @@ open class RtcRoom(
      */
     protected open fun disableAudio() {
         if (com.niucube.comproom.RoomManager.mCurrentRoom?.isJoined == true) {
-            mClient.unpublish(listOf(localAudioTrack))
-            mQNRTCEngineEventWrap.onLocalUnpublished(
-                RoomManager.mCurrentRoom?.provideMeId() ?: "",
-                listOf(localAudioTrack!!)
-            )
+//            mClient.unpublish(listOf(localAudioTrack))
+//            mQNRTCEngineEventWrap.onLocalUnpublished(
+//                RoomManager.mCurrentRoom?.provideMeId() ?: "",
+//                listOf(localAudioTrack!!)
+//            )
+            localAudioTrack?.destroy()
+            localAudioTrack = null
         }
         isAudioEnable = false
     }
