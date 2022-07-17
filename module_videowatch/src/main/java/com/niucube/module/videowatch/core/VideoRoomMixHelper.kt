@@ -15,7 +15,7 @@ class VideoRoomMixHelper {
     val mMixStreamParams = MixStreamManager.MixStreamParams().apply {
         mixStreamWidth = 1080
         mixStringHeight = 1080
-        mixBitrate = 3420 * 1000
+        mixBitrate = 1600
         fps = 15
     }
 

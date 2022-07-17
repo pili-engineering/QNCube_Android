@@ -1,5 +1,6 @@
 package com.niucube.basemutableroom
 
+import android.util.Log
 import com.niucube.qnrtcsdk.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import java.lang.Exception
@@ -16,6 +17,7 @@ suspend fun RtcRoom.joinRtc(token: String, msg: String) =
                 state: QNConnectionState,
                 p1: QNConnectionDisconnectedInfo?
             ) {
+                Log.d("trackQNRTCEngineEvent","onConnectionStateChanged"+state.name)
                 if (state == QNConnectionState.CONNECTED) {
                     removeExtraQNRTCEngineEventListener(this)
                     continuation.resume(Unit)

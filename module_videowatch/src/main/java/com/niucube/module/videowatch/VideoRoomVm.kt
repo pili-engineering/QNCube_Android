@@ -14,6 +14,7 @@ import androidx.lifecycle.viewModelScope
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hapi.ut.helper.ActivityManager
 import com.hipi.vm.BaseViewModel
+import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.basemutableroom.absroom.AudioTrackParams
 import com.niucube.basemutableroom.absroom.RtcOperationCallback
@@ -285,12 +286,18 @@ class VideoRoomVm(application: Application, bundle: Bundle?) :
 
     //下麦
     fun sitUp(call: RtcOperationCallback? = null) {
-        bgDefault {
-            mRtcRoom.sitUpAsAudience()
-            RoomAttributesManager.sitUp(
-                RoomManager.mCurrentRoom?.provideRoomId() ?: "",
-                RoomManager.mCurrentRoom?.provideMeId() ?: ""
-            )
+        backGround {
+            doWork {
+                mRtcRoom.sitUpAsAudience()
+                RoomAttributesManager.sitUp(
+                    RoomManager.mCurrentRoom?.provideRoomId() ?: "",
+                    RoomManager.mCurrentRoom?.provideMeId() ?: ""
+                )
+                call?.onSuccess()
+            }
+            catchError {
+                call?.onFailure(-1,it.message?:"")
+            }
         }
     }
 

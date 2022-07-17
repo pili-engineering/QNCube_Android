@@ -109,7 +109,7 @@ class InterviewRoomVm(val app: Application, bundle: Bundle?) :
             MixStreamManager.MixStreamParams(
                 tack_width,
                 track_heigt,
-                3420,
+                1600,
                 15,
                 null
             )

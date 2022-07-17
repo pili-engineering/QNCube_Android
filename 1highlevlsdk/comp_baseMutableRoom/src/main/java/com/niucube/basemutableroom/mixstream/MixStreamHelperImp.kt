@@ -33,6 +33,7 @@ class MixStreamHelperImp(
     init {
         mEngine.setLiveStreamingListener(object : QNLiveStreamingListener {
             override fun onStarted(streamID: String) {
+                Log.d("MixStreamHelperImp","onStarted ${streamID}")
                 // 转推任务创建成功时触发此回调
                 if (mQNMergeJob != null) {
                     isMixStreamIng = true
@@ -44,16 +45,18 @@ class MixStreamHelperImp(
             }
 
             override fun onStopped(streamID: String) {
+                Log.d("MixStreamHelperImp","onStopped ${streamID}")
                 // 转推任务成功停止时触发此回调
             }
 
             override fun onTranscodingTracksUpdated(streamID: String) {
                 // 合流布局更新成功时触发此回调
+                Log.d("MixStreamHelperImp","onTranscodingTracksUpdated ${streamID}")
             }
 
             override fun onError(streamID: String, errorInfo: QNLiveStreamingErrorInfo) {
                 // 转推任务出错时触发此回调
-                Log.d("MixStreamHelperImp","MixStreamHelperImp onError")
+                Log.d("MixStreamHelperImp","MixStreamHelperImp onError"+errorInfo.message)
             }
         })
         rtcRoom.addExtraQNRTCEngineEventListener(object : SimpleQNRTCListener {
@@ -162,7 +165,6 @@ class MixStreamHelperImp(
             }
             localVideoTrack?.let {
                 mDirectLiveStreamingConfig.videoTrack = it
-
             }
         }
     }
@@ -407,7 +409,7 @@ class MixStreamHelperImp(
                     zOrder = op.mZ
                     width = op.mWidth
                     height = op.mHeight
-                    renderMode = op.mStretchMode
+                    renderMode = op.mStretchMode?:QNRenderMode.ASPECT_FILL
                 })
             }
             mEngine.setTranscodingLiveStreamingTracks(mQNMergeJob!!.streamID, mMergeTrackOptions)
