@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.hipi.vm.lifecycleBg
-import com.qiniu.baseapp.BuildConfig.base_url
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniu.bzcomp.user.UserInfo
