@@ -253,7 +253,6 @@ class QNIMAdapter : RtmAdapter {
                 callBack?.onFailure(p0.swigValue(), p0.name)
             }
         }
-
     }
 
     override fun joinChannel(channelId: String, callBack: RtmCallBack?) {

@@ -213,6 +213,19 @@
         app:layout_constraintTop_toTopOf="@+id/ivMicrophone"
         app:srcCompat="@mipmap/yingui" />
 
+
+    <CheckBox
+        android:id="@+id/cbEnableEarMonitor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/ivAccompany"
+        app:layout_constraintStart_toEndOf="@+id/ivAccompany"
+        app:layout_constraintTop_toTopOf="@+id/ivAccompany"
+        android:text="耳返"
+        android:textColor="@color/white"
+
+        />
+
     <ImageView
         android:id="@+id/ivCloseRoom"
         android:layout_width="28dp"
@@ -220,9 +233,9 @@
         android:padding="5dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAccompany"
+        app:layout_constraintBottom_toBottomOf="@+id/cbEnableEarMonitor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ivAccompany"
+        app:layout_constraintTop_toTopOf="@+id/cbEnableEarMonitor"
         app:srcCompat="@mipmap/guanbi" />
 
 

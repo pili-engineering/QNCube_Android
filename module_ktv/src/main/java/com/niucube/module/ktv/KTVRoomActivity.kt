@@ -154,7 +154,10 @@ class KTVRoomActivity : BaseActivity() {
                     ktvRoomVm.mKTVPlaylistsManager.getNext(ktvRoomVm.mKTVPlayerKit.mKTVMusic?.musicInfo)
                 if (next == null) {
                     CommonTipDialog.TipBuild()
-                        .setContent("歌单空空的，快去添加")
+                        .setTittle("歌单空空的，快去添加!")
+                        .setContent("开启耳返，佩戴耳机，效果更加哦～")
+                        .isNeedCancelBtn(false)
+                        .setPositiveText("我知道了")
                         .build()
                         .show(supportFragmentManager, "")
                     return@doWork
@@ -214,6 +217,7 @@ class KTVRoomActivity : BaseActivity() {
          * @param seat
          * @param isOffLine 是不是断线 否则主动下麦
          */
+        @SuppressLint("NotifyDataSetChanged")
         override fun onUserSitUp(seat: LazySitUserMicSeat, isOffLine: Boolean) {
             micSeatAdapter.getUserSeat(seat)?.let {
                 micSeatAdapter.remove(micSeatAdapter.data.indexOf(it))
@@ -276,6 +280,7 @@ class KTVRoomActivity : BaseActivity() {
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
+
         lifecycle.addObserver(KeepLight(this))
         pubChatDialog = LightPubChatDialog(this)
         lrcView.setLabel("暂无音乐播放～")
@@ -327,6 +332,11 @@ class KTVRoomActivity : BaseActivity() {
         }
         tvSelectSong.setOnClickListener {
             SongsListDialog().show(supportFragmentManager, "")
+        }
+
+        cbEnableEarMonitor.setOnCheckedChangeListener { compoundButton, b ->
+            //耳返
+            ktvRoomVm.mKTVPlayerKit.enableEarMonitor(b)
         }
         RxPermissions(this)
             .request(
@@ -452,5 +462,4 @@ class KTVRoomActivity : BaseActivity() {
             outRect.top = 10
         }
     }
-
 }

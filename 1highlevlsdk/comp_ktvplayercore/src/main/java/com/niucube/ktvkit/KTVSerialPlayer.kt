@@ -168,7 +168,7 @@ open class KTVSerialPlayer<T>(
         override fun onStateChanged(p0: QNAudioMixerState) {
             when (p0) {
                 QNAudioMixerState.MIXING -> {
-                    mQNAudioMixer?.enableEarMonitor(true)
+                   // mQNAudioMixer?.enableEarMonitor(true)
                 }
                 QNAudioMixerState.COMPLETED -> {
                     mKTVMusic!!.playStatus = playStatus_completed
@@ -190,7 +190,7 @@ open class KTVSerialPlayer<T>(
 
                 }
                 QNAudioMixerState.STOPPED -> {
-                    mQNAudioMixer?.enableEarMonitor(false)
+                   // mQNAudioMixer?.enableEarMonitor(false)
                 }
             }
         }
@@ -210,7 +210,7 @@ open class KTVSerialPlayer<T>(
         }
 
         override fun onError(p0: Int) {
-            mQNAudioMixer?.enableEarMonitor(false)
+           // mQNAudioMixer?.enableEarMonitor(false)
             Log.d("QNAudioMixingManager", "onError")
             mKTVMusic?.playStatus = playStatus_error
             adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
@@ -391,6 +391,10 @@ open class KTVSerialPlayer<T>(
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun enableEarMonitor(enable: Boolean){
+        mQNAudioMixer?.enableEarMonitor(enable)
     }
 
 }

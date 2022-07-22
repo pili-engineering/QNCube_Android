@@ -153,6 +153,7 @@ open class CommonTipDialogImp : BaseVmDialogFragment() {
                 tvTitle.visibility = View.GONE
             } else {
                 tvTitle.text = title
+                tvTitle.visibility = View.VISIBLE
             }
             val content = getString("content")
             secret_pwd.text = Html.fromHtml(content)

@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.hipi.vm.lifecycleBg
-import com.qiniu.baseapp.BuildConfig.base_url
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniu.bzcomp.user.UserInfo
@@ -40,27 +39,6 @@ class MineFragment : BaseFragment() {
             WebActivity.start("https://www.qiniu.com/user-agreement", requireContext())
         }
         flUpLoadLog.setOnClickListener {
-            if (SwitchEnvHelper.get().envType == EnvType.Dev) {
-                val type = "application/json;charset=utf-8".toMediaType()
-                val body = JsonUtils.toJson(NewVersionInfo()).toString().toRequestBody(type)
-                showLoading(true)
-                backGround {
-                    doWork {
-                        val ret=async(Dispatchers.IO) {
-                            RetrofitManager.postJsonUserExtraClient(base_url + "v2/app/updates", body)
-                        }
-                        ret.await()
-                        "上传完成".asToast()
-                    }
-                    catchError {
-                        it.message?.asToast()
-                        it.printStackTrace()
-                    }
-                    onFinally {
-                        showLoading(false)
-                    }
-                }
-            }
         }
         ivAvatar.setOnClickListener {
 
