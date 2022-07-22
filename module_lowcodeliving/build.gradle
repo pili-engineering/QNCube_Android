@@ -52,6 +52,8 @@ dependencies {
     compileOnly project (':1highlevlsdk:comp_player')            //rtc sdk
     compileOnly project (':BzMudule:sdk_qnim')            //rtc sdk
 
+    implementation 'com.blankj:utilcodex:1.31.0'
+
     implementation depend.appcompat()
     implementation depend.design()
     testImplementation 'junit:junit:4.+'
