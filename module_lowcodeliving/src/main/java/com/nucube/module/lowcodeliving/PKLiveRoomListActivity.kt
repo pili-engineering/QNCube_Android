@@ -1,6 +1,7 @@
 package com.nucube.module.lowcodeliving
 
 import android.content.Context
+import android.view.View
 
 import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,9 +13,15 @@ import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
 import com.qlive.core.QLiveCallBack
+import com.qlive.core.QLiveClient
 import com.qlive.core.QSdkConfig
+import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
+import com.qlive.shoppingservice.QItem
+import com.qlive.uikit.component.CloseRoomView
+import com.qlive.uikitcore.QLiveUIKitContext
+import com.qlive.uikitshopping.PlayerShoppingDialog
 import kotlinx.android.synthetic.main.activity_pklive_room_list.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -23,12 +30,29 @@ import kotlin.coroutines.suspendCoroutine
 @Route(path = RouterConstant.LowCodePKLive.LiveRoomList)
 class PKLiveRoomListActivity : BaseActivity() {
 
+    companion object {
+        init {
+            //自定义事件
+            PlayerShoppingDialog.onItemClickListener =
+                { context: QLiveUIKitContext, client: QLiveClient, view: View, item: QItem ->
+                    TestShoppingActivity.start(context, item)
+                }
+//            CloseRoomView.beforeFinishCall = { context: QLiveUIKitContext,
+//                                               client: QLiveClient,
+//                                               room: QLiveRoomInfo,
+//                                               isAnchorActionCloseRoom: Boolean ->
+//                DemoLiveFinishedActivity.checkStart(context, client, room, isAnchorActionCloseRoom)
+//            }
+        }
+    }
+
     /**
      * 初始化sdk
      */
     suspend fun suspendInit() =
         suspendCoroutine<Unit> { coroutine ->
-            QLive.init(application, QSdkConfig()
+            QLive.init(
+                application, QSdkConfig()
             ) { callback ->
                 //业务方获取token
                 backGround {
@@ -45,7 +69,7 @@ class PKLiveRoomListActivity : BaseActivity() {
                     }
                 }
             }
-            QLive.auth(object : QLiveCallBack<Void>{
+            QLive.auth(object : QLiveCallBack<Void> {
                 override fun onError(p0: Int, p1: String?) {
                     coroutine.resumeWithException(Exception("$p1 "))
                 }

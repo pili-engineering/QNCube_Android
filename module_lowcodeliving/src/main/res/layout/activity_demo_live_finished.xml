@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#161722"
+    android:orientation="vertical"
+    tools:context=".DemoLiveFinishedActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+        <ImageView
+            android:id="@+id/ivRoomCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:background="@drawable/shape_161722_00000000"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="直播已结束"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                 />
+
+            <com.qlive.uikitcore.view.CircleImageView
+                android:id="@+id/ivAnchorAvatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:id="@+id/tvAnchorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="直播已结束"
+                android:textColor="#E5E5E5"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvAnchorID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="直播已结束"
+                android:textColor="#E5E5E5"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/kit_ic_close_room"
+            android:layout_gravity="end"
+            android:layout_margin="14dp"
+            />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/shape_0affffff_10"
+        android:padding="14dp"
+        android:text="感谢您使用七牛云互动直播（低代码）。
+如需我们提供技术支持，或需了解更多的产品信息，请留下您的联系方式。"
+        android:textColor="#E5E5E5"
+        android:textSize="15sp" />
+
+    <FrameLayout
+        android:id="@+id/flRegistered"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/shape_0affffff_10"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E5E5E5"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:text="已注册七牛云"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E5E5E5"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical|end"
+            android:paddingEnd="14dp"
+            android:text=">"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/flUnRegistered"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/shape_0affffff_10"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E5E5E5"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:text="未注册七牛云"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#E5E5E5"
+            android:textSize="15sp"
+            android:layout_gravity="center_vertical|end"
+            android:paddingEnd="14dp"
+            android:text=">"
+            />
+    </FrameLayout>
+
+
+</LinearLayout>

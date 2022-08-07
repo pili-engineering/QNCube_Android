@@ -45,9 +45,9 @@ class AppsListFragment : BaseFragment() {
     private val fetcherFuc: (page: Int) -> Unit = {
         backGround {
             doWork {
-                     val solutions   = RetrofitManager.create(AppConfigService::class.java)
+                val solutions = RetrofitManager.create(AppConfigService::class.java)
                     .solutions()
-                  smartRefreshHelper.onFetchDataFinish(solutions.list, true, true)
+                smartRefreshHelper.onFetchDataFinish(solutions.list, true, true)
             }
             catchError {
                 smartRefreshHelper.onFetchDataError()
@@ -76,9 +76,9 @@ class AppsListFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(helper.itemView.ivIcon)
             helper.itemView.setOnClickListener {
-                 if(!SchemaParser.parseRouter(mContext, item.url+"?type=${item.type}")){
-                     "敬请期待".asToast()
-                 }
+                if (!SchemaParser.parseRouter(mContext, item.url + "?type=${item.type}", false)) {
+                    "敬请期待".asToast()
+                }
             }
         }
     }
@@ -95,9 +95,9 @@ class AppsListFragment : BaseFragment() {
             val dividerSizeMargin = ViewUtil.dip2px(19f)
 
             val isEven = childCount % 2 == 0
-            for (i in 0 until childCount ) {
+            for (i in 0 until childCount) {
                 val view = parent.getChildAt(i)
-                val isLeft = (i % 2 == 0) || (!isEven&&i==childCount-1)
+                val isLeft = (i % 2 == 0) || (!isEven && i == childCount - 1)
 
                 val isModel2 = childCount % 2 == 0
                 val last = if (isModel2) childCount - 2 else childCount - 1
@@ -117,7 +117,7 @@ class AppsListFragment : BaseFragment() {
                     )
                 }
 
-                if (isLeft ) {
+                if (isLeft) {
                     val leftV = view.right - dividerSize
                     val topV = if (i == 0) view.top + dividerVMargin else view.top
                     val rightV = view.right + dividerSize
