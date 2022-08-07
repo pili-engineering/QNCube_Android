@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nucube.module.lowcodeliving">
-
+    <!-- 系统悬浮窗权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
     <application>
         <activity
             android:name=".PKLiveRoomListActivity"
             android:theme="@style/TranslucentStyle"
+            android:exported="false" />
+        <activity
+            android:name=".DemoLiveFinishedActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".TestShoppingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
     </application>
 

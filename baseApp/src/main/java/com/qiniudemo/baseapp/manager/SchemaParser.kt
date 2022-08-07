@@ -10,17 +10,19 @@ import com.qiniu.router.RouterConstant
 
 object SchemaParser {
 
-    fun parseRouter(context: Context, url: String): Boolean {
+    fun parseRouter(context: Context, url: String,httpEnable:Boolean = true): Boolean {
         val router = Uri.parse(url)
         val scheme = router.scheme
         val host = router.host
         val path = router.path
-        if (scheme?.startsWith("http") == true) {
-           // WebActivity.start(url, context)
-            val uri = Uri.parse(url)
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            context.startActivity(intent)
-            return true
+        if(httpEnable){
+            if (scheme?.startsWith("http") == true) {
+                // WebActivity.start(url, context)
+                val uri = Uri.parse(url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                context.startActivity(intent)
+                return true
+            }
         }
         var isSupport = false
         when (host) {

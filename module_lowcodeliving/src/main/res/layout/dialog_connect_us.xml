@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="278dp"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:background="@drawable/shape_bg_connect_us">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="联系方式"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivCloseDialog"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_gravity="end|center_vertical"
+                android:src="@drawable/ic_close_black" />
+        </FrameLayout>
+
+        <!-- 输入框标题 -->
+        <TextView
+            android:id="@+id/tvHitCount"
+            android:layout_width="wrap_content"
+            android:layout_height="46dp"
+            android:gravity="center_vertical"
+            android:textColor="#E6000000"
+            android:layout_marginStart="18dp"
+
+            tools:text="ccc"
+            />
+        <EditText
+            android:id="@+id/etCount"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:gravity="center_vertical"
+            android:textColor="#E6000000"
+            android:layout_marginStart="18dp"
+            tools:hint="请输您的注册邮箱或手机号"
+            />
+
+        <Button
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:layout_marginTop="36dp"
+            android:background="#007AFF"
+            android:text="提交"
+            />
+    </LinearLayout>
+</FrameLayout>
