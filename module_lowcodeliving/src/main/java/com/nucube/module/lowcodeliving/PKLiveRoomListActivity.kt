@@ -37,12 +37,12 @@ class PKLiveRoomListActivity : BaseActivity() {
                 { context: QLiveUIKitContext, client: QLiveClient, view: View, item: QItem ->
                     TestShoppingActivity.start(context, item)
                 }
-//            CloseRoomView.beforeFinishCall = { context: QLiveUIKitContext,
-//                                               client: QLiveClient,
-//                                               room: QLiveRoomInfo,
-//                                               isAnchorActionCloseRoom: Boolean ->
-//                DemoLiveFinishedActivity.checkStart(context, client, room, isAnchorActionCloseRoom)
-//            }
+            CloseRoomView.beforeFinishCall = { context: QLiveUIKitContext,
+                                               client: QLiveClient,
+                                               room: QLiveRoomInfo,
+                                               isAnchorActionCloseRoom: Boolean ->
+                DemoLiveFinishedActivity.checkStart(context, client, room, isAnchorActionCloseRoom)
+            }
         }
     }
 
