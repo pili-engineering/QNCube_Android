@@ -1,7 +1,7 @@
 package com.nucube.module.lowcodeliving
 
-import retrofit2.http.GET
-import retrofit2.http.Query
+import okhttp3.RequestBody
+import retrofit2.http.*
 
 interface LiveSdkService {
 
@@ -11,4 +11,13 @@ interface LiveSdkService {
         @Query("deviceID") deviceID: String
     ): LowCodeSdkToken
 
+    @GET("/v1/live/IsRegister")
+    suspend fun isRegister(
+    ): Boolean
+
+
+    @POST("/v1/live/statistics")
+    suspend fun statistics(
+        @Body  body: RequestBody,
+    )
 }

@@ -15,12 +15,10 @@ interface RoomService {
         @Body joinRoomEntity: JoinRoomEntity
     ): BaseRoomEntity
 
-
     @POST("/v1/base/leaveRoom")
     suspend fun leaveRoom(
        @Body room:RoomIdType
     )
-
 
     @GET("/v1/base/listRoom")
     suspend fun listRoom(

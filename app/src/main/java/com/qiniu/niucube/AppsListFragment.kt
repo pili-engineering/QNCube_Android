@@ -1,8 +1,13 @@
 package com.qiniu.niucube
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -77,7 +82,12 @@ class AppsListFragment : BaseFragment() {
                 .into(helper.itemView.ivIcon)
             helper.itemView.setOnClickListener {
                 if (!SchemaParser.parseRouter(mContext, item.url + "?type=${item.type}", false)) {
-                    "敬请期待".asToast()
+                    "${item.desc}".asToast()
+                    val cm: ClipboardManager? =
+                        mContext?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
+                    val mClipData: ClipData = ClipData.newPlainText("Label", item.url)
+                    cm?.setPrimaryClip(mClipData)
+                    "链接已经拷贝至剪切板".asToast()
                 }
             }
         }
