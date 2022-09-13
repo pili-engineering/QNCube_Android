@@ -1,8 +1,6 @@
 package com.niucube.module.videowatch
 
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -10,17 +8,15 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.ut.AppCache
 import com.hipi.vm.backGround
 //import com.niucube.compui.beauty.SenseTimePluginManager
 import com.niucube.module.videowatch.mode.Movie
-import com.niucube.playersdk.player.video.contronller.DefaultController
+import com.niucube.player.video.contronller.DefaultController
 import com.pili.pldroid.player.AVOptions
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.been.CreateRoomEntity
-import com.qiniudemo.baseapp.dialog.CommonCreateRoomDialog
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomService
 import com.qiniudemo.baseapp.widget.CommonInputDialogDark

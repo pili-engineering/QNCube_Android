@@ -15,7 +15,7 @@ import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
 import com.niucube.module.videowatch.mode.Movie
 import com.niucube.module.videowatch.service.MovieService
-import com.niucube.playersdk.player.utils.PalyerUtil
+import com.niucube.player.utils.PalyerUtil
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.RecyclerActivity
 import com.qiniudemo.baseapp.ext.asToast

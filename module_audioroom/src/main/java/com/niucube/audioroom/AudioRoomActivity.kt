@@ -92,7 +92,7 @@ class AudioRoomActivity : BaseActivity() {
                 it.seat = micSeat
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 micSeatAdapter.notifyDataSetChanged()
             }
         }
@@ -103,7 +103,7 @@ class AudioRoomActivity : BaseActivity() {
                 micSeatAdapter.remove(micSeatAdapter.data.indexOf(it))
                 micSeatAdapter.addData(LazySitUserMicSeatWrap())
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 micSeatAdapter.notifyDataSetChanged()
             }
             if (micSeat.uid == RoomManager.mCurrentRoom?.asBaseRoomEntity()?.roomInfo?.creator) {
@@ -115,7 +115,7 @@ class AudioRoomActivity : BaseActivity() {
         override fun onCameraStatusChanged(micSeat: LazySitUserMicSeat) {}
 
         override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivMicStatus.isSelected = !micSeat.isOpenAudio()
             }
             micSeatAdapter.getUserSeat(micSeat).let {
@@ -129,7 +129,7 @@ class AudioRoomActivity : BaseActivity() {
             } else {
                 "${seat.uid} 被管理员打开麦克风".asToast()
             }
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.mRtcRoom.muteLocalAudio(seat.isForbiddenAudioByManager)
             }
             micSeatAdapter.getUserSeat(seat).let {
@@ -140,7 +140,7 @@ class AudioRoomActivity : BaseActivity() {
         override fun onKickOutFromMicSeat(seat: LazySitUserMicSeat, msg: String) {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.sitUp()
             }
         }

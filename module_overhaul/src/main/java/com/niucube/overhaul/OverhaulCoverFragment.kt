@@ -41,13 +41,13 @@ class OverhaulCoverFragment : BaseFragment() {
             override fun onUserSitDown(micSeat: MutableMicSeat) {}
             override fun onUserSitUp(micSeat: MutableMicSeat, isOffLine: Boolean) {}
             override fun onCameraStatusChanged(micSeat: MutableMicSeat) {
-                if (micSeat.isMySeat()) {
+                if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                     flCloseVideo.isSelected = !micSeat.isOwnerOpenVideo
                 }
             }
 
             override fun onMicAudioStatusChanged(micSeat: MutableMicSeat) {
-                if (micSeat.isMySeat()) {
+                if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                     flCloseAudio.isSelected = !micSeat.isOwnerOpenAudio
                 }
             }
@@ -175,7 +175,7 @@ class OverhaulCoverFragment : BaseFragment() {
 
         mMutableTrackRoom.addMicSeatListener(object : MicSeatListener {
             override fun onUserSitDown(micSeat: MutableMicSeat) {
-                if ((micSeat.isMySeat() && mOverhaulVm.overhaulRoomEntity?.role == OverhaulRole.STAFF.role)
+                if ((micSeat.isMySeat(UserInfoManager.getUserId()) && mOverhaulVm.overhaulRoomEntity?.role == OverhaulRole.STAFF.role)
                 ) {
                     val localVideo =
                         mMutableTrackRoom.getUserVideoTrackInfo(UserInfoManager.getUserId()) as QNCameraVideoTrack
@@ -186,7 +186,7 @@ class OverhaulCoverFragment : BaseFragment() {
             override fun onUserSitUp(micSeat: MutableMicSeat, isOffLine: Boolean) {}
             override fun onCameraStatusChanged(micSeat: MutableMicSeat) {}
             override fun onMicAudioStatusChanged(micSeat: MutableMicSeat) {
-                if ((micSeat.isMySeat() && mOverhaulVm.overhaulRoomEntity?.role == OverhaulRole.STAFF.role) &&
+                if ((micSeat.isMySeat(UserInfoManager.getUserId()) && mOverhaulVm.overhaulRoomEntity?.role == OverhaulRole.STAFF.role) &&
                     mQNAudioToTextAnalyzer == null
                 ) {
                     startQNAudioToTextAnalyzer()

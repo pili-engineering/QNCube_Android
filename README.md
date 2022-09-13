@@ -7,16 +7,15 @@
 ## 2 模块说明
 ```
 
-//demo 模块
-
 include ':app'                                // app主工程
 
-//appsub 减少编译时间
-  include ':appsub:app_watchvideo'            //独立运行一起看电影
-  include ':appsub:app_ktv'                   //独立运行ktv
-  include ':appsub:app_amusement'             //独立运行互动娱乐
-  include ':appsub:app_overhaul'              //独立运行检修场景
-  include ':appsub:app_audioroom'             //独立运行语聊房间
+//appsub
+include ':appsub:app_watchvideo'            //独立运行一起看电影
+include ':appsub:app_ktv'                   //独立运行ktv
+include ':appsub:app_amusement'             //独立运行互动娱乐
+include ':appsub:app_overhaul'              //独立运行检修场景
+include ':appsub:app_audioroom'             //独立运行语聊房间
+include ':appsub:app_lowcodelive'
 
 //场景模块
 include ':module_interview'                   //面试场景
@@ -25,55 +24,27 @@ include ':module_ktv'                         //ktv
 include ':module_amusement'                   //互动娱乐
 include ':module_videowatch'                  //一起看电影
 include ':module_audioroom'                   //语聊房间
-
-include ':BaseApp'                            // base业务层
-include ':module_web'                         //webview
-include ':routerTable'                        // 路由
-include ':module_user'                        //用户模块
-include ':module_login'                       // 登录
-
+include ':module_lowcodeliving'               //直播
 
 // highlevlsdk
-//抽象业务层，抽象业务核心流程实现可以定制和扩展业务快速实现自己的业务
-include ':1highlevlsdk:sdk_MutableTrackRoom'     //多人不定麦位房间
-include ':1highlevlsdk:sdk_lazysitmutableroom'  // 多人固定麦位房间
-include ':1highlevlsdk:comp_baseMutableRoom'
-include ':1highlevlsdk:comp_audience_player'      //播放拉流器
-include ':1highlevlsdk:comp_ktvplayercore'       //ktv歌曲同步播放器
+include ':1highlevlsdk:comp_player'              //播放器
 include ':1highlevlsdk:comp_roommanager'         //房间生命周期管理
 include ':1highlevlsdk:comp_rtm'                 //im 信令
-include ':1highlevlsdk:comp_qnrtcsdk'            //rtc sdk
-
-//业务组件
-include ':BzMudule:comp_imadapter'   //im实现
-include ':BzMudule:UserInfoProvide'  //抽象业务层用户信息提供器
-include ':BzMudule:comp_network'     //网络组件
-include ':BzMudule:comp_user'        //用户组件
-include ':BzMudule:comp_channelattributes' //k-v服务端存储麦位属性
-//include
+include ':1highlevlsdk:qrtcroom'                 //rtc
 
 //ui组件
 include ':BzUiComponent:bzuicomp_pagerroom'      //分页房间
 include ':BzUiComponent:bzuicomp_bottomInput'    //房间底部输入框
 include ':BzUiComponent:bzuicomp_pubchat'        //房间公屏聊天
-include ':BzUiComponent:bzuiEmoji'               //表情
-include ':BzUiComponent:bzuicomp_whitebord'      //白板UI
+include ':BzUiComponent:bzuiEmoji'               //
+include ':BzUiComponent:bzuicomp_whitebord'      // 白板UI
 include ':BzUiComponent:bzuicomp_gift'           //礼物轨道
 include ':BzUiComponent:compui_trackview'        //轨道管理
 include ':BzUiComponent:bzuicomp_danmu'          //弹幕
 include ':BzUiComponent:compui_lrcview'          //歌词组件
 include ':BzUiComponent:bzuicomp_chatdialog'     //聊天弹窗
-
-
-//lib基础模块
-//LibComponent 基础组件
-include ':LibComponent:lib_network'            //网络
-include ':LibComponent:base_frame'             //基础库
-include ':LibComponent:happy_dialog'           //弹窗
-include ':LibComponent:happy_vm'               //viewmodel 基类
-include ':LibComponent:lib_util'               //工具库
-include ':LibComponent:lib_json'               //json库
-
+include ':BzUiComponent:sdk_qndroidwhiteboard'
+include ':BzUiComponent:rtclogview'
 ```
 
 ## 快速开始

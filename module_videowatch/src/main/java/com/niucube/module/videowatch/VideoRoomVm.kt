@@ -16,10 +16,10 @@ import com.hapi.ut.helper.ActivityManager
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.basemutableroom.absroom.AudioTrackParams
-import com.niucube.basemutableroom.absroom.RtcOperationCallback
-import com.niucube.basemutableroom.absroom.VideoTrackParams
-import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.absroom.AudioTrackParams
+import com.niucube.absroom.RtcOperationCallback
+import com.niucube.absroom.VideoTrackParams
+import com.niucube.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.ClientRoleType
@@ -30,7 +30,7 @@ import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.module.videowatch.core.MovieSignaler
 import com.niucube.module.videowatch.core.RtcPubService
 import com.niucube.module.videowatch.core.VideoRoomMixHelper
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtminvitation.Invitation
 import com.niucube.rtminvitation.InvitationCallBack
@@ -239,8 +239,8 @@ class VideoRoomVm(application: Application, bundle: Bundle?) :
                 mWelComeReceiver.sendEnterMsg("欢迎${UserInfoManager.getUserInfo()?.nickname}进入房间")
                 //房主马上上麦
                 if (roomEntity.isRoomHost()) {
-                    mVideoMixHelper.start(mRtcRoom)
                     sitDown()
+                    mVideoMixHelper.start(mRtcRoom)
                 }
                 heartBeatJob()
             } catch (e: Exception) {
@@ -276,6 +276,7 @@ class VideoRoomVm(application: Application, bundle: Bundle?) :
                     VideoTrackParams(),
                     AudioTrackParams()
                 )
+
             } catch (e: Exception) {
                 e.printStackTrace()
                 e.message?.asToast()

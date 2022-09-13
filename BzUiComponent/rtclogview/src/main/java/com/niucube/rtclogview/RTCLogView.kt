@@ -10,14 +10,12 @@ import android.widget.TextView
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.qnrtcsdk.ExtQNClientEventListener
-import com.niucube.qnrtcsdk.RtcEngineWrap
+import com.niucube.qrtcroom.rtc.RtcRoom
 import com.qiniu.droid.rtc.*
+import kotlinx.coroutines.*
 
 class RTCLogView : FrameLayout {
-
     private var btnShow: View? = null //by lazy { findViewById<View>(R.id.log_shown_button) }
-
     private var mLocalTextViewForVideo: TextView? = null
     private var mLocalTextViewForAudio: TextView? = null
     private var mRemoteTextView: TextView? = null
@@ -58,7 +56,8 @@ class RTCLogView : FrameLayout {
         )
     }
 
-    private val mExtQNClientEventListener = object : ExtQNClientEventListener {
+    private val mExtQNClientEventListener = object :
+        com.niucube.qrtcroom.rtc.ExtQNClientEventListener {
         override fun onLocalPublished(var1: String, var2: List<QNLocalTrack>) {
             updateRemoteLogText("onLocalPublished ")
         }
@@ -164,10 +163,30 @@ class RTCLogView : FrameLayout {
         }
     }
 
-
-    fun attachRTCClient(rtcClient: RtcEngineWrap) {
-        mQNRTCClient = rtcClient.mClient
+    fun attachRTCClient(rtcClient: RtcRoom) {
+        mQNRTCClient = rtcClient.rtcClient
         rtcClient.addExtraQNRTCEngineEventListener(mExtQNClientEventListener)
         RoomManager.addRoomLifecycleMonitor(roomLifecycleCallbacks)
+    }
+
+
+  private  class Scheduler(
+        private val delayTimeMillis: Long,
+        private val coroutineScope: CoroutineScope = GlobalScope,
+        private val action: suspend CoroutineScope.() -> Unit
+    ) {
+        private var job: Job? = null
+        fun start() {
+            job = coroutineScope.launch(Dispatchers.Main) {
+                while (true) {
+                    delay(delayTimeMillis)
+                    launch { action() }
+                }
+            }
+        }
+
+        fun cancel() {
+            job?.cancel()
+        }
     }
 }

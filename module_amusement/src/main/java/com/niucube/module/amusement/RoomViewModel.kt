@@ -9,9 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.basemutableroom.absroom.AudioTrackParams
-import com.niucube.basemutableroom.absroom.VideoTrackParams
-import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.absroom.AudioTrackParams
+import com.niucube.absroom.VideoTrackParams
+import com.niucube.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.RoomManager
@@ -19,8 +19,7 @@ import com.niucube.comproom.provideMeId
 import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
-import com.niucube.basemutableroom.mixstream.MixStreamManager
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.bzuicomp.danmu.DanmuTrackManager
 import com.qiniu.bzuicomp.gift.BigGiftManager
@@ -29,9 +28,7 @@ import com.qiniu.bzuicomp.gift.GiftTrackManager
 import com.qiniu.bzuicomp.pubchat.InputMsgReceiver
 import com.qiniu.bzuicomp.pubchat.WelComeReceiver
 import com.qiniu.comp.network.RetrofitManager
-import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
-import com.qiniu.droid.rtc.QNConnectionState
-import com.qiniu.droid.rtc.QNTranscodingLiveStreamingImage
+import com.qiniu.droid.rtc.*
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.been.*
 import com.qiniudemo.baseapp.ext.asToast
@@ -46,6 +43,7 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
 
     //进入房间订阅还是拉流模式
     var isUserJoinRTC = false
+
     //弹幕管理
     val mDanmuTrackManager = DanmuTrackManager()
 
@@ -104,31 +102,22 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     }
                 }
             })
-            getMixStreamHelper().apply {
-                setMixParams(MixStreamManager.MixStreamParams().apply {
-                    mixStreamWidth = (uiDesignSketchWidth * mixRatio).toInt()
-                    mixStringHeight = (uiDesignSketchHeight * mixRatio).toInt()
-                    qnBackGround = QNTranscodingLiveStreamingImage().apply {
-                        x = 0
-                        y = 0
-                        width = (uiDesignSketchWidth * mixRatio).toInt()
-                        height = (uiDesignSketchHeight * mixRatio).toInt()
-                        url = "http://qrnlrydxa.hn-bkt.clouddn.com/am_room_bg.png"
-                    }
-                })
-            }
-            addUserMicSeatListener(object : UserMicSeatListener {
 
+            addUserMicSeatListener(object : UserMicSeatListener {
                 private fun updateMixParam() {
                     if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
                         mMicSeats.forEachIndexed { index, seat ->
-                            getMixStreamHelper().updateUserVideoMergeOptions(
+                            mixStreamManager.updateUserVideoMergeOptions(
                                 seat.uid,
                                 micSeatLayoutParams[index].getMergeTrackOption(), false
                             )
-                            getMixStreamHelper().updateUserAudioMergeOptions(seat.uid, true, false)
+                            mixStreamManager.updateUserAudioMergeOptions(
+                                seat.uid,
+                                QNTranscodingLiveStreamingTrack(),
+                                false
+                            )
                         }
-                        getMixStreamHelper().commitOpt()
+                        mixStreamManager.commitOpt()
                     }
                 }
 
@@ -136,13 +125,12 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
                         updateMixParam()
                     }
-
                 }
 
                 override fun onUserSitUp(micSeat: LazySitUserMicSeat, isOffLine: Boolean) {
                     if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
-                        getMixStreamHelper().updateUserVideoMergeOptions(micSeat.uid, null)
-                        getMixStreamHelper().updateUserAudioMergeOptions(micSeat.uid, false)
+                        mixStreamManager.updateUserVideoMergeOptions(micSeat.uid, null, true)
+                        mixStreamManager.updateUserAudioMergeOptions(micSeat.uid, null, true)
                         updateMixParam()
                     }
                 }
@@ -151,11 +139,6 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {}
             })
         }
-    }
-
-    //混流工具
-    val mMixStreamHelper by lazy {
-        mRtcRoom.getMixStreamHelper()
     }
 
     //获得所有麦位
@@ -209,6 +192,17 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                 //房主直接上麦
                 if (roomEntity.isRoomHost()) {
                     sitDown()
+                    mRtcRoom.mixStreamManager.startMixStreamJob(QNTranscodingLiveStreamingConfig().apply {
+                        width = (uiDesignSketchWidth * mixRatio).toInt()
+                        height = (uiDesignSketchHeight * mixRatio).toInt()
+                        background = QNTranscodingLiveStreamingImage().apply {
+                            x = 0
+                            y = 0
+                            width = (uiDesignSketchWidth * mixRatio).toInt()
+                            height = (uiDesignSketchHeight * mixRatio).toInt()
+                            url = "http://qrnlrydxa.hn-bkt.clouddn.com/am_room_bg.png"
+                        }
+                    })
                 }
                 heartBeatJob()
             }
@@ -251,9 +245,6 @@ class RoomViewModel(application: Application, bundle: Bundle?) :
                     },
                     AudioTrackParams()
                 )
-                if (RoomManager.mCurrentRoom?.isRoomHost() == true) {
-                    mMixStreamHelper.startMixStreamJob()
-                }
             }
             catchError { e ->
                 e.message?.asToast()

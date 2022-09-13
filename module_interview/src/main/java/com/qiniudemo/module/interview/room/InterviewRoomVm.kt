@@ -11,14 +11,13 @@ import com.hipi.vm.BaseViewModel
 import com.hipi.vm.bgDefault
 import com.hipi.vm.vmScopeBg
 import com.qiniu.bzuicomp.pubchat.*
-import com.niucube.comp.mutabletrackroom.MutableTrackRoom
 import com.qiniu.comp.network.RetrofitManager
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.basemutableroom.mixstream.MixStreamManager
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.mutabletrackroom.MutableTrackRoom
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
@@ -105,20 +104,11 @@ class InterviewRoomVm(val app: Application, bundle: Bundle?) :
             }
         })
         //设置混流画布参数
-        room.getMixStreamHelper().setMixParams(
-            MixStreamManager.MixStreamParams(
-                tack_width,
-                track_heigt,
-                1600,
-                15,
-                null
-            )
-        )
         room
     }
 
     //混流工具
-    private val mTrackMixStreamKit by lazy { mInterviewRoom.getMixStreamHelper() }
+    private val mTrackMixStreamKit by lazy { mInterviewRoom.mixStreamManager }
 
     //房间生命周期监听
     private val roomMonitor = object : RoomLifecycleMonitor {
@@ -126,8 +116,13 @@ class InterviewRoomVm(val app: Application, bundle: Bundle?) :
         override fun onRoomJoined(roomEntity: RoomEntity) {
             super.onRoomJoined(roomEntity)
             //房主负责混流
-            if ((roomEntity as InterviewRoomModel?)?.isRoomOwner() == true) {
-                mTrackMixStreamKit.startMixStreamJob()
+            if ((roomEntity as InterviewRoomModel?)?.isRoomOwner == true) {
+                mTrackMixStreamKit.startMixStreamJob(QNTranscodingLiveStreamingConfig().apply {
+                    width = tack_width
+                    height = track_heigt
+                    bitrate = 1600
+                    videoFrameRate = 15
+                })
             }
         }
     }

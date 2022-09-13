@@ -33,10 +33,8 @@ android {
 
 dependencies {
     implementation depend.appcompat()
-    api files('libs/pldroid-player-2.4.0.jar')
-    api project(':1highlevlsdk:comp_roommanager')
+    api project(':depends:depends_sdk_piliplayer')
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

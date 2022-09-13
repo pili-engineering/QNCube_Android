@@ -55,7 +55,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.danikula:videocache:2.7.1'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    implementation project(':1highlevlsdk:sdk_lazysitmutableroom')
+    implementation project(':1highlevlsdk:qrtcroom')
     implementation project(":baseApp")
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')

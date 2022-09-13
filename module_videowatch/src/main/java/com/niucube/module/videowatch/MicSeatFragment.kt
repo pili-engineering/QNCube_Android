@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
@@ -18,7 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.activityVm
-import com.niucube.basemutableroom.absroom.RtcOperationCallback
+import com.niucube.absroom.RtcOperationCallback
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
@@ -35,7 +34,6 @@ import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.qiniudemo.baseapp.widget.HeightRatioFrameLayout
 import kotlinx.android.synthetic.main.fragment_mic_seat.*
 import kotlinx.android.synthetic.main.movie_item_micseat.view.*
-import kotlinx.android.synthetic.main.movie_item_micseat_surface.view.*
 
 
 class MicSeatFragment : BaseFragment() {
@@ -111,7 +109,7 @@ class MicSeatFragment : BaseFragment() {
             } else {
                 seatViews.get(1).convert(false, micSeat)
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivCameraStatus.isSelected = !micSeat.isOwnerOpenVideo
             }
         }
@@ -122,7 +120,7 @@ class MicSeatFragment : BaseFragment() {
             } else {
                 seatViews.get(1).convert(false, micSeat)
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivMicStatus.isSelected = !micSeat.isOpenAudio()
             }
         }
@@ -153,7 +151,7 @@ class MicSeatFragment : BaseFragment() {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
             //  onUserSitUp(seat, false)
-            if(seat.isMySeat()){
+            if(seat.isMySeat(UserInfoManager.getUserId())){
                 roomVm.sitUp()
             }
         }

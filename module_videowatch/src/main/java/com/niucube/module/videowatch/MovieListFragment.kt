@@ -10,15 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.base_mvvm.refresh.IEmptyView
 import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hipi.vm.activityVm
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
 import com.niucube.module.videowatch.mode.Movie
-import com.niucube.module.videowatch.service.MovieService
-import com.niucube.playersdk.player.utils.PalyerUtil
-import com.qiniu.comp.network.RetrofitManager
+import com.niucube.player.utils.PalyerUtil
 import com.qiniudemo.baseapp.RecyclerFragment
 import com.qiniudemo.baseapp.been.isRoomHost
 import com.qiniudemo.baseapp.ext.asToast

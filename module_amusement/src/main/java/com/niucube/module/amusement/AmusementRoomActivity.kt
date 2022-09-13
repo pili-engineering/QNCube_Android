@@ -24,7 +24,8 @@ import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
-import com.niucube.qnrtcsdk.RoundTextureView
+import com.niucube.qrtcroom.rtc.RoundTextureView
+import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
@@ -68,7 +69,7 @@ class AmusementRoomActivity : BaseActivity() {
                 it.seat = micSeat
                 mMicSeatsAdapter.notifyItemChanged(mMicSeatsAdapter.data.indexOf(it))
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 mMicSeatsAdapter.notifyDataSetChanged()
             }
             mMicSeatsSurfaceAdapter.addData(micSeat)
@@ -79,10 +80,11 @@ class AmusementRoomActivity : BaseActivity() {
                     R.id.qnSurfaceViewContainer
                 ) as ViewGroup?) ?: return@post
                 container.addView(
-                    RoundTextureView(this@AmusementRoomActivity).apply {
-                        roomVm.mRtcRoom.setUserCameraWindowView(micSeat.uid, this)
-                        setRadius(ViewUtil.dip2px(6f).toFloat())
-                    },
+                    RoundTextureView(this@AmusementRoomActivity)
+                        .apply {
+                            roomVm.mRtcRoom.setUserCameraWindowView(micSeat.uid, this)
+                            setRadius(ViewUtil.dip2px(6f).toFloat())
+                        },
                     ViewGroup.LayoutParams(
                         container.width,
                         container.height
@@ -96,7 +98,7 @@ class AmusementRoomActivity : BaseActivity() {
                 mMicSeatsAdapter.remove(mMicSeatsAdapter.data.indexOf(it))
                 mMicSeatsAdapter.addData(LazySitUserMicSeatWrap())
             }
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 mMicSeatsAdapter.notifyDataSetChanged()
             }
 
@@ -133,7 +135,7 @@ class AmusementRoomActivity : BaseActivity() {
             } else {
                 "${seat.uid} 被管理员打开麦克风".asToast()
             }
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.mRtcRoom.muteLocalAudio(seat.isForbiddenAudioByManager)
             }
             mMicSeatsAdapter.getUserSeat(seat).let {
@@ -148,7 +150,7 @@ class AmusementRoomActivity : BaseActivity() {
             } else {
                 "${seat.uid} 被管理员打开摄像头".asToast()
             }
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.mRtcRoom.muteLocalVideo(seat.isForbiddenVideoByManager)
             }
             mMicSeatsAdapter.getUserSeat(seat).let {
@@ -170,10 +172,14 @@ class AmusementRoomActivity : BaseActivity() {
                         R.id.qnSurfaceViewContainer
                     ) as ViewGroup?) ?: return@post
                     container.addView(
-                        RoundTextureView(this@AmusementRoomActivity).apply {
-                            roomVm.mRtcRoom.setUserCameraWindowView(lazySitUserMicSeat.uid, this)
-                            setRadius(ViewUtil.dip2px(6f).toFloat())
-                        },
+                        RoundTextureView(this@AmusementRoomActivity)
+                            .apply {
+                                roomVm.mRtcRoom.setUserCameraWindowView(
+                                    lazySitUserMicSeat.uid,
+                                    this
+                                )
+                                setRadius(ViewUtil.dip2px(6f).toFloat())
+                            },
                         ViewGroup.LayoutParams(
                             container.width,
                             container.height
@@ -187,7 +193,7 @@ class AmusementRoomActivity : BaseActivity() {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
             //onUserSitUp(seat, false)
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.sitUp()
             }
         }
@@ -201,8 +207,7 @@ class AmusementRoomActivity : BaseActivity() {
         trans.replace(R.id.flRoomCover, AmusementRoomFragment())
         trans.commit()
         roomVm.mRtcRoom.addUserMicSeatListener(micSeatListener)
-        roomVm.mRtcRoom.setAudiencePlayerView(plRoomPlayer)
-
+        roomVm.mRtcRoom.setPullRender(plRoomPlayer)
         roomVm.isUserJoinRTC = isUserJoinRTC
         val requestCall = {
             RxPermissions(this)
@@ -333,7 +338,6 @@ class AmusementRoomActivity : BaseActivity() {
                 helper.itemView.ivMicrophoneStatus.isSelected = item.seat!!.isOpenAudio()
             }
         }
-
     }
 
     //安卓重写返回键事件

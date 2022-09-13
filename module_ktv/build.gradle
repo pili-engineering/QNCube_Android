@@ -58,14 +58,13 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    implementation project(':1highlevlsdk:sdk_lazysitmutableroom')
+    implementation project(':1highlevlsdk:qrtcroom')
     implementation project(":baseApp")
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')
     implementation project(':BzMudule:comp_channelattributes' )
     implementation project(':BzUiComponent:compui_lrcview')
     implementation project(':BzUiComponent:compui_lrcview')
-    implementation project(':1highlevlsdk:comp_ktvplayercore')
     implementation project(':BzUiComponent:bzuicomp_chatdialog')
 
     implementation ('com.github.MJLblabla:PRDownloader:v2.3')

@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation project(':1highlevlsdk:comp_qnrtcsdk')
+    api project(':1highlevlsdk:qrtcroom')
     implementation project(':1highlevlsdk:comp_roommanager')
     implementation depend.coroutines()
     implementation depend.appcompat()

@@ -12,16 +12,15 @@ import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.basemutableroom.absroom.AudioTrackParams
-import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.absroom.AudioTrackParams
+import com.niucube.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
-import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
 import com.niucube.comproom.provideMeId
 import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtminvitation.Invitation
 import com.niucube.rtminvitation.InvitationCallBack
@@ -43,7 +42,6 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomIdType
 import com.qiniudemo.baseapp.service.RoomService
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
