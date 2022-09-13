@@ -7,17 +7,16 @@ import android.os.Looper
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
-import com.niucube.basemutableroom.absroom.VideoTrackParams
-import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.absroom.VideoTrackParams
+import com.niucube.absroom.seat.UserExtension
 import com.niucube.overhaul.mode.OverhaulRoom
 import com.niucube.comproom.*
+import com.niucube.mutabletrackroom.MutableTrackRoom
 import com.qiniu.bzuicomp.pubchat.WelComeReceiver
-import com.niucube.comp.mutabletrackroom.MutableTrackRoom
 import com.qiniu.comp.network.RetrofitManager
-import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.droid.whiteboard.QNWhiteBoard
 import com.qiniu.droid.whiteboard.model.JoinConfig
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.qiniu.droid.rtc.*
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
@@ -90,17 +89,6 @@ class OverhaulVm(application: Application, bundle: Bundle?) :
                 }
             }
         })
-
-        //设置混流背景
-        room.getMixStreamHelper().setMixParams(
-            MixStreamManager.MixStreamParams(
-                videoWidth,
-                videoHeight,
-                1600,
-                15,
-                null
-            )
-        )
         room
     }
 
@@ -108,7 +96,14 @@ class OverhaulVm(application: Application, bundle: Bundle?) :
         override fun onRoomJoined(roomEntity: RoomEntity) {
             super.onRoomJoined(roomEntity)
             if (overhaulRoomEntity?.role == OverhaulRole.STAFF.role) {
-                mMutableTrackRoom.getMixStreamHelper().startMixStreamJob()
+                mMutableTrackRoom.mixStreamManager.startMixStreamJob(
+                    QNTranscodingLiveStreamingConfig().apply {
+                        width = videoWidth
+                        height = videoHeight
+                        bitrate = 1600
+                        videoFrameRate = 15
+                    }
+                )
             }
         }
     }

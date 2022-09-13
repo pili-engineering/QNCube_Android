@@ -204,7 +204,7 @@ class KTVRoomActivity : BaseActivity() {
                 it.seat = seat
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
             }
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 micSeatAdapter.notifyDataSetChanged()
                 tvSelectSong.visibility = View.VISIBLE
                 ivMicrophone.visibility = View.VISIBLE
@@ -223,7 +223,7 @@ class KTVRoomActivity : BaseActivity() {
                 micSeatAdapter.remove(micSeatAdapter.data.indexOf(it))
                 micSeatAdapter.addData(LazySitUserMicSeatWrap())
             }
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 micSeatAdapter.notifyDataSetChanged()
                 tvSelectSong.visibility = View.GONE
                 ivMicrophone.visibility = View.GONE
@@ -240,7 +240,7 @@ class KTVRoomActivity : BaseActivity() {
          * @param seat
          */
         override fun onMicAudioStatusChanged(seat: LazySitUserMicSeat) {
-            if (seat.isMySeat()) {
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 ivMicrophone.isSelected = !seat.isOpenAudio()
             }
             micSeatAdapter.getUserSeat(seat).let {

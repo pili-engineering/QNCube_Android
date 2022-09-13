@@ -42,15 +42,15 @@ android {
 }
 
 dependencies {
-    implementation project (':lowcodelive-sdk:qlive-sdk')
-    implementation project (':lowcodelive-sdk:qlive-sdk-uikit')
-    implementation project (':lowcodelive-sdk:qlive_beauty')
+    implementation project (':depends:qlive-sdk')
+    implementation project (':depends:qlive-sdk-uikit')
+    implementation project (':depends:qlive_beauty')
 
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
-    compileOnly project (':1highlevlsdk:comp_qnrtcsdk')            //rtc sdk
+    api project(':depends:depends_sdk_qrtc')
     compileOnly project (':1highlevlsdk:comp_player')            //rtc sdk
-    compileOnly project (':BzMudule:sdk_qnim')            //rtc sdk
+    compileOnly project (':depends:sdk_qnim')            //rtc sdk
 
     implementation 'com.blankj:utilcodex:1.31.0'
 

@@ -1,7 +1,6 @@
 package com.niucube.module.videowatch
 
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -12,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.ut.AppCache
 import com.hipi.vm.createVm
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
@@ -21,9 +19,10 @@ import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.niucube.module.videowatch.mode.Movie
-import com.niucube.playersdk.player.PlayerStatus
-import com.niucube.playersdk.player.PlayerStatusListener
+import com.niucube.player.PlayerStatus
+import com.niucube.player.PlayerStatusListener
 import com.pili.pldroid.player.AVOptions
+import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.been.isRoomHost
@@ -127,15 +126,15 @@ class VideoWatchRoomActivity : BaseActivity() {
     private val micSeatListener = object : UserMicSeatListener {
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
             if ((RoomManager.mCurrentRoom?.isRoomHost() == true &&
-                        !micSeat.isMySeat()
+                        !micSeat.isMySeat(UserInfoManager.getUserId())
                         ) ||
                 (RoomManager.mCurrentRoom?.isRoomHost() == false
-                        && micSeat.isMySeat()
+                        && micSeat.isMySeat(UserInfoManager.getUserId())
                         )
             ) {
                 vpPager.currentItem = 1
             }
-//            if (micSeat.isMySeat()) {
+//            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
 //                mVideoView.post {
 //                    val localVideo =
 //                        roomVm.mRtcRoom.getUserVideoTrackInfo(UserInfoManager.getUserId()) as QNCameraVideoTrack

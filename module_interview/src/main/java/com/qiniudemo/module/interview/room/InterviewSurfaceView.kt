@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.LifecycleObserver
 import com.bumptech.glide.Glide
-import com.niucube.comp.mutabletrackroom.MutableTrackRoom
-import com.niucube.basemutableroom.mixstream.MixStreamManager
-import com.niucube.basemutableroom.absroom.seat.MicSeat
-import com.niucube.basemutableroom.absroom.seat.ScreenMicSeat
-import com.niucube.basemutableroom.absroom.seat.UserMicSeat
+import com.niucube.mutabletrackroom.MutableTrackRoom
+import com.niucube.absroom.seat.MicSeat
+import com.niucube.absroom.seat.ScreenMicSeat
+import com.niucube.absroom.seat.UserMicSeat
+import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack
 import com.qiniudemo.baseapp.widget.round.RoundFrameLayout
 import com.qiniudemo.module.interview.R
 import com.qiniudemo.module.interview.been.InterviewRoomModel
@@ -72,30 +73,32 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
         if (isTop) {
             tvNick.visibility = View.VISIBLE
         }
-        mutableTrackRoom.getMixStreamHelper().updateUserAudioMergeOptions(targetSeat.uid,
-           true)
-        val trackOp = MixStreamManager.MergeTrackOption()
+        mutableTrackRoom.mixStreamManager.updateUserAudioMergeOptions(
+            targetSeat.uid,
+            QNTranscodingLiveStreamingTrack(), true
+        )
+        val trackOp = QNTranscodingLiveStreamingTrack()
 
-        if (targetSeat.isMySeat()) {
-            trackOp.mWidth = InterviewRoomVm.tack_width / 3
-            trackOp.mHeight = InterviewRoomVm.track_heigt / 3
-            trackOp.mX = InterviewRoomVm.tack_width / 3 * 2
-            trackOp.mY = 0
-            trackOp.mZ = 3
+        if (targetSeat.isMySeat(UserInfoManager.getUserId())) {
+            trackOp.width = InterviewRoomVm.tack_width / 3
+            trackOp.height = InterviewRoomVm.track_heigt / 3
+            trackOp.x = InterviewRoomVm.tack_width / 3 * 2
+            trackOp.y = 0
+            trackOp.zOrder = 3
         } else {
-            trackOp.mWidth = InterviewRoomVm.tack_width
-            trackOp.mHeight = InterviewRoomVm.track_heigt
-            trackOp.mX = 0
-            trackOp.mY = 0
-            trackOp.mZ = 1
+            trackOp.width = InterviewRoomVm.tack_width
+            trackOp.height = InterviewRoomVm.track_heigt
+            trackOp.x = 0
+            trackOp.y = 0
+            trackOp.zOrder = 1
         }
-        mutableTrackRoom.getMixStreamHelper()
-            .updateUserVideoMergeOptions(targetSeat.uid, trackOp)
+        mutableTrackRoom.mixStreamManager
+            .updateUserVideoMergeOptions(targetSeat.uid, trackOp,true)
     }
 
     fun onScreenSeatAdd(mutableTrackRoom: MutableTrackRoom, targetSeat: ScreenMicSeat) {
         mTargetSeat = targetSeat
-        if (targetSeat.isMySeat()) {
+        if (targetSeat.isMySeat(UserInfoManager.getUserId())) {
             qnSurfaceView.visibility = View.GONE
             ivAvatar.visibility = View.VISIBLE
         } else {
@@ -103,16 +106,16 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
                 tvNick.visibility = View.VISIBLE
             }
             qnSurfaceView.visibility = View.VISIBLE
-            mutableTrackRoom.getScreenShareManager().setUserScreenWindowView(targetSeat.uid, qnSurfaceView)
+            mutableTrackRoom.screenShareManager.setUserScreenWindowView(targetSeat.uid, qnSurfaceView)
         }
-        val trackOp = MixStreamManager.MergeTrackOption()
-        trackOp.mWidth = InterviewRoomVm.tack_width
-        trackOp.mHeight = InterviewRoomVm.track_heigt
-        trackOp.mX = 0
-        trackOp.mY = 0
-        trackOp.mZ = 2
-        mutableTrackRoom.getMixStreamHelper()
-            .updateUserScreenMergeOptions(targetSeat.uid, trackOp)
+        val trackOp = QNTranscodingLiveStreamingTrack()
+        trackOp.width = InterviewRoomVm.tack_width
+        trackOp.height = InterviewRoomVm.track_heigt
+        trackOp.x = 0
+        trackOp.y = 0
+        trackOp.zOrder = 2
+        mutableTrackRoom.mixStreamManager
+            .updateUserScreenMergeOptions(targetSeat.uid, trackOp, true)
     }
 
     fun onScreenSeatRemoved(mutableTrackRoom: MutableTrackRoom, targetSeat: ScreenMicSeat) {

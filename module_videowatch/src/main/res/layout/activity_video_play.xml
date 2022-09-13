@@ -7,7 +7,7 @@
     android:background="@color/white"
     tools:context=".VideoPlayActivity">
 
-    <com.niucube.playersdk.player.video.PLLifecycleVideoView
+    <com.niucube.player.video.PLLifecycleVideoView
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

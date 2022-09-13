@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('qndroid_rtc-5.1.2.aar'))

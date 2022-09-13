@@ -4,8 +4,8 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Recycler
-import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.qiniu.droid.rtc.QNRenderMode
+import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack
 
 //效果图
 val uiDesignSketchWidth = 414
@@ -84,16 +84,14 @@ fun initWH(view: View, w: Int, h: Int) {
 }
 
 class ItemLocation(var left: Int, var top: Int, var right: Int, var bottom: Int) {
-
-    fun getMergeTrackOption(): MixStreamManager.MergeTrackOption {
-
-        return MixStreamManager.MergeTrackOption().apply {
-            mX = (left / screenWidthRatio * mixRatio).toInt()
-            mY = (top / screenHeightRatio * mixRatio).toInt()
-            mZ = 0
-            mWidth = ((right - left) / screenWidthRatio * mixRatio).toInt()
-            mHeight = ((bottom - top) / screenHeightRatio * mixRatio).toInt()
-            mStretchMode = QNRenderMode.FILL
+    fun getMergeTrackOption(): QNTranscodingLiveStreamingTrack {
+        return QNTranscodingLiveStreamingTrack().apply {
+            x = (left / screenWidthRatio * mixRatio).toInt()
+            y = (top / screenHeightRatio * mixRatio).toInt()
+            zOrder = 0
+            width = ((right - left) / screenWidthRatio * mixRatio).toInt()
+            height = ((bottom - top) / screenHeightRatio * mixRatio).toInt()
+            renderMode = QNRenderMode.FILL
         }
     }
 }

@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('qndroid_piliplayer-2.4.0.aar'))

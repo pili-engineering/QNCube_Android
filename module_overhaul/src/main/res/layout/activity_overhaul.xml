@@ -20,7 +20,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <com.niucube.playersdk.QNAudienceVideoPlayerView
+    <com.niucube.qrtcroom.qplayer.QPlayerTextureRenderView
         android:id="@+id/plRoomPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

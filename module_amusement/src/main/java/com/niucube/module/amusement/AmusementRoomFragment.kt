@@ -37,7 +37,7 @@ class AmusementRoomFragment : BaseFragment() {
     private val mMicSeatListener = object : UserMicSeatListener {
 
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 //自己上麦
                 ivCameraStatus.visibility = View.VISIBLE
                 ivMicrophoneStatus.visibility = View.VISIBLE
@@ -46,7 +46,7 @@ class AmusementRoomFragment : BaseFragment() {
         }
 
         override fun onUserSitUp(micSeat: LazySitUserMicSeat, isOffLine: Boolean) {
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivCameraStatus?.visibility = View.GONE
                 ivMicrophoneStatus?.visibility = View.GONE
                 ivMenu.visibility = View.GONE
@@ -54,13 +54,13 @@ class AmusementRoomFragment : BaseFragment() {
         }
 
         override fun onCameraStatusChanged(micSeat: LazySitUserMicSeat) {
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivCameraStatus.isSelected = !micSeat.isOpenVideo()
             }
         }
 
         override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {
-            if (micSeat.isMySeat()) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivMicrophoneStatus.isSelected = !micSeat.isOpenAudio()
             }
         }

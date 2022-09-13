@@ -35,7 +35,7 @@ include ':module_login'                       // 登录
 
 // highlevlsdk
 //抽象业务层，抽象业务核心流程实现可以定制和扩展业务快速实现自己的业务
-include ':1highlevlsdk:sdk_MutableTrackRoom'     //多人不定麦位房间
+include ':1highlevlsdk:qrtcroom'     //多人不定麦位房间
 include ':1highlevlsdk:sdk_lazysitmutableroom'  // 多人固定麦位房间
 include ':1highlevlsdk:comp_baseMutableRoom'
 include ':1highlevlsdk:comp_audience_player'      //播放拉流器

@@ -33,7 +33,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //api(name: 'libs/qndroid-imsdk-1.0.2', ext: 'aar')
-    api project(':BzMudule:sdk_qnim')
+    api project(':depends:sdk_qnim')
     implementation 'com.orhanobut:logger:2.2.0'
     api project(':1highlevlsdk:comp_rtm')
     testImplementation 'junit:junit:4.+'

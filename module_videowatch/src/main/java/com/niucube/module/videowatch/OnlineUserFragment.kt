@@ -10,7 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hipi.vm.activityVm
 import com.hipi.vm.backGround
-import com.niucube.basemutableroom.absroom.RtcOperationCallback
+import com.niucube.absroom.RtcOperationCallback
 import com.niucube.comproom.RoomManager
 import com.niucube.rtm.RtmCallBack
 import com.qiniu.bzcomp.user.UserInfoManager

@@ -20,9 +20,10 @@ import com.pili.pldroid.player.widget.PLVideoView
 import com.niucube.comp.mutabletrackroom.MicSeatListener
 import com.niucube.comproom.RoomManager
 import com.qiniu.comp.network.RetrofitManager
-import com.niucube.basemutableroom.mixstream.MixStreamManager
 import com.niucube.comp.mutabletrackroom.MutableMicSeat
+import com.niucube.qrtcroom.qplayer.PreviewMode
 import com.qiniu.droid.audio2text.QNRtcAISdkManager
+import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack
 import com.qiniu.droid.whiteboard.QNWhiteBoard
 import com.qiniu.droid.whiteboard.listener.QNAutoRemoveWhiteBoardListener
 import com.qiniu.droid.whiteboard.model.Room
@@ -61,9 +62,9 @@ class OverhaulActivity : BaseActivity() {
             QNRtcAISdkManager.init {
                 var result = ""
                 try {
-                     result = RetrofitManager.create(AppConfigService::class.java)
-                        .getToken(it).execute().body()?.token?:""
-                }catch (e:Exception){
+                    result = RetrofitManager.create(AppConfigService::class.java)
+                        .getToken(it).execute().body()?.token ?: ""
+                } catch (e: Exception) {
                     e.printStackTrace()
                 }
                 result
@@ -143,13 +144,13 @@ class OverhaulActivity : BaseActivity() {
                 } else {
                     textureRoomPlayer.visibility = View.GONE
                     plRoomPlayer.visibility = View.VISIBLE
-                    plRoomPlayer.displayAspectRatio = PLVideoView.ASPECT_RATIO_PAVED_PARENT
+                    plRoomPlayer.setDisplayAspectRatio(PreviewMode.ASPECT_RATIO_PAVED_PARENT)
 
                 }
             }
         }
 
-        mOverhaulVm.mMutableTrackRoom.setAudiencePlayerView(plRoomPlayer)
+        mOverhaulVm.mMutableTrackRoom.setPullRender(plRoomPlayer)
         //注册麦位监听
         mMutableTrackRoom.addMicSeatListener(object : MicSeatListener {
             override fun onUserSitDown(micSeat: MutableMicSeat) {
@@ -167,29 +168,34 @@ class OverhaulActivity : BaseActivity() {
                     if (micSeat.userExtension?.userExtRoleType == OverhaulRole.STAFF.role) {
                         //设置需要检修员的视频混流参数
                         mMutableTrackRoom
-                            .getMixStreamHelper()
-                            .updateUserVideoMergeOptions(micSeat.uid,
-                                MixStreamManager.MergeTrackOption().apply {
-                                    mX = 0
-                                    mY = 0
-                                    mZ = 0
-                                    mWidth = videoWidth
-                                    mHeight = videoHeight
-                                }
+                            .mixStreamManager
+                            .updateUserVideoMergeOptions(
+                                micSeat.uid,
+                                QNTranscodingLiveStreamingTrack().apply {
+                                    x = 0
+                                    y = 0
+                                    zOrder = 0
+                                    width = videoWidth
+                                    height = videoHeight
+                                }, false
                             )
                         //设置需要检修员的音频
                         mMutableTrackRoom
-                            .getMixStreamHelper()
+                            .mixStreamManager
                             .updateUserAudioMergeOptions(
                                 micSeat.uid,
+                                QNTranscodingLiveStreamingTrack(),
                                 true
                             )
+                        mMutableTrackRoom
+                            .mixStreamManager.commitOpt()
                     } else {
                         //专家只混语音
                         mMutableTrackRoom
-                            .getMixStreamHelper()
+                            .mixStreamManager
                             .updateUserAudioMergeOptions(
                                 micSeat.uid,
+                                QNTranscodingLiveStreamingTrack(),
                                 true
                             )
                     }
@@ -248,9 +254,6 @@ class OverhaulActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        if (plRoomPlayer.isPlaying) {
-            plRoomPlayer.pause()
-        }
         super.onDestroy()
     }
 

@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
-import com.niucube.basemutableroom.absroom.AudioTrackParams
-import com.niucube.basemutableroom.absroom.seat.UserExtension
+import com.niucube.absroom.AudioTrackParams
+import com.niucube.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.RoomManager
@@ -18,7 +18,7 @@ import com.niucube.lazysitmutableroom.LazySitMutableLiverRoom
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.module.ktv.player.KTVPlayerKit
 import com.niucube.module.ktv.playerlist.KTVPlaylistsManager
-import com.niucube.qnrtcsdk.SimpleQNRTCListener
+import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
@@ -30,7 +30,6 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomIdType
 import com.qiniudemo.baseapp.service.RoomService
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
