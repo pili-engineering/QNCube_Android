@@ -73,6 +73,37 @@
             android:layout_margin="14dp"
             />
     </FrameLayout>
+    <FrameLayout
+        android:id="@+id/llLiveData"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="直播数据"
+            android:textColor="#E5E5E5"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:text="详情 >"
+            android:textColor="#99ffffff"
+            android:textSize="12sp" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyLiveData"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="match_parent"

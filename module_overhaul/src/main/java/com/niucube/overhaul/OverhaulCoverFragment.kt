@@ -9,11 +9,11 @@ import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.bzuicomp.pubchat.PubChatAdapter
 import com.qiniu.bzuicomp.pubchat.PubChatMsgManager
 import com.qiniu.bzuicomp.pubchat.PubChatMsgModel
-import com.niucube.comp.mutabletrackroom.MicSeatListener
+import com.niucube.mutabletrackroom.MicSeatListener
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.comp.mutabletrackroom.MutableMicSeat
+import com.niucube.mutabletrackroom.MutableMicSeat
 import com.niucube.overhaul.fbo.AicCircuitBoardFrameListener
 import com.qiniu.droid.audio2text.QNAudioToTextAnalyzer
 import com.qiniu.droid.audio2text.audio.QNAudioToText

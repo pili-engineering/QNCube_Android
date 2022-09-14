@@ -8,22 +8,30 @@ import android.view.Gravity
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.backGround
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
+import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
 import com.qlive.core.been.QLiveRoomInfo
+import com.qlive.core.been.QLiveStatistics
+import com.qlive.sdk.QLive
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.LoadingDialog
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.activity_demo_live_finished.*
 import kotlinx.android.synthetic.main.dialog_connect_us.*
+import kotlinx.android.synthetic.main.item_statistics_big.view.tvKey
+import kotlinx.android.synthetic.main.item_statistics_big.view.tvValues
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -52,23 +60,37 @@ class DemoLiveFinishedActivity : AppCompatActivity() {
             context.startActivity(intent)
         }
     }
-
+    private val mStatisticsAdapter by lazy { StatisticsAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_demo_live_finished)
         ivClose.setOnClickListener {
             onBackPressed()
         }
-        (intent.getSerializableExtra("QLiveRoomInfo") as QLiveRoomInfo?)?.let {
+        recyLiveData.layoutManager = GridLayoutManager(this, 3)
+        recyLiveData.adapter = mStatisticsAdapter
+        (intent.getSerializableExtra("QLiveRoomInfo") as QLiveRoomInfo?)?.let { roomInfo ->
+            llLiveData.setOnClickListener {
+                DemoStatisticsActivity.checkStart(this@DemoLiveFinishedActivity, roomInfo)
+            }
             Glide.with(this)
-                .load(it.coverURL)
+                .load(roomInfo.coverURL)
                 .transform(MultiTransformation(CenterCrop(), BlurTransformation(25, 3)))
                 .into(ivRoomCover)
             Glide.with(this)
-                .load(it.anchor?.avatar)
+                .load(roomInfo.anchor?.avatar)
                 .into(ivAnchorAvatar)
-            tvAnchorName.text = it.anchor?.nick ?: ""
-            tvAnchorID.text = "主播ID：${it.anchor.userId}"
+            tvAnchorName.text = roomInfo.anchor?.nick ?: ""
+            tvAnchorID.text = "主播ID：${roomInfo.anchor.userId}"
+            QLive.getRooms()
+                .getLiveStatistics(roomInfo.liveID, object : QLiveCallBack<QLiveStatistics> {
+                    override fun onError(code: Int, msg: String?) {
+                    }
+
+                    override fun onSuccess(data: QLiveStatistics) {
+                        mStatisticsAdapter.setNewData(data.toQLiveStatisticsWrap())
+                    }
+                })
         }
         flUnRegistered.setOnClickListener {
             applyOpening(false)
@@ -165,6 +187,30 @@ class DemoLiveFinishedActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    fun QLiveStatistics.toQLiveStatisticsWrap(): List<QLiveStatisticsWrap> {
+        val wraps = ArrayList<QLiveStatisticsWrap>()
+        this.info.forEach {
+            if (it.type == QLiveStatistics.TYPE_LIVE_WATCHER_COUNT) {
+                wraps.add(QLiveStatisticsWrap("浏览次数", it.pageView.toFormatNumber()))
+                wraps.add(QLiveStatisticsWrap("观看人数", it.uniqueVisitor.toFormatNumber()))
+            }
+            if (it.type == QLiveStatistics.TYPE_PUBCHAT_COUNT) {
+                wraps.add(QLiveStatisticsWrap("聊天互动", it.pageView.toFormatNumber()))
+            }
+        }
+        return wraps
+    }
+
+    class StatisticsAdapter : BaseQuickAdapter<QLiveStatisticsWrap, BaseViewHolder>(
+        R.layout.item_statistics_small,
+        ArrayList<QLiveStatisticsWrap>()
+    ) {
+        override fun convert(helper: BaseViewHolder, item: QLiveStatisticsWrap) {
+            helper.itemView.tvKey.text = item.key
+            helper.itemView.tvValues.text = item.value
         }
     }
 }

@@ -14,7 +14,7 @@ import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.QLiveClient
-import com.qlive.core.QSdkConfig
+import com.qlive.core.QLiveConfig
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
@@ -52,7 +52,7 @@ class PKLiveRoomListActivity : BaseActivity() {
     suspend fun suspendInit() =
         suspendCoroutine<Unit> { coroutine ->
             QLive.init(
-                application, QSdkConfig()
+                application, QLiveConfig()
             ) { callback ->
                 //业务方获取token
                 backGround {

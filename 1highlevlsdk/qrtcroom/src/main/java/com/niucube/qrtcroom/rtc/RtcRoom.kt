@@ -54,6 +54,7 @@ open class RtcRoom(
 
     init {
         QNRTC.init(appContext, mQNRTCSetting, mQNRTCEventListener)
+        Log.d("RtcRoom"," QNRTC.init")
     }
 
     val rtcClient by lazy {
@@ -561,12 +562,13 @@ open class RtcRoom(
      * 销毁房间
      */
     open fun closeRoom() {
+        Log.d("RtcRoom","QNRTC.deinit()")
+        mRTCUserStore.closeCallDispatcher.close()
+        mRTCUserStore.clear()
         com.niucube.comproom.RoomManager.dispatchCloseRoom()
         rtcClient?.leave()
         // 反初始化
         QNRTC.deinit()
-        clear()
         mMediaPlayer.release()
-        mRTCUserStore.closeCallDispatcher.close()
     }
 }
