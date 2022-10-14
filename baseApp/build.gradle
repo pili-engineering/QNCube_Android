@@ -62,7 +62,6 @@ android {
 
 dependencies {
 
-    
     implementation depend.appcompat()
     implementation depend.design()
     implementation project(path: ':1highlevlsdk:comp_roommanager')

@@ -37,29 +37,18 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 class DemoLiveFinishedActivity : AppCompatActivity() {
 
+
     companion object {
         fun checkStart(
-            context: QLiveUIKitContext,
-            client: QLiveClient,
+            context: Context,
             room: QLiveRoomInfo,
-            isAnchorActionCloseRoom: Boolean
-        ) {
-            if (isAnchorActionCloseRoom) {
-                val intent = Intent(context.androidContext, DemoLiveFinishedActivity::class.java)
-                intent.putExtra("QLiveRoomInfo", room)
-                context.androidContext.startActivity(intent)
-            } else {
-                return
-            }
-        }
-
-        fun checkStart(
-            context: Context
         ) {
             val intent = Intent(context, DemoLiveFinishedActivity::class.java)
+            intent.putExtra("QLiveRoomInfo", room)
             context.startActivity(intent)
         }
     }
+
     private val mStatisticsAdapter by lazy { StatisticsAdapter() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -199,6 +188,12 @@ class DemoLiveFinishedActivity : AppCompatActivity() {
             }
             if (it.type == QLiveStatistics.TYPE_PUBCHAT_COUNT) {
                 wraps.add(QLiveStatisticsWrap("聊天互动", it.pageView.toFormatNumber()))
+            }
+            if (it.type == QLiveStatistics.TYPE_LIKE_COUNT) {
+                wraps.add(QLiveStatisticsWrap("点赞", it.pageView.toFormatNumber()))
+            }
+            if (it.type == QLiveStatistics.TYPE_GIFT_COUNT) {
+                wraps.add(QLiveStatisticsWrap("观众打赏", it.pageView.toFormatNumber()))
             }
         }
         return wraps

@@ -10,12 +10,12 @@ import com.qiniu.router.RouterConstant
 
 object SchemaParser {
 
-    fun parseRouter(context: Context, url: String,httpEnable:Boolean = true): Boolean {
+    fun parseRouter(context: Context, url: String, httpEnable: Boolean = true): Boolean {
         val router = Uri.parse(url)
         val scheme = router.scheme
         val host = router.host
         val path = router.path
-        if(httpEnable){
+        if (httpEnable) {
             if (scheme?.startsWith("http") == true) {
                 // WebActivity.start(url, context)
                 val uri = Uri.parse(url)
@@ -94,6 +94,18 @@ object SchemaParser {
                     "/index" -> ARouter.getInstance()
                         .build(RouterConstant.LowCodePKLive.LiveRoomList)
                         .withString("solutionType", param)
+                        .withBoolean("needShopping",false)
+                        .navigation(context)
+                }
+                isSupport = true
+            }
+            "shopping" -> {
+                val param = router.getQueryParameter("type")
+                when (path) {
+                    "/index" -> ARouter.getInstance()
+                        .build(RouterConstant.LowCodePKLive.LiveRoomList)
+                        .withString("solutionType", param)
+                        .withBoolean("needShopping",true)
                         .navigation(context)
                 }
                 isSupport = true

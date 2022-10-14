@@ -63,10 +63,4 @@ class TestShoppingActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        FuncCPTPlayerFloatingHandler.currentFloatingPlayerView()?.let {
-            it.resumeToBig()
-        }
-    }
 }

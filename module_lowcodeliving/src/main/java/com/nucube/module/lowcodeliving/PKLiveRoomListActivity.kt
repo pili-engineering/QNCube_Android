@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 
 import android.widget.Toast
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hipi.vm.backGround
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -19,7 +20,9 @@ import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.sdk.QLive
 import com.qlive.sdk.QUserInfo
 import com.qlive.shoppingservice.QItem
+import com.qlive.uikit.RoomPage
 import com.qlive.uikit.component.CloseRoomView
+import com.qlive.uikit.component.LiveRecordListView
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitshopping.PlayerShoppingDialog
 import kotlinx.android.synthetic.main.activity_pklive_room_list.*
@@ -33,7 +36,7 @@ class PKLiveRoomListActivity : BaseActivity() {
     companion object {
         init {
             //自定义事件
-            PlayerShoppingDialog.onItemClickListener =
+            PlayerShoppingDialog.onItemClickCall =
                 { context: QLiveUIKitContext, client: QLiveClient, view: View, item: QItem ->
                     TestShoppingActivity.start(context, item)
                 }
@@ -41,10 +44,19 @@ class PKLiveRoomListActivity : BaseActivity() {
                                                client: QLiveClient,
                                                room: QLiveRoomInfo,
                                                isAnchorActionCloseRoom: Boolean ->
-                DemoLiveFinishedActivity.checkStart(context, client, room, isAnchorActionCloseRoom)
+                if (isAnchorActionCloseRoom) {
+                    DemoLiveFinishedActivity.checkStart(context.androidContext, room)
+                }
+            }
+            LiveRecordListView.onClickFinishedRoomCall = { context, roomInfo ->
+                DemoLiveFinishedActivity.checkStart(context, roomInfo)
             }
         }
     }
+
+    @Autowired
+    @JvmField
+    var needShopping = false
 
     /**
      * 初始化sdk
@@ -68,6 +80,18 @@ class PKLiveRoomListActivity : BaseActivity() {
                         it.printStackTrace()
                     }
                 }
+            }
+
+            if (needShopping) {
+                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
+                    R.layout.activity_room_player
+                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
+                    R.layout.activity_room_pusher
+            } else {
+                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
+                    R.layout.activity_room_player_noshopping
+                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
+                    R.layout.activity_room_pusher_no_shoping
             }
             QLive.auth(object : QLiveCallBack<Void> {
                 override fun onError(p0: Int, p1: String?) {

@@ -59,6 +59,20 @@ val getNameCall: (QLiveStatistics.Info, Int) -> String = { info, index ->
                 "连麦人数"
             }
         }
+        TYPE_LIKE_COUNT -> {
+            if (index == 0) {
+                "点赞次数"
+            } else {
+                "点赞人数"
+            }
+        }
+        TYPE_GIFT_COUNT -> {
+            if (index == 0) {
+                "礼物总额"
+            } else {
+                "礼物人数"
+            }
+        }
         else -> ""
     }
 }
