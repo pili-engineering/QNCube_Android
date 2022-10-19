@@ -174,7 +174,6 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                 finishedActivityCall?.invoke()
             }
         }
-
     }
 
     //下麦

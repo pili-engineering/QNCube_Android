@@ -1,4 +1,4 @@
-package com.niucube.ktvkit
+package com.niucube.qrtcroom.ktvkit
 
 enum class TrackType(val value:String) {
     //伴奏

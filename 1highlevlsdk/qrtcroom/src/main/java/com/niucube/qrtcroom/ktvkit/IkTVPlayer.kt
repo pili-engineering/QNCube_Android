@@ -1,4 +1,4 @@
-package com.niucube.ktvkit
+package com.niucube.qrtcroom.ktvkit
 
 //播放器
 interface IkTVPlayer<T> {

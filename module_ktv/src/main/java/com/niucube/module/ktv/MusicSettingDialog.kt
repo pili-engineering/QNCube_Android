@@ -3,7 +3,7 @@ package com.niucube.module.ktv
 import android.view.Gravity
 import android.widget.SeekBar
 import com.hipi.vm.activityVm
-import com.niucube.ktvkit.TrackType
+import com.niucube.qrtcroom.ktvkit.TrackType
 import com.qiniudemo.baseapp.BaseDialogFragment
 import kotlinx.android.synthetic.main.dialog_music_setting.*
 

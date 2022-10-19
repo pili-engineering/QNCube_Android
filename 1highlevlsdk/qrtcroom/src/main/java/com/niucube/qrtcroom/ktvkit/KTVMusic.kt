@@ -1,4 +1,4 @@
-package com.niucube.ktvkit
+package com.niucube.qrtcroom.ktvkit
 
 //歌曲信令信息
 class KTVMusic<T> {
