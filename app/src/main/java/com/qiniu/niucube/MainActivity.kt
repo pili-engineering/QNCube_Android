@@ -8,6 +8,7 @@ import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtm.RtmManager
+import com.qiniu.baseapp.BuildConfig
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.qnim.QNIMManager
 import com.qiniu.router.RouterConstant
@@ -86,6 +87,8 @@ class MainActivity : BaseActivity() {
                     QNIMManager.mRtmAdapter.suspendLoginOut()
                     val loginToken = UserInfoManager.mLoginToken!!
                     LoadingDialog.showLoading(supportFragmentManager)
+                    QNIMManager.unInit()
+                    QNIMManager.init(BuildConfig.QNIMAPPID, application)
                     QNIMManager.mRtmAdapter.login(
                         loginToken.accountId,
                         loginToken.imConfig.imUid,

@@ -31,8 +31,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 315
-        versionName "3.1.5"
+        versionCode 316
+        versionName "3.1.6"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -94,6 +94,7 @@ dependencies {
     api depend.lifecycle()
     implementation depend.design()
     implementation depend.constraintLayout()
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

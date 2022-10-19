@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation project (':depends:qlive-sdk')
+    api project (':depends:qlive-sdk')
     implementation project (':depends:qlive-sdk-uikit')
     implementation project (':depends:qlive_beauty')
     implementation "androidx.databinding:viewbinding:7.1.2"

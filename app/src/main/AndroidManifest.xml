@@ -4,23 +4,23 @@
     package="com.qiniu.niucube">
 
     <application
-        android:name="com.qiniu.niucube.App"
+        android:name=".App"
         android:icon="@mipmap/ic_lastart"
-        android:roundIcon="@mipmap/ic_lastart"
-        android:theme="@style/Theme.QINIU_SDK_ALL_IN_ONE"
         android:label="@string/app_name"
-      >
+        android:roundIcon="@mipmap/ic_lastart"
+        android:theme="@style/Theme.QINIU_SDK_ALL_IN_ONE">
 
-        <activity android:name=".SplashActivity"
-           android:theme="@style/Splash"
-            android:exported="true">
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.qiniu.niucube.MainActivity"/>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

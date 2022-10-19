@@ -126,6 +126,11 @@ class QNIMAdapter : RtmAdapter {
         QNIMClient.getUserManager().addUserListener(mBMXUserServiceListener)
     }
 
+    fun unInit(){
+        QNIMClient.delete()
+        isInit = false
+    }
+
     fun loginOut() {
         isLogin = false
         QNIMClient.getUserManager().signOut {

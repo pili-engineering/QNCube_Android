@@ -81,18 +81,17 @@ class PKLiveRoomListActivity : BaseActivity() {
                     }
                 }
             }
-
-            if (needShopping) {
-                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
-                    R.layout.activity_room_player
-                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
-                    R.layout.activity_room_pusher
-            } else {
-                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
-                    R.layout.activity_room_player_noshopping
-                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
-                    R.layout.activity_room_pusher_no_shoping
-            }
+//            if (needShopping) {
+//                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
+//                    R.layout.activity_room_player
+//                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
+//                    R.layout.activity_room_pusher
+//            } else {
+//                QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
+//                    R.layout.activity_room_player_noshopping
+//                QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
+//                    R.layout.activity_room_pusher_no_shoping
+//            }
             QLive.auth(object : QLiveCallBack<Void> {
                 override fun onError(p0: Int, p1: String?) {
                     coroutine.resumeWithException(Exception("$p1 "))
@@ -135,6 +134,7 @@ class PKLiveRoomListActivity : BaseActivity() {
             doWork {
                 //低代码im和牛魔方冲突
                 QNIMManager.mRtmAdapter.suspendLoginOut()
+                QNIMManager.unInit()
                 suspendInit()
                 suspendSetUser()
                 QLive.getLiveUIKit().launch(this@PKLiveRoomListActivity)
