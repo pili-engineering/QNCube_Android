@@ -79,13 +79,14 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
             try {
                 val auth = Auth.create(appKey, appSecretKey)
 
-                 val url = "http://10.200.20.73:9001/v1/image/circuitboard"
-               // val url = "http://cb-service.apistore.qiniu.com/v1/image/circuitboard"
+                val url = "http://10.200.20.73:9001/v1/image/circuitboard"
+                // val url = "http://cb-service.apistore.qiniu.com/v1/image/circuitboard"
                 val header = Headers.of(HashMap<String, String>().apply {
                     put("Content-Type", Client.FormMime)
                 })
-                val authToken = auth.signQiniuAuthorization(url, "POST", buffer.readByteArray(), header)
-               //朵拉的电路板识别服务
+                val authToken =
+                    auth.signQiniuAuthorization(url, "POST", buffer.readByteArray(), header)
+                //朵拉的电路板识别服务
                 val resp =
                     RetrofitManager.postFormUserExtraClient(
                         url,
@@ -107,7 +108,6 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
                         "检测到此PCB疑似有【BGA球窝】问题，请联系专家确认".asToast()
                     }
                     isCircuitBoard = true
-
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -116,21 +116,17 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
     }
 
     private var mTextureRenderer: TextureRenderer? = null
-
-    private var markIdsIndex = 0
-//    private val markIds = listOf<Int>(
-//        R.mipmap.iv1, R.mipmap.iv1,
-//        R.mipmap.iv2, R.mipmap.iv3, R.mipmap.iv4, R.mipmap.iv5, R.mipmap.iv6,
-//        R.mipmap.iv7, R.mipmap.iv8, R.mipmap.iv9, R.mipmap.iv10
-//    )
-
     private val coverBitmap90 by lazy {
         //前置 90 后置 270
         val m = Matrix()
         m.postRotate(-90f) //旋转-90度
         val options = BitmapFactory.Options()
         options.inScaled = false
-        val bitmap1 = BitmapFactory.decodeResource(AppCache.getContext().resources,  R.drawable.bg_board, options)
+        val bitmap1 = BitmapFactory.decodeResource(
+            AppCache.getContext().resources,
+            R.drawable.bg_board,
+            options
+        )
         val bitmap = Bitmap.createBitmap(bitmap1, 0, 0, bitmap1.width, bitmap1.height, m, true)
         bitmap
     }
@@ -143,10 +139,15 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
         val options = BitmapFactory.Options()
 
         options.inScaled = false
-        val bitmap1 = BitmapFactory.decodeResource(AppCache.getContext().resources,  R.drawable.bg_board, options)
+        val bitmap1 = BitmapFactory.decodeResource(
+            AppCache.getContext().resources,
+            R.drawable.bg_board,
+            options
+        )
         val bitmap = Bitmap.createBitmap(bitmap1, 0, 0, bitmap1.width, bitmap1.height, m, true)
         bitmap
     }
+
     override fun onTextureFrameAvailable(
         textureID: Int,
         type: QNVideoFrameType?,
@@ -156,7 +157,7 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
         timestampNs: Long,
         transformMatrix: FloatArray?
     ): Int {
-           //   return textureID
+        //   return textureID
         if (!isCircuitBoard) {
             return textureID
         }
@@ -169,7 +170,13 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
 
             TextureUtils.init()
         }
-        val mark = TextureUtils.loadTexture(if(rotation == 270){coverBitmap270}else{coverBitmap90});
+        val mark = TextureUtils.loadTexture(
+            if (rotation == 270) {
+                coverBitmap270
+            } else {
+                coverBitmap90
+            }
+        );
         markedId = mTextureRenderer!!.onDrawFrame(textureID, mark, rotation)
         Log.d("onTextureFrameAvailable", "onTextureFrameAvailable " + markedId)
         return markedId

@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
@@ -134,6 +135,8 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                 //房主马上上麦
                 if (roomEntity.isRoomHost()) {
                     sitDown()
+                }else{
+                    Log.d("KTVRoomVm","join not my room")
                 }
                 heartBeatJob()
             }

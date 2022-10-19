@@ -72,3 +72,4 @@ include ':depends:qlive_beauty'
 include ':depends:depends_sdk_piliplayer'
 include ':depends:depends_sdk_qrtc'
 include ':depends:sdk_qnim'
+

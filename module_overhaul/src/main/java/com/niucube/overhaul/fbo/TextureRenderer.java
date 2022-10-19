@@ -61,7 +61,6 @@ public class TextureRenderer {
     private float[] POSITION_VERTEX2 = new float[]{
             0f, 0f, 0f,     //顶点坐标V0
 
-
             1f * ratioX, -1f * ratioY, 0f,     //顶点坐标V4
             -1f * ratioX, -1f * ratioY, 0f,   //顶点坐标V3
             -1f * ratioX, 1f * ratioY, 0f,    //顶点坐标V2
@@ -90,11 +89,6 @@ public class TextureRenderer {
             0, 3, 4,  //V0,V3,V4 三个顶点组成一个三角形
             0, 4, 1   //V0,V4,V1 三个顶点组成一个三角形
     };
-
-
-    private int uMatrixLocation;
-
-    private float[] mMatrix = new float[16];
 
     public TextureRenderer() {
         //分配内存空间,每个浮点型占4字节空间
@@ -126,14 +120,10 @@ public class TextureRenderer {
         mVertexIndexBuffer.position(0);
     }
 
-
     int w = 0;
     int h = 0;
 
-
     public void onSurfaceCreated() {
-
-
         //设置背景颜色
         GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
         //编译
@@ -158,21 +148,10 @@ public class TextureRenderer {
         h = height;
         OpenGLTools.INSTANCE.createFrameBuffer();
         GLES30.glViewport(0, 0, width, height);
-
-//        final float aspectRatio = width > height ?
-//                (float) width / (float) height :
-//                (float) height / (float) width;
-//        if (width > height) {
-//            //横屏
-//            Matrix.orthoM(mMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f);
-//        } else {
-//            //竖屏
-//            Matrix.orthoM(mMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f);
-//        }
-
     }
-   // 绘制电路板识别成功标志
-    public int onDrawFrame(int textureIdb, int textureIdf,int rotation) {
+
+    // 绘制电路板识别成功标志
+    public int onDrawFrame(int textureIdb, int textureIdf, int rotation) {
         textureId = textureIdb;
         textureId2 = textureIdf;
         Log.d("onDrawFrame", "onDrawFrame");
@@ -209,7 +188,6 @@ public class TextureRenderer {
         GLES30.glUniform1i(uTextureUnitLocation, 0);
         // 绘制
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, VERTEX_INDEX.length, GLES20.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
-
         //
     }
 
@@ -226,11 +204,10 @@ public class TextureRenderer {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId2);
         GLES30.glUniform1i(uTextureUnitLocation, 0);
         // 绘制
-        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA,GLES30.GL_ONE_MINUS_SRC_ALPHA);
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
         GLES30.glEnable(GLES30.GL_BLEND);
         GLES20.glDrawElements(GLES30.GL_TRIANGLES, VERTEX_INDEX.length, GLES30.GL_UNSIGNED_SHORT, mVertexIndexBuffer);
     }
-
 
     private void onReadPixel(int x, int y, int width, int height) {
         if (rendererCallback == null) {

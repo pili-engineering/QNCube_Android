@@ -17,10 +17,10 @@ import com.niucube.overhaul.OverhaulVm.Companion.videoHeight
 import com.niucube.overhaul.OverhaulVm.Companion.videoWidth
 import com.niucube.overhaul.mode.OverhaulRoom
 import com.pili.pldroid.player.widget.PLVideoView
-import com.niucube.comp.mutabletrackroom.MicSeatListener
+import com.niucube.mutabletrackroom.MicSeatListener
 import com.niucube.comproom.RoomManager
 import com.qiniu.comp.network.RetrofitManager
-import com.niucube.comp.mutabletrackroom.MutableMicSeat
+import com.niucube.mutabletrackroom.MutableMicSeat
 import com.niucube.qrtcroom.qplayer.PreviewMode
 import com.qiniu.droid.audio2text.QNRtcAISdkManager
 import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack

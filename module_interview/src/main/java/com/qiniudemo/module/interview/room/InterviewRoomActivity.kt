@@ -16,7 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.lazyVm
 import com.niucube.absroom.seat.ScreenMicSeat
-import com.niucube.comp.mutabletrackroom.MicSeatListener
+import com.niucube.mutabletrackroom.MicSeatListener
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
@@ -27,7 +27,7 @@ import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
 import com.niucube.comproom.provideMeId
 import com.niucube.qrtcroom.screencapture.ScreenCapturePlugin
-import com.niucube.comp.mutabletrackroom.MutableMicSeat
+import com.niucube.mutabletrackroom.MutableMicSeat
 import com.niucube.qrtcroom.screencapture.QScreenTrackParams
 import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.widget.CommonTipDialog

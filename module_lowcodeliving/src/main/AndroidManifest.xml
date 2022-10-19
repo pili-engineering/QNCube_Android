@@ -13,6 +13,10 @@
             android:name=".DemoLiveFinishedActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
+        <activity android:name=".DemoStatisticsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:exported="false"
+            />
         <activity
             android:name=".TestShoppingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"

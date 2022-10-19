@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.hapi.ut.SpUtil
 import com.qlive.core.QLiveClient
 import com.qlive.shoppingservice.QItem
+import com.qlive.uikit.component.FloatingModel
 import com.qlive.uikit.component.FuncCPTPlayerFloatingHandler
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
@@ -18,12 +19,18 @@ class TestShoppingActivity : AppCompatActivity() {
 
     companion object {
         fun start(context: QLiveUIKitContext, item: QItem) {
-            context.getLiveFuncComponent(FuncCPTPlayerFloatingHandler::class.java)
-                ?.create(false) { b: Boolean, s: String ->
+            val floatCPT =  context.getLiveFuncComponent(FuncCPTPlayerFloatingHandler::class.java)
+            if(floatCPT==null){
+                val intent = Intent(context.currentActivity, TestShoppingActivity::class.java)
+                intent.putExtra("QItem", item)
+                context.currentActivity.startActivity(intent)
+            }else{
+                floatCPT.create(FloatingModel.GO_NEXT_PAGE) { succeed: Boolean, msg: String ->
                     val intent = Intent(context.currentActivity, TestShoppingActivity::class.java)
                     intent.putExtra("QItem", item)
                     context.currentActivity.startActivity(intent)
                 }
+            }
         }
     }
 
@@ -56,10 +63,4 @@ class TestShoppingActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        FuncCPTPlayerFloatingHandler.currentFloatingPlayerView()?.let {
-            it.resumeToBig()
-        }
-    }
 }

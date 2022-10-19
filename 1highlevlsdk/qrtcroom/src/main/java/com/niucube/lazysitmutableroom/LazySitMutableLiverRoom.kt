@@ -387,7 +387,7 @@ class LazySitMutableLiverRoom(
 //                    onKickUserMic(seat.seat?.uid ?: "") {
 //                        lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(it, msg)
 //                    }
-                    lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(seat.seat, msg)
+                    lazyRoom.mTrackSeatListener.onKickOutFromMicSeat(seat.seat!!, msg)
                     return true
                 }
                 action_rtc_kickOutFromRoom -> {

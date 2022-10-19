@@ -41,6 +41,7 @@ class QRTCUserStore {
     }
 
     fun clear(destroy: Boolean = true) {
+
         QLiveLogUtil.d("QRTCUserStore", "clear  ")
         rtcUsers.clear()
         if (destroy) {

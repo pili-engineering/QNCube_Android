@@ -34,4 +34,8 @@ object QNIMManager {
         }, context)
         RtmManager.setRtmAdapter(mRtmAdapter)
     }
+
+    fun unInit(){
+        mRtmAdapter.unInit()
+    }
 }

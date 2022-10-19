@@ -1,4 +1,4 @@
-package com.niucube.comp.mutabletrackroom
+package com.niucube.mutabletrackroom
 
 import com.niucube.absroom.BaseMutableMicSeat
 
