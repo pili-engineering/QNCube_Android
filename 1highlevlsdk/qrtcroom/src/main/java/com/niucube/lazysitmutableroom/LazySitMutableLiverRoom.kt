@@ -117,7 +117,7 @@ class LazySitMutableLiverRoom(
         //创建音频轨道
         micphoneParams?.let {
             setMicrophoneAudioParams(it)
-            createVideoTrack()
+            createAudioTrack()
         }
         Log.d("sitDown","suspendEnableVideo")
         //发布流

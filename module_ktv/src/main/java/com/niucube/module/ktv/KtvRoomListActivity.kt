@@ -13,10 +13,10 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.hapi.base_mvvm.refresh.SmartRecyclerView
 import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.backGround
-import com.niucube.ktvkit.KTVMusic
-import com.niucube.ktvkit.KTVSerialPlayer.Companion.key_current_music
 import com.niucube.module.ktv.mode.KTVRoomListItem
 import com.niucube.module.ktv.mode.Song
+import com.niucube.qrtcroom.ktvkit.KTVMusic
+import com.niucube.qrtcroom.ktvkit.KTVSerialPlayer.Companion.key_current_music
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.jsonutil.JsonUtils
@@ -93,7 +93,6 @@ class KtvRoomListActivity : BaseRoomListActivity() {
             return LayoutInflater.from(mContext)
                 .inflate(R.layout.item_ktv_room_list_cover, parent, false)
         }
-
         override fun convert(helper: BaseViewHolder, item: RoomListItem) {
             super.convert(helper, item)
             val pt = ParameterizedTypeImpl(

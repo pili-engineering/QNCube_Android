@@ -1,17 +1,16 @@
-package com.niucube.ktvkit
+package com.niucube.qrtcroom.ktvkit
 
 import android.util.Log
-import com.niucube.ktvkit.KTVMusic.Companion.playStatus_completed
-import com.niucube.ktvkit.KTVMusic.Companion.playStatus_error
-import com.niucube.ktvkit.KTVMusic.Companion.playStatus_pause
-import com.niucube.ktvkit.KTVMusic.Companion.playStatus_playing
-import com.niucube.ktvkit.KTVPlayerListener.Companion.owner_rtc_mix_error
+import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_completed
+import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_error
+import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_pause
+import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_playing
+import com.niucube.qrtcroom.ktvkit.KTVPlayerListener.Companion.owner_rtc_mix_error
 import com.qiniu.droid.rtc.QNAudioMixer
 import com.qiniu.droid.rtc.QNAudioMixerListener
 import com.qiniu.droid.rtc.QNAudioMixerState
 import com.qiniu.droid.rtc.QNMicrophoneAudioTrack
 import java.io.File
-
 
 open class KTVSerialPlayer<T>(
     val uid: String = "",

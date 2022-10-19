@@ -7,10 +7,10 @@ import com.niucube.channelattributes.RoomAttributesManager
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import com.niucube.ktvkit.KTVMusic
-import com.niucube.ktvkit.KTVSerialPlayer
-import com.niucube.ktvkit.KTVSerialPlayer.Companion.key_current_music
 import com.niucube.module.ktv.mode.Song
+import com.niucube.qrtcroom.ktvkit.KTVMusic
+import com.niucube.qrtcroom.ktvkit.KTVSerialPlayer
+import com.niucube.qrtcroom.ktvkit.KTVSerialPlayer.Companion.key_current_music
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.droid.rtc.QNMicrophoneAudioTrack
 import com.qiniu.droid.rtc.QNScreenVideoTrack
@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class KTVPlayerAdapter : KTVSerialPlayer.KTVSerialPlayerAdapter<Song> {
-
 
     private var receiveChannel: (music: KTVMusic<Song>) -> Unit = {}
     private var mRoomAttributesListener = object : RoomAttributesListener {
@@ -42,7 +41,6 @@ class KTVPlayerAdapter : KTVSerialPlayer.KTVSerialPlayerAdapter<Song> {
                 receiveChannel.invoke(musicAttribute)
             }
         }
-
         override fun onAttributesClear(roomId: String, key: String) {}
     }
 
@@ -126,7 +124,6 @@ class KTVPlayerAdapter : KTVSerialPlayer.KTVSerialPlayerAdapter<Song> {
         )
     }
 
-
     init {
         RoomAttributesManager.addRoomAttributesListener(mRoomAttributesListener)
     }
@@ -134,14 +131,12 @@ class KTVPlayerAdapter : KTVSerialPlayer.KTVSerialPlayerAdapter<Song> {
     fun releasePlayer() {
         RoomAttributesManager.removeRoomAttributesListener(mRoomAttributesListener)
     }
-
 }
 
 class KTVPlayerKit() : KTVSerialPlayer<Song>(
     UserInfoManager.getUserId(),
     KTVPlayerAdapter()
 ) {
-
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomEntering(roomEntity: RoomEntity) {
             super.onRoomEntering(roomEntity)
@@ -151,8 +146,6 @@ class KTVPlayerKit() : KTVSerialPlayer<Song>(
     init {
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
     }
-
-
     override fun releasePlayer() {
         RoomManager.removeRoomLifecycleMonitor(mRoomLifecycleMonitor)
         (adapter as KTVPlayerAdapter).releasePlayer()

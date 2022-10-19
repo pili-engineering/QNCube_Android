@@ -15,11 +15,7 @@ import com.hapi.happy_dialog.FinalDialogFragment
 import com.hipi.vm.backGround
 import com.hipi.vm.lazyVm
 import com.hipi.vm.lifecycleBg
-import com.niucube.bzuicomp.chatdialog.PubChatDialog
 import com.niucube.comproom.RoomManager
-import com.niucube.ktvkit.KTVMusic
-import com.niucube.ktvkit.KTVPlayerListener
-import com.niucube.ktvkit.MusicTrack
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.niucube.lrcview.LrcLoadUtils
@@ -44,17 +40,16 @@ import com.qiniudemo.baseapp.been.asBaseRoomEntity
 import android.graphics.Rect
 import android.util.Log
 import android.view.KeyEvent
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.hapi.ut.ViewUtil
-import com.niucube.bzuicomp.chatdialog.DarkPubChatDialog
 import com.niucube.bzuicomp.chatdialog.LightPubChatDialog
 import com.niucube.comproom.ClientRoleType
-import com.niucube.ktvkit.TrackType
+import com.niucube.qrtcroom.ktvkit.KTVMusic
+import com.niucube.qrtcroom.ktvkit.KTVPlayerListener
+import com.niucube.qrtcroom.ktvkit.MusicTrack
+import com.niucube.qrtcroom.ktvkit.TrackType
 import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.widget.BlurTransformation
-
 
 @Route(path = RouterConstant.KTV.KTVRoom)
 class KTVRoomActivity : BaseActivity() {

@@ -1,4 +1,4 @@
-package com.niucube.ktvkit
+package com.niucube.qrtcroom.ktvkit
 
 interface KTVPlayerListener<T> {
     companion object {
