@@ -2,6 +2,7 @@ package com.qiniudemo.baseapp
 
 import android.app.Application
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Process
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hapi.ut.AppCache
@@ -68,6 +69,10 @@ open class BaseApplication : Application() {
                 Process.killProcess(Process.myPid())
             }, 200)
         }
+        QiniuRequestInterceptor.appVersionName = packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_CONFIGURATIONS
+        ).versionName
         // 网络库
         RetrofitManager.resetConfig(NetConfig().apply {
             base = when (SwitchEnvHelper.get().envType) {

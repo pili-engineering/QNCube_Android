@@ -44,7 +44,6 @@ class KTVPlayerAdapter : KTVSerialPlayer.KTVSerialPlayerAdapter<Song> {
         override fun onAttributesClear(roomId: String, key: String) {}
     }
 
-
     /**
      * 怎么发音乐信令
      */
