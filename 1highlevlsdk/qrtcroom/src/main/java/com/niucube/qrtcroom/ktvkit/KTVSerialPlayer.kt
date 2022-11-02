@@ -328,10 +328,6 @@ open class KTVSerialPlayer<T>(
                                     it.onResume()
                                 }
                             } else if (isFirstMIXING) {
-                                GlobalScope.launch {
-                                    delay(2000)
-                                    seekTo(orientationPosition)
-                                }
                                 mKTVMusic!!.playStatus = playStatus_playing
                                 mKTVMusic!!.trackType = trackType.value
                                 adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
