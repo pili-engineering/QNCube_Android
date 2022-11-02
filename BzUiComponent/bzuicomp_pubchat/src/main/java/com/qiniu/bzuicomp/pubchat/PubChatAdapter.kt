@@ -13,7 +13,7 @@ class PubChatAdapter  : BaseQuickAdapter<IChatMsg, BaseViewHolder>(R.layout.bzui
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
     override fun convert(holder: BaseViewHolder, item: IChatMsg) {
 
-        holder.itemView.tvText.text = Html.fromHtml(item.getMsgHtml(),
+        holder.itemView.tvText.text = Html.fromHtml(item.pubchat_getMsgHtml(),
            Html.ImageGetter {source->
                val id: Int = source.toInt()
                val drawable: Drawable = mContext.resources.getDrawable(id, null)

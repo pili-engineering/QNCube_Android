@@ -31,7 +31,7 @@ class PubChatAdapter : BaseQuickAdapter<IChatMsg, BaseViewHolder>(
                 helper.itemView.tvChatLine.text = "${item.senderName} ${item.msgContent}"
             }
             else -> {
-                helper.itemView.tvChatLine.text = Html.fromHtml(item.getMsgHtml())
+                helper.itemView.tvChatLine.text = Html.fromHtml(item.pubchat_getMsgHtml())
             }
         }
     }

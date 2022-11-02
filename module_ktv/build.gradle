@@ -45,13 +45,11 @@ android {
 
 dependencies {
 
-    
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()
     
     implementation project(':1highlevlsdk:comp_player')
-
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -60,13 +58,14 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(':1highlevlsdk:qrtcroom')
     implementation project(":baseApp")
+
     implementation project(':BzUiComponent:bzuicomp_bottomInput')
     implementation project(':BzUiComponent:bzuicomp_pubchat')
     implementation project(':BzMudule:comp_channelattributes' )
     implementation project(':BzUiComponent:compui_lrcview')
-    implementation project(':BzUiComponent:compui_lrcview')
     implementation project(':BzUiComponent:bzuicomp_chatdialog')
-
+    implementation project(':BzUiComponent:bzuicomp_gift' )
+    implementation project(':BzUiComponent:bzuicomp_danmu')
     implementation ('com.github.MJLblabla:PRDownloader:v2.3')
 
 }

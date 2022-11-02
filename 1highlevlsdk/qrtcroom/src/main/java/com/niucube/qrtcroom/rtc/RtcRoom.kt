@@ -58,7 +58,6 @@ open class RtcRoom(
     }
 
     val rtcClient by lazy {
-
         QNRTC.createClient(mClientConfig, rtcEventWrap).apply {
             setAutoSubscribe(false)
         }
@@ -566,6 +565,8 @@ open class RtcRoom(
         mRTCUserStore.closeCallDispatcher.close()
         mRTCUserStore.clear()
         com.niucube.comproom.RoomManager.dispatchCloseRoom()
+        localAudioTrack?.destroy()
+        localVideoTrack?.destroy()
         rtcClient?.leave()
         // 反初始化
         QNRTC.deinit()

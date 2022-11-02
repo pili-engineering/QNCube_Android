@@ -12,6 +12,7 @@ class GiftPanDialog : FinalDialogFragment() {
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
+        applyDimAmount(0f)
     }
 
     override fun getViewLayoutId(): Int {

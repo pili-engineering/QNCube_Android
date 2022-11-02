@@ -6,10 +6,12 @@ import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_error
 import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_pause
 import com.niucube.qrtcroom.ktvkit.KTVMusic.Companion.playStatus_playing
 import com.niucube.qrtcroom.ktvkit.KTVPlayerListener.Companion.owner_rtc_mix_error
-import com.qiniu.droid.rtc.QNAudioMixer
-import com.qiniu.droid.rtc.QNAudioMixerListener
-import com.qiniu.droid.rtc.QNAudioMixerState
-import com.qiniu.droid.rtc.QNMicrophoneAudioTrack
+import com.qiniu.droid.rtc.*
+import com.qiniu.droid.rtc.QNErrorCode.ERROR_AUDIO_MIXING_SEEK_FAILED
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.File
 
 open class KTVSerialPlayer<T>(
@@ -48,7 +50,6 @@ open class KTVSerialPlayer<T>(
         val key_current_music = "ktv_current_music"
     }
 
-
     private var tracks: List<MusicTrack>? = null
 
     var mKTVMusic: KTVMusic<T>? = null
@@ -66,7 +67,7 @@ open class KTVSerialPlayer<T>(
 
     init {
         adapter.registerSignalReceiveChannel { musicAttribute ->
-            val isPauseLast = mKTVMusic?.playStatus ?: -1 == playStatus_pause
+            val isPauseLast = (mKTVMusic?.playStatus ?: -1) == playStatus_pause
             if (mKTVMusic == null
                 ||
                 mKTVMusic?.musicId != musicAttribute.musicId
@@ -140,16 +141,15 @@ open class KTVSerialPlayer<T>(
     }
 
     private var microphoneVolume = 100f
-    private var musicVolume = 100f
+    private var musicVolume = 60f
     override fun setMicrophoneVolume(volume: Int) {
         microphoneVolume = volume.toFloat()
-        mQNAudioMixer?.setMixingVolume(microphoneVolume / 100F, musicVolume / 100F)
-
+        mMicrophoneAudioTrack?.setVolume(microphoneVolume / 100.0)
     }
 
     override fun setMusicVolume(volume: Int) {
         musicVolume = volume.toFloat()
-        mQNAudioMixer?.setMixingVolume(microphoneVolume / 100F, musicVolume / 100F)
+        mQNAudioMixer?.mixingVolume = musicVolume / 100F
     }
 
     override fun getMusicVolume(): Int {
@@ -160,16 +160,16 @@ open class KTVSerialPlayer<T>(
         return microphoneVolume.toInt()
     }
 
-    private var mQNAudioMixer: QNAudioMixer? = null
+    private var mQNAudioMixer: QNAudioMusicMixer? = null
 
-    val audioMixerListener = object : QNAudioMixerListener {
+    val audioMixerListener = object : QNAudioMusicMixerListener {
 
-        override fun onStateChanged(p0: QNAudioMixerState) {
+        override fun onStateChanged(p0: QNAudioMusicMixerState) {
             when (p0) {
-                QNAudioMixerState.MIXING -> {
-                   // mQNAudioMixer?.enableEarMonitor(true)
+                QNAudioMusicMixerState.MIXING -> {
+                    // mQNAudioMixer?.enableEarMonitor(true)
                 }
-                QNAudioMixerState.COMPLETED -> {
+                QNAudioMusicMixerState.COMPLETED -> {
                     mKTVMusic!!.playStatus = playStatus_completed
 
                     adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
@@ -178,7 +178,7 @@ open class KTVSerialPlayer<T>(
                         it.onPlayCompleted()
                     }
                 }
-                QNAudioMixerState.PAUSED -> {
+                QNAudioMusicMixerState.PAUSED -> {
                     mKTVMusic!!.playStatus = playStatus_pause
 
                     adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
@@ -186,10 +186,9 @@ open class KTVSerialPlayer<T>(
                     mKTVPlayerListeners.forEach {
                         it.onPause()
                     }
-
                 }
-                QNAudioMixerState.STOPPED -> {
-                   // mQNAudioMixer?.enableEarMonitor(false)
+                QNAudioMusicMixerState.STOPPED -> {
+                    // mQNAudioMixer?.enableEarMonitor(false)
                 }
             }
         }
@@ -198,18 +197,18 @@ open class KTVSerialPlayer<T>(
             Log.d("QNAudioMixingManager", "onMixing  " + p0)
             if (mKTVMusic != null) {
                 mKTVMusic!!.playStatus = playStatus_playing
-                mKTVMusic!!.currentPosition = p0 / 1000
+                mKTVMusic!!.currentPosition = p0
                 mKTVMusic!!.currentTimeMillis = System.currentTimeMillis()
                 adapter.sendKTVMusicSignal(mKTVMusic!!) { isSuccess: Boolean, errorCode: Int, errorMsg: String ->
                 }
                 mKTVPlayerListeners.forEach {
-                    it.updatePosition(p0 / 1000, mKTVMusic!!.duration)
+                    it.updatePosition(p0, mKTVMusic!!.duration)
                 }
             }
         }
 
-        override fun onError(p0: Int) {
-           // mQNAudioMixer?.enableEarMonitor(false)
+        override fun onError(p0: Int, p1: String) {
+            // mQNAudioMixer?.enableEarMonitor(false)
             Log.d("QNAudioMixingManager", "onError")
             mKTVMusic?.playStatus = playStatus_error
             adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
@@ -220,7 +219,7 @@ open class KTVSerialPlayer<T>(
         }
     }
 
-    private var loopTime: Int = 0
+    private var loopTime: Int = 1
     open override fun start(
         uid: String,
         musicId: String,
@@ -234,30 +233,35 @@ open class KTVSerialPlayer<T>(
         val f = File(tracks[0].trackLocalFilePath)
         Log.d("QNAudioMixingManager", "f " + f.exists())
         var isFirstMIXING = true
-        val mQNAudioMixerListener = object : QNAudioMixerListener {
-            override fun onStateChanged(p0: QNAudioMixerState) {
+        val path = tracks[0].trackLocalFilePath
+        //音乐总长度
+        val duration = QNAudioMusicMixer.getDuration(path)
 
-                if (p0 == QNAudioMixerState.MIXING) {
+        val mQNAudioMixerListener = object : QNAudioMusicMixerListener {
+            override fun onStateChanged(p0: QNAudioMusicMixerState) {
+                Log.d("QNAudioMixingManager", "onStateChanged  " + p0.name)
+                if (p0 == QNAudioMusicMixerState.MIXING) {
                     if (!isFirstMIXING && mKTVMusic!!.playStatus == playStatus_pause) {
                         mKTVMusic!!.playStatus = playStatus_playing
-
                         adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
                         adapter.sendKTVMusicSignal(mKTVMusic!!) { _, _, _ -> }
                         mKTVPlayerListeners.forEach {
                             it.onResume()
                         }
                     } else {
+
+                        setMusicVolume(musicVolume.toInt())
+                        setMicrophoneVolume(microphoneVolume.toInt())
                         val music = KTVMusic<T>().apply {
                             this.musicId = musicId
                             mixerUid = uid
                             //开始播放的时间戳
                             startTimeMillis = System.currentTimeMillis()
-                            currentPosition = mQNAudioMixer!!.currentPosition / 1000
+                            currentPosition = mQNAudioMixer!!.currentPosition
                             currentTimeMillis = System.currentTimeMillis()
                             //播放状态 0 暂停  1 播放  2 出错
                             playStatus = 1
-                            //音乐总长度
-                            this.duration = mQNAudioMixer!!.duration / 1000
+                            this.duration = duration
                             //播放的歌曲信息
                             trackType = tracks[0].trackType.value
                             this.musicInfo = musicInfo
@@ -287,19 +291,16 @@ open class KTVSerialPlayer<T>(
                 audioMixerListener.onMixing(p0)
             }
 
-            override fun onError(p0: Int) {
-                Log.d("QNAudioMixingManager", "onError")
-                audioMixerListener.onError(p0)
+            override fun onError(p0: Int, p1: String) {
+                Log.d("QNAudioMixingManager", "onError ${p0} ${p1}")
+                audioMixerListener.onError(p0, p1)
             }
         }
-        mQNAudioMixer = mMicrophoneAudioTrack?.createAudioMixer(
-            tracks[0].trackLocalFilePath,
+        mQNAudioMixer = mMicrophoneAudioTrack?.createAudioMusicMixer(
+            path,
             mQNAudioMixerListener
         )
         mQNAudioMixer?.start(loopTime)
-        setMusicVolume(musicVolume.toInt())
-        setMicrophoneVolume(microphoneVolume.toInt())
-
     }
 
     /**
@@ -312,24 +313,27 @@ open class KTVSerialPlayer<T>(
         var isFirstMIXING = true
         tracks?.forEach {
             if (it.trackType == trackType) {
+                val orientationPosition = mQNAudioMixer?.currentPosition ?: 0L
                 mQNAudioMixer?.stop()
-                val mQNAudioMixerListener = object : QNAudioMixerListener {
-                    override fun onStateChanged(p0: QNAudioMixerState) {
-                        if (p0 == QNAudioMixerState.MIXING) {
+
+                val mQNAudioMixerListener = object : QNAudioMusicMixerListener {
+                    override fun onStateChanged(p0: QNAudioMusicMixerState) {
+                        Log.d("QNAudioMixingManager", "onStateChanged  " + p0.name)
+                        if (p0 == QNAudioMusicMixerState.MIXING) {
                             if (!isFirstMIXING && mKTVMusic!!.playStatus == playStatus_pause) {
                                 mKTVMusic!!.playStatus = playStatus_playing
-
                                 adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
                                 adapter.sendKTVMusicSignal(mKTVMusic!!) { _, _, _ -> }
                                 mKTVPlayerListeners.forEach {
                                     it.onResume()
                                 }
-                            } else {
-                                mQNAudioMixer?.seekTo(mKTVMusic!!.currentPosition * 1000)
+                            } else if (isFirstMIXING) {
+                                GlobalScope.launch {
+                                    delay(2000)
+                                    seekTo(orientationPosition)
+                                }
                                 mKTVMusic!!.playStatus = playStatus_playing
                                 mKTVMusic!!.trackType = trackType.value
-                                //mKTVMusic!!.currentPosition = mQNAudioMixingManager.currentTime
-                                //   mKTVMusic!!.currentTimeMillis = System.currentTimeMillis()
                                 adapter.saveCurrentPlayingMusicToServer(mKTVMusic!!)
                                 adapter.sendKTVMusicSignal(mKTVMusic!!) { _, _, _ -> }
                                 mKTVPlayerListeners.forEach {
@@ -346,18 +350,19 @@ open class KTVSerialPlayer<T>(
                         audioMixerListener.onMixing(p0)
                     }
 
-                    override fun onError(p0: Int) {
-                        Log.d("QNAudioMixingManager", "onError")
-                        audioMixerListener.onError(p0)
+                    override fun onError(p0: Int, msg: String) {
+                        Log.d("QNAudioMixingManager", "onError ${p0} ${msg}")
+                        audioMixerListener.onError(p0, msg)
                     }
                 }
-                mQNAudioMixer = mMicrophoneAudioTrack?.createAudioMixer(
-                    it.trackLocalFilePath,
+                val path = it.trackLocalFilePath
+                val duration = QNAudioMusicMixer.getDuration(path)
+                mQNAudioMixer = mMicrophoneAudioTrack?.createAudioMusicMixer(
+                    path,
                     mQNAudioMixerListener
                 )
-
+                mQNAudioMixer?.startPosition = orientationPosition
                 mQNAudioMixer?.start(loopTime)
-                mQNAudioMixer?.setMixingVolume(microphoneVolume, musicVolume)
                 return@forEach
             }
         }
@@ -392,8 +397,7 @@ open class KTVSerialPlayer<T>(
         }
     }
 
-    fun enableEarMonitor(enable: Boolean){
-        mQNAudioMixer?.enableEarMonitor(enable)
+    fun enableEarMonitor(enable: Boolean) {
+        mMicrophoneAudioTrack?.isEarMonitorEnabled = enable
     }
-
 }

@@ -26,6 +26,7 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.swith.EnvType
 import com.qiniudemo.baseapp.manager.swith.SwitchEnvHelper
 import com.qiniudemo.baseapp.util.UniException
+import com.qlive.uiwidghtbeauty.QSenseTimeManager
 import com.tencent.bugly.crashreport.CrashReport
 
 
@@ -121,5 +122,6 @@ open class BaseApplication : Application() {
             //用户信息变更
             override fun onUserInfoRefresh(userInfo: UserInfo) {}
         })
+        QSenseTimeManager.initEffectFromLocalLicense(this, false)
     }
 }

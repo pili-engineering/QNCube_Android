@@ -39,17 +39,27 @@ import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniudemo.baseapp.been.asBaseRoomEntity
 import android.graphics.Rect
 import android.util.Log
+import android.view.Gravity
 import android.view.KeyEvent
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import com.bumptech.glide.request.RequestOptions
+import com.hapi.ut.ViewUtil
 import com.niucube.bzuicomp.chatdialog.LightPubChatDialog
 import com.niucube.comproom.ClientRoleType
 import com.niucube.qrtcroom.ktvkit.KTVMusic
 import com.niucube.qrtcroom.ktvkit.KTVPlayerListener
 import com.niucube.qrtcroom.ktvkit.MusicTrack
 import com.niucube.qrtcroom.ktvkit.TrackType
+import com.niucube.qrtcroom.rtc.RoundTextureView
+import com.qiniu.bzuicomp.bottominput.RoomInputDialog
+import com.qiniu.bzuicomp.gift.GiftPanDialog
 import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.widget.BlurTransformation
+import com.qlive.beautyhook.BeautyHookerImpl
+import com.qlive.uiwidghtbeauty.ui.EffectBeautyDialog
+import com.qlive.uiwidghtbeauty.ui.StickerDialog
 
 @Route(path = RouterConstant.KTV.KTVRoom)
 class KTVRoomActivity : BaseActivity() {
@@ -66,9 +76,17 @@ class KTVRoomActivity : BaseActivity() {
     private val micSeatAdapter by lazy {
         MicSeatAdapter()
     }
+    private val micSurfaceAdapter by lazy { MicSurfaceAdapter() }
 
     //聊天窗口
     private lateinit var pubChatDialog: LightPubChatDialog
+
+    private val mEffectBeautyDialog: EffectBeautyDialog by lazy {
+        EffectBeautyDialog()
+    }
+    private val mStickerDialog: StickerDialog by lazy {
+        StickerDialog()
+    }
 
     //播放状态监听
     private val mKTVPlayerListener by lazy {
@@ -162,7 +180,7 @@ class KTVRoomActivity : BaseActivity() {
                             ktvRoomVm.mKTVPlayerKit.start(
                                 UserInfoManager.getUserId(),
                                 next.getMusicId(),
-                                0,
+                                1,
                                 listOf(
                                     MusicTrack(
                                         TrackType.accompany,
@@ -192,39 +210,64 @@ class KTVRoomActivity : BaseActivity() {
     private val mMicSeatListener = object : UserMicSeatListener {
         /**
          * 有人上麦
-         * @param seat
+         * @param micSeat
          */
-        override fun onUserSitDown(seat: LazySitUserMicSeat) {
+        @SuppressLint("NotifyDataSetChanged")
+        override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
             micSeatAdapter.getLastSeat().let {
-                it.seat = seat
+                val index = micSeatAdapter.data.indexOf(it)
+                it.seat = micSeat
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
+                micSurfaceAdapter.data[index].seat = micSeat
+                val container = (micSurfaceAdapter.getViewByPosition(
+                    index,
+                    R.id.flSurfaceCotainer
+                ) as ViewGroup?)
+                container?.removeAllViews()
+                container?.addView(
+                    RoundTextureView(this@KTVRoomActivity).apply {
+                        ktvRoomVm.mKtvRoom.setUserCameraWindowView(micSeat.uid, this)
+                        setRadius(ViewUtil.dip2px(6f).toFloat())
+                    },
+                    FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
+                )
             }
-            if (seat.isMySeat(UserInfoManager.getUserId())) {
-                micSeatAdapter.notifyDataSetChanged()
-                tvSelectSong.visibility = View.VISIBLE
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 ivMicrophone.visibility = View.VISIBLE
-
+                ivBeauty.visibility = View.VISIBLE
+                ivSticker.visibility = View.VISIBLE
+                cbEnableEarMonitor.visibility = View.VISIBLE
             }
         }
 
         /**
          * 有人下麦
-         * @param seat
+         * @param micSeat
          * @param isOffLine 是不是断线 否则主动下麦
          */
         @SuppressLint("NotifyDataSetChanged")
-        override fun onUserSitUp(seat: LazySitUserMicSeat, isOffLine: Boolean) {
-            micSeatAdapter.getUserSeat(seat)?.let {
-                micSeatAdapter.remove(micSeatAdapter.data.indexOf(it))
+        override fun onUserSitUp(micSeat: LazySitUserMicSeat, isOffLine: Boolean) {
+            micSeatAdapter.getUserSeat(micSeat)?.let {
+                val container = (micSurfaceAdapter.getViewByPosition(
+                    micSeatAdapter.data.indexOf(it),
+                    R.id.flSurfaceCotainer
+                ) as ViewGroup?)
+                container?.removeAllViews()
+                val index = micSeatAdapter.data.indexOf(it)
+                micSeatAdapter.remove(index)
+                micSeatAdapter.addData(LazySitUserMicSeatWrap())
+                micSeatAdapter.remove(index)
                 micSeatAdapter.addData(LazySitUserMicSeatWrap())
             }
-            if (seat.isMySeat(UserInfoManager.getUserId())) {
-                micSeatAdapter.notifyDataSetChanged()
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
                 tvSelectSong.visibility = View.GONE
                 ivMicrophone.visibility = View.GONE
-
             }
-            if (seat.uid == RoomManager.mCurrentRoom?.asBaseRoomEntity()?.roomInfo?.creator) {
+            if (micSeat.uid == RoomManager.mCurrentRoom?.asBaseRoomEntity()?.roomInfo?.creator) {
                 "房主下线".asToast()
                 ivCloseRoom.performClick()
             }
@@ -232,22 +275,37 @@ class KTVRoomActivity : BaseActivity() {
 
         /**
          * 麦位麦克风变化
-         * @param seat
+         * @param micSeat
          */
-        override fun onMicAudioStatusChanged(seat: LazySitUserMicSeat) {
-            if (seat.isMySeat(UserInfoManager.getUserId())) {
-                ivMicrophone.isSelected = !seat.isOpenAudio()
+        override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {
+            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
+                ivMicrophone.isSelected = !micSeat.isOpenAudio()
             }
-            micSeatAdapter.getUserSeat(seat).let {
+            micSeatAdapter.getUserSeat(micSeat).let {
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
             }
         }
 
-        override fun onCameraStatusChanged(seat: LazySitUserMicSeat) {}
+        override fun onCameraStatusChanged(micSeat: LazySitUserMicSeat) {}
 
         override fun onSyncMicSeats(seats: List<LazySitUserMicSeat>) {
             seats.forEachIndexed { index, lazySitUserMicSeat ->
                 micSeatAdapter.data[index].seat = lazySitUserMicSeat
+                micSurfaceAdapter.data[index].seat = lazySitUserMicSeat
+                (micSurfaceAdapter.getViewByPosition(
+                    index,
+                    R.id.flSurfaceCotainer
+                ) as ViewGroup?)?.addView(
+                    RoundTextureView(this@KTVRoomActivity).apply {
+                        ktvRoomVm.mKtvRoom.setUserCameraWindowView(lazySitUserMicSeat.uid, this)
+                        setRadius(ViewUtil.dip2px(6f).toFloat())
+                    },
+                    FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        Gravity.CENTER
+                    )
+                )
                 micSeatAdapter.notifyItemChanged(index)
             }
         }
@@ -269,13 +327,22 @@ class KTVRoomActivity : BaseActivity() {
             ktvRoomVm.mKTVPlaylistsManager.headMusicChangedCall.invoke(Song())
             if (roomEntity.asBaseRoomEntity().isRoomHost()) {
                 ivAccompany.visibility = View.VISIBLE
+                tvSelectSong.visibility = View.VISIBLE
             }
         }
     }
 
     @SuppressLint("CheckResult")
     override fun initViewData() {
-
+        lifecycle.addObserver(ktvRoomVm.mGiftTrackManager)
+        lifecycle.addObserver(ktvRoomVm.mBigGiftManager)
+        lifecycle.addObserver(ktvRoomVm.mDanmuTrackManager)
+        ktvRoomVm.mBigGiftManager.attch(mBigGiftView)
+        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow1)
+        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow2)
+        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow3)
+        ktvRoomVm.mDanmuTrackManager.addTrackView(danmu1)
+        ktvRoomVm.mDanmuTrackManager.addTrackView(danmu2)
         lifecycle.addObserver(KeepLight(this))
         pubChatDialog = LightPubChatDialog(this)
         lrcView.setLabel("暂无音乐播放～")
@@ -293,7 +360,12 @@ class KTVRoomActivity : BaseActivity() {
         }
         recyMicSeat.layoutManager = GridLayoutManager(this, 3)
         recyMicSeat.addItemDecoration(MyItemDecoration())
-        recyMicSeat.adapter = micSeatAdapter
+        micSeatAdapter.bindToRecyclerView(recyMicSeat)
+
+        recySurface.layoutManager = GridLayoutManager(this, 3)
+        recySurface.addItemDecoration(MyItemDecoration())
+        micSurfaceAdapter.bindToRecyclerView(recySurface)
+
         ivPause.setOnClickListener {
             if (!ivPause.isSelected) {
                 ktvRoomVm.mKTVPlayerKit.pause()
@@ -301,7 +373,6 @@ class KTVRoomActivity : BaseActivity() {
                 ktvRoomVm.mKTVPlayerKit.resume()
             }
         }
-
         ivAccompany.setOnClickListener {
             MusicSettingDialog().show(supportFragmentManager, "")
         }
@@ -328,17 +399,46 @@ class KTVRoomActivity : BaseActivity() {
         tvSelectSong.setOnClickListener {
             SongsListDialog().show(supportFragmentManager, "")
         }
-
         cbEnableEarMonitor.setOnCheckedChangeListener { compoundButton, b ->
             //耳返
             ktvRoomVm.mKTVPlayerKit.enableEarMonitor(b)
         }
+
+        var lastGiftId = ""
+        ktvRoomVm.mGiftTrackManager.extGiftMsgCall = {
+            if (it.sendGift.giftId != lastGiftId) {
+                lastGiftId = it.sendGift.giftId
+                ktvRoomVm.mBigGiftManager.playInQueen(it)
+            }
+        }
+        ivDanmu.setOnClickListener {
+            RoomInputDialog(2).apply {
+                sendPubCall = {
+                    ktvRoomVm.mDanmuTrackManager.buidMsg(it)
+                }
+            }
+                .show(supportFragmentManager, "")
+        }
+
+        ivGift.setOnClickListener {
+            GiftPanDialog().show(supportFragmentManager, "")
+        }
+
+        ivBeauty.setOnClickListener {
+            mEffectBeautyDialog.show(supportFragmentManager, "")
+        }
+
+        ivSticker.setOnClickListener {
+            mStickerDialog.show(supportFragmentManager, "")
+        }
+
         RxPermissions(this)
             .request(
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.MODIFY_AUDIO_SETTINGS
+                Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                Manifest.permission.CAMERA
             )
             .subscribe {
                 if (it) {
@@ -367,6 +467,25 @@ class KTVRoomActivity : BaseActivity() {
         var seat: LazySitUserMicSeat? = null
     }
 
+    inner class MicSurfaceAdapter : BaseQuickAdapter<LazySitUserMicSeatWrap, BaseViewHolder>(
+        R.layout.item_micseat_surface_ktv,
+        ArrayList<LazySitUserMicSeatWrap>().apply {
+            for (i in 0..5) {
+                add(LazySitUserMicSeatWrap())
+            }
+        }
+    ) {
+        override fun convert(helper: BaseViewHolder, item: LazySitUserMicSeatWrap) {
+            helper.itemView.setOnClickListener {
+                if (TextUtils.isEmpty(item.seat?.uid)) {
+                    if (ktvRoomVm.mKtvRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
+                        ktvRoomVm.sitDown()
+                    }
+                }
+            }
+        }
+    }
+
     //麦位UI
     inner class MicSeatAdapter : BaseQuickAdapter<LazySitUserMicSeatWrap, BaseViewHolder>(
         R.layout.item_micseat_ktv,
@@ -376,7 +495,6 @@ class KTVRoomActivity : BaseActivity() {
             }
         }
     ) {
-
         fun getLastSeat(): LazySitUserMicSeatWrap {
             data.forEach {
                 if (it.seat == null) {
@@ -403,7 +521,6 @@ class KTVRoomActivity : BaseActivity() {
                     }
                 }
             }
-
             if (TextUtils.isEmpty(item.seat?.uid)) {
                 helper.itemView.llFooter.visibility = View.VISIBLE
                 helper.itemView.flContent.visibility = View.GONE

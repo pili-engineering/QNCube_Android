@@ -1,7 +1,10 @@
 package com.niucube.bzuicomp.chatdialog
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.text.Html
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -29,9 +32,9 @@ import kotlinx.android.synthetic.main.view_pub_chat.view.*
 
 open class PubChatLeftRightView : FrameLayout {
 
-
     private val mInputMsgReceiver = InputMsgReceiver()
-    open val mAdapter: BaseMultiItemQuickAdapter<PubChatLeftRightView.ChatMode, BaseViewHolder> = PubChatDialogItemAdapter()
+    open val mAdapter: BaseMultiItemQuickAdapter<PubChatLeftRightView.ChatMode, BaseViewHolder> =
+        PubChatDialogItemAdapter()
 
     private val msgRecycler: RecyclerView?
         get() {
@@ -52,8 +55,9 @@ open class PubChatLeftRightView : FrameLayout {
         }
     }
 
-    private lateinit var tvShowInput:IInputView
-    private lateinit var pubchatView:RecyclerView
+    private lateinit var tvShowInput: IInputView
+    private lateinit var pubchatView: RecyclerView
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
@@ -67,20 +71,21 @@ open class PubChatLeftRightView : FrameLayout {
         pubchatView = view.findViewById(R.id.pubChatView)
         tvShowInput = getIInputView()
         val lp = pubchatView.layoutParams
-        if(isShowMsgFromBottom()){
+        if (isShowMsgFromBottom()) {
             lp.height = ViewGroup.LayoutParams.WRAP_CONTENT
-        }else{
+        } else {
             lp.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
-        pubchatView.layoutParams=lp
+        pubchatView.layoutParams = lp
         view.findViewById<LinearLayout>(R.id.chatContainer).addView(tvShowInput.getView())
         init()
     }
 
-    open fun isShowMsgFromBottom():Boolean{
+    open fun isShowMsgFromBottom(): Boolean {
         return true
     }
-    open fun getIInputView():IInputView{
+
+    open fun getIInputView(): IInputView {
         return RoomInputView(context)
     }
 
@@ -126,14 +131,11 @@ open class PubChatLeftRightView : FrameLayout {
             if (msg is PubChatWelCome || msg is PubChatQuitRoom) {
                 return center
             }
-            if (msg is PubChatMsgModel) {
-                if (msg.senderId == UserInfoProvider.getLoginUserIdCall.invoke()) {
-                    return right
-                } else {
-                    return left
-                }
+            return if (msg.pubchat_sendID() == UserInfoProvider.getLoginUserIdCall.invoke()) {
+                right
+            } else {
+                left
             }
-            return left
         }
     }
 
@@ -146,13 +148,28 @@ open class PubChatLeftRightView : FrameLayout {
             addItemType(center, R.layout.item_pubdialog_welcome);
         }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         override fun convert(helper: BaseViewHolder, item: ChatMode) {
             // helper.itemView.tvSenderName.text = item.mPubChatMsgModel.senderName
             if (item.itemType != center) {
                 Glide.with(mContext)
-                    .load((item.msg as PubChatMsgModel).sendAvatar)
+                    .load((item.msg).pubchat_senderAvatar())
                     .into(helper.itemView.ivAvatar)
-                helper.itemView.tvMsgContent.text = item.msg.msgContent
+                if (item.msg.pubchat_getMsgAction() == PubChatMsgModel.action_pubText) {
+                    helper.itemView.tvMsgContent.text = item.msg.pubchat_msgOrigin()
+                } else {
+                    helper.itemView.tvMsgContent.text =
+                        Html.fromHtml(item.msg.pubchat_getMsgHtml(), Html.ImageGetter { source ->
+                            val id: Int = source.toInt()
+                            val drawable: Drawable = mContext.resources.getDrawable(id, null)
+                            drawable.setBounds(
+                                0, 0,
+                                ((drawable.intrinsicWidth * 0.3).toInt()),
+                                ((drawable.intrinsicHeight * 0.3).toInt())
+                            );
+                            drawable
+                        }, null)
+                }
             } else {
                 if (item.msg is PubChatWelCome) {
                     helper.itemView.tvMsgContent.text = item.msg.msgContent

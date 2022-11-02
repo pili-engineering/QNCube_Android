@@ -189,6 +189,7 @@ class AudioRoomActivity : BaseActivity() {
                 roomVm.mBigGiftManager.playInQueen(it)
             }
         }
+
         RxPermissions(this)
             .request(
                 Manifest.permission.RECORD_AUDIO,

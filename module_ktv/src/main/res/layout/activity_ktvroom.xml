@@ -14,16 +14,15 @@
         android:layout_height="240dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.niucube.lrcview.LrcView
-        android:layout_marginTop="24dp"
-        android:padding="12dp"
         android:id="@+id/lrcView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="24dp"
         android:background="#00000000"
+        android:padding="12dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="20dp"
@@ -41,48 +40,48 @@
     <LinearLayout
         android:layout_width="135dp"
         android:layout_height="32dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_40000000_16"
         android:layout_marginStart="12dp"
-        >
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_40000000_16"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivHostAvatar"
             android:layout_width="32dp"
-            android:layout_height="32dp"
-            />
+            android:layout_height="32dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="8dp"
-            >
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tvRoomTittle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                tools:text="asdsadsa"
                 android:ellipsize="marquee"
-                android:singleLine="true"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:maxWidth="100dp"
-                />
-             <TextView
-                 android:id="@+id/tvMember"
-                 android:textColor="@color/white"
-                 android:textSize="9sp"
-                 android:drawableStart="@mipmap/ktv_ic_people1"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 tools:text="1"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:text="asdsadsa" />
 
-                 />
+            <TextView
+                android:id="@+id/tvMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@mipmap/ktv_ic_people1"
+                android:textColor="@color/white"
+                android:textSize="9sp"
+                tools:text="1"
+
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -90,9 +89,9 @@
         android:id="@+id/llMusicInfoContainer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="#1F242E"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="#1F242E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/lrcView">
@@ -100,27 +99,28 @@
         <ImageView
             android:id="@+id/ivAlbumMin"
             android:layout_width="48dp"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp" />
+
         <TextView
             android:id="@+id/tvCurrentSong"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:paddingStart="16dp"
-            android:maxWidth="138dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:marqueeRepeatLimit="marquee_forever"
+            android:maxWidth="138dp"
+            android:paddingStart="16dp"
             android:singleLine="true"
-            tools:text="aasdsadsadsa"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            tools:text="aasdsadsadsa" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
-           />
+            android:gravity="center" />
 
         <ImageView
             android:id="@+id/ivPause"
@@ -150,12 +150,12 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/bg_diange"
             android:paddingStart="8dp"
-            android:paddingEnd="8dp"
             android:paddingTop="4dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="4dp"
-            android:textSize="12sp"
             android:text="点歌"
             android:textColor="@color/white"
+            android:textSize="12sp"
             android:visibility="invisible"
             tools:visibility="visible" />
 
@@ -165,7 +165,6 @@
         android:id="@+id/recyMicSeat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="6dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -175,70 +174,177 @@
 
         />
 
-    <ImageView
-        android:id="@+id/ivShowInput"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recySurface"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llMusicInfoContainer"
+
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/duihua"
-        tools:layout_editor_absoluteY="656dp" />
+        tools:layout_editor_absoluteY="656dp"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:id="@+id/ivShowInput"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="16dp"
+            app:srcCompat="@mipmap/duihua"
+            tools:layout_editor_absoluteY="656dp" />
 
-    <ImageView
-        android:id="@+id/ivMicrophone"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/ivShowInput"
-        app:layout_constraintStart_toEndOf="@+id/ivShowInput"
-        app:layout_constraintTop_toTopOf="@+id/ivShowInput"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:srcCompat="@drawable/mic_select" />
+        <ImageView
+            android:id="@+id/ivMicrophone"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            app:srcCompat="@drawable/mic_select"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
 
-    <ImageView
-        android:id="@+id/ivAccompany"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/ivMicrophone"
-        app:layout_constraintStart_toEndOf="@+id/ivMicrophone"
-        app:layout_constraintTop_toTopOf="@+id/ivMicrophone"
-        app:srcCompat="@mipmap/yingui" />
+        <ImageView
+            android:id="@+id/ivAccompany"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+            app:srcCompat="@mipmap/yingui"
+            tools:visibility="visible" />
 
+        <CheckBox
+            android:id="@+id/cbEnableEarMonitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            android:text="耳返"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible"
+          />
 
-    <CheckBox
-        android:id="@+id/cbEnableEarMonitor"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/ivGift"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/live_bottom_btn_gift"
+           />
+
+        <ImageView
+            android:id="@+id/ivDanmu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/danmukaiqi"
+            />
+
+        <ImageView
+            android:id="@+id/ivBeauty"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/ic_more_beauty"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+        <ImageView
+            android:id="@+id/ivSticker"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:src="@mipmap/ic_more_sticker"
+            android:visibility="gone"
+            tools:visibility="visible"
+          />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            />
+        <ImageView
+            android:id="@+id/ivCloseRoom"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cbEnableEarMonitor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cbEnableEarMonitor"
+            app:srcCompat="@mipmap/guanbi" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/ivAccompany"
-        app:layout_constraintStart_toEndOf="@+id/ivAccompany"
-        app:layout_constraintTop_toTopOf="@+id/ivAccompany"
-        android:text="耳返"
-        android:textColor="@color/white"
-
-        />
-
-    <ImageView
-        android:id="@+id/ivCloseRoom"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:padding="5dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cbEnableEarMonitor"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cbEnableEarMonitor"
-        app:srcCompat="@mipmap/guanbi" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <com.qiniu.bzuicomp.gift.GiftShowView
+            android:id="@+id/giftShow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <com.qiniu.bzuicomp.gift.BigGiftView
+        android:id="@+id/mBigGiftView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.qiniu.bzuicomp.danmu.DanmuTrackView
+            android:id="@+id/danmu1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp" />
+
+        <com.qiniu.bzuicomp.danmu.DanmuTrackView
+            android:id="@+id/danmu2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

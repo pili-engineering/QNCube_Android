@@ -44,7 +44,7 @@ android {
 dependencies {
     api project (':depends:qlive-sdk')
     implementation project (':depends:qlive-sdk-uikit')
-    implementation project (':depends:qlive_beauty')
+
     implementation "androidx.databinding:viewbinding:7.1.2"
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
