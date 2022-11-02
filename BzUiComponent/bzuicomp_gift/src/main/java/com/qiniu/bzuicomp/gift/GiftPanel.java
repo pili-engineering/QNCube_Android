@@ -18,6 +18,7 @@ import com.niucube.rtm.RtmManager;
 import com.qiniusdk.userinfoprovide.UserInfoProvider;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class GiftPanel extends LinearLayout {
 
@@ -66,11 +67,10 @@ public class GiftPanel extends LinearLayout {
                     GiftMsg msg = new GiftMsg();
                     msg.setNumber(Integer.parseInt(editNum.getText().toString()));
                     msg.setSendGift(gift);
-                    msg.setSenderRoomId(RoomManager.INSTANCE.getMCurrentRoom().provideRoomId());
-                    msg.setSenderUid(RtmManager.INSTANCE.getRtmClient().toString());
+                    msg.setSenderRoomId(Objects.requireNonNull(RoomManager.INSTANCE.getMCurrentRoom()).provideRoomId());
+                    msg.setSenderUid(UserInfoProvider.INSTANCE.getGetLoginUserIdCall().invoke());
                     msg.setSenderName(UserInfoProvider.INSTANCE.getGetLoginUserNameCall().invoke());
                     msg.setSenderAvatar(UserInfoProvider.INSTANCE.getGetLoginUserAvatarCall().invoke());
-
                     if (giftSendListener != null) {
                         giftSendListener.onGiftSent(msg);
                     }

@@ -10,6 +10,7 @@ import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.niucube.absroom.AudioTrackParams
+import com.niucube.absroom.VideoTrackParams
 import com.niucube.absroom.seat.UserExtension
 import com.niucube.channelattributes.AttrRoom
 import com.niucube.channelattributes.RoomAttributesManager
@@ -21,6 +22,10 @@ import com.niucube.module.ktv.player.KTVPlayerKit
 import com.niucube.module.ktv.playerlist.KTVPlaylistsManager
 import com.niucube.qrtcroom.rtc.SimpleQNRTCListener
 import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.bzuicomp.danmu.DanmuTrackManager
+import com.qiniu.bzuicomp.gift.BigGiftManager
+import com.qiniu.bzuicomp.gift.GiftMsg
+import com.qiniu.bzuicomp.gift.GiftTrackManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.droid.rtc.QNConnectionDisconnectedInfo
 import com.qiniu.droid.rtc.QNConnectionState
@@ -31,16 +36,25 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomIdType
 import com.qiniudemo.baseapp.service.RoomService
 import com.qiniudemo.baseapp.widget.CommonTipDialog
+import com.qlive.beautyhook.SenseVideoFrameListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class KTVRoomVm(application: Application, bundle: Bundle?) :
     BaseViewModel(application, bundle) {
+    //礼物轨道管理
+    val mGiftTrackManager = GiftTrackManager()
 
+    //大礼物队列
+    val mBigGiftManager = BigGiftManager<GiftMsg>()
+
+    //弹幕管理
+    val mDanmuTrackManager = DanmuTrackManager()
     private val mHander = Handler(Looper.myLooper()!!)
     private val showTimeOutTime = 10 * 1000L
     private val timeOutDialog = CommonTipDialog.TipBuild().setContent("连接超时,请检查网络设置")
         .build()
+    private val mSenseVideoFrameListener = SenseVideoFrameListener()
 
     /**
      *  重新连接超时任务
@@ -93,22 +107,24 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
     private fun onGetRoomAllMicSeat(roomAttrs: AttrRoom) {
         val micSeats = ArrayList<LazySitUserMicSeat>()
         roomAttrs.mics.forEach {
-            micSeats.add(LazySitUserMicSeat().apply {
-                //用户ID
-                uid = it.uid
-                isOwnerOpenAudio =
-                    it.attrs?.findValueOfKey("isOwnerOpenAudio") == "1"
-                isOwnerOpenVideo =
-                    it.attrs?.findValueOfKey("isOwnerOpenVideo") == "1"
-                userExtension = JsonUtils.parseObject(
-                    it.userExtension,
-                    UserExtension::class.java
-                )
-                isMuteVideoByMe =
-                    it.attrs.findValueOfKey("isMuteVideoByMe") == "1"
-                isMuteAudioByMe =
-                    it.attrs.findValueOfKey("isMuteAudioByMe") == "1"
-            })
+            if (it.uid != UserInfoManager.getUserId()) {
+                micSeats.add(LazySitUserMicSeat().apply {
+                    //用户ID
+                    uid = it.uid
+                    isOwnerOpenAudio =
+                        it.attrs?.findValueOfKey("isOwnerOpenAudio") == "1"
+                    isOwnerOpenVideo =
+                        it.attrs?.findValueOfKey("isOwnerOpenVideo") == "1"
+                    userExtension = JsonUtils.parseObject(
+                        it.userExtension,
+                        UserExtension::class.java
+                    )
+                    isMuteVideoByMe =
+                        it.attrs.findValueOfKey("isMuteVideoByMe") == "1"
+                    isMuteAudioByMe =
+                        it.attrs.findValueOfKey("isMuteAudioByMe") == "1"
+                })
+            }
         }
         //初始化麦位
         mKtvRoom.userClientTypeSyncMicSeats(micSeats)
@@ -135,8 +151,8 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                 //房主马上上麦
                 if (roomEntity.isRoomHost()) {
                     sitDown()
-                }else{
-                    Log.d("KTVRoomVm","join not my room")
+                } else {
+                    Log.d("KTVRoomVm", "join not my room")
                 }
                 heartBeatJob()
             }
@@ -164,10 +180,11 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                     listOf(Attribute(isOwnerOpenAudio, "1"))
                 )
                 //上麦
-                mKtvRoom.sitDown(userExt, null, AudioTrackParams())
+                mKtvRoom.sitDown(userExt, VideoTrackParams(), AudioTrackParams())
                 //绑定混音轨道
                 mKTVPlayerKit.mMicrophoneAudioTrack =
                     mKtvRoom.getUserAudioTrackInfo(UserInfoManager.getUserId()) as QNMicrophoneAudioTrack?
+                mKtvRoom.localVideoTrack?.setVideoFrameListener(mSenseVideoFrameListener)
             }
             catchError { e ->
                 e.message?.asToast()
@@ -180,6 +197,7 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
     fun sitUp() {
         bgDefault {
             mKtvRoom.sitUpAsAudience()
+            mKTVPlayerKit.mMicrophoneAudioTrack = null
             RoomAttributesManager.sitUp(
                 RoomManager.mCurrentRoom?.provideRoomId() ?: "",
                 RoomManager.mCurrentRoom?.provideMeId() ?: ""
@@ -194,6 +212,7 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
         bgDefault {
             mKtvRoom.leaveRoom()
             mKtvRoom.closeRoom()
+            mSenseVideoFrameListener.release()
             RetrofitManager.create(RoomService::class.java)
                 .leaveRoom(
                     RoomIdType(
@@ -235,16 +254,6 @@ class KTVRoomVm(application: Application, bundle: Bundle?) :
                             RoomManager.mCurrentRoom?.provideRoomId() ?: ""
                         )
                     delayTime = (beat.interval?.toLong() ?: 1)
-                    //用户角色定时向服务器同步麦位
-//                    if (mKtvRoom.mClientRole == ClientRoleType.CLIENT_ROLE_AUDIENCE) {
-//                        RoomAttributesManager.getRoomAllMicSeat(
-//                            (RoomManager.mCurrentRoom)!!.asBaseRoomEntity()
-//                                .roomInfo!!.type,
-//                            RoomManager.mCurrentRoom?.provideRoomId() ?: ""
-//                        ).let {
-//                            onGetRoomAllMicSeat(it)
-//                        }
-//                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     e.message?.asToast()

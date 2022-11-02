@@ -2,6 +2,7 @@ package com.qiniudemo.baseapp
 
 import android.app.Application
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Process
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hapi.ut.AppCache
@@ -25,6 +26,7 @@ import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.swith.EnvType
 import com.qiniudemo.baseapp.manager.swith.SwitchEnvHelper
 import com.qiniudemo.baseapp.util.UniException
+import com.qlive.uiwidghtbeauty.QSenseTimeManager
 import com.tencent.bugly.crashreport.CrashReport
 
 
@@ -68,6 +70,10 @@ open class BaseApplication : Application() {
                 Process.killProcess(Process.myPid())
             }, 200)
         }
+        QiniuRequestInterceptor.appVersionName = packageManager.getPackageInfo(
+            packageName,
+            PackageManager.GET_CONFIGURATIONS
+        ).versionName
         // 网络库
         RetrofitManager.resetConfig(NetConfig().apply {
             base = when (SwitchEnvHelper.get().envType) {
@@ -116,5 +122,6 @@ open class BaseApplication : Application() {
             //用户信息变更
             override fun onUserInfoRefresh(userInfo: UserInfo) {}
         })
+        QSenseTimeManager.initEffectFromLocalLicense(this, false)
     }
 }

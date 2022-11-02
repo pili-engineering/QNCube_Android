@@ -65,13 +65,37 @@ public class GiftMsg implements IChatMsg {
 
     @NonNull
     @Override
-    public String getMsgHtml() {
+    public String pubchat_getMsgHtml() {
         return " <font color='#3ce1ff'>" + senderName + "</font>" + " <font color='#ffb83c'>" + " :" + "送出" + number + "个" + "</font>" + "<img src='" + DataInterfaceNew.INSTANCE.getGiftIcon(Integer.parseInt(sendGift.getGiftId())) + "'>";
     }
 
     @NonNull
     @Override
-    public String getMsgAction() {
+    public String pubchat_getMsgAction() {
         return action_gift;
+    }
+
+    @NonNull
+    @Override
+    public String pubchat_senderAvatar() {
+        return senderAvatar;
+    }
+
+    @NonNull
+    @Override
+    public String pubchat_sendName() {
+        return senderName;
+    }
+
+    @NonNull
+    @Override
+    public String pubchat_msgOrigin() {
+        return senderName + " :" + "送出" + number + "个" + DataInterfaceNew.INSTANCE.getGiftIcon(Integer.parseInt(sendGift.getGiftId()));
+    }
+
+    @NonNull
+    @Override
+    public String pubchat_sendID() {
+        return senderUid;
     }
 }

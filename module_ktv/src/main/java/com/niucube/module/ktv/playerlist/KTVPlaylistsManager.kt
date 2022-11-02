@@ -239,6 +239,7 @@ class KTVPlaylistsManager(val context: Context) {
 
     private fun checkDownLoadMusic(IMusic: IMusic, taskTag: String): DownloadRequest? {
         val remoteUri = IMusic.getTagDownLoadUrl(taskTag)
+
         val fileDir = parentFile + "/${taskTag}"
         val fileName = IMusic.getMusicName() + IMusic.getMusicId()
         val file = File(fileDir)
