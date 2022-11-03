@@ -226,7 +226,7 @@ class InterviewListActivity : RecyclerActivity<InterViewInfo>() {
                         sendIntent.setType("text/plain");
                         startActivity(sendIntent)
                     }
-                    else -> SchemaParser.parseRouter(mContext, op.requestUrl)
+                    else -> SchemaParser.parseRouter(mContext,supportFragmentManager, op.requestUrl)
                 }
                 true
             }

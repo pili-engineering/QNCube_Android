@@ -104,6 +104,7 @@ open class KTVSerialPlayer<T>(
         }
     }
 
+
     private fun changeMusicAttributes(isPauseLast: Boolean) {
 
         if (mKTVMusic?.mixerUid != uid) {
@@ -162,8 +163,7 @@ open class KTVSerialPlayer<T>(
 
     private var mQNAudioMixer: QNAudioMusicMixer? = null
 
-    val audioMixerListener = object : QNAudioMusicMixerListener {
-
+    private val audioMixerListener = object : QNAudioMusicMixerListener {
         override fun onStateChanged(p0: QNAudioMusicMixerState) {
             when (p0) {
                 QNAudioMusicMixerState.MIXING -> {
@@ -190,6 +190,7 @@ open class KTVSerialPlayer<T>(
                 QNAudioMusicMixerState.STOPPED -> {
                     // mQNAudioMixer?.enableEarMonitor(false)
                 }
+                else -> {}
             }
         }
 
