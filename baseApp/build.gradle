@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
         kapt {
@@ -61,7 +61,7 @@ android {
 }
 
 dependencies {
-
+    implementation "androidx.multidex:multidex:2.0.1"
     implementation depend.appcompat()
     implementation depend.design()
     implementation project(path: ':1highlevlsdk:comp_roommanager')
