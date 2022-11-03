@@ -1,9 +1,11 @@
 package com.qiniudemo.baseapp
 
 import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Process
+import androidx.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hapi.ut.AppCache
 import com.hapi.ut.MainThreadHelper
@@ -31,6 +33,11 @@ import com.tencent.bugly.crashreport.CrashReport
 
 
 open class BaseApplication : Application() {
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
