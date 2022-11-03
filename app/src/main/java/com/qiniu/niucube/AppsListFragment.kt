@@ -81,7 +81,7 @@ class AppsListFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(helper.itemView.ivIcon)
             helper.itemView.setOnClickListener {
-                if (!SchemaParser.parseRouter(mContext, item.url + "?type=${item.type}", false)) {
+                if (!SchemaParser.parseRouter(mContext, childFragmentManager,item.url + "?type=${item.type}", false)) {
                     "${item.desc}".asToast()
                     val cm: ClipboardManager? =
                         mContext?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?

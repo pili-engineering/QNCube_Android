@@ -73,20 +73,14 @@ class KTVRoomActivity : BaseActivity() {
     @JvmField
     var ktvRoomId = ""
 
-    private val micSeatAdapter by lazy {
-        MicSeatAdapter()
-    }
+    private val micSeatAdapter by lazy { MicSeatAdapter() }
     private val micSurfaceAdapter by lazy { MicSurfaceAdapter() }
 
     //聊天窗口
     private lateinit var pubChatDialog: LightPubChatDialog
 
-    private val mEffectBeautyDialog: EffectBeautyDialog by lazy {
-        EffectBeautyDialog()
-    }
-    private val mStickerDialog: StickerDialog by lazy {
-        StickerDialog()
-    }
+    private val mEffectBeautyDialog by lazy { EffectBeautyDialog() }
+    private val mStickerDialog by lazy { StickerDialog() }
 
     //播放状态监听
     private val mKTVPlayerListener by lazy {

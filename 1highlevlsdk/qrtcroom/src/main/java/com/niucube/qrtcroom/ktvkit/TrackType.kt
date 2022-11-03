@@ -5,8 +5,6 @@ enum class TrackType(val value:String) {
     accompany("accompany"),
     //原声
     originVoice("originVoice")
-
-
 }
 
 fun String.toTrackType():TrackType{
