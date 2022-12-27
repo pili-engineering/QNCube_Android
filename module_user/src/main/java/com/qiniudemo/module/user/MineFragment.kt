@@ -1,10 +1,16 @@
 package com.qiniudemo.module.user
 
+import android.net.Uri
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import com.hapi.happy_dialog.FinalDialogFragment
 
 
 import com.bumptech.glide.Glide
+import com.hapi.mediapicker.ImagePickCallback
+import com.hapi.mediapicker.PicPickHelper
+import com.hapi.mediapicker.Size
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.hipi.vm.lifecycleBg
@@ -22,11 +28,16 @@ import com.qiniudemo.webview.WebActivity
 import kotlinx.android.synthetic.main.user_fragment_mine.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class MineFragment : BaseFragment() {
-
+    private val mPicPickHelper by lazy { PicPickHelper(requireActivity() as AppCompatActivity) }
     override fun initViewData() {
         UserInfoManager.getUserInfo()?.let {
             refreshUinfo(it)
@@ -41,7 +52,35 @@ class MineFragment : BaseFragment() {
         flUpLoadLog.setOnClickListener {
         }
         ivAvatar.setOnClickListener {
-
+            mPicPickHelper.show(Size(1, 1), object : ImagePickCallback {
+                override fun onSuccess(result: String?, url: Uri?) {
+                    Log.d("mPicPickHelper", " onSuccess $result ${url?.toString()}")
+                    if (result?.isEmpty() == true) {
+                        return
+                    }
+                    val file = File(result!!)
+                    lifecycleBg {
+                        showLoading(true)
+                        doWork {
+                            val requestFile =
+                                file.asRequestBody(("multipart/form-data").toMediaType())
+                            val body =
+                                MultipartBody.Part.createFormData("file", file.name, requestFile)
+                            val remoteFile =
+                                RetrofitManager.create(UserService::class.java).upload(body)
+                            RetrofitManager.create(UserService::class.java)
+                                .editUserAvatar(UserInfoManager.getUserId(), remoteFile.fileUrl)
+                            refreshUinfo()
+                        }
+                        catchError {
+                            it.printStackTrace()
+                        }
+                        onFinally {
+                            showLoading(false)
+                        }
+                    }
+                }
+            })
         }
         flLoginOut.setOnClickListener {
             lifecycleBg {

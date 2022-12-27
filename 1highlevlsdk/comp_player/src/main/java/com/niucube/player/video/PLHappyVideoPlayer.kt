@@ -201,13 +201,13 @@ open class PLHappyVideoPlayer : FrameLayout, IVideoPlayer, TextureView.SurfaceTe
                 duration = 500
             }
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {}
-                override fun onAnimationEnd(animation: Animator?) {
-                    coverImg?.visibility = View.GONE
-                    coverImg?.alpha=1f
+                override fun onAnimationStart(animation: Animator) {}
+                override fun onAnimationEnd(animation: Animator) {
+                    coverImg.visibility = View.GONE
+                    coverImg.alpha =1f
                 }
-                override fun onAnimationCancel(animation: Animator?) {}
-                override fun onAnimationRepeat(animation: Animator?) {}
+                override fun onAnimationCancel(animation: Animator) {}
+                override fun onAnimationRepeat(animation: Animator) {}
             })
         } }
         override fun onPlayStateChanged(status: Int) {

@@ -1,5 +1,5 @@
 plugins {
-    id 'hapidepend'
+    
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
@@ -50,7 +50,7 @@ android {
 
 dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    
+    implementation 'com.github.MJLblabla.hapiMediaPicker:hapimediapicker:1.0.7'
     implementation depend.appcompat()
     implementation depend.design()
     testImplementation 'junit:junit:4.+'

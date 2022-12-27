@@ -233,7 +233,11 @@ public class BitmapUtils {
             e.printStackTrace();
         } finally {
             if (media != null) {
-                media.release();
+                try {
+                    media.release();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return map;

@@ -1,5 +1,4 @@
 plugins {
-    id 'hapidepend'
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
@@ -31,8 +30,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 323
-        versionName "3.2.3"
+        versionCode 324
+        versionName "3.2.4"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {

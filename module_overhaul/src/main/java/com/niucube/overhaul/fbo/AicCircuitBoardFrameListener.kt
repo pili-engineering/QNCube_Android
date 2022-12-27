@@ -91,10 +91,11 @@ class AicCircuitBoardFrameListener : QNVideoFrameListener {
                     RetrofitManager.postFormUserExtraClient(
                         url,
                         body,
-                        "Authorization",
-                        "Qiniu " + authToken
+                        HashMap<String, String>().apply {
+                            put("Content-Type", "application/x-www-form-urlencoded")
+                            put("Authorization", "Qiniu " + authToken)
+                        }
                     )
-
                 val bodyString = resp.body!!.string()
                 Log.d("circuitboard", "circuitboard ${bodyString}")
                 val circuiBoard =
