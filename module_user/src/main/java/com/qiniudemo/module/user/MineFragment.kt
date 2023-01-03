@@ -18,22 +18,13 @@ import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniu.bzcomp.user.UserInfo
 import com.qiniu.bzcomp.user.UserInfoManager
-import com.qiniu.jsonutil.JsonUtils
-import com.qiniudemo.baseapp.ext.asToast
-import com.qiniudemo.baseapp.manager.swith.EnvType
-import com.qiniudemo.baseapp.manager.swith.SwitchEnvHelper
 import com.qiniudemo.baseapp.service.LoginService
 import com.qiniudemo.baseapp.service.UserService
-import com.qiniudemo.webview.WebActivity
+import com.qiniudemo.baseapp.web.WebViewActivity
 import kotlinx.android.synthetic.main.user_fragment_mine.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class MineFragment : BaseFragment() {
@@ -44,10 +35,10 @@ class MineFragment : BaseFragment() {
         }
 
         flPrivacy.setOnClickListener {
-            WebActivity.start("https://www.qiniu.com/privacy-right", requireContext())
+            WebViewActivity.start("https://www.qiniu.com/privacy-right", requireContext())
         }
         flLiability.setOnClickListener {
-            WebActivity.start("https://www.qiniu.com/user-agreement", requireContext())
+            WebViewActivity.start("https://www.qiniu.com/user-agreement", requireContext())
         }
         flUpLoadLog.setOnClickListener {
         }

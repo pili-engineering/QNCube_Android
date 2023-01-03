@@ -26,7 +26,7 @@ object SchemaParser {
         val path = router.path
         if (httpEnable) {
             if (scheme?.startsWith("http") == true) {
-                // WebActivity.start(url, context)
+                // WebViewActivity.start(url, context)
                 val uri = Uri.parse(url)
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 context.startActivity(intent)

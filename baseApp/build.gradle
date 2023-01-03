@@ -67,6 +67,9 @@ dependencies {
     implementation project(path: ':1highlevlsdk:comp_roommanager')
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
     api 'com.github.lihangleo2:ShadowLayout:3.2.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     api 'de.hdodenhof:circleimageview:3.1.0'
     api 'com.github.tbruyelle:rxpermissions:0.10.2'
@@ -80,7 +83,7 @@ dependencies {
     api project(':BzMudule:comp_network')
     api project(':BzMudule:comp_imadapter')
     api project(':routerTable')
-    api project(':module_web')
+
     api project (':depends:qlive_beauty')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

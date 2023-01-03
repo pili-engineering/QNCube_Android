@@ -22,7 +22,7 @@ import com.qiniudemo.baseapp.config.SPConstant
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.AppConfigService
 import com.qiniudemo.baseapp.vm.LoginVm
-import com.qiniudemo.webview.WebActivity
+import com.qiniudemo.baseapp.web.WebViewActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_spalash.*
 import kotlinx.coroutines.*
@@ -65,7 +65,7 @@ abstract class BaseStartActivity : BaseActivity() {
                     if(isIvSplashClientAble()){
                         ivSplash.setOnClickListener {
                             if (config.welcome?.url?.startsWith("http") == true) {
-                                WebActivity.start(config.welcome?.url ?: "", this@BaseStartActivity)
+                                WebViewActivity.start(config.welcome?.url ?: "", this@BaseStartActivity)
                             }
                         }
                     }

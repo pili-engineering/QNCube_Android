@@ -19,7 +19,7 @@ include ':module_videowatch'                  //一起看电影
 include ':module_audioroom'                   //语聊房间
 
 include ':baseApp'                            // base业务层
-include ':module_web'                         //webview
+
 include ':routerTable'                        // 路由
 include ':module_user'                        //用户模块
 include ':module_login'                       // 登录

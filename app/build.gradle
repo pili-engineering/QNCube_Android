@@ -30,8 +30,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 324
-        versionName "3.2.4"
+        versionCode 325
+        versionName "3.2.5"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -100,7 +100,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
     implementation project(":module_login")
-    implementation project(":module_web")
+
     implementation project(':module_interview')
     implementation project(':module_user')
     implementation project(':module_overhaul')

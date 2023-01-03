@@ -24,7 +24,7 @@ import com.qiniudemo.baseapp.vm.LoginVm
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.swith.EnvSwitchDialog
 import com.qiniudemo.baseapp.manager.swith.SwitchEnvHelper
-import com.qiniudemo.webview.WebActivity
+import com.qiniudemo.baseapp.web.WebViewActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -100,12 +100,12 @@ class LoginActivity : BaseActivity() {
         val spannableString = SpannableString(tips)
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                WebActivity.start("https://www.qiniu.com/privacy-right", this@LoginActivity)
+                WebViewActivity.start("https://www.qiniu.com/privacy-right", this@LoginActivity)
             }
         }, tips.length - 5, tips.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannableString.setSpan(object : ClickableSpan() {
             override fun onClick(widget: View) {
-                WebActivity.start("https://www.qiniu.com/user-agreement", this@LoginActivity)
+                WebViewActivity.start("https://www.qiniu.com/user-agreement", this@LoginActivity)
             }
         }, tips.length - 18, tips.length - 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         spannableString.setSpan(

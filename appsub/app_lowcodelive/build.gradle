@@ -95,7 +95,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
     implementation project(":module_login")
-    implementation project(":module_web")
+    
 
     implementation project(":module_lowcodeliving")
 
