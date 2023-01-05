@@ -29,11 +29,6 @@ class WebFragment : BaseFragment() {
         ) { //页面开始加载
             progressBar.visibility = View.VISIBLE
         }
-
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            Log.i("ansen", "拦截url:$url")
-            return super.shouldOverrideUrlLoading(view, url)
-        }
     }
 
     //WebChromeClient主要辅助WebView处理Javascript的对话框、网站图标、网站title、加载进度等
@@ -51,7 +46,7 @@ class WebFragment : BaseFragment() {
         //获取网页标题
         override fun onReceivedTitle(view: WebView, title: String) {
             super.onReceivedTitle(view, title)
-            Log.i("ansen", "网页标题:$title")
+            Log.i("web", "网页标题:$title")
             webViewTitleCall.invoke(title)
         }
 
@@ -72,6 +67,9 @@ class WebFragment : BaseFragment() {
         //支持屏幕缩放
         webSettings.setSupportZoom(true)
         webSettings.builtInZoomControls = true
+        webSettings.domStorageEnabled = true// 开启 DB storage API 功能settings.setDatabaseEnabled(true);// 开启 AppCacheEnablesettings.setAppCacheEnabled(true);
+        webSettings.databaseEnabled = true// 开启
+        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
         webView.loadUrl(startUrl)
     }
 

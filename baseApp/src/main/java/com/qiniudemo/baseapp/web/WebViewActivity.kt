@@ -36,7 +36,7 @@ class WebViewActivity : BaseActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (webFragment.onKeyDown(keyCode, event)) { //点击返回按钮的时候判断有没有上一页
-            return true
+            return false
         }
         return super.onKeyDown(keyCode, event)
     }
