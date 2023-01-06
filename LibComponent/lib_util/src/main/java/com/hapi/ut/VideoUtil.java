@@ -21,6 +21,7 @@ import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,8 +54,11 @@ public class VideoUtil {
             e.printStackTrace();
         } finally {
             try {
+                assert retriever != null;
                 retriever.release();
             } catch (RuntimeException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -135,7 +139,11 @@ public class VideoUtil {
             e.printStackTrace();
         } finally {
             if (media != null) {
-                media.release();
+                try {
+                    media.release();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return map;

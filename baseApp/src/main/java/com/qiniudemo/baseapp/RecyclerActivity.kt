@@ -5,32 +5,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
-import com.hapi.base_mvvm.mvvm.BaseRecyclerActivity
-import com.hapi.base_mvvm.refresh.IEmptyView
+import com.hapi.baseframe.activity.BaseRecyclerActivity
 import com.hapi.ut.StatusBarUtil
-import com.hapi.ut.ViewUtil
 import com.qiniu.baseapp.R
-import com.qiniudemo.baseapp.widget.CommonEmptyView
 import com.qiniudemo.baseapp.widget.LoadingDialog
 
-
 abstract class RecyclerActivity<T> : BaseRecyclerActivity<T>() {
-
-    /**
-     * 通用emptyView
-     */
-    /**
-     * 通用emptyView
-     */
-    override fun getEmptyView(): IEmptyView? {
-        return CommonEmptyView(this).apply {
-            val temp = getRefreshTempView()
-            if (temp != null) {
-                setRefreshingView(temp)
-                setStatus(IEmptyView.START_REFREASH_WHEN_EMPTY)
-            }
-        }
-    }
 
     override fun requestNavigationIcon(): Int {
         return R.drawable.icon_return_xxhdpi
@@ -38,15 +18,6 @@ abstract class RecyclerActivity<T> : BaseRecyclerActivity<T>() {
 
     override fun getInittittleColor(): Int {
         return Color.WHITE
-    }
-
-    override fun initViewData() {
-        super.initViewData()
-        adapter.loadMoreEnd()
-    }
-
-    override fun observeLiveData() {
-
     }
 
     open fun getRefreshTempView(): View? {

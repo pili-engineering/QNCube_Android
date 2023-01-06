@@ -1,12 +1,11 @@
 package com.nucube.module.lowcodeliving
 
-import android.content.Context
 import android.view.View
-
 import android.widget.Toast
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hipi.vm.backGround
+import com.nucube.module.lowcodeliving.databinding.ActivityPkliveRoomListBinding
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.qnim.QNIMManager
@@ -25,13 +24,12 @@ import com.qlive.uikit.component.CloseRoomView
 import com.qlive.uikit.component.LiveRecordListView
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitshopping.PlayerShoppingDialog
-import kotlinx.android.synthetic.main.activity_pklive_room_list.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 @Route(path = RouterConstant.LowCodePKLive.LiveRoomList)
-class PKLiveRoomListActivity : BaseActivity() {
+class PKLiveRoomListActivity : BaseActivity<ActivityPkliveRoomListBinding>() {
 
     companion object {
         init {
@@ -145,7 +143,7 @@ class PKLiveRoomListActivity : BaseActivity() {
             })
         }
 
-    override fun initViewData() {
+    override fun init() {
         showLoading(true)
         backGround {
             doWork {
@@ -169,10 +167,6 @@ class PKLiveRoomListActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_pklive_room_list
     }
 
     override fun isToolBarEnable(): Boolean {

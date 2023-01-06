@@ -1,5 +1,6 @@
 package com.qiniu.bzuicomp.pubchat
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -10,17 +11,19 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.hapi.baseframe.adapter.QRecyclerAdapter
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-import kotlinx.android.synthetic.main.view_bzui_pubchat.view.*
+import com.qiniu.bzuicomp.pubchat.databinding.ViewBzuiPubchatBinding
 
 /**
  * 公屏
  */
 class CommonChatView : FrameLayout, LifecycleObserver {
 
-    private var adapter:BaseQuickAdapter<IChatMsg, BaseViewHolder>  = PubChatAdapter()
+    private var adapter: QRecyclerAdapter<IChatMsg> = PubChatAdapter()
+    private lateinit var binding: ViewBzuiPubchatBinding
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -29,17 +32,17 @@ class CommonChatView : FrameLayout, LifecycleObserver {
         attrs,
         defStyleAttr
     ) {
-        val view = LayoutInflater.from(context).inflate(R.layout.view_bzui_pubchat, this, false)
-        addView(view)
-        chatRecy.layoutManager = LinearLayoutManager(context)
+        binding = ViewBzuiPubchatBinding.inflate(LayoutInflater.from(context), this, true)
+        binding.chatRecy.layoutManager = LinearLayoutManager(context)
     }
 
-    fun setAdapter(chatAdapter : BaseQuickAdapter<IChatMsg, BaseViewHolder> = PubChatAdapter()){
-        adapter =chatAdapter
-        chatRecy.adapter = adapter
+    fun setAdapter(chatAdapter: QRecyclerAdapter<IChatMsg> = PubChatAdapter()) {
+        adapter = chatAdapter
+        binding.chatRecy.adapter = adapter
     }
 
     private val roomMonitor = object : RoomLifecycleMonitor {
+        @SuppressLint("NotifyDataSetChanged")
         override fun onRoomLeft(roomEntity: RoomEntity?) {
             adapter.data.clear()
             adapter.notifyDataSetChanged()
@@ -48,7 +51,7 @@ class CommonChatView : FrameLayout, LifecycleObserver {
 
     private var mIChatMsgCall = PubChatMsgManager.IChatMsgCall {
         adapter.addData(it)
-        chatRecy.smoothScrollToPosition(adapter.data.size - 1)
+        binding.chatRecy.smoothScrollToPosition(adapter.data.size - 1)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

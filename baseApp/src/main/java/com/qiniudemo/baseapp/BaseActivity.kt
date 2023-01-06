@@ -1,20 +1,18 @@
 package com.qiniudemo.baseapp
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.launcher.ARouter
-import com.hapi.base_mvvm.mvvm.BaseVmActivity
+import com.hapi.baseframe.activity.BaseBindingActivity
 import com.hapi.ut.StatusBarUtil
-import com.hapi.ut.ViewUtil
+import com.hipi.vm.LoadingObserverView
 import com.qiniu.baseapp.R
 import com.qiniudemo.baseapp.widget.LoadingDialog
 
-abstract class BaseActivity : BaseVmActivity() {
-
+abstract class BaseActivity<T : ViewBinding>: BaseBindingActivity<T>() {
 
     open fun checkDefaultAutowired(){}
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,10 +42,6 @@ abstract class BaseActivity : BaseVmActivity() {
 
     open fun isTranslucentBar(): Boolean {
         return true
-    }
-
-    override fun observeLiveData() {
-
     }
 
     override fun isToolBarEnable(): Boolean {

@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hipi.vm.createVm
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
@@ -18,6 +18,7 @@ import com.niucube.comproom.RoomManager
 //import com.niucube.compui.beauty.SenseTimePluginManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
+import com.niucube.module.videowatch.databinding.ActivityVideoWatchRoomBinding
 import com.niucube.module.videowatch.mode.Movie
 import com.niucube.player.PlayerStatus
 import com.niucube.player.PlayerStatusListener
@@ -29,25 +30,27 @@ import com.qiniudemo.baseapp.been.isRoomHost
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonPagerAdapter
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import kotlinx.android.synthetic.main.activity_video_watch_room.*
 
 @Route(path = RouterConstant.VideoRoom.VideoRoom)
-class VideoWatchRoomActivity : BaseActivity() {
+class VideoWatchRoomActivity : BaseActivity<ActivityVideoWatchRoomBinding>() {
     private val roomVm by createVm<VideoRoomVm>()
     private val videoSourceVm by createVm<VideoSourceVm>()
 
     @Autowired
     @JvmField
     var movie: Movie? = null
+
     @Autowired
     @JvmField
     var solutionType = ""
+
     @Autowired
     @JvmField
     var roomId = ""
+
     @Autowired
     @JvmField
-    var joinInvitationCode=""
+    var joinInvitationCode = ""
 
     private val fragments = listOf<Fragment>(ChatFragment().apply {
         goInviteOnlineUserPageCall = {
@@ -79,10 +82,10 @@ class VideoWatchRoomActivity : BaseActivity() {
             replaceOptionFragment(fragment)
         }
         goMicSeatPageCall = {
-            this@VideoWatchRoomActivity.vpPager.currentItem = 1
+            this@VideoWatchRoomActivity.binding.vpPager.currentItem = 1
         }
     }, MicSeatFragment().apply {
-        backCall = { this@VideoWatchRoomActivity.vpPager.currentItem = 0 }
+        backCall = { this@VideoWatchRoomActivity.binding.vpPager.currentItem = 0 }
         goInviteOnlineUserPageCall = {
             val fragment = OnlineUserFragment.newInstance(OnlineUserFragment.option_type_invite)
             fragment.backCall = {
@@ -113,7 +116,7 @@ class VideoWatchRoomActivity : BaseActivity() {
 
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
         override fun onRoomJoined(roomEntity: RoomEntity) {
-            mVideoView.init(roomEntity.isRoomHost(), roomEntity.provideRoomToken())
+            binding.mVideoView.init(roomEntity.isRoomHost(), roomEntity.provideRoomToken())
         }
     }
 
@@ -132,7 +135,7 @@ class VideoWatchRoomActivity : BaseActivity() {
                         && micSeat.isMySeat(UserInfoManager.getUserId())
                         )
             ) {
-                vpPager.currentItem = 1
+                binding.vpPager.currentItem = 1
             }
 //            if (micSeat.isMySeat(UserInfoManager.getUserId())) {
 //                mVideoView.post {
@@ -161,7 +164,7 @@ class VideoWatchRoomActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if(RoomManager.mCurrentRoom!=null){
+        if (RoomManager.mCurrentRoom != null) {
             finish()
             "房间清理中，请稍后".asToast()
             return
@@ -169,48 +172,46 @@ class VideoWatchRoomActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun initViewData() {
-       // SenseTimePluginManager.initEffect(AppCache.getContext())
-        mVideoView.setMovieSignaler(roomVm.mMovieSignaler)
-        mVideoView.setRtcPubService(roomVm.mRtcPubService)
+    override fun init() {
+        // SenseTimePluginManager.initEffect(AppCache.getContext())
+        binding.mVideoView.setMovieSignaler(roomVm.mMovieSignaler)
+        binding.mVideoView.setRtcPubService(roomVm.mRtcPubService)
         videoSourceVm.mCurrentMovieOptionChangeCall = {
-            mVideoView.setUp(it)
-            mVideoView.startPlay()
+            binding.mVideoView.setUp(it)
+            binding.mVideoView.startPlay()
         }
         roomVm.mRtcRoom.addUserMicSeatListener(micSeatListener)
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
-        lifecycle.addObserver(mVideoView)
-        mVideoView.setPlayerConfig(mVideoView.getPlayerConfig().setAVOptions(AVOptions().apply {
-            setInteger(AVOptions.KEY_FAST_OPEN, 1);
-            setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
-            setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
-            // setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
-            setString(AVOptions.KEY_CACHE_DIR, cacheDir.absolutePath)
-            setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE)
-        }))
-        mVideoView.addPlayStatusListener(mPlayerStatusListener, true)
+        lifecycle.addObserver(binding.mVideoView)
+        binding.mVideoView.setPlayerConfig(
+            binding.mVideoView.getPlayerConfig().setAVOptions(AVOptions().apply {
+                setInteger(AVOptions.KEY_FAST_OPEN, 1);
+                setInteger(AVOptions.KEY_OPEN_RETRY_TIMES, 5);
+                setInteger(AVOptions.KEY_PREPARE_TIMEOUT, 10 * 1000);
+                // setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_AUTO);
+                setString(AVOptions.KEY_CACHE_DIR, cacheDir.absolutePath)
+                setInteger(AVOptions.KEY_MEDIACODEC, AVOptions.MEDIA_CODEC_SW_DECODE)
+            })
+        )
+        binding.mVideoView.addPlayStatusListener(mPlayerStatusListener, true)
         if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
             enterFullScreen()
         }
         if (requestedOrientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             exitFullScreen()
         }
-        vpPager.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
+        binding.vpPager.adapter = CommonPagerAdapter(fragments, supportFragmentManager)
     }
 
     override fun onDestroy() {
         super.onDestroy()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_video_watch_room
-    }
-
     fun enterFullScreen() {
-        llVideoActContainer.orientation = HORIZONTAL
+        binding.llVideoActContainer.orientation = HORIZONTAL
 
-        val lpVideo = videoViewContainer.layoutParams as LinearLayout.LayoutParams
-        val lpVp = flFragmentContainer.layoutParams as LinearLayout.LayoutParams
+        val lpVideo = binding.videoViewContainer.layoutParams as LinearLayout.LayoutParams
+        val lpVp = binding.flFragmentContainer.layoutParams as LinearLayout.LayoutParams
 
         lpVideo.width = 0
         lpVideo.height = ViewGroup.LayoutParams.MATCH_PARENT
@@ -220,14 +221,14 @@ class VideoWatchRoomActivity : BaseActivity() {
         lpVp.height = ViewGroup.LayoutParams.MATCH_PARENT
         lpVp.weight = 1f
 
-        videoViewContainer.layoutParams = lpVideo
-        flFragmentContainer.layoutParams = lpVp
+        binding.videoViewContainer.layoutParams = lpVideo
+        binding.flFragmentContainer.layoutParams = lpVp
     }
 
     fun exitFullScreen() {
-        llVideoActContainer.orientation = VERTICAL
-        val lpVideo = videoViewContainer.layoutParams as LinearLayout.LayoutParams
-        val lpVp = flFragmentContainer.layoutParams as LinearLayout.LayoutParams
+        binding.llVideoActContainer.orientation = VERTICAL
+        val lpVideo = binding.videoViewContainer.layoutParams as LinearLayout.LayoutParams
+        val lpVp = binding.flFragmentContainer.layoutParams as LinearLayout.LayoutParams
         lpVideo.width = ViewGroup.LayoutParams.MATCH_PARENT
         lpVideo.height = ViewGroup.LayoutParams.WRAP_CONTENT
         lpVideo.weight = 0f
@@ -235,10 +236,10 @@ class VideoWatchRoomActivity : BaseActivity() {
         lpVp.height = ViewGroup.LayoutParams.MATCH_PARENT
         lpVp.weight = 0f
 
-        videoViewContainer.layoutParams = lpVideo
-        flFragmentContainer.layoutParams = lpVp
-        llVideoActContainer.post {
-            llVideoActContainer.requestLayout()
+        binding.videoViewContainer.layoutParams = lpVideo
+        binding.flFragmentContainer.layoutParams = lpVp
+        binding.llVideoActContainer.post {
+            binding.llVideoActContainer.requestLayout()
         }
     }
 

@@ -11,36 +11,33 @@ import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.ut.ViewUtil
+import com.hapi.baseframe.adapter.QRecyclerViewBindAdapter
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.IAdapter
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
 import com.hipi.vm.activityVm
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
+import com.niucube.module.ktv.databinding.DialogSongListBinding
+import com.niucube.module.ktv.databinding.ItemSongsBinding
 import com.niucube.module.ktv.mode.Song
 import com.niucube.module.ktv.playerlist.KTVPlaylistsManager
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.BaseDialogFragment
-import com.qiniudemo.baseapp.CommonRecyclerFragment
+import com.qiniudemo.baseapp.RecyclerFragment
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonPagerAdapter
-import kotlinx.android.synthetic.main.dialog_song_list.*
-import kotlinx.android.synthetic.main.item_songs.view.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.UIUtil
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator
-
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerIndicator
-
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView
-
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView
-
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter
-
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
-
-class SongsListDialog : BaseDialogFragment() {
+class SongsListDialog : BaseDialogFragment<DialogSongListBinding>() {
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
@@ -58,7 +55,7 @@ class SongsListDialog : BaseDialogFragment() {
 
     override fun initViewData() {
 
-        vpSongs.adapter = CommonPagerAdapter(fragments, childFragmentManager, tittles)
+        binding.vpSongs.adapter = CommonPagerAdapter(fragments, childFragmentManager, tittles)
         val commonNavigator = CommonNavigator(requireContext())
         commonNavigator.adapter = object : CommonNavigatorAdapter() {
             override fun getCount(): Int {
@@ -70,7 +67,11 @@ class SongsListDialog : BaseDialogFragment() {
                 colorTransitionPagerTitleView.normalColor = Color.parseColor("#666666")
                 colorTransitionPagerTitleView.selectedColor = Color.parseColor("#EF4149")
                 colorTransitionPagerTitleView.setText(tittles.get(index))
-                colorTransitionPagerTitleView.setOnClickListener { vpSongs.setCurrentItem(index) }
+                colorTransitionPagerTitleView.setOnClickListener {
+                    binding.vpSongs.setCurrentItem(
+                        index
+                    )
+                }
                 return colorTransitionPagerTitleView
             }
 
@@ -83,7 +84,7 @@ class SongsListDialog : BaseDialogFragment() {
             }
 
         }
-        magic_indicator.navigator = commonNavigator
+        binding.magicIndicator.navigator = commonNavigator
         val titleContainer = commonNavigator.titleContainer // must after setNavigator
 
         titleContainer.showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE
@@ -92,8 +93,8 @@ class SongsListDialog : BaseDialogFragment() {
                 return UIUtil.dip2px(requireContext(), 15.0)
             }
         }
-        ViewPagerHelper.bind(magic_indicator, vpSongs);
-        vpSongs.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        ViewPagerHelper.bind(binding.magicIndicator, binding.vpSongs);
+        binding.vpSongs.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrolled(
                 position: Int,
@@ -111,12 +112,7 @@ class SongsListDialog : BaseDialogFragment() {
         })
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_song_list
-    }
-
-
-    abstract class SongsFragment : CommonRecyclerFragment<Song>() {
+    abstract class SongsFragment : RecyclerFragment<Song>() {
 
         fun refresh() {
             mSmartRecycler.startRefresh()
@@ -125,7 +121,7 @@ class SongsListDialog : BaseDialogFragment() {
 
     class AllSongsFragment : SongsFragment() {
         private val ktvRoomVm by activityVm<KTVRoomVm>()
-        override val adapter: BaseQuickAdapter<Song, *> by lazy {
+        override val adapter: IAdapter<Song> by lazy {
             SongAdapter(0, ktvRoomVm.mKTVPlaylistsManager).apply {
                 opCall = { position ->
                     backGround {
@@ -173,7 +169,7 @@ class SongsListDialog : BaseDialogFragment() {
     class SelectSongsFragment : SongsFragment() {
 
         private val ktvRoomVm by activityVm<KTVRoomVm>()
-        override val adapter: BaseQuickAdapter<Song, *> by lazy {
+        override val adapter: IAdapter<Song> by lazy {
             SongAdapter(
                 1,
                 ktvRoomVm.mKTVPlaylistsManager
@@ -223,24 +219,27 @@ class SongsListDialog : BaseDialogFragment() {
         }
     }
 
-    class SongAdapter(val type: Int, val mKTVPlaylistsManager: KTVPlaylistsManager) :
-        BaseQuickAdapter<Song, BaseViewHolder>(R.layout.item_songs, ArrayList<Song>()) {
+    class SongAdapter(val type: Int, private val mKTVPlaylistsManager: KTVPlaylistsManager) :
+        QSmartViewBindAdapter<Song, ItemSongsBinding>() {
 
         var opCall: (index: Int) -> Unit = {
         }
 
-        override fun convert(helper: BaseViewHolder, item: Song) {
-            helper.itemView.tvSongName.text = item.name
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemSongsBinding>,
+            item: Song
+        ){
+            helper.binding.tvSongName.text = item.name
 
             Glide.with(mContext)
                 .load(item.image)
                 .placeholder(R.drawable.pic_empty)
-                .into(helper.itemView.tvSongCover)
-            helper.itemView.tvSinger.text = item.author
+                .into(helper.binding.tvSongCover)
+            helper.binding.tvSinger.text = item.author
             if (type == 1) {
-                helper.itemView.tvOp.text = "移除"
+                helper.binding.tvOp.text = "移除"
                 helper.itemView.isClickable = true
-                helper.itemView.tvOp.setOnClickListener {
+                helper.binding.tvOp.setOnClickListener {
                     opCall.invoke(data.indexOf(item))
                 }
             } else {
@@ -252,19 +251,18 @@ class SongsListDialog : BaseDialogFragment() {
                     }
                 }
                 if (selected) {
-                    helper.itemView.tvOp.text = "已点"
+                    helper.binding.tvOp.text = "已点"
                     helper.itemView.isClickable = false
-                    helper.itemView.tvOp.setOnClickListener {
+                    helper.binding.tvOp.setOnClickListener {
                     }
                 } else {
-                    helper.itemView.tvOp.text = "点歌"
+                    helper.binding.tvOp.text = "点歌"
                     helper.itemView.isClickable = true
-                    helper.itemView.tvOp.setOnClickListener {
+                    helper.binding.tvOp.setOnClickListener {
                         opCall.invoke(data.indexOf(item))
                     }
                 }
             }
-
         }
     }
 }

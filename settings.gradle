@@ -19,7 +19,7 @@ include ':module_videowatch'                  //一起看电影
 include ':module_audioroom'                   //语聊房间
 
 include ':baseApp'                            // base业务层
-include ':module_web'                         //webview
+
 include ':routerTable'                        // 路由
 include ':module_user'                        //用户模块
 include ':module_login'                       // 登录
@@ -42,7 +42,7 @@ include ':BzMudule:comp_channelattributes' //k-v服务端存储麦位属性
 //include
 
 //ui组件
-include ':BzUiComponent:bzuicomp_pagerroom'      //分页房间
+
 include ':BzUiComponent:bzuicomp_bottomInput'    //房间底部输入框
 include ':BzUiComponent:bzuicomp_pubchat'        //房间公屏聊天
 include ':BzUiComponent:bzuiEmoji'               //
@@ -58,7 +58,6 @@ include ':BzUiComponent:rtclogview'
 //LibComponent 基础组件
 include ':LibComponent:lib_network'            //网络
 include ':LibComponent:base_frame'             //基础库
-include ':LibComponent:happy_dialog'           //弹窗
 include ':LibComponent:happy_vm'               //viewmodel 基类
 include ':LibComponent:lib_util'               //工具库
 include ':LibComponent:lib_json'               //json库

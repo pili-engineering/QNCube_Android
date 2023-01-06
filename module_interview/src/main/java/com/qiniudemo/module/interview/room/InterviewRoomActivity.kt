@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hipi.vm.lazyVm
 import com.niucube.absroom.seat.ScreenMicSeat
 import com.niucube.mutabletrackroom.MicSeatListener
@@ -33,11 +33,11 @@ import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.qiniudemo.module.interview.R
 import com.qiniudemo.module.interview.been.InterviewRoomModel
+import com.qiniudemo.module.interview.databinding.InterviewActivityInterviewRoomBinding
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.interview_activity_interview_room.*
 
 @Route(path = RouterConstant.Interview.InterviewRoom)
-class InterviewRoomActivity : BaseActivity() {
+class InterviewRoomActivity : BaseActivity<InterviewActivityInterviewRoomBinding>() {
 
     /**
      * 房间业务
@@ -74,7 +74,7 @@ class InterviewRoomActivity : BaseActivity() {
                 }
                 //我的麦位
                 if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                    smallSurfaceView.onSeatDown(mInterviewRoom, micSeat)
+                    binding.smallSurfaceView.onSeatDown(mInterviewRoom, micSeat)
                 } else {
                     bigSurfaceBack.onSeatDown(mInterviewRoom, micSeat)
                 }
@@ -82,7 +82,7 @@ class InterviewRoomActivity : BaseActivity() {
 
             override fun onUserSitUp(micSeat: MutableMicSeat, isOffLine: Boolean) {
                 if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                    smallSurfaceView.onSeatLeave(mInterviewRoom, micSeat)
+                    binding.smallSurfaceView.onSeatLeave(mInterviewRoom, micSeat)
                 } else {
                     bigSurfaceBack.onSeatLeave(mInterviewRoom, micSeat)
                 }
@@ -93,7 +93,7 @@ class InterviewRoomActivity : BaseActivity() {
             override fun onCameraStatusChanged(micSeat: MutableMicSeat) {
 
                 if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
+                    binding.smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
                 } else {
                     bigSurfaceBack.onTrackStatusChange(mInterviewRoom, micSeat)
                 }
@@ -101,7 +101,7 @@ class InterviewRoomActivity : BaseActivity() {
 
             override fun onMicAudioStatusChanged(micSeat: MutableMicSeat) {
                 if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                    smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
+                    binding.smallSurfaceView.onTrackStatusChange(mInterviewRoom, micSeat)
                 } else {
                     bigSurfaceBack.onTrackStatusChange(mInterviewRoom, micSeat)
                 }
@@ -115,13 +115,13 @@ class InterviewRoomActivity : BaseActivity() {
             //屏幕轨道
             bigSurfaceFront.onScreenSeatAdd(mInterviewRoom, seat)
             onScreenTrackOn(seat)
-            btScree.isSelected = true
+            binding.btScree.isSelected = true
         }
 
         override fun onScreenMicSeatRemove(seat: ScreenMicSeat) {
             bigSurfaceFront.onScreenSeatRemoved(mInterviewRoom, seat)
             onScreenTrackOff()
-            btScree.isSelected = false
+            binding.btScree.isSelected = false
             checkIsRoomOnlyMe()
         }
     }
@@ -135,7 +135,7 @@ class InterviewRoomActivity : BaseActivity() {
             val roomToken = (roomEntity as InterviewRoomModel)
             roomToken.allUserList?.forEach {
                 if (it.accountId == roomEntity.provideMeId()) {
-                    smallSurfaceView.setUserInfo(it)
+                    binding.smallSurfaceView.setUserInfo(it)
                 } else {
                     bigSurfaceBack.setUserInfo(it)
                 }
@@ -144,7 +144,7 @@ class InterviewRoomActivity : BaseActivity() {
     }
 
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
         lifecycle.addObserver(KeepLight(this))
         RoomManager.addRoomLifecycleMonitor(roomMonitor)
         // 轨道回调监听
@@ -153,30 +153,31 @@ class InterviewRoomActivity : BaseActivity() {
         val trans = supportFragmentManager.beginTransaction()
         trans.replace(R.id.flCover, RoomCover())
         trans.commit()
-        trackVp.adapter = BigSurfaceViewAdapter()
-        trackVp.offscreenPageLimit = 2
+        binding.trackVp.adapter = BigSurfaceViewAdapter()
+        binding.trackVp.offscreenPageLimit = 2
         onScreenTrackOff()
-        smallSurfaceView.setIsTop(true)
-        smallSurfaceViewParent.setOnClickListener {
+        binding.smallSurfaceView.setIsTop(true)
+        binding.smallSurfaceViewParent.setOnClickListener {
             swapSurfaceView()
         }
-        smallSurfaceViewParent.post {
+        binding.smallSurfaceViewParent.post {
             checkIsRoomOnlyMe()
         }
 
-        lifecycle.addObserver(smallSurfaceView)
-        trackVp.post {
+        lifecycle.addObserver(binding.smallSurfaceView)
+        binding.trackVp.post {
             lifecycle.addObserver(bigSurfaceBack)
             lifecycle.addObserver(bigSurfaceFront)
         }
 
-        btScree.setOnClickListener {
+        binding.btScree.setOnClickListener {
             if (RoomManager.mCurrentRoom?.isJoined == false) {
                 return@setOnClickListener
             }
-            if (btScree.isSelected) {
+            if (binding.btScree.isSelected) {
                 if (bigSurfaceFront.mTargetSeat?.uid == UserInfoManager.getUserId()) {
                     mInterviewRoom.screenShareManager.unPubLocalScreenTrack()
+                    binding.btScree.isSelected = false
                 } else {
 
                 }
@@ -187,7 +188,10 @@ class InterviewRoomActivity : BaseActivity() {
 
                 mInterviewRoom.screenShareManager.pubLocalScreenTrackWithPermissionCheck(
                     this, object : ScreenCapturePlugin.ScreenCaptureListener {
-                        override fun onSuccess() {}
+                        override fun onSuccess() {
+                            binding.btScree.isSelected = true
+                        }
+
                         override fun onError(code: Int, msg: String?) {}
                     },
                     QScreenTrackParams()
@@ -195,24 +199,24 @@ class InterviewRoomActivity : BaseActivity() {
             }
         }
 
-        trackVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        binding.trackVp.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    0 -> rgIndicator.check(R.id.rbFront)
-                    1 -> rgIndicator.check(R.id.rbBack)
+                    0 -> binding.rgIndicator.check(R.id.rbFront)
+                    1 -> binding.rgIndicator.check(R.id.rbBack)
                 }
             }
         })
-        rgIndicator.setOnCheckedChangeListener { _, checkedId ->
+        binding.rgIndicator.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rbFront -> {
-                    if (trackVp.currentItem != 0) {
-                        trackVp.currentItem = 0
+                    if (binding.trackVp.currentItem != 0) {
+                        binding.trackVp.currentItem = 0
                     }
                 }
                 R.id.rbBack -> {
-                    if (trackVp.currentItem != 1) {
-                        trackVp.currentItem = 1
+                    if (binding.trackVp.currentItem != 1) {
+                        binding.trackVp.currentItem = 1
                     }
                 }
             }
@@ -245,8 +249,8 @@ class InterviewRoomActivity : BaseActivity() {
     //交换两个视频
     private fun swapSurfaceView() {
         val smallView: InterviewSurfaceView =
-            smallSurfaceViewParent.getChildAt(0) as InterviewSurfaceView
-        val bigView: InterviewSurfaceView = if (trackVp.currentItem == 0)
+            binding.smallSurfaceViewParent.getChildAt(0) as InterviewSurfaceView
+        val bigView: InterviewSurfaceView = if (binding.trackVp.currentItem == 0)
             bigSurfaceFrontContainer.getChildAt(0) as InterviewSurfaceView
         else
             bigSurfaceBackContainer.getChildAt(0) as InterviewSurfaceView
@@ -269,14 +273,14 @@ class InterviewRoomActivity : BaseActivity() {
      */
     private fun onScreenTrackOn(targetSeat: ScreenMicSeat) {
         if (!targetSeat.isMySeat(UserInfoManager.getUserId())) {
-            trackVp.currentItem = 0
+            binding.trackVp.currentItem = 0
             bigSurfaceFront.setCover(0)
             if (!targetSeat.isMySeat(UserInfoManager.getUserId())) {
-                trackVp.isUserInputEnabled = true
-                rgIndicator.visibility = View.VISIBLE
+                binding.trackVp.isUserInputEnabled = true
+                binding.rgIndicator.visibility = View.VISIBLE
             } else {
-                trackVp.isUserInputEnabled = false
-                rgIndicator.visibility = View.GONE
+                binding.trackVp.isUserInputEnabled = false
+                binding.rgIndicator.visibility = View.GONE
             }
         }
     }
@@ -285,20 +289,20 @@ class InterviewRoomActivity : BaseActivity() {
      * 屏幕采集轨道关闭
      */
     private fun onScreenTrackOff() {
-        trackVp.currentItem = 1
-        trackVp.isUserInputEnabled = false
-        rgIndicator.visibility = View.GONE
+        binding.trackVp.currentItem = 1
+        binding.trackVp.isUserInputEnabled = false
+        binding.rgIndicator.visibility = View.GONE
     }
 
     private fun resetSwap() {
-        val smv = smallSurfaceView
-        smallSurfaceViewParent.removeViewAt(0)
+        val smv = binding.smallSurfaceView
+        binding.smallSurfaceViewParent.removeViewAt(0)
         bigSurfaceBackContainer.removeViewAt(0)
         bigSurfaceFrontContainer.removeViewAt(0)
-        smallSurfaceViewParent.addView(smv)
+        binding.smallSurfaceViewParent.addView(smv)
         bigSurfaceBackContainer.addView(bigSurfaceBack)
         bigSurfaceFrontContainer.addView(bigSurfaceFront)
-        smallSurfaceView.setIsTop(true)
+        binding.smallSurfaceView.setIsTop(true)
         bigSurfaceBack.setIsTop(false)
         bigSurfaceFront.setIsTop(false)
 
@@ -314,29 +318,29 @@ class InterviewRoomActivity : BaseActivity() {
         }
         if (mInterviewRoom.mMicSeats.isEmpty() || isAllMe) {
 
-            if (bigSurfaceBackContainer.getChildAt(0) == smallSurfaceView
+            if (bigSurfaceBackContainer.getChildAt(0) == binding.smallSurfaceView
                 && bigSurfaceFrontContainer.getChildAt(0) == bigSurfaceFront
-                && smallSurfaceViewParent.getChildAt(0) == bigSurfaceBack
+                && binding.smallSurfaceViewParent.getChildAt(0) == bigSurfaceBack
             ) {
-                smallSurfaceView.visibility = View.VISIBLE
+                binding.smallSurfaceView.visibility = View.VISIBLE
                 bigSurfaceFront.visibility = View.GONE
                 bigSurfaceBack.visibility = View.GONE
                 return
             }
             if (bigSurfaceBackContainer.getChildAt(0) != bigSurfaceBack
                 || bigSurfaceFrontContainer.getChildAt(0) != bigSurfaceFront
-                || smallSurfaceViewParent.getChildAt(0) != smallSurfaceView
+                || binding.smallSurfaceViewParent.getChildAt(0) != binding.smallSurfaceView
 
             ) {
                 resetSwap()
             }
             swapSurfaceView()
-            smallSurfaceView.visibility = View.VISIBLE
+            binding.smallSurfaceView.visibility = View.VISIBLE
             bigSurfaceFront.visibility = View.GONE
             bigSurfaceBack.visibility = View.GONE
         } else {
             resetSwap()
-            smallSurfaceView.visibility = View.VISIBLE
+            binding.smallSurfaceView.visibility = View.VISIBLE
             bigSurfaceFront.visibility = View.VISIBLE
             bigSurfaceBack.visibility = View.VISIBLE
         }
@@ -352,9 +356,6 @@ class InterviewRoomActivity : BaseActivity() {
         return false
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.interview_activity_interview_room
-    }
 
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

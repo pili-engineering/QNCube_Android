@@ -15,7 +15,7 @@ import kotlin.coroutines.suspendCoroutine
 
 open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
 
-    companion object{
+    companion object {
         //是否需要发信令 静态配置 如果不需要发信令
         var isNeedSend = true
     }
@@ -31,7 +31,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
@@ -49,7 +49,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
@@ -68,7 +68,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
@@ -86,7 +86,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
@@ -105,7 +105,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
@@ -123,14 +123,14 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 null
             )
         }
     }
 
-    fun <T> kickOutFromMicSeat(userMicSeat:UserMicSeatMsg<T>, rtmCallBack: RtmCallBack) {
+    fun <T> kickOutFromMicSeat(userMicSeat: UserMicSeatMsg<T>, rtmCallBack: RtmCallBack) {
         if (!isNeedSend) {
             rtmCallBack.onSuccess()
             return
@@ -141,7 +141,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             rtmCallBack
         )
@@ -154,11 +154,14 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         }
         val textMsg = RtmTextMsg(
             action_rtc_kickOutFromRoom,
-           UidAndMsg(uid, msg)
+            UidAndMsg().apply {
+                this.uid = uid
+                this.msg = msg
+            }
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             rtmCallBack
         )
@@ -175,7 +178,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             callBack
         )
@@ -191,7 +194,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 object : RtmCallBack {
                     override fun onSuccess() {
@@ -216,7 +219,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 object : RtmCallBack {
                     override fun onSuccess() {
@@ -241,7 +244,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 true,
                 object : RtmCallBack {
                     override fun onSuccess() {
@@ -266,7 +269,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 true,
                 object : RtmCallBack {
                     override fun onSuccess() {
@@ -283,7 +286,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
 
     //禁止开麦克风
     fun forbiddenMicSeatAudio(
-        forbiddenMicSeatMsg:ForbiddenMicSeatMsg,
+        forbiddenMicSeatMsg: ForbiddenMicSeatMsg,
         callBack: RtmCallBack
     ) {
         if (!isNeedSend) {
@@ -296,7 +299,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             callBack
         )
@@ -304,7 +307,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
 
     //禁止开摄像头
     fun forbiddenMicSeatVideo(
-        forbiddenMicSeatMsg:ForbiddenMicSeatMsg,
+        forbiddenMicSeatMsg: ForbiddenMicSeatMsg,
         callBack: RtmCallBack
     ) {
         if (!isNeedSend) {
@@ -317,7 +320,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             callBack
         )
@@ -325,7 +328,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
 
 
     fun sendCustomSeatAction(
-        customSeatAction:CustomSeatAction,
+        customSeatAction: CustomSeatAction,
         callBack: RtmCallBack
     ) {
         if (!isNeedSend) {
@@ -338,7 +341,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
         )
         RtmManager.rtmClient.sendChannelMsg(
             textMsg.toJsonString(),
-            rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+            rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
             true,
             callBack
         )
@@ -356,7 +359,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
                 )
                 RtmManager.rtmClient.sendChannelMsg(
                     textMsg.toJsonString(),
-                    rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                    rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                     false,
                     object : RtmCallBack {
                         override fun onSuccess() {
@@ -381,7 +384,7 @@ open class RtcRoomSignaling(val rtcRoom: RtcRoom) {
             )
             RtmManager.rtmClient.sendChannelMsg(
                 textMsg.toJsonString(),
-                rtcRoom.mRTCUserStore.joinRoomParams.groupID?: "",
+                rtcRoom.mRTCUserStore.joinRoomParams.groupID ?: "",
                 false,
                 object : RtmCallBack {
                     override fun onSuccess() {

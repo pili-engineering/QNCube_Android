@@ -135,9 +135,8 @@ fun Fragment.lifecycleBg(
         c.invoke(block)
         try {
             block.work.invoke(this)
-
         } catch (e: Exception) {
-            requireContext()?.applicationContext?.let {
+            requireContext().applicationContext?.let {
                 Toast.makeText(it, e.message, Toast.LENGTH_SHORT).show()
             }
             block.error.invoke(e)

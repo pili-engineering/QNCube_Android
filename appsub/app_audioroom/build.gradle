@@ -1,8 +1,7 @@
 plugins {
-    id 'hapidepend'
+    
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
@@ -91,7 +90,7 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
     implementation project(":module_login")
-    implementation project(":module_web")
+    
     //  implementation project(':module_interview')
     //  implementation project(':module_user')
     // implementation project(':module_overhaul')

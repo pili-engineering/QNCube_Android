@@ -7,13 +7,14 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.LayoutInflater
-import android.view.OrientationEventListener
 import android.view.View
 import android.widget.FrameLayout
 import com.hapi.ut.SoftInputUtil
-import kotlinx.android.synthetic.main.view_room_input.view.*
+import com.qiniu.bzuicomp.bottominput.databinding.ViewRoomInputBinding
 
-class RoomInputView : FrameLayout ,IInputView{
+class RoomInputView : FrameLayout, IInputView {
+
+    private lateinit var binding: ViewRoomInputBinding
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -22,8 +23,7 @@ class RoomInputView : FrameLayout ,IInputView{
         attrs,
         defStyleAttr
     ) {
-        val view = LayoutInflater.from(context).inflate(R.layout.view_room_input, this, false)
-        addView(view)
+        binding = ViewRoomInputBinding.inflate(LayoutInflater.from(context), this, true)
         init()
     }
 
@@ -40,12 +40,12 @@ class RoomInputView : FrameLayout ,IInputView{
 
     private fun init() {
         //表情暂时没写
-        chat_message_input.addTextChangedListener(object : TextWatcher {
+        binding.  chatMessageInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (s?.toString()?.isEmpty() == true) {
-                    send_btn.visibility = View.GONE
+                    binding.   sendBtn.visibility = View.GONE
                 } else {
-                    send_btn.visibility = View.VISIBLE
+                    binding.   sendBtn.visibility = View.VISIBLE
                 }
             }
 
@@ -55,40 +55,40 @@ class RoomInputView : FrameLayout ,IInputView{
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-        chat_message_input.setOnClickListener {
+        binding.   chatMessageInput.setOnClickListener {
             hideFace()
         }
 
-        face_btn.setOnClickListener {
+        binding.  faceBtn.setOnClickListener {
             checkShowFace()
         }
 
-        send_btn.setOnClickListener {
-            val msgEdit = chat_message_input.text.toString()
+        binding.  sendBtn.setOnClickListener {
+            val msgEdit =   binding.  chatMessageInput.text.toString()
             sendPubCall?.invoke(msgEdit)
-            chat_message_input.setText("")
+            binding.   chatMessageInput.setText("")
             hideFace()
-            SoftInputUtil.hideSoftInputView(chat_message_input)
+            SoftInputUtil.hideSoftInputView(   binding. chatMessageInput)
         }
 
-        emojiBoard.setItemClickListener { code ->
+        binding.  emojiBoard.setItemClickListener { code ->
             if (code == "/DEL") {
-                chat_message_input.dispatchKeyEvent(
+                binding.   chatMessageInput.dispatchKeyEvent(
                     KeyEvent(
                         KeyEvent.ACTION_DOWN,
                         KeyEvent.KEYCODE_DEL
                     )
                 )
             } else {
-                chat_message_input.getText()?.insert(chat_message_input.selectionStart, code)
+                binding.   chatMessageInput.getText()?.insert(   binding. chatMessageInput.selectionStart, code)
             }
         }
     }
 
     override fun requestEditFocus() {
-        chat_message_input.requestFocus()
-        chat_message_input.post {
-            SoftInputUtil.showSoftInputView(chat_message_input)
+        binding.   chatMessageInput.requestFocus()
+        binding.  chatMessageInput.post {
+            SoftInputUtil.showSoftInputView(   binding. chatMessageInput)
         }
     }
 
@@ -100,27 +100,27 @@ class RoomInputView : FrameLayout ,IInputView{
         if (mOrientationDetector == null) {
             mOrientationDetector = OrientationDetector(activity) {
                 SoftInputUtil.hideSoftInputView(activity)
-                chat_message_input.clearFocus()
-                val lp = tempView.layoutParams
+                binding.     chatMessageInput.clearFocus()
+                val lp = binding.tempView.layoutParams
                 lp.height = 0
-                tempView.layoutParams = lp
+                binding.   tempView.layoutParams = lp
             }
         }
         mSoftKeyBoardListener?.setOnSoftKeyBoardChangeListener(object :
             SoftKeyBoardListener.OnSoftKeyBoardChangeListener {
             override fun keyBoardShow(height: Int) {
                 hideFace()
-                if (isInputAutoChangeHeight && chat_message_input.isFocused) {
-                    val lp = tempView.layoutParams
+                if (isInputAutoChangeHeight &&    binding. chatMessageInput.isFocused) {
+                    val lp =    binding. tempView.layoutParams
                     lp.height = height
-                    tempView.layoutParams = lp
+                    binding.   tempView.layoutParams = lp
                 }
             }
 
             override fun keyBoardHide(height: Int) {
-                val lp = tempView.layoutParams
+                val lp =    binding. tempView.layoutParams
                 lp.height = 0
-                tempView.layoutParams = lp
+                binding.  tempView.layoutParams = lp
             }
         })
         mSoftKeyBoardListener?.attach()
@@ -153,15 +153,15 @@ class RoomInputView : FrameLayout ,IInputView{
     }
 
     private fun hideFace() {
-        emojiBoard.visibility = View.GONE
+        binding.  emojiBoard.visibility = View.GONE
         inputType = 0
-        face_btn.isSelected = false
+        binding.  faceBtn.isSelected = false
     }
 
     private fun showFace() {
-        SoftInputUtil.hideSoftInputView(chat_message_input)
-        emojiBoard.visibility = View.VISIBLE
+        SoftInputUtil.hideSoftInputView(   binding. chatMessageInput)
+        binding. emojiBoard.visibility = View.VISIBLE
         inputType = 1
-        face_btn.isSelected = true
+        binding.  faceBtn.isSelected = true
     }
 }

@@ -19,11 +19,11 @@ object RetrofitManager {
         .build()
         private set
 
-    var retrofit = Retrofit.Builder()
+    private var retrofit = Retrofit.Builder()
         .client(okHttp)
         .baseUrl("https://api.github.com/")
         .build()
-        private set
+
     private val scheduler = Schedulers.from(Executors.newFixedThreadPool(10));
 
     var baseUrl = ""
@@ -61,13 +61,14 @@ object RetrofitManager {
     fun postFormUserExtraClient(
         url: String,
         body: RequestBody,
-        headerKey: String,
-        headerValue: String
+        hashMap: HashMap<String, String>
     ): Response {
         val request = Request.Builder()
-            .url(url)
-            .addHeader(headerKey, headerValue)
-            .addHeader("Content-Type", "application/x-www-form-urlencoded")
+            .url(url).apply {
+                hashMap.entries.forEach {
+                    this.addHeader(it.key, it.value)
+                }
+            }
             .post(body)
             .build();
         val call = okHttpExt.newCall(request);

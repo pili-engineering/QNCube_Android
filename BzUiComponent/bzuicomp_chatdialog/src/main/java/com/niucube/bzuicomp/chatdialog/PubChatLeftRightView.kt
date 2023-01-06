@@ -1,6 +1,5 @@
 package com.niucube.bzuicomp.chatdialog
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -13,12 +12,14 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.hapi.baseframe.adapter.*
 import com.niucube.bzuicomp.chatdialog.PubChatLeftRightView.ChatMode.Companion.left
 import com.niucube.bzuicomp.chatdialog.PubChatLeftRightView.ChatMode.Companion.right
 import com.niucube.bzuicomp.chatdialog.PubChatLeftRightView.ChatMode.Companion.center
+import com.niucube.bzuicomp.chatdialog.databinding.ItemPubdialogLeftBinding
+import com.niucube.bzuicomp.chatdialog.databinding.ItemPubdialogRightBinding
+import com.niucube.bzuicomp.chatdialog.databinding.ItemPubdialogWelcomeBinding
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
@@ -26,17 +27,13 @@ import com.qiniu.bzuicomp.bottominput.IInputView
 import com.qiniu.bzuicomp.bottominput.RoomInputView
 import com.qiniu.bzuicomp.pubchat.*
 import com.qiniusdk.userinfoprovide.UserInfoProvider
-import kotlinx.android.synthetic.main.item_pubdialog_left.view.*
-import kotlinx.android.synthetic.main.view_pub_chat.view.*
-
 
 open class PubChatLeftRightView : FrameLayout {
 
     private val mInputMsgReceiver = InputMsgReceiver()
-    open val mAdapter: BaseMultiItemQuickAdapter<PubChatLeftRightView.ChatMode, BaseViewHolder> =
-        PubChatDialogItemAdapter()
+    open val mAdapter : QRecyclerAdapter<ChatMode> = PubChatDialogItemAdapter()
 
-    private val msgRecycler: RecyclerView?
+    private val msgRecycler: RecyclerView
         get() {
             return pubchatView
         }
@@ -44,7 +41,7 @@ open class PubChatLeftRightView : FrameLayout {
     private var mIChatMsgCall = PubChatMsgManager.IChatMsgCall {
         if (it is IChatMsg) {
             mAdapter.addData(ChatMode(it))
-            msgRecycler?.smoothScrollToPosition(mAdapter.data.size - 1)
+            msgRecycler.smoothScrollToPosition(mAdapter.data.size - 1)
         }
     }
     private val mRoomLifecycleMonitor = object : RoomLifecycleMonitor {
@@ -140,28 +137,34 @@ open class PubChatLeftRightView : FrameLayout {
     }
 
     class PubChatDialogItemAdapter :
-        BaseMultiItemQuickAdapter<ChatMode, BaseViewHolder>(ArrayList<ChatMode>()) {
+        QMultipleItemRvAdapter<ChatMode>(ArrayList<ChatMode>()) {
 
-        init {
-            addItemType(left, R.layout.item_pubdialog_left);
-            addItemType(right, R.layout.item_pubdialog_right);
-            addItemType(center, R.layout.item_pubdialog_welcome);
+        override fun getViewType(t: ChatMode): Int {
+            return t.itemType
         }
 
-        @SuppressLint("UseCompatLoadingForDrawables")
-        override fun convert(helper: BaseViewHolder, item: ChatMode) {
-            // helper.itemView.tvSenderName.text = item.mPubChatMsgModel.senderName
-            if (item.itemType != center) {
-                Glide.with(mContext)
-                    .load((item.msg).pubchat_senderAvatar())
-                    .into(helper.itemView.ivAvatar)
-                if (item.msg.pubchat_getMsgAction() == PubChatMsgModel.action_pubText) {
-                    helper.itemView.tvMsgContent.text = item.msg.pubchat_msgOrigin()
+        override fun registerItemProvider() {
+            itemProvider[left] = LeftItemProvider()
+            itemProvider[right] = RightItemProvider()
+            itemProvider[center] = CenterItemProvider()
+        }
+
+        class LeftItemProvider() : ViewBindingItemProvider<ChatMode, ItemPubdialogLeftBinding>() {
+            override fun convertViewBindHolder(
+                helper: QRecyclerViewBindHolder<ItemPubdialogLeftBinding>,
+                data: ChatMode,
+                position: Int
+            ) {
+                Glide.with(helper.itemView.context)
+                    .load((data.msg).pubchat_senderAvatar())
+                    .into(helper.binding.ivAvatar)
+                if (data.msg.pubchat_getMsgAction() == PubChatMsgModel.action_pubText) {
+                    helper.binding.tvMsgContent.text = data.msg.pubchat_msgOrigin()
                 } else {
-                    helper.itemView.tvMsgContent.text =
-                        Html.fromHtml(item.msg.pubchat_getMsgHtml(), Html.ImageGetter { source ->
+                    helper.binding.tvMsgContent.text =
+                        Html.fromHtml(data.msg.pubchat_getMsgHtml(), Html.ImageGetter { source ->
                             val id: Int = source.toInt()
-                            val drawable: Drawable = mContext.resources.getDrawable(id, null)
+                            val drawable: Drawable = mContext!!.resources.getDrawable(id, null)
                             drawable.setBounds(
                                 0, 0,
                                 ((drawable.intrinsicWidth * 0.3).toInt()),
@@ -170,12 +173,48 @@ open class PubChatLeftRightView : FrameLayout {
                             drawable
                         }, null)
                 }
-            } else {
-                if (item.msg is PubChatWelCome) {
-                    helper.itemView.tvMsgContent.text = item.msg.msgContent
+            }
+        }
+
+        class CenterItemProvider() :
+            ViewBindingItemProvider<ChatMode, ItemPubdialogWelcomeBinding>() {
+            override fun convertViewBindHolder(
+                helper: QRecyclerViewBindHolder<ItemPubdialogWelcomeBinding>,
+                data: ChatMode,
+                position: Int
+            ) {
+                if (data.msg is PubChatWelCome) {
+                    helper.binding.tvMsgContent.text = data.msg.msgContent
                 }
-                if (item.msg is PubChatQuitRoom) {
-                    helper.itemView.tvMsgContent.text = item.msg.msgContent
+                if (data.msg is PubChatQuitRoom) {
+                    helper.binding.tvMsgContent.text = data.msg.msgContent
+                }
+            }
+        }
+
+        class RightItemProvider() : ViewBindingItemProvider<ChatMode, ItemPubdialogRightBinding>() {
+            override fun convertViewBindHolder(
+                helper: QRecyclerViewBindHolder<ItemPubdialogRightBinding>,
+                data: ChatMode,
+                position: Int
+            ) {
+                Glide.with(helper.itemView.context)
+                    .load((data.msg).pubchat_senderAvatar())
+                    .into(helper.binding.ivAvatar)
+                if (data.msg.pubchat_getMsgAction() == PubChatMsgModel.action_pubText) {
+                    helper.binding.tvMsgContent.text = data.msg.pubchat_msgOrigin()
+                } else {
+                    helper.binding.tvMsgContent.text =
+                        Html.fromHtml(data.msg.pubchat_getMsgHtml(), Html.ImageGetter { source ->
+                            val id: Int = source.toInt()
+                            val drawable: Drawable = mContext!!.resources.getDrawable(id, null)
+                            drawable.setBounds(
+                                0, 0,
+                                ((drawable.intrinsicWidth * 0.3).toInt()),
+                                ((drawable.intrinsicHeight * 0.3).toInt())
+                            );
+                            drawable
+                        }, null)
                 }
             }
         }

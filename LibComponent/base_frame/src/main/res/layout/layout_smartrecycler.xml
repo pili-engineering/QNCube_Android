@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.hapi.base_mvvm.refresh.SmartRecyclerView
+<com.hapi.baseframe.smartrecycler.SmartRecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/smartRecycler"
     android:layout_width="match_parent"

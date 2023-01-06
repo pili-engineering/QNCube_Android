@@ -13,17 +13,16 @@ import com.niucube.absroom.seat.UserMicSeat
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack
 import com.qiniudemo.baseapp.widget.round.RoundFrameLayout
-import com.qiniudemo.module.interview.R
 import com.qiniudemo.module.interview.been.InterviewRoomModel
-import kotlinx.android.synthetic.main.interview_interview_surfaceview.view.*
+import com.qiniudemo.module.interview.databinding.InterviewInterviewSurfaceviewBinding
 
 class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
+    private lateinit var binding: InterviewInterviewSurfaceviewBinding
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, mAttributeSet: AttributeSet?) : super(context, mAttributeSet) {
-        val view = LayoutInflater.from(context)
-            .inflate(R.layout.interview_interview_surfaceview, this, false)
-        addView(view)
+        binding =
+            InterviewInterviewSurfaceviewBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     var mTargetSeat: MicSeat? = null
@@ -35,13 +34,13 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
     fun setIsTop(top: Boolean) {
         isTop = top
         isEnabled = top
-        if (top && tvNick.text.isNotEmpty()) {
+        if (top && binding.tvNick.text.isNotEmpty()) {
             if (mTargetSeat != null) {
-                tvNick.visibility = View.VISIBLE
+                binding.tvNick.visibility = View.VISIBLE
             }
             // setRadius(8f, 8f, 8f, 8f)
         } else {
-            tvNick.visibility = View.GONE
+            binding.tvNick.visibility = View.GONE
             // setRadius(0f, 0f, 0f, 0f)
         }
         // setStrokeWidthColor(1f, Color.parseColor("#00000000"));
@@ -50,28 +49,27 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
     fun setUserInfo(userInfo: InterviewRoomModel.RoomUser) {
         Glide.with(context)
             .load(userInfo.avatar)
-            .into(ivAvatar)
-        tvNick.text = userInfo.nickname
+            .into(binding.ivAvatar)
+        binding.tvNick.text = userInfo.nickname
         if (isTop) {
-            tvNick.visibility = View.VISIBLE
+            binding.tvNick.visibility = View.VISIBLE
         }
     }
 
     fun setCover(coverRes: Int) {
-        ivAvatar.setImageResource(coverRes)
+        binding.ivAvatar.setImageResource(coverRes)
     }
-
 
     fun onSeatDown(
         mutableTrackRoom: MutableTrackRoom,
         targetSeat: UserMicSeat
     ) {
         mTargetSeat = targetSeat
-        mutableTrackRoom.setUserCameraWindowView(targetSeat.uid, qnSurfaceView)
-        qnSurfaceView.visibility = View.VISIBLE
-        ivAvatar.visibility = View.GONE
+        mutableTrackRoom.setUserCameraWindowView(targetSeat.uid, binding.qnSurfaceView)
+        binding.qnSurfaceView.visibility = View.VISIBLE
+        binding.ivAvatar.visibility = View.GONE
         if (isTop) {
-            tvNick.visibility = View.VISIBLE
+            binding.tvNick.visibility = View.VISIBLE
         }
         mutableTrackRoom.mixStreamManager.updateUserAudioMergeOptions(
             targetSeat.uid,
@@ -93,20 +91,23 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
             trackOp.zOrder = 1
         }
         mutableTrackRoom.mixStreamManager
-            .updateUserVideoMergeOptions(targetSeat.uid, trackOp,true)
+            .updateUserVideoMergeOptions(targetSeat.uid, trackOp, true)
     }
 
     fun onScreenSeatAdd(mutableTrackRoom: MutableTrackRoom, targetSeat: ScreenMicSeat) {
         mTargetSeat = targetSeat
         if (targetSeat.isMySeat(UserInfoManager.getUserId())) {
-            qnSurfaceView.visibility = View.GONE
-            ivAvatar.visibility = View.VISIBLE
+            binding.qnSurfaceView.visibility = View.GONE
+            binding.ivAvatar.visibility = View.VISIBLE
         } else {
             if (isTop) {
-                tvNick.visibility = View.VISIBLE
+                binding.tvNick.visibility = View.VISIBLE
             }
-            qnSurfaceView.visibility = View.VISIBLE
-            mutableTrackRoom.screenShareManager.setUserScreenWindowView(targetSeat.uid, qnSurfaceView)
+            binding.qnSurfaceView.visibility = View.VISIBLE
+            mutableTrackRoom.screenShareManager.setUserScreenWindowView(
+                targetSeat.uid,
+                binding.qnSurfaceView
+            )
         }
         val trackOp = QNTranscodingLiveStreamingTrack()
         trackOp.width = InterviewRoomVm.tack_width
@@ -120,8 +121,8 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
 
     fun onScreenSeatRemoved(mutableTrackRoom: MutableTrackRoom, targetSeat: ScreenMicSeat) {
         mTargetSeat = null
-        ivAvatar.visibility = View.VISIBLE
-        qnSurfaceView.visibility = View.GONE
+        binding.ivAvatar.visibility = View.VISIBLE
+        binding.qnSurfaceView.visibility = View.GONE
     }
 
     //下麦
@@ -130,17 +131,16 @@ class InterviewSurfaceView : RoundFrameLayout, LifecycleObserver {
         targetSeat: UserMicSeat
     ) {
         mTargetSeat = null
-        ivAvatar.visibility = View.VISIBLE
-        qnSurfaceView.visibility = View.GONE
+        binding.ivAvatar.visibility = View.VISIBLE
+        binding.qnSurfaceView.visibility = View.GONE
     }
 
     //麦位变化
     fun onTrackStatusChange(mutableTrackRoom: MutableTrackRoom, targetSeat: UserMicSeat) {
         if (targetSeat.isOwnerOpenVideo) {
-            qnSurfaceView.visibility = View.VISIBLE
+            binding.qnSurfaceView.visibility = View.VISIBLE
         } else {
-            qnSurfaceView.visibility = View.GONE
+            binding.qnSurfaceView.visibility = View.GONE
         }
     }
-
 }

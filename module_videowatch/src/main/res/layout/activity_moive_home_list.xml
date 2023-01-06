@@ -18,7 +18,7 @@
         android:textStyle="bold"
         android:background="@color/white"
         />
-    <com.hapi.base_mvvm.refresh.SmartRecyclerView
+    <com.hapi.baseframe.smartrecycler.SmartRecyclerView
         android:layout_margin="7dp"
         android:id="@+id/smartRecyclerView"
         android:layout_width="match_parent"

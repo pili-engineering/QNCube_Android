@@ -1,17 +1,15 @@
 package com.qizhou.bzupdate.dialog
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Gravity
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import com.hapi.ut.SpUtil
 import com.qiniudemo.baseapp.BaseDialogFragment
-
-import com.qizhou.bzupdate.R
 import com.qizhou.bzupdate.UpDataModel
-import kotlinx.android.synthetic.main.dialogfrag_updata.*
+import com.qizhou.bzupdate.databinding.DialogfragUpdataBinding
 
-class UpdateDialog : BaseDialogFragment() {
+class UpdateDialog : BaseDialogFragment<DialogfragUpdataBinding>() {
 
     private var upDataModel: UpDataModel? = null
     private var enforcement = false
@@ -33,30 +31,23 @@ class UpdateDialog : BaseDialogFragment() {
         }
     }
 
-
-    /**
-     * 通过onCreateView方式配置的布局layoutId
-     */
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialogfrag_updata
-    }
-
+    @SuppressLint("SetTextI18n")
     override fun initViewData() {
         arguments?.apply {
             upDataModel = getParcelable("upDataModel")
             enforcement = getBoolean("enforcement")
         }
 
-        ivClose.visibility = if (enforcement) View.GONE else View.VISIBLE
-        ivClose.setOnClickListener {
+        binding.ivClose.visibility = if (enforcement) View.GONE else View.VISIBLE
+        binding.ivClose.setOnClickListener {
             // 用户点击了稍后再更新，那么以后都不能弹出更新对话框，除非是强制更新，或者点击了设置的更新功能
             SpUtil.get("update").saveData("isShow", false)
             dismiss()
         }
-        tvVersion.text = "新版本：${upDataModel?.version}"
+        binding.tvVersion.text = "新版本：${upDataModel?.version}"
 
-        tvUpDataContent.text = upDataModel?.msg
-        btnOk.setOnClickListener {
+        binding.tvUpDataContent.text = upDataModel?.msg
+        binding.btnOk.setOnClickListener {
             mDefaultListener?.onDialogPositiveClick(this, Unit)
             dismiss()
         }

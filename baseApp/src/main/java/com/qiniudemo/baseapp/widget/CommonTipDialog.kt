@@ -7,16 +7,11 @@ import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.happy_dialog.BaseVmDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.BaseVmBindingDialogFragment
 import com.qiniu.baseapp.R
-
-import kotlinx.android.synthetic.main.dialog_common_tip.*
-import kotlinx.android.synthetic.main.dialog_common_tip.btnCancel
-import kotlinx.android.synthetic.main.dialog_common_tip.btnConfirm
-import kotlinx.android.synthetic.main.dialog_common_tip.tvTitle
-import kotlinx.android.synthetic.main.dialog_common_tip.vV
-import kotlinx.android.synthetic.main.dialog_input_dark.*
+import com.qiniu.baseapp.databinding.DialogCommonTipBinding
+import com.qiniu.baseapp.databinding.DialogInputDarkBinding
 import java.lang.reflect.Field
 
 
@@ -99,7 +94,7 @@ class CommonTipDialog {
 }
 
 
-open class CommonTipDialogImp : BaseVmDialogFragment() {
+open class CommonTipDialogImp : BaseVmBindingDialogFragment<DialogCommonTipBinding>() {
 
     init {
         applyCancelable(false)
@@ -142,42 +137,38 @@ open class CommonTipDialogImp : BaseVmDialogFragment() {
         ft.commitAllowingStateLoss()
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip
-    }
-
     override fun initViewData() {
         arguments?.apply {
             val title = getString("title")
             if (TextUtils.isEmpty(title)) {
-                tvTitle.visibility = View.GONE
+                binding.tvTitle.visibility = View.GONE
             } else {
-                tvTitle.text = title
-                tvTitle.visibility = View.VISIBLE
+                binding.tvTitle.text = title
+                binding.tvTitle.visibility = View.VISIBLE
             }
             val content = getString("content")
-            secret_pwd.text = Html.fromHtml(content)
+            binding.secretPwd.text = Html.fromHtml(content)
             val isNeedCancelBtn = getBoolean("isNeedCancelBtn", true)
             if (!isNeedCancelBtn) {
-                vV.visibility = View.GONE
-                btnCancel.visibility = View.GONE
+                binding.vV.visibility = View.GONE
+                binding.btnCancel.visibility = View.GONE
             }
             val positiveText = getString("positiveText")
 
             if (positiveText?.isNotEmpty() == true) {
-                btnConfirm.text = positiveText
+                binding.btnConfirm.text = positiveText
             }
             val negativeText = getString("negativeText")
             if (negativeText?.isNotEmpty() == true) {
-                btnCancel.text = negativeText
+                binding.btnCancel.text = negativeText
             }
         }
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             mDefaultListener?.onDialogNegativeClick(this, Any())
             dismiss()
         }
 
-        btnConfirm.setOnClickListener {
+        binding.btnConfirm.setOnClickListener {
             dismiss()
             mDefaultListener?.onDialogPositiveClick(this, Any())
         }
@@ -206,10 +197,6 @@ class CommonTipDialogImpDark : CommonTipDialogImp() {
             return f
         }
     }
-
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip_dark
-    }
 }
 
 
@@ -230,9 +217,6 @@ class CommonTipDialogImpNiuHappy : CommonTipDialogImp() {
         }
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip_happy
-    }
 }
 
 class CommonTipDialogImpNiuCry : CommonTipDialogImp() {
@@ -250,10 +234,6 @@ class CommonTipDialogImpNiuCry : CommonTipDialogImp() {
             f.arguments = b
             return f
         }
-    }
-
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip_cry
     }
 }
 
@@ -274,13 +254,10 @@ class CommonTipDialogImpNiuNiu : CommonTipDialogImp() {
         }
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_common_tip_niuniu
-    }
 }
 
 
-class CommonInputDialogDark : BaseVmDialogFragment() {
+class CommonInputDialogDark : BaseVmBindingDialogFragment<DialogInputDarkBinding>() {
 
     companion object {
         fun newInstance(
@@ -305,22 +282,18 @@ class CommonInputDialogDark : BaseVmDialogFragment() {
             hint = it.getString("hint", "")
             title = it.getString("title", "")
         }
-        editInput.setHint(hint)
-        tvTitle.text = title
+        binding.editInput.setHint(hint)
+        binding.tvTitle.text = title
 
-        btnConfirm.setOnClickListener {
-           val edit = editInput.text.toString()
-           if(edit.isNotEmpty()){
-               mDefaultListener?.onDialogPositiveClick(this,edit)
-           }
+        binding.btnConfirm.setOnClickListener {
+            val edit = binding.editInput.text.toString()
+            if (edit.isNotEmpty()) {
+                mDefaultListener?.onDialogPositiveClick(this, edit)
+            }
         }
-        btnCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dismiss()
         }
-    }
-
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_input_dark
     }
 
     override fun showLoading(toShow: Boolean) {}

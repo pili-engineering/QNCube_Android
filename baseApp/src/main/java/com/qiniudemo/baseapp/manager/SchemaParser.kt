@@ -3,11 +3,10 @@ package com.qiniudemo.baseapp.manager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 
@@ -26,7 +25,7 @@ object SchemaParser {
         val path = router.path
         if (httpEnable) {
             if (scheme?.startsWith("http") == true) {
-                // WebActivity.start(url, context)
+                // WebViewActivity.start(url, context)
                 val uri = Uri.parse(url)
                 val intent = Intent(Intent.ACTION_VIEW, uri)
                 context.startActivity(intent)

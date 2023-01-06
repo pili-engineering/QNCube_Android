@@ -34,8 +34,7 @@
 
     </FrameLayout>
 
-
-    <com.hapi.base_mvvm.refresh.SmartRecyclerView
+    <com.hapi.baseframe.smartrecycler.SmartRecyclerView
         android:id="@+id/smartRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"

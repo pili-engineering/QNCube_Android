@@ -3,17 +3,18 @@ package com.qiniu.bzuicomp.pubchat
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
 import android.text.Html
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import kotlinx.android.synthetic.main.bzui_item_pub_chat.view.*
+import com.hapi.baseframe.adapter.QRecyclerViewBindAdapter
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.qiniu.bzuicomp.pubchat.databinding.BzuiItemPubChatBinding
 
-
-class PubChatAdapter  : BaseQuickAdapter<IChatMsg, BaseViewHolder>(R.layout.bzui_item_pub_chat,ArrayList<IChatMsg>()){
+class PubChatAdapter  :QRecyclerViewBindAdapter<IChatMsg, BzuiItemPubChatBinding>(){
 
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-    override fun convert(holder: BaseViewHolder, item: IChatMsg) {
-
-        holder.itemView.tvText.text = Html.fromHtml(item.pubchat_getMsgHtml(),
+    override fun convertViewBindHolder(
+        helper: QRecyclerViewBindHolder<BzuiItemPubChatBinding>,
+        item: IChatMsg
+    ) {
+        helper.binding.tvText.text = Html.fromHtml(item.pubchat_getMsgHtml(),
            Html.ImageGetter {source->
                val id: Int = source.toInt()
                val drawable: Drawable = mContext.resources.getDrawable(id, null)
@@ -24,4 +25,5 @@ class PubChatAdapter  : BaseQuickAdapter<IChatMsg, BaseViewHolder>(R.layout.bzui
                drawable
            }, null);
     }
+
 }

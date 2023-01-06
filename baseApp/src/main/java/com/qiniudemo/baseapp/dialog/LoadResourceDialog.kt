@@ -2,10 +2,10 @@ package com.qiniudemo.baseapp.dialog
 
 import android.view.Gravity
 import com.qiniu.baseapp.R
+import com.qiniu.baseapp.databinding.DialogLoadResourcesBinding
 import com.qiniudemo.baseapp.BaseDialogFragment
-import kotlinx.android.synthetic.main.dialog_load_resources.*
 
-class LoadResourceDialog : BaseDialogFragment() {
+class LoadResourceDialog : BaseDialogFragment<DialogLoadResourcesBinding>() {
 
     init {
         applyGravityStyle(Gravity.CENTER)
@@ -16,11 +16,8 @@ class LoadResourceDialog : BaseDialogFragment() {
     override fun initViewData() {}
 
     fun onProgress(progress: Float, currentFileName: String) {
-        progressbar.setCurrentProgress(progress)
-        progressbar.setTipText(currentFileName.substring(currentFileName.lastIndexOf("/") + 1))
+        binding.progressbar.setCurrentProgress(progress)
+        binding.progressbar.setTipText(currentFileName.substring(currentFileName.lastIndexOf("/") + 1))
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_load_resources
-    }
 }

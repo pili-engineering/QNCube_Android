@@ -1,24 +1,28 @@
 package com.niucube.module.videowatch
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.base_mvvm.refresh.SmartRecyclerView
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
+import com.hapi.baseframe.smartrecycler.SmartRecyclerView
 import com.hipi.vm.activityVm
 import com.hipi.vm.backGround
 import com.niucube.absroom.RtcOperationCallback
 import com.niucube.comproom.RoomManager
+import com.niucube.module.videowatch.databinding.ItemOnlineUserBinding
 import com.niucube.rtm.RtmCallBack
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniudemo.baseapp.RecyclerFragment
 import com.qiniudemo.baseapp.been.RoomMember
 import com.qiniudemo.baseapp.ext.asToast
-import kotlinx.android.synthetic.main.fragment_online_user.*
-import kotlinx.android.synthetic.main.item_online_user.view.*
 
 /**
  * 在线用户列表
@@ -50,10 +54,10 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
     var backCall = {}
 
     override val mSmartRecycler: SmartRecyclerView by lazy {
-        smartRecyclerView
+        view?.findViewById(R.id.smartRecyclerView)!!
     }
 
-    override val adapter: BaseQuickAdapter<RoomMemberWrap, *> by lazy { OnlineUserAdapter() }
+    override val adapter by lazy { OnlineUserAdapter() }
 
     override val layoutManager: RecyclerView.LayoutManager by lazy {
         LinearLayoutManager(
@@ -74,14 +78,14 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
         return false
     }
 
+    @SuppressLint("SetTextI18n")
     override val fetcherFuc: (page: Int) -> Unit = {
         backGround {
             doWork {
                 val info = roomVm.refreshRoomInfo()
-                smartRecyclerView?.onFetchDataFinish(
+                mSmartRecycler.onFetchDataFinish(
                     info.allUserList
                         .filter {
-
                             var isfilter = true
                             if (optionType == option_type_invite || optionType == option_type_manager) {
                                 if (UserInfoManager.getUserId() == it.userId) {
@@ -97,35 +101,38 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
                             RoomMemberWrap(it)
                         }, true, true
                 )
-                tvSize?.text = "好友列表 (${info.roomInfo?.totalUsers})"
+                view?.findViewById<TextView>(R.id.tvSize)?.text =
+                    "好友列表 (${info.roomInfo?.totalUsers})"
             }
             catchError {
-                smartRecyclerView?.onFetchDataError()
+                mSmartRecycler.onFetchDataError()
             }
         }
     }
 
-    override fun initViewData() {
-        super.initViewData()
-
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         optionType = arguments?.getInt("optionType") ?: 3
-        ivClose.setOnClickListener {
+        view.findViewById<View>(R.id.ivClose).setOnClickListener {
             backCall.invoke()
         }
         if (optionType != option_type_view) {
-            llOptionInvite.visibility = View.VISIBLE
+            view.findViewById<View>(R.id.llOptionInvite).visibility = View.VISIBLE
         } else {
-            llOptionInvite.visibility = View.GONE
+            view.findViewById<View>(R.id.llOptionInvite).visibility = View.GONE
         }
-        llSelectAll.setOnClickListener { cbSelectAll.performClick() }
-        cbSelectAll.setOnCheckedChangeListener { buttonView, isChecked ->
-            adapter.data.forEach {
-                it.selected = isChecked
+        view.findViewById<View>(R.id.llSelectAll)
+            .setOnClickListener { view.findViewById<View>(R.id.cbSelectAll).performClick() }
+        view.findViewById<CheckBox>(R.id.cbSelectAll)
+            .setOnCheckedChangeListener { buttonView, isChecked ->
+                adapter.data.forEach {
+                    it.selected = isChecked
+                }
+                adapter.notifyDataSetChanged()
             }
-            adapter.notifyDataSetChanged()
-        }
 
-        tvOK.setOnClickListener {
+        view.findViewById<View>(R.id.tvOK).setOnClickListener {
             var sendedUserCount = 0
             adapter.data.forEach {
                 if (it.selected) {
@@ -137,7 +144,7 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
                         roomVm.mInvitationProcessor.invite(
                             "用户 ${UserInfoManager.getUserInfo()?.nickname} 邀请你一起连麦，是否加入？",
                             it.mRoomMember.userId,
-                            RoomManager.mCurrentRoom?.provideImGroupId() ?: "",-1,
+                            RoomManager.mCurrentRoom?.provideImGroupId() ?: "", -1,
                             object : RtmCallBack {
                                 override fun onSuccess() {
                                     sendedUserCount--
@@ -178,20 +185,20 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
 
     class RoomMemberWrap(var mRoomMember: RoomMember, var selected: Boolean = false)
 
-    inner class OnlineUserAdapter : BaseQuickAdapter<RoomMemberWrap, BaseViewHolder>(
-        R.layout.item_online_user,
-        ArrayList<RoomMemberWrap>()
-    ) {
-        override fun convert(helper: BaseViewHolder, item: RoomMemberWrap) {
-            helper.itemView.tvName.text = item.mRoomMember.name
+    inner class OnlineUserAdapter : QSmartViewBindAdapter<RoomMemberWrap, ItemOnlineUserBinding>() {
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemOnlineUserBinding>,
+            item: RoomMemberWrap
+        ) {
+            helper.binding.tvName.text = item.mRoomMember.name
             Glide.with(mContext)
                 .load(item.mRoomMember.avatar)
-                .into(helper.itemView.ivAvatar)
+                .into(helper.binding.ivAvatar)
             if (optionType == option_type_view) {
                 helper.itemView.setOnClickListener {}
             } else {
                 helper.itemView.setOnClickListener {
-                    helper.itemView.checkboxInvite.performClick()
+                    helper.binding.checkboxInvite.performClick()
                 }
 //                var isUserOnSeat = false
 //                roomVm.mRtcRoom.mMicSeats.forEach {
@@ -209,8 +216,8 @@ class OnlineUserFragment : RecyclerFragment<OnlineUserFragment.RoomMemberWrap>()
 //                    helper.itemView.checkboxInvite.visibility = View.GONE
 //                }
             }
-            helper.itemView.checkboxInvite.isChecked = item.selected
-            helper.itemView.checkboxInvite.setOnCheckedChangeListener { buttonView, isChecked ->
+            helper.binding.checkboxInvite.isChecked = item.selected
+            helper.binding.checkboxInvite.setOnCheckedChangeListener { _, isChecked ->
                 item.selected = isChecked
             }
         }

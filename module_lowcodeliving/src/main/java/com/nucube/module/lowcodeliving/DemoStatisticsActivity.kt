@@ -7,8 +7,11 @@ import android.graphics.Color.argb
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
+import com.nucube.module.lowcodeliving.databinding.ActivityDemoStatisticsBinding
+import com.nucube.module.lowcodeliving.databinding.ItemStatisticsBigBinding
+import com.qiniudemo.baseapp.BaseActivity
 import com.qlive.core.QLiveCallBack
 import com.qlive.core.been.QLiveRoomInfo
 import com.qlive.core.been.QLiveStatistics
@@ -16,8 +19,6 @@ import com.qlive.core.been.QLiveStatistics.*
 import com.qlive.sdk.QLive
 import com.qlive.uikitcore.ext.ViewUtil
 import com.qlive.uikitcore.view.SimpleDividerDecoration
-import kotlinx.android.synthetic.main.activity_demo_statistics.*
-import kotlinx.android.synthetic.main.item_statistics_big.view.*
 import java.math.BigDecimal
 
 class QLiveStatisticsWrap(val key: String, val value: String)
@@ -86,7 +87,7 @@ fun Int.toFormatNumber(): String {
     }
 }
 
-class DemoStatisticsActivity : AppCompatActivity() {
+class DemoStatisticsActivity : BaseActivity<ActivityDemoStatisticsBinding>() {
     companion object {
         fun checkStart(
             context: Context,
@@ -99,22 +100,21 @@ class DemoStatisticsActivity : AppCompatActivity() {
     }
 
     private val mStatisticsAdapter by lazy { StatisticsAdapter() }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo_statistics)
-        ivBack.setOnClickListener {
+
+    override fun init() {
+        binding.ivBack.setOnClickListener {
             finish()
         }
-        recyLiveData.layoutManager = GridLayoutManager(this, 3)
-        recyLiveData.adapter = mStatisticsAdapter
-        recyLiveData.addItemDecoration(
+        binding.recyLiveData.layoutManager = GridLayoutManager(this, 3)
+        binding.recyLiveData.adapter = mStatisticsAdapter
+        binding.recyLiveData.addItemDecoration(
             SimpleDividerDecoration(
                 this,
                 Color.parseColor("#4F5058"), ViewUtil.dip2px(0.5f)
             )
         )
         (intent.getSerializableExtra("QLiveRoomInfo") as QLiveRoomInfo?)?.let {
-            tvTitle.text = it.title
+            binding.tvTitle.text = it.title
             QLive.getRooms().getLiveStatistics(it.liveID, object : QLiveCallBack<QLiveStatistics> {
                 override fun onError(code: Int, msg: String?) {
                 }
@@ -136,14 +136,14 @@ class DemoStatisticsActivity : AppCompatActivity() {
         return wraps
     }
 
-    class StatisticsAdapter : BaseQuickAdapter<QLiveStatisticsWrap, BaseViewHolder>(
-        R.layout.item_statistics_big,
-        ArrayList<QLiveStatisticsWrap>()
-    ) {
-        override fun convert(helper: BaseViewHolder, item: QLiveStatisticsWrap) {
-            helper.itemView.tvKey.text = item.key
-            helper.itemView.tvValues.text = item.value
+    class StatisticsAdapter :
+        QSmartViewBindAdapter<QLiveStatisticsWrap, ItemStatisticsBigBinding>() {
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemStatisticsBigBinding>,
+            item: QLiveStatisticsWrap
+        ) {
+            helper.binding.tvKey.text = item.key
+            helper.binding.tvValues.text = item.value
         }
     }
-
 }

@@ -13,7 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import com.hapi.base_mvvm.refresh.IEmptyView;
+import com.hapi.baseframe.smartrecycler.IEmptyView;
 import com.hapi.ut.AppCache;
 import com.hapi.ut.NetUtil;
 import com.qiniu.baseapp.R;
@@ -52,7 +52,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
         LayoutInflater.from(context).inflate(R.layout.view_custom_empty, this);
         setVisibility(GONE);
 
-       // setBackgroundColor(-1);
+        // setBackgroundColor(-1);
         setOnClickListener(this);
         img = findViewById(R.id.img);
         emptyText = findViewById(R.id.empty_text);
@@ -97,7 +97,7 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
     public void setStatus(int i) {
 
         final boolean disconnected = !NetUtil.isNetworkAvailable(getContext());
-        if(refreshingView!=null){
+        if (refreshingView != null) {
             refreshingView.setVisibility(GONE);
         }
         switch (i) {
@@ -145,7 +145,6 @@ public class CommonEmptyView extends FrameLayout implements View.OnClickListener
     private void refreshEmptyView() {
         emptyText.setText(TextUtils.isEmpty(strNoDataContent) ?
                 "牛儿有泪不轻弹，这就哭一个给你看" : strNoDataContent);
-
     }
 
     /**

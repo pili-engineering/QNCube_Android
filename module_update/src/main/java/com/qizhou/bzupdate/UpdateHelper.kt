@@ -9,7 +9,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.helper.ActivityManager
 import com.qiniu.comp.network.RetrofitManager
 import com.qizhou.bzupdate.dialog.UpdateDialog

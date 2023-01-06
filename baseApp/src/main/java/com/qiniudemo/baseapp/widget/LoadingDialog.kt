@@ -5,7 +5,7 @@ import android.view.Gravity
 
 import androidx.fragment.app.FragmentManager
 
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.qiniu.baseapp.R
 
 
@@ -14,17 +14,13 @@ object LoadingDialog {
     private var isShow = false
     private val loadingDialog by lazy {
         MyLoading()
-
     }
 
     class MyLoading : FinalDialogFragment() {
-
         init {
             applyGravityStyle(Gravity.CENTER)
         }
-
         override fun onStart() {
-
             super.onStart()
             dialog?.window?.setDimAmount(0f)
         }

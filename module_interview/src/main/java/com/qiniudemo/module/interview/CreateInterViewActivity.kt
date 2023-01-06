@@ -14,8 +14,8 @@ import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.module.interview.been.InterViewDetails
+import com.qiniudemo.module.interview.databinding.InterviewActivityCreateBinding
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.interview_activity_create.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,7 +24,7 @@ import java.util.*
  * 创建修改面试
  */
 @Route(path = RouterConstant.Interview.InterviewCreate)
-class CreateInterViewActivity : BaseActivity() {
+class CreateInterViewActivity : BaseActivity<InterviewActivityCreateBinding>() {
 
     @Autowired
     @JvmField
@@ -33,7 +33,7 @@ class CreateInterViewActivity : BaseActivity() {
     //需要删除的面试提醒
     private var calendarEventToDelete: String? = null
     private var calendarEventTimeToDelete: Long = 0
-    override fun initViewData() {
+    override fun init() {
         if (interviewId == null) {
             interviewId = ""
         }
@@ -57,7 +57,7 @@ class CreateInterViewActivity : BaseActivity() {
                     showLoading(false)
                 }
             }
-            tvTittle.text = "修改面试"
+            binding.tvTittle.text = "修改面试"
         } else {
             val interViewDetails = InterViewDetails().apply {
                 val currentData = Calendar.getInstance()
@@ -81,9 +81,9 @@ class CreateInterViewActivity : BaseActivity() {
 
             }
             initView(interViewDetails)
-            tvTittle.text = "创建面试"
+            binding.tvTittle.text = "创建面试"
         }
-        tvBack.setOnClickListener {
+        binding.tvBack.setOnClickListener {
             finish()
         }
     }
@@ -113,44 +113,44 @@ class CreateInterViewActivity : BaseActivity() {
     var format: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     private var isAutoTittle = true
     private fun initView(interViewDetails: InterViewDetails) {
-        etTittle.setText(interViewDetails.title)
-        tvStartTime.text = format.format(interViewDetails.startTime)
-        tvEndTime.text = format.format(interViewDetails.endTime)
-        etGovernment.setText(interViewDetails.goverment)
-        etCareer.setText(interViewDetails.career)
-        etInterviewerName.setText(interViewDetails.candidateName)
-        etInterviewerPhone.setText(interViewDetails.candidatePhone)
-        etInterviewerName.addTextChangedListener {
+        binding.etTittle.setText(interViewDetails.title)
+        binding.tvStartTime.text = format.format(interViewDetails.startTime)
+        binding.tvEndTime.text = format.format(interViewDetails.endTime)
+        binding.etGovernment.setText(interViewDetails.goverment)
+        binding.etCareer.setText(interViewDetails.career)
+        binding.etInterviewerName.setText(interViewDetails.candidateName)
+        binding.etInterviewerPhone.setText(interViewDetails.candidatePhone)
+        binding.etInterviewerName.addTextChangedListener {
             if (isAutoTittle) {
                 isAutoTittle = true
                 if (it.toString().isEmpty()) {
-                    etTittle.setText("")
+                    binding.etTittle.setText("")
                 } else {
-                    etTittle.setText("${it.toString()}的面试")
+                    binding.etTittle.setText("${it.toString()}的面试")
                 }
             }
         }
-        etTittle.addTextChangedListener {
-            val etInterviewerNameStr = etInterviewerName.text.toString()
+        binding.etTittle.addTextChangedListener {
+            val etInterviewerNameStr = binding.etInterviewerName.text.toString()
             isAutoTittle = it.toString().isEmpty() || it.toString() == "${etInterviewerNameStr}的面试"
         }
 
-        swPasswd.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.swPasswd.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                tvInterviewerPwd.setText(interViewDetails.authCode)
+                binding.tvInterviewerPwd.setText(interViewDetails.authCode)
             } else {
-                tvInterviewerPwd.setText("")
+                binding.tvInterviewerPwd.setText("")
             }
         }
-        cbIsPwdVisbility.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.cbIsPwdVisbility.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                tvInterviewerPwd.inputType =
+                binding.tvInterviewerPwd.inputType =
                     InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD
             } else {
-                tvInterviewerPwd.inputType = InputType.TYPE_CLASS_NUMBER
+                binding.tvInterviewerPwd.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        tvStartTime.setOnClickListener {
+        binding.tvStartTime.setOnClickListener {
             dateDialogFragment.minimumDateTime = Date(interViewDetails.startTime.toLong())
             dateDialogFragment.setDefaultDateTime(
                 Date(interViewDetails.startTime.toLong())
@@ -159,11 +159,11 @@ class CreateInterViewActivity : BaseActivity() {
                 SwitchDateTimeDialogFragment.OnButtonClickListener {
                 override fun onPositiveButtonClick(date: Date) {
                     interViewDetails.startTime = date.time
-                    tvStartTime.text = format.format(interViewDetails.startTime)
+                    binding.tvStartTime.text = format.format(interViewDetails.startTime)
 
                     if (interViewDetails.endTime.toLong() < interViewDetails.startTime.toLong()) {
                         interViewDetails.endTime = (interViewDetails.startTime + 30 * 1000 * 60)
-                        tvEndTime.text = format.format(interViewDetails.endTime)
+                        binding.tvEndTime.text = format.format(interViewDetails.endTime)
                     }
                 }
 
@@ -172,7 +172,7 @@ class CreateInterViewActivity : BaseActivity() {
             dateDialogFragment.show(supportFragmentManager, "dateDialogFragment")
         }
 
-        tvEndTime.setOnClickListener {
+        binding.tvEndTime.setOnClickListener {
             dateDialogFragment.minimumDateTime = Date(interViewDetails.endTime.toLong())
             dateDialogFragment.setDefaultDateTime(
                 Date(interViewDetails.endTime.toLong())
@@ -181,7 +181,7 @@ class CreateInterViewActivity : BaseActivity() {
                 SwitchDateTimeDialogFragment.OnButtonClickListener {
                 override fun onPositiveButtonClick(date: Date) {
                     interViewDetails.endTime = date.time
-                    tvEndTime.text = format.format(interViewDetails.endTime)
+                    binding.tvEndTime.text = format.format(interViewDetails.endTime)
                 }
 
                 override fun onNegativeButtonClick(date: Date?) {}
@@ -189,19 +189,19 @@ class CreateInterViewActivity : BaseActivity() {
             dateDialogFragment.show(supportFragmentManager, "dateDialogFragment")
         }
 
-        swPasswd.isChecked = interViewDetails.auth
-        tvFinish.setOnClickListener {
+        binding.swPasswd.isChecked = interViewDetails.auth
+        binding.tvFinish.setOnClickListener {
 
-            val title = etTittle.text.toString()
+            val title = binding.etTittle.text.toString()
             val startTime = interViewDetails.startTime / 1000
             val endTime = interViewDetails.endTime / 1000
-            val goverment = etGovernment.text.toString()
-            val career = etCareer.text.toString()
-            val isAuth = if (swPasswd.isChecked) "true" else "false"
+            val goverment = binding.etGovernment.text.toString()
+            val career = binding.etCareer.text.toString()
+            val isAuth = if (binding.swPasswd.isChecked) "true" else "false"
             val authCode = interViewDetails.authCode
-            val isRecorded = if (swRecord.isChecked) "true" else "false"
-            val candidateName = etInterviewerName.text.toString()
-            val candidatePhone = etInterviewerPhone.text.toString()
+            val isRecorded = if (binding.swRecord.isChecked) "true" else "false"
+            val candidateName = binding.etInterviewerName.text.toString()
+            val candidatePhone = binding.etInterviewerPhone.text.toString()
 
             if (title.isEmpty()) {
                 "请输入面试标题".asToast()
@@ -300,7 +300,4 @@ class CreateInterViewActivity : BaseActivity() {
         return false
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.interview_activity_create
-    }
 }

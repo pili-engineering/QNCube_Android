@@ -1,54 +1,57 @@
 package com.qiniu.niucube
 
-
-import android.util.Log
+import android.view.KeyEvent
 import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hipi.vm.backGround
-import com.hipi.vm.bgDefault
 import com.niucube.rtm.RtmCallBack
-import com.niucube.rtm.RtmManager
 import com.qiniu.baseapp.BuildConfig
 import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.niucube.databinding.ActivityMainBinding
 import com.qiniu.qnim.QNIMManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.ext.asToast
+import com.qiniudemo.baseapp.web.WebFragment
 import com.qiniudemo.baseapp.widget.CommonPagerAdapter
 import com.qiniudemo.baseapp.widget.LoadingDialog
 import com.qiniudemo.module.user.MineFragment
 import com.qizhou.bzupdate.UpdateHelper
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
-
 
 @Route(path = RouterConstant.App.MainActivity)
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val pages by lazy {
-        listOf(AppsListFragment(), MineFragment())
+        listOf(
+//            WebFragment().apply {
+//                start("https://sol-introduce.qiniu.com/")
+//            },
+            AppsListFragment(), MineFragment()
+        )
     }
 
-    override fun initViewData() {
-        rgMain.setOnCheckedChangeListener { _, checkedId ->
+    override fun init() {
+        binding.rgMain.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.rbTabMain -> {
-                    if (vpMain.currentItem != 0) {
-                        vpMain.currentItem = 0
+//                R.id.rbTabSulotion -> {
+//                    if (binding.vpMain.currentItem != 0) {
+//                        binding.vpMain.currentItem = 0
+//                    }
+//                }
+                R.id.rbTabApp -> {
+                    if (binding.vpMain.currentItem != 0) {
+                        binding.vpMain.currentItem = 0
                     }
                 }
                 R.id.rbTabMe -> {
-                    if (vpMain.currentItem != 1) {
-                        vpMain.currentItem = 2
+                    if (binding.vpMain.currentItem != 1) {
+                        binding.vpMain.currentItem = 1
                     }
                 }
             }
         }
-        vpMain.adapter = CommonPagerAdapter(pages, supportFragmentManager)
-        vpMain.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        binding.vpMain.adapter = CommonPagerAdapter(pages, supportFragmentManager)
+        binding.vpMain.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
             override fun onPageScrolled(
                 position: Int,
@@ -59,23 +62,29 @@ class MainActivity : BaseActivity() {
 
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    0 -> rgMain.check(R.id.rbTabMain)
-                    1 -> rgMain.check(R.id.rbTabMe)
+                    // 0 -> binding.rgMain.check(R.id.rbTabSulotion)
+                    0 -> binding.rgMain.check(R.id.rbTabApp)
+                    1 -> binding.rgMain.check(R.id.rbTabMe)
                 }
             }
         })
-        rgMain.check(R.id.rbTabMain)
+        binding.rgMain.check(R.id.rbTabApp)
 
         UpdateHelper.init("$packageName.fileProvider")
         UpdateHelper.startCheck()
     }
 
-    override fun isTranslucentBar(): Boolean {
-        return true
-    }
+//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+//        if (binding.vpMain.currentItem == 0 &&
+//            (pages[0] as WebFragment).onKeyDown(keyCode, event)
+//        ) {
+//            return false
+//        }
+//        return super.onKeyDown(keyCode, event)
+//    }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
+    override fun isTranslucentBar(): Boolean {
+        return false
     }
 
     override fun onResume() {

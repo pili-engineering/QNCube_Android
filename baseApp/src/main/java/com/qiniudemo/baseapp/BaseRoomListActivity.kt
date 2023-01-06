@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.bumptech.glide.Glide
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.adapter.QRecyclerViewHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
 import com.hipi.vm.backGround
 import com.qiniu.baseapp.R
+import com.qiniu.baseapp.databinding.ItemRoomListBinding
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.been.RoomListItem
 import com.qiniudemo.baseapp.service.RoomService
-import kotlinx.android.synthetic.main.item_room_list.view.*
 
 abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
-
 
     @Autowired
     @JvmField
@@ -30,7 +30,6 @@ abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
         }
     }
 
-
     override val layoutManager: RecyclerView.LayoutManager
             by lazy { GridLayoutManager(this, 2) }
 
@@ -39,7 +38,7 @@ abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
             showLoading(true)
             doWork {
                 val pageData = RetrofitManager.create(RoomService::class.java)
-                    .listRoom(10, it+1, solutionType)
+                    .listRoom(10, it + 1, solutionType)
                 mSmartRecycler.onFetchDataFinish(pageData.list, true)
             }
             catchError {
@@ -52,10 +51,6 @@ abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
         }
     }
 
-    override fun initViewData() {
-        super.initViewData()
-    }
-
     override fun isRefreshAtOnStart(): Boolean {
         return false
     }
@@ -64,9 +59,7 @@ abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
         return true
     }
 
-    open class BaseRoomItemAdapter:
-        BaseQuickAdapter<com.qiniudemo.baseapp.been.RoomListItem, BaseViewHolder>(R.layout.item_room_list, ArrayList<com.qiniudemo.baseapp.been.RoomListItem>()) {
-
+    open class BaseRoomItemAdapter : QSmartViewBindAdapter<RoomListItem, ItemRoomListBinding>() {
         /**
          * 如果player上面需要加布局　用这个
          */
@@ -74,21 +67,24 @@ abstract class BaseRoomListActivity : RecyclerActivity<RoomListItem>() {
             return null
         }
 
-        override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder? {
+        override fun onCreateDefViewHolder(parent: ViewGroup, viewType: Int): QRecyclerViewHolder? {
             val vh = super.onCreateDefViewHolder(parent, viewType)
             val cl = getCoverLayout(parent)
             if (cl != null) {
-                vh.itemView.flItemContent.addView(cl)
+                vh?.itemView?.findViewById<ViewGroup>(R.id.flItemContent)?.addView(cl)
             }
             return vh
         }
 
-        override fun convert(helper: BaseViewHolder, item: com.qiniudemo.baseapp.been.RoomListItem) {
-            helper.itemView.tvRoomName.text = item.title
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemRoomListBinding>,
+            item: RoomListItem
+        ) {
+            helper.binding.tvRoomName.text = item.title
             Glide.with(mContext)
                 .load(item.image)
-                .into(helper.itemView.ivRoomItemBg)
-            helper.itemView.tvRoomMemb.text = item.totalUsers
+                .into(helper.binding.ivRoomItemBg)
+            helper.binding.tvRoomMemb.text = item.totalUsers
         }
     }
 }

@@ -1,8 +1,6 @@
 plugins {
-    id 'hapidepend'
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
@@ -31,8 +29,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 323
-        versionName "3.2.3"
+        versionCode 326
+        versionName "3.2.6"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
@@ -82,6 +80,9 @@ android {
         pickFirst 'lib/x86/libc++_shared.so'
         pickFirst 'lib/armeabi-v7a/libc++_shared.so'
     }
+    viewBinding{
+        enabled = true
+    }
 }
 
 task buildDebug{
@@ -101,7 +102,6 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
     implementation project(":module_login")
-    implementation project(":module_web")
     implementation project(':module_interview')
     implementation project(':module_user')
     implementation project(':module_overhaul')

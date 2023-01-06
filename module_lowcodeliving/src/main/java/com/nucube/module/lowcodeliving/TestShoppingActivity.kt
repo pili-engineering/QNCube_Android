@@ -1,19 +1,16 @@
 package com.nucube.module.lowcodeliving;
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.hapi.ut.SpUtil
-import com.qlive.core.QLiveClient
 import com.qlive.shoppingservice.QItem
 import com.qlive.uikit.component.FloatingModel
 import com.qlive.uikit.component.FuncCPTPlayerFloatingHandler
 import com.qlive.uikitcore.QLiveUIKitContext
 import com.qlive.uikitcore.dialog.CommonTipDialog
-import kotlinx.android.synthetic.main.activity_test_shopping_actvity.*
 
 class TestShoppingActivity : AppCompatActivity() {
 
@@ -37,14 +34,14 @@ class TestShoppingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_shopping_actvity)
-        ivGoodsBack.setOnClickListener {
+        findViewById<ImageView>(R.id.ivGoodsBack).setOnClickListener {
             onBackPressed()
         }
         intent.getSerializableExtra("QItem")?.let {
             (it as QItem).apply {
                 Glide.with(this@TestShoppingActivity)
                     .load(thumbnail)
-                    .into(ivGoodsImg)
+                    .into( findViewById<ImageView>(R.id.ivGoodsBack))
             }
         }
         if (!SpUtil.get("shop").readBoolean("hasTip", false)) {

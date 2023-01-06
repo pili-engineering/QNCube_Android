@@ -1,37 +1,34 @@
 package com.niucube.module.ktv
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.fastjson.util.ParameterizedTypeImpl
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.base_mvvm.refresh.SmartRecyclerView
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.dialog.FinalDialogFragment
+import com.hapi.baseframe.smartrecycler.IAdapter
+import com.hapi.baseframe.smartrecycler.SmartRecyclerView
 import com.hipi.vm.backGround
-import com.niucube.module.ktv.mode.KTVRoomListItem
 import com.niucube.module.ktv.mode.Song
 import com.niucube.qrtcroom.ktvkit.KTVMusic
 import com.niucube.qrtcroom.ktvkit.KTVSerialPlayer.Companion.key_current_music
-import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniu.baseapp.databinding.ItemRoomListBinding
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
-import com.qiniudemo.baseapp.BaseDialogFragment
 import com.qiniudemo.baseapp.BaseRoomListActivity
-import com.qiniudemo.baseapp.been.BaseRoomEntity
 import com.qiniudemo.baseapp.been.CreateRoomEntity
 import com.qiniudemo.baseapp.been.RoomListItem
 import com.qiniudemo.baseapp.been.findValueOfKey
 import com.qiniudemo.baseapp.dialog.CommonCreateRoomDialog
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.RoomService
-import kotlinx.android.synthetic.main.activity_ktv_room_list.*
-import kotlinx.android.synthetic.main.item_ktv_room_list_cover.view.*
 
 @Route(path = RouterConstant.KTV.KTVList)
 class KtvRoomListActivity : BaseRoomListActivity() {
@@ -40,8 +37,8 @@ class KtvRoomListActivity : BaseRoomListActivity() {
 
     override fun getLayoutId(): Int = R.layout.activity_ktv_room_list
     override val mSmartRecycler: SmartRecyclerView
-            by lazy { smartRecyclerView }
-    override val adapter: BaseQuickAdapter<RoomListItem, *> by lazy {
+            by lazy { findViewById(R.id.smartRecyclerView) }
+    override val adapter: IAdapter<RoomListItem> by lazy {
         KTVAdapter().apply {
             setOnItemClickListener { _, view, position ->
                 ARouter.getInstance().build(RouterConstant.KTV.KTVRoom)
@@ -52,9 +49,9 @@ class KtvRoomListActivity : BaseRoomListActivity() {
         }
     }
 
-    override fun initViewData() {
-        super.initViewData()
-        tvCreateRoom.setOnClickListener {
+    override fun init() {
+        super.init()
+        findViewById<TextView>(R.id.tvCreateRoom).setOnClickListener {
 
             CommonCreateRoomDialog().apply {
                 setDefaultListener(object : FinalDialogFragment.BaseDialogListener() {
@@ -82,19 +79,23 @@ class KtvRoomListActivity : BaseRoomListActivity() {
                             }
                         }
                     }
-                }).show(supportFragmentManager,"")
+                }).show(supportFragmentManager, "")
             }
         }
     }
 
-    class KTVAdapter :BaseRoomItemAdapter() {
+    class KTVAdapter : BaseRoomItemAdapter() {
 
         override fun getCoverLayout(parent: ViewGroup): View? {
             return LayoutInflater.from(mContext)
                 .inflate(R.layout.item_ktv_room_list_cover, parent, false)
         }
-        override fun convert(helper: BaseViewHolder, item: RoomListItem) {
-            super.convert(helper, item)
+
+        @SuppressLint("SetTextI18n")
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemRoomListBinding>,
+            item: RoomListItem
+        ) {
             val pt = ParameterizedTypeImpl(
                 arrayOf(Song::class.java),
                 KTVMusic::class.java,
@@ -104,10 +105,12 @@ class KtvRoomListActivity : BaseRoomListActivity() {
                 item.attrs?.findValueOfKey(key_current_music),
                 pt
             )
-            if(TextUtils.isEmpty(musicAttribute?.musicInfo?.name)){
-                helper.itemView.tvKtvMusicPlaying.text =""
-            }else{
-                helper.itemView.tvKtvMusicPlaying.text = (musicAttribute?.musicInfo?.name ?: "")+"+"+  (musicAttribute?.musicInfo?.author ?: "")
+            if (TextUtils.isEmpty(musicAttribute?.musicInfo?.name)) {
+                helper.itemView.findViewById<TextView>(R.id.tvKtvMusicPlaying).text = ""
+            } else {
+                helper.itemView.findViewById<TextView>(R.id.tvKtvMusicPlaying).text =
+                    (musicAttribute?.musicInfo?.name
+                        ?: "") + "+" + (musicAttribute?.musicInfo?.author ?: "")
             }
         }
     }
