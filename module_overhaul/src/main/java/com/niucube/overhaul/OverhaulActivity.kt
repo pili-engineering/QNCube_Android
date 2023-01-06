@@ -10,17 +10,17 @@ import androidx.fragment.app.DialogFragment
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.AppCache
 import com.hipi.vm.lazyVm
 import com.niucube.overhaul.OverhaulVm.Companion.videoHeight
 import com.niucube.overhaul.OverhaulVm.Companion.videoWidth
 import com.niucube.overhaul.mode.OverhaulRoom
-import com.pili.pldroid.player.widget.PLVideoView
 import com.niucube.mutabletrackroom.MicSeatListener
 import com.niucube.comproom.RoomManager
 import com.qiniu.comp.network.RetrofitManager
 import com.niucube.mutabletrackroom.MutableMicSeat
+import com.niucube.overhaul.databinding.ActivityOverhaulBinding
 import com.niucube.qrtcroom.qplayer.PreviewMode
 import com.qiniu.droid.audio2text.QNRtcAISdkManager
 import com.qiniu.droid.rtc.QNTranscodingLiveStreamingTrack
@@ -38,10 +38,9 @@ import com.qiniudemo.baseapp.widget.CommonPagerAdapter
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.qiniudemo.baseapp.widget.EmptyFragment
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_overhaul.*
 
 @Route(path = RouterConstant.Overhaul.OverhaulRoom)
-class OverhaulActivity : BaseActivity() {
+class OverhaulActivity : BaseActivity<ActivityOverhaulBinding>() {
 
     @Autowired
     @JvmField
@@ -73,7 +72,7 @@ class OverhaulActivity : BaseActivity() {
     }
 
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
         lifecycle.addObserver(KeepLight(this))
         if (deviceMode == OverhaulListActivity.deviceMode_Glasses
             ||
@@ -94,7 +93,7 @@ class OverhaulActivity : BaseActivity() {
         //房间封面
         Glide.with(this)
             .load(overhaulRoomEntity!!.roomInfo.image)
-            .into(ivRoomCover)
+            .into(binding.ivRoomCover)
 
         //白板监听
         QNWhiteBoard.addListener(object : QNAutoRemoveWhiteBoardListener {
@@ -102,16 +101,16 @@ class OverhaulActivity : BaseActivity() {
                 super.onJoinSuccess(p0, p1)
                 //视频分辨率比屏幕小的情况下 写死的适配方案
                 //白板缩放比和视频缩放比同步
-                val wRatio = contentView.measuredWidth / videoWidth.toFloat()
-                val hRatio = contentView.measuredHeight / videoHeight.toFloat()
+                val wRatio = binding.contentView.measuredWidth / videoWidth.toFloat()
+                val hRatio = binding.contentView.measuredHeight / videoHeight.toFloat()
                 //缩放比例等于 视频宽高中最大的比例
                 val whiteboardRatio = Math.max(wRatio, hRatio)
                 // val whiteboardRatio = Math.min(wRatio, hRatio)
-                val lp = whiteBoardView.layoutParams
+                val lp = binding.whiteBoardView.layoutParams
                 //扩大白板的宽宽 白板中心缩放
                 lp.width = (videoWidth * whiteboardRatio).toInt()
                 lp.height = (videoHeight * whiteboardRatio).toInt()
-                whiteBoardView.layoutParams = lp
+                binding.whiteBoardView.layoutParams = lp
                 //设置成为透明
                 QNWhiteBoard.setBackgroundColor(0x00000000)
             }
@@ -127,30 +126,29 @@ class OverhaulActivity : BaseActivity() {
         when (overhaulRoomEntity!!.role) {
             OverhaulRole.PROFESSOR.role -> {
                 //专家
-                textureRoomPlayer.visibility = View.VISIBLE
-                plRoomPlayer.visibility = View.GONE
+                binding.textureRoomPlayer.visibility = View.VISIBLE
+                binding.plRoomPlayer.visibility = View.GONE
             }
             OverhaulRole.STAFF.role -> {
-                textureRoomPlayer.visibility = View.VISIBLE
-                plRoomPlayer.visibility = View.GONE
-                whiteBoardView.setTouchAble(false)
+                binding.textureRoomPlayer.visibility = View.VISIBLE
+                binding.plRoomPlayer.visibility = View.GONE
+                binding.whiteBoardView.setTouchAble(false)
             }
 
             OverhaulRole.STUDENT.role -> {
-                whiteBoardView.setTouchAble(false)
+                binding.whiteBoardView.setTouchAble(false)
                 if (overhaulRoomEntity?.isStudentJoinRtc == true) {
-                    textureRoomPlayer.visibility = View.VISIBLE
-                    plRoomPlayer.visibility = View.GONE
+                    binding.textureRoomPlayer.visibility = View.VISIBLE
+                    binding.plRoomPlayer.visibility = View.GONE
                 } else {
-                    textureRoomPlayer.visibility = View.GONE
-                    plRoomPlayer.visibility = View.VISIBLE
-                    plRoomPlayer.setDisplayAspectRatio(PreviewMode.ASPECT_RATIO_PAVED_PARENT)
-
+                    binding.textureRoomPlayer.visibility = View.GONE
+                    binding.plRoomPlayer.visibility = View.VISIBLE
+                    binding.plRoomPlayer.setDisplayAspectRatio(PreviewMode.ASPECT_RATIO_PAVED_PARENT)
                 }
             }
         }
 
-        mOverhaulVm.mMutableTrackRoom.setPullRender(plRoomPlayer)
+        mOverhaulVm.mMutableTrackRoom.setPullRender(binding.plRoomPlayer)
         //注册麦位监听
         mMutableTrackRoom.addMicSeatListener(object : MicSeatListener {
             override fun onUserSitDown(micSeat: MutableMicSeat) {
@@ -160,7 +158,7 @@ class OverhaulActivity : BaseActivity() {
                     //设置检修员的预览窗口
                     mMutableTrackRoom.setUserCameraWindowView(
                         micSeat.uid,
-                        textureRoomPlayer
+                        binding.textureRoomPlayer
                     )
                 }
                 //检修员负责混流
@@ -222,7 +220,7 @@ class OverhaulActivity : BaseActivity() {
             }
         })
 
-        view_pager.adapter = CommonPagerAdapter(
+        binding.viewPager.adapter = CommonPagerAdapter(
             listOf(OverhaulCoverFragment(), EmptyFragment()),
             supportFragmentManager
         )
@@ -255,10 +253,6 @@ class OverhaulActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_overhaul
     }
 
     //安卓重写返回键事件

@@ -1,8 +1,6 @@
 plugins {
-    
     id 'com.android.library'
     id 'kotlin-android'
-    id 'kotlin-android-extensions'
     id 'kotlin-kapt'
 }
 
@@ -39,13 +37,15 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     api project (':depends:qlive-sdk')
     implementation project (':depends:qlive-sdk-uikit')
 
-    implementation "androidx.databinding:viewbinding:7.1.2"
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     implementation project(":baseApp")
     api project(':depends:depends_sdk_qrtc')

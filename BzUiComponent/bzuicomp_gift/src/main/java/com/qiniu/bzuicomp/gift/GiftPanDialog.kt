@@ -1,26 +1,22 @@
 package com.qiniu.bzuicomp.gift
 
 import android.view.Gravity
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.BaseVmBindingDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.niucube.comproom.RoomManager
 import com.niucube.rtm.RtmCallBack
 import com.niucube.rtm.RtmManager
 import com.niucube.rtm.msg.RtmTextMsg
-import kotlinx.android.synthetic.main.dialog_gift.*
+import com.qiniu.bzuicomp.gift.databinding.DialogGiftBinding
 
-class GiftPanDialog : FinalDialogFragment() {
+class GiftPanDialog : BaseVmBindingDialogFragment<DialogGiftBinding>() {
 
     init {
         applyGravityStyle(Gravity.BOTTOM)
         applyDimAmount(0f)
     }
 
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_gift
-    }
-
     private fun senderGiftMsg(model: GiftMsg) {
-
         RtmManager.rtmClient.sendChannelMsg(RtmTextMsg<GiftMsg>(
             GiftMsg.action_gift, (
                     model)
@@ -31,8 +27,11 @@ class GiftPanDialog : FinalDialogFragment() {
         })
     }
 
-    override fun init() {
-        mGiftPanel.setGiftSendListener {
+    override fun showLoading(toShow: Boolean) {
+    }
+
+    override fun initViewData() {
+        binding. mGiftPanel.setGiftSendListener {
             senderGiftMsg(it)
             // dismiss()
         }

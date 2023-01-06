@@ -1,5 +1,6 @@
 package com.qiniudemo.baseapp.widget
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
@@ -19,17 +20,18 @@ class HeightRatioFrameLayout : FrameLayout {
         context, attrs, -1
     )
 
+    @SuppressLint("CustomViewStyleable")
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context, attrs, defStyleAttr
     ) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.heightRatio)
-        typedArray?.apply {
+        typedArray.apply {
             val ratio = getFloat(R.styleable.heightRatio_ratio, 0.0f)
             if (ratio != 0.0f) {
                 heightRatio = ratio.toDouble()
             }
         }
-        typedArray?.recycle()
+        typedArray.recycle()
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

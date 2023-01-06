@@ -7,29 +7,29 @@ import android.content.Context.CLIPBOARD_SERVICE
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import androidx.core.content.ContextCompat.getSystemService
+import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.base_mvvm.refresh.SmartRefreshHelper
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
+import com.hapi.baseframe.smartrecycler.SmartRefreshHelper
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.backGround
 import com.qiniu.comp.network.RetrofitManager
+import com.qiniu.niucube.databinding.FragmentAppListBinding
+import com.qiniu.niucube.databinding.ItemQiniuAppBinding
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.been.QiniuApp
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.manager.SchemaParser
 import com.qiniudemo.baseapp.service.AppConfigService
-import kotlinx.android.synthetic.main.fragment_app_list.*
-import kotlinx.android.synthetic.main.item_qiniu_app.view.*
 
+class AppsListFragment : BaseFragment<FragmentAppListBinding>() {
 
-class AppsListFragment : BaseFragment() {
-
-    private val adapter: BaseQuickAdapter<QiniuApp, *> by lazy { AppAdapter() }
+    private val adapter by lazy { AppAdapter() }
     private val layoutManager: RecyclerView.LayoutManager
         get() = GridLayoutManager(
             requireContext(),
@@ -37,16 +37,17 @@ class AppsListFragment : BaseFragment() {
         )
     private val smartRefreshHelper: SmartRefreshHelper<QiniuApp> by lazy {
         SmartRefreshHelper(
+            requireContext(),
             adapter,
-            mRecyclerView,
-            refreshLayout,
-            emptyView,
-            5,
+            binding.mRecyclerView,
+            binding.refreshLayout,
+            binding.emptyView,
             false,
             refreshNeed = true,
             fetcherFuc = fetcherFuc
         )
     }
+
     private val fetcherFuc: (page: Int) -> Unit = {
         backGround {
             doWork {
@@ -60,28 +61,32 @@ class AppsListFragment : BaseFragment() {
         }
     }
 
-    override fun initViewData() {
-
-        mRecyclerView.adapter = adapter
-        mRecyclerView.layoutManager = layoutManager
-        mRecyclerView.addItemDecoration(SplitLine())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.mRecyclerView.adapter = adapter
+        binding.mRecyclerView.layoutManager = layoutManager
+        binding.mRecyclerView.addItemDecoration(SplitLine())
         smartRefreshHelper.refresh()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_app_list
-    }
-
-    inner class AppAdapter :
-        BaseQuickAdapter<QiniuApp, BaseViewHolder>(R.layout.item_qiniu_app, ArrayList<QiniuApp>()) {
-        override fun convert(helper: BaseViewHolder, item: QiniuApp) {
-            helper.itemView.tvSolutionName.text = item.title
+    inner class AppAdapter : QSmartViewBindAdapter<QiniuApp, ItemQiniuAppBinding>() {
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemQiniuAppBinding>,
+            item: QiniuApp
+        ) {
+            helper.binding.tvSolutionName.text = item.title
             Glide.with(mContext)
                 .load(item.icon)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(helper.itemView.ivIcon)
+                .into(helper.binding.ivIcon)
             helper.itemView.setOnClickListener {
-                if (!SchemaParser.parseRouter(mContext, childFragmentManager,item.url + "?type=${item.type}", false)) {
+                if (!SchemaParser.parseRouter(
+                        mContext,
+                        childFragmentManager,
+                        item.url + "?type=${item.type}",
+                        false
+                    )
+                ) {
                     "${item.desc}".asToast()
                     val cm: ClipboardManager? =
                         mContext?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?
@@ -91,6 +96,7 @@ class AppsListFragment : BaseFragment() {
                 }
             }
         }
+
     }
 
     inner class SplitLine : RecyclerView.ItemDecoration() {

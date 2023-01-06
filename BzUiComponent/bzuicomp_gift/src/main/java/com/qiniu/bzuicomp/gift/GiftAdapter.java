@@ -17,8 +17,8 @@ import java.util.ArrayList;
 
 public class GiftAdapter extends BaseAdapter {
 
-    private ArrayList<Gift> gifts;
-    private Context mContext;
+    private final ArrayList<Gift> gifts;
+    private final Context mContext;
 
     public GiftAdapter(Context mContext, ArrayList<Gift> gifts) {
         this.mContext = mContext;
@@ -59,7 +59,7 @@ public class GiftAdapter extends BaseAdapter {
         return view;
     }
 
-    class ViewHolder {
+    static class ViewHolder {
         TextView tvGiftName;
         ImageView ivGiftPic;
     }

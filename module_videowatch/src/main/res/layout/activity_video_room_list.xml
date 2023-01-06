@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     >
 
-    <com.hapi.base_mvvm.refresh.SmartRecyclerView
+    <com.hapi.baseframe.smartrecycler.SmartRecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -17,6 +17,4 @@
         android:layout_marginEnd="7dp"
         android:id="@+id/smartRecyclerView"
         />
-
-
 </LinearLayout>

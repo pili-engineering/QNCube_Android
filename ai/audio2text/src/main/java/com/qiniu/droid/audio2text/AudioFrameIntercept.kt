@@ -1,88 +1,42 @@
-package com.qiniu.droid.audio2text
+package com.qiniu.droid.audio2text;
 
 import android.util.Log
-import com.qiniu.droid.rtc.*
-
-import kotlinx.coroutines.*
+import com.qiniu.droid.rtc.QNAudioFrameListener
+import com.qiniu.droid.rtc.QNLocalAudioTrack
 import java.nio.ByteBuffer
-
-private const val frameTimeOut = 200L;
 
 /**
  * 音频帧拦截
  */
 class AudioFrameIntercept(
-
-    private val audioTrack: QNTrack,
     private val workCall: (
         srcBuffer: ByteBuffer,
         size: Int,
         bitsPerSample: Int,
         sampleRate: Int,
         numberOfChannels: Int
-    ) -> Unit,
-    private val timeOutCall: () -> Unit
+    ) -> Unit
 ) {
-
     var isStart = false
-
-    private var timeOutJob: Job? = null
-
-    private val mQNAudioSourceCallback by lazy {
-        object : QNAudioFrameListener {
-
-            override fun onAudioFrameAvailable(
-                srcBuffer: ByteBuffer,
-                size: Int,
-                bitsPerSample: Int,
-                sampleRate: Int,
-                numberOfChannels: Int
-            ) {
-                if (!isStart) {
-                    return
-                }
-                reStartTimeOutJob()
-                workCall.invoke(srcBuffer, size, bitsPerSample, sampleRate, numberOfChannels)
+    var audioTrack: QNLocalAudioTrack? = null
+    private val mQNAudioDataCallback: QNAudioFrameListener =
+        QNAudioFrameListener { byteBuffer, var2, var3, var4, var5 ->
+            if (!isStart) {
+                return@QNAudioFrameListener
             }
+            workCall.invoke(byteBuffer, var2, var3, var4, var5)
         }
-    }
-
-    private fun reStartTimeOutJob() {
-        timeOutJob?.cancel()
-        timeOutJob = GlobalScope.launch(Dispatchers.Main) {
-            delay(frameTimeOut)
-            if (audioTrack is QNLocalAudioTrack) {
-                audioTrack.setAudioFrameListener(null)
-            }
-            if (audioTrack is QNRemoteAudioTrack) {
-                audioTrack.setAudioFrameListener(null)
-            }
-            Log.d("AudioFrameIntercept", "reStartTimeOutJob")
-            timeOutCall.invoke()
-        }
-    }
 
     fun stop() {
         isStart = false
-        timeOutJob?.cancel()
-        if (audioTrack is QNLocalAudioTrack) {
-            audioTrack.setAudioFrameListener(null)
-        }
-        if (audioTrack is QNRemoteAudioTrack) {
-            audioTrack.setAudioFrameListener(null)
-        }
-        Log.d("AudioFrameIntercept", "stop")
+        audioTrack?.setAudioFrameListener(null)
+        Log.d("AudioFrameIntercept", "removeAudioDataCallback")
+        audioTrack = null
     }
 
-    fun run(
-    ) {
+    fun run() {
+        audioTrack?.setAudioFrameListener(null)
         isStart = true
-        reStartTimeOutJob()
-        if (audioTrack is QNLocalAudioTrack) {
-            audioTrack.setAudioFrameListener(mQNAudioSourceCallback)
-        }
-        if (audioTrack is QNRemoteAudioTrack) {
-            audioTrack.setAudioFrameListener(mQNAudioSourceCallback)
-        }
+        audioTrack?.setAudioFrameListener(mQNAudioDataCallback)
     }
 }

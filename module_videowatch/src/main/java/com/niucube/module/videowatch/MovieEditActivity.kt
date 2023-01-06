@@ -1,26 +1,27 @@
 package com.niucube.module.videowatch
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.base_mvvm.refresh.SmartRecyclerView
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
+import com.hapi.baseframe.smartrecycler.SmartRecyclerView
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
+import com.niucube.module.videowatch.databinding.ItemMovieBinding
 import com.niucube.module.videowatch.mode.Movie
 import com.niucube.module.videowatch.service.MovieService
 import com.niucube.player.utils.PalyerUtil
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniudemo.baseapp.RecyclerActivity
 import com.qiniudemo.baseapp.ext.asToast
-import kotlinx.android.synthetic.main.activity_movie_edit.*
-import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MoveWrap(var movie: Movie, var added: Boolean, var checked: Boolean)
 
@@ -50,8 +51,9 @@ class MovieEditActivity : RecyclerActivity<MoveWrap>() {
     override fun requestToolBarBackground(): Drawable? {
         return ColorDrawable(Color.parseColor("#000000"))
     }
-    override val mSmartRecycler: SmartRecyclerView by lazy { smartRecyclerView }
-    override val adapter: BaseQuickAdapter<MoveWrap, *> by lazy { MovieListAdapter() }
+
+    override val mSmartRecycler: SmartRecyclerView by lazy { findViewById(R.id.smartRecyclerView) }
+    override val adapter: MovieListAdapter by lazy { MovieListAdapter() }
     override val layoutManager: RecyclerView.LayoutManager by lazy { GridLayoutManager(this, 2) }
     override val fetcherFuc: (page: Int) -> Unit = {
         backGround {
@@ -80,6 +82,7 @@ class MovieEditActivity : RecyclerActivity<MoveWrap>() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun refreshSelectedSize(): Int {
         var count = 0
         adapter.data.forEach {
@@ -87,14 +90,14 @@ class MovieEditActivity : RecyclerActivity<MoveWrap>() {
                 count++
             }
         }
-        tvSelectedCount.text = "已经选择 (${count})"
+        findViewById<TextView>(R.id.tvSelectedCount).text = "已经选择 (${count})"
         return count
     }
 
-    override fun initViewData() {
-        super.initViewData()
+    override fun init() {
+        super.init()
         refreshSelectedSize()
-        tvAdd.setOnClickListener {
+        findViewById<TextView>(R.id.tvAdd).setOnClickListener {
             if (refreshSelectedSize() == 0) {
                 return@setOnClickListener
             }
@@ -124,29 +127,32 @@ class MovieEditActivity : RecyclerActivity<MoveWrap>() {
         }
     }
 
-    inner class MovieListAdapter :
-        BaseQuickAdapter<MoveWrap, BaseViewHolder>(R.layout.item_movie, ArrayList<MoveWrap>()) {
-        override fun convert(helper: BaseViewHolder, item: MoveWrap) {
+    inner class MovieListAdapter : QSmartViewBindAdapter<MoveWrap, ItemMovieBinding>() {
+
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemMovieBinding>,
+            item: MoveWrap
+        ) {
             Glide.with(mContext)
                 .load(item.movie.image)
-                .into(helper.itemView.ivMovieCover)
-            helper.itemView.tvMovieDuration.text = PalyerUtil.formatTime(item.movie.duration)
-            helper.itemView.tvMovieName.text = item.movie.name
+                .into(helper.binding.ivMovieCover)
+            helper.binding.tvMovieDuration.text = PalyerUtil.formatTime(item.movie.duration)
+            helper.binding.tvMovieName.text = item.movie.name
             if (item.added) {
-                helper.itemView.checkbox.visibility = View.GONE
+                helper.binding.checkbox.visibility = View.GONE
                 helper.itemView.isClickable = false
             } else {
-                helper.itemView.checkbox.visibility = View.VISIBLE
+                helper.binding.checkbox.visibility = View.VISIBLE
                 helper.itemView.isClickable = false
             }
 
-            helper.itemView.checkbox.isChecked = item.checked
+            helper.binding.checkbox.isChecked = item.checked
             helper.itemView.setOnClickListener {
-                helper.itemView.checkbox.performClick()
+                helper.binding.checkbox.performClick()
             }
-            helper.itemView.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            helper.binding.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
                 item.checked = isChecked
-                helper.itemView.tvMovieDuration.isVisible = !isChecked
+                helper.binding.tvMovieDuration.isVisible = !isChecked
                 refreshSelectedSize()
             }
         }

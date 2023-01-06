@@ -1,30 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.hapi.baseframe.refresh.QRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/refreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <FrameLayout
-        android:id="@+id/flRecyContent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <!--        <com.rare.chat.view.CommonEmptyView-->
-        <!--            android:id="@+id/emptyView"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="match_parent"-->
-        <!--            tools:visibility="visible" />-->
-
-    </FrameLayout>
-
-
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.hapi.baseframe.smartrecycler.CommonEmptyView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</com.hapi.baseframe.refresh.QRefreshLayout>
 

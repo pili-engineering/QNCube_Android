@@ -12,13 +12,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.dialog.FinalDialogFragment
+import com.hapi.baseframe.smartrecycler.IAdapter
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
+import com.hapi.baseframe.smartrecycler.SmartRecyclerView
 import com.hapi.ut.ClickUtil
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.backGround
 import com.niucube.comproom.RoomManager
+import com.niucube.overhaul.databinding.ItemOverhaulroomBinding
 import com.niucube.overhaul.mode.OverhaulRoomItem
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.comp.network.RetrofitManager
@@ -30,18 +33,16 @@ import com.qiniudemo.baseapp.widget.SimpleDividerDecoration
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
-import kotlinx.android.synthetic.main.activity_overhaul_list.*
-import kotlinx.android.synthetic.main.item_overhaulroom.view.*
-
 
 @Route(path = RouterConstant.Overhaul.OverhaulList)
 class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
 
-    companion object{
+    companion object {
         var deviceMode_common = 0
         var deviceMode_Glasses = 1
         var deviceMode_Glasses_test = 2
     }
+
     @Autowired
     @JvmField
     var deviceMode: Int = deviceMode_common
@@ -51,8 +52,8 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
         return R.layout.activity_overhaul_list
     }
 
-    override val mSmartRecycler by lazy {
-        smartRecyclerView.apply {
+    override val mSmartRecycler: SmartRecyclerView by lazy {
+        findViewById<SmartRecyclerView>(R.id.smartRecyclerView).apply {
             this.recyclerView.addItemDecoration(
                 SimpleDividerDecoration(
                     this@OverhaulListActivity,
@@ -62,7 +63,7 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
         }
     }
 
-    override val adapter: BaseQuickAdapter<OverhaulRoomItem, *>
+    override val adapter: IAdapter<OverhaulRoomItem>
             by lazy { OverhaulRoomAdapter() }
 
     override val layoutManager: RecyclerView.LayoutManager by lazy { LinearLayoutManager(this) }
@@ -82,18 +83,18 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
 
     override fun init() {
         super.init()
-        if(deviceMode == deviceMode_Glasses){
-            cardCreateRoom.visibility = View.VISIBLE
-        }else{
-            cardCreateRoom.visibility = View.GONE
+        if (deviceMode == deviceMode_Glasses) {
+            findViewById<View>(R.id.cardCreateRoom).visibility = View.VISIBLE
+        } else {
+            findViewById<View>(R.id.cardCreateRoom).visibility = View.GONE
         }
 
-        cardCreateRoom.setOnClickListener {
-            if(RoomManager.mCurrentRoom!=null){
+        findViewById<View>(R.id.cardCreateRoom).setOnClickListener {
+            if (RoomManager.mCurrentRoom != null) {
                 return@setOnClickListener
             }
-            if(ClickUtil.isClickAvalible()){
-                createRoom(UserInfoManager.getUserInfo()?.nickname+"的房间", OverhaulRole.STAFF.role)
+            if (ClickUtil.isClickAvalible()) {
+                createRoom(UserInfoManager.getUserInfo()?.nickname + "的房间", OverhaulRole.STAFF.role)
             }
         }
     }
@@ -128,20 +129,21 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
         mSmartRecycler.startRefresh()
     }
 
-    private fun createRoom(tittle:String,role:String){
+    private fun createRoom(tittle: String, role: String) {
         backGround {
             showLoading(true)
-            cardCreateRoom.isClickable = false
+            findViewById<View>(R.id.cardCreateRoom).isClickable = false
             doWork {
                 val roomCreated = RetrofitManager.create(OverhaulService::class.java)
                     .createInterview(
-                       tittle,role
+                        tittle, role
                     )
-                val room = RetrofitManager.create(OverhaulService::class.java).joinRoom(roomCreated.provideRoomId(),role)
+                val room = RetrofitManager.create(OverhaulService::class.java)
+                    .joinRoom(roomCreated.provideRoomId(), role)
                 room.role = role
                 ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulRoom)
                     .withParcelable("overhaulRoomEntity", room)
-                    .withInt("deviceMode",deviceMode)
+                    .withInt("deviceMode", deviceMode)
                     .navigation(this@OverhaulListActivity)
             }
             catchError {
@@ -150,44 +152,45 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
             }
             onFinally {
                 showLoading(false)
-                cardCreateRoom?.postDelayed({
-                    cardCreateRoom?.isClickable = true
-                },1000)
+                findViewById<View>(R.id.cardCreateRoom)?.postDelayed({
+                    findViewById<View>(R.id.cardCreateRoom).isClickable = true
+                }, 1000)
             }
         }
-
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(reqCode == requestCode && resultCode== RESULT_OK){
-            val etTittle = data?.extras?.getString( "etTittle")?:""
-            val roloId = data?.extras?.getString( "roleId")?:""
-            smartRecyclerView.postDelayed({
-                createRoom(etTittle,roloId)
-            },1000)
-
+        if (reqCode == requestCode && resultCode == RESULT_OK) {
+            val etTittle = data?.extras?.getString("etTittle") ?: ""
+            val roloId = data?.extras?.getString("roleId") ?: ""
+            findViewById<View>(R.id.smartRecyclerView).postDelayed({
+                createRoom(etTittle, roloId)
+            }, 1000)
         }
     }
+
     override fun onMenuItemClick(item: MenuItem): Boolean {
 
-        if(deviceMode == deviceMode_Glasses){
-            createRoom(UserInfoManager.getUserInfo()?.nickname+"的房间", OverhaulRole.STAFF.role)
-        }else{
+        if (deviceMode == deviceMode_Glasses) {
+            createRoom(UserInfoManager.getUserInfo()?.nickname + "的房间", OverhaulRole.STAFF.role)
+        } else {
             if (item.itemId == R.id.interview_add) {
-                startActivityForResult(Intent(this,CreateRoomActivity::class.java),reqCode)
+                startActivityForResult(Intent(this, CreateRoomActivity::class.java), reqCode)
             }
         }
         return true
     }
 
-    inner class OverhaulRoomAdapter : BaseQuickAdapter<OverhaulRoomItem, BaseViewHolder>(
-        R.layout.item_overhaulroom,
-        ArrayList<OverhaulRoomItem>()
-    ) {
-        override fun convert(helper: BaseViewHolder, item: OverhaulRoomItem) {
-            helper.itemView.tvTittle.text = item.title
-            helper.itemView.flowlayoutOp.adapter =
+    inner class OverhaulRoomAdapter :
+        QSmartViewBindAdapter<OverhaulRoomItem, ItemOverhaulroomBinding>() {
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemOverhaulroomBinding>,
+            item: OverhaulRoomItem
+        ) {
+            helper.binding.tvTittle.text = item.title
+            helper.binding.flowlayoutOp.adapter =
                 object : TagAdapter<OverhaulRoomItem.Options>(item.options) {
                     override fun getView(
                         parent: FlowLayout,
@@ -203,7 +206,7 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
                         return textView
                     }
                 }
-            helper.itemView.flowlayoutOp.setOnTagClickListener(TagFlowLayout.OnTagClickListener { view, position, parent ->
+            helper.binding.flowlayoutOp.setOnTagClickListener(TagFlowLayout.OnTagClickListener { view, position, parent ->
                 val role = item.options[position].role
                 showLoading(true)
                 backGround {
@@ -212,11 +215,11 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
                             .joinRoom(item.roomId, role)
                         room.role = role
 
-                        if(room.role != OverhaulRole.STUDENT.role){
+                        if (room.role != OverhaulRole.STUDENT.role) {
                             ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulRoom)
-                                .withInt("deviceMode",deviceMode)
+                                .withInt("deviceMode", deviceMode)
                                 .withParcelable("overhaulRoomEntity", room).navigation(mContext)
-                        }else{
+                        } else {
                             CommonTipDialog.TipBuild()
                                 .setContent("是否加入rtc房间？")
                                 .setNegativeText("拉流播放")
@@ -226,9 +229,10 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
                                         dialog: DialogFragment,
                                         any: Any
                                     ) {
-                                        ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulRoom)
+                                        ARouter.getInstance()
+                                            .build(RouterConstant.Overhaul.OverhaulRoom)
                                             .withParcelable("overhaulRoomEntity", room)
-                                            .withInt("deviceMode",deviceMode)
+                                            .withInt("deviceMode", deviceMode)
                                             .navigation(mContext)
                                     }
 
@@ -237,13 +241,14 @@ class OverhaulListActivity : RecyclerActivity<OverhaulRoomItem>() {
                                         any: Any
                                     ) {
                                         room.isStudentJoinRtc = true
-                                        ARouter.getInstance().build(RouterConstant.Overhaul.OverhaulRoom)
+                                        ARouter.getInstance()
+                                            .build(RouterConstant.Overhaul.OverhaulRoom)
                                             .withParcelable("overhaulRoomEntity", room)
-                                            .withInt("deviceMode",deviceMode)
+                                            .withInt("deviceMode", deviceMode)
                                             .navigation(mContext)
 
                                     }
-                                }).build().show(supportFragmentManager,"")
+                                }).build().show(supportFragmentManager, "")
                         }
                     }
 

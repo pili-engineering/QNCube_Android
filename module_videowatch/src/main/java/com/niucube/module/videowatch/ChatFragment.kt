@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,20 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
 import com.hipi.vm.activityVm
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
+import com.niucube.module.videowatch.databinding.FragmentMovieChatBinding
+import com.niucube.module.videowatch.databinding.ItemChatMemberBinding
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.been.BaseRoomEntity
 import com.qiniudemo.baseapp.been.RoomMember
 import com.qiniudemo.baseapp.been.findValueOfKey
 import com.qiniudemo.baseapp.been.isRoomHost
 import com.qiniudemo.baseapp.ext.asToast
-import kotlinx.android.synthetic.main.fragment_movie_chat.*
-import kotlinx.android.synthetic.main.item_chat_member.view.*
 
-class ChatFragment : BaseFragment() {
+class ChatFragment : BaseFragment<FragmentMovieChatBinding>() {
 
     private val mMemberAdapter by lazy { MemberAdapter() }
     private val roomVm by activityVm<VideoRoomVm>()
@@ -34,11 +37,11 @@ class ChatFragment : BaseFragment() {
         override fun onRoomJoined(roomEntity: RoomEntity) {
             super.onRoomJoined(roomEntity)
             if (roomEntity.isRoomHost()) {
-                llHostInvite?.visibility = View.VISIBLE
-                tvFloatLinkInvite?.visibility = View.VISIBLE
+                binding.llHostInvite.visibility = View.VISIBLE
+                binding.tvFloatLinkInvite.visibility = View.VISIBLE
             } else {
-                llHostInvite?.visibility = View.INVISIBLE
-                tvFloatLinkInvite?.visibility = View.GONE
+                binding.llHostInvite.visibility = View.INVISIBLE
+                binding.tvFloatLinkInvite.visibility = View.GONE
             }
         }
     }
@@ -50,26 +53,27 @@ class ChatFragment : BaseFragment() {
 
 
     @SuppressLint("SetTextI18n")
-    override fun initViewData() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         RoomManager.addRoomLifecycleMonitor(roomLifecycleMonitor)
-        llOnlineUser.setOnClickListener {
+        binding.llOnlineUser.setOnClickListener {
             goOnlineUserPageCall.invoke()
         }
-        ivToKick.setOnClickListener {
+        binding.ivToKick.setOnClickListener {
             goManagerOnlineUserPageCall.invoke()
         }
-        tvChangeMovie.setOnClickListener {
+        binding.tvChangeMovie.setOnClickListener {
             goMovieListPageCall.invoke()
         }
 
-        flFloatLinkInvite.setOnClickListener {
+        binding.flFloatLinkInvite.setOnClickListener {
             if (roomVm.mRtcRoom.mMicSeats.size > 1) {
                 goMicSeatPageCall.invoke()
             } else {
                 goInviteOnlineUserPageCall.invoke()
             }
         }
-        ivInviteCode.setOnClickListener {
+        binding.ivInviteCode.setOnClickListener {
             (RoomManager.mCurrentRoom as BaseRoomEntity?)
                 ?.roomInfo?.params?.findValueOfKey("invitationCode")?.let {
                     val cm =
@@ -80,17 +84,17 @@ class ChatFragment : BaseFragment() {
                 }
         }
 
-        chatView.attachActivity(requireActivity())
-        chatView.attachListener()
-        chatView.setInputAutoChangeHeight(true)
-        tvMember.text = "成员 >"
-        rycMember.layoutManager =
+        binding.chatView.attachActivity(requireActivity())
+        binding.chatView.attachListener()
+        binding.chatView.setInputAutoChangeHeight(true)
+        binding.tvMember.text = "成员 >"
+        binding.rycMember.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        rycMember.adapter = mMemberAdapter
+        binding.rycMember.adapter = mMemberAdapter
 
-        roomVm.roomInfoLiveData.observe(this, Observer {
+        roomVm.roomInfoLiveData.observe(this.viewLifecycleOwner, Observer {
             " <font color='#69BCDB'> ${it.roomInfo?.totalUsers ?: "0"}</font> <font color='#BFBFBF'> 人在线</font>"
-            tvMember.text = "成员 ${it.roomInfo?.totalUsers ?: "0"}>"
+            binding.tvMember.text = "成员 ${it.roomInfo?.totalUsers ?: "0"}>"
             mMemberAdapter.setNewData(ArrayList<RoomMember>().apply {
                 addAll(it.allUserList.filterIndexed { index, _ ->
                     index < 4
@@ -103,24 +107,21 @@ class ChatFragment : BaseFragment() {
         super.onDestroy()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_movie_chat
-    }
-
     companion object {
         @JvmStatic
         fun newInstance() =
             ChatFragment()
     }
 
-    class MemberAdapter : BaseQuickAdapter<RoomMember, BaseViewHolder>(
-        R.layout.item_chat_member,
-        ArrayList<RoomMember>()
-    ) {
-        override fun convert(helper: BaseViewHolder, item: RoomMember) {
+    class MemberAdapter : QSmartViewBindAdapter<RoomMember, ItemChatMemberBinding>() {
+
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemChatMemberBinding>,
+            item: RoomMember
+        ) {
             Glide.with(mContext)
                 .load(item.avatar)
-                .into(helper.itemView.ivAvatar)
+                .into(helper.binding.ivAvatar)
         }
     }
 }

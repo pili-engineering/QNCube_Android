@@ -10,14 +10,14 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.qiniu.compui.trackview.TrackView
-import kotlinx.android.synthetic.main.item_danmu.view.*
 
-
-interface IDanmuItemView{
+interface IDanmuItemView {
 
     var endCall: (() -> Unit)?
+
     // 可以开始下一个弹幕了
     var nextAvalibeCall: (() -> Unit)?
     fun clear()
@@ -25,10 +25,11 @@ interface IDanmuItemView{
     fun getView(): View
 }
 
-class DanmuItemView : FrameLayout,IDanmuItemView {
+class DanmuItemView : FrameLayout, IDanmuItemView {
 
     val animatorTime = 6000L
     override var endCall: (() -> Unit)? = null
+
     // 可以开始下一个弹幕了
     override var nextAvalibeCall: (() -> Unit)? = null
 
@@ -73,9 +74,9 @@ class DanmuItemView : FrameLayout,IDanmuItemView {
         translationX = parentWidth.toFloat()
         Glide.with(context)
             .load(danmuke.senderAvatar)
-            .into(ivSenderAvatar)
-        tvSenderName.text = danmuke.senderName
-        tvContent.text = (danmuke.content)
+            .into(findViewById(R.id.ivSenderAvatar))
+        findViewById<TextView>(R.id.tvSenderName).text = danmuke.senderName
+        findViewById<TextView>(R.id.tvContent).text = (danmuke.content)
     }
 
     override fun clear() {
@@ -96,8 +97,6 @@ class DanmuItemView : FrameLayout,IDanmuItemView {
         return this
     }
 }
-
-
 
 
 /**

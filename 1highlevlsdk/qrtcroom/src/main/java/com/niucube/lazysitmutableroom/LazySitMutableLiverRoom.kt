@@ -92,12 +92,12 @@ class LazySitMutableLiverRoom(
         cameraParams: VideoTrackParams?,
         micphoneParams: AudioTrackParams?
     ) {
-        Log.d("sitDown","joinRtc")
+        Log.d("sitDown", "joinRtc")
         if (mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
             //如果是从拉流角色上麦需要加入房间 拉流角色是指使用rtmp等协议播放合流
             joinRtc(RoomManager.mCurrentRoom?.provideRoomToken() ?: "", "")
         }
-        Log.d("sitDown","setClientRoleSuspend")
+        Log.d("sitDown", "setClientRoleSuspend")
         setClientRoleSuspend(ClientRoleType.CLIENT_ROLE_BROADCASTER)
         //设置角色为主播
         val seatTemp = LazySitUserMicSeat().apply {
@@ -108,7 +108,7 @@ class LazySitMutableLiverRoom(
         seatTemp.userExtension = userExt
         //发送上麦信令
         mRtcRoomSignaling.sitDown(seatTemp)
-        Log.d("sitDown","setCameraVideoTrackParams")
+        Log.d("sitDown", "setCameraVideoTrackParams")
         //创建视频轨道
         cameraParams?.let {
             setCameraVideoTrackParams(it)
@@ -119,12 +119,12 @@ class LazySitMutableLiverRoom(
             setMicrophoneAudioParams(it)
             createAudioTrack()
         }
-        Log.d("sitDown","suspendEnableVideo")
+        Log.d("sitDown", "suspendEnableVideo")
         //发布流
         cameraParams?.let {
             suspendEnableVideo()
         }
-        Log.d("sitDown","suspendEnableAudio")
+        Log.d("sitDown", "suspendEnableAudio")
         //发布流
         micphoneParams?.let {
             suspendEnableAudio()
@@ -202,7 +202,10 @@ class LazySitMutableLiverRoom(
             return
         }
         mRtcRoomSignaling.kickOutFromMicSeat(
-            UserMicSeatMsg(seat, msg),
+            UserMicSeatMsg<LazySitUserMicSeat>().apply {
+                this.seat = seat
+                this.msg = msg
+            },
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack.onSuccess()
@@ -246,11 +249,11 @@ class LazySitMutableLiverRoom(
             return
         }
         mRtcRoomSignaling.forbiddenMicSeatAudio(
-            ForbiddenMicSeatMsg(
-                uid,
-                isForbidden,
-                msg
-            ),
+            ForbiddenMicSeatMsg().apply {
+                this.uid = uid
+                this.isForbidden = isForbidden
+                this.msg = msg
+            },
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack.onSuccess()
@@ -281,15 +284,16 @@ class LazySitMutableLiverRoom(
         }
 
         mRtcRoomSignaling.forbiddenMicSeatVideo(
-            ForbiddenMicSeatMsg(
-                uid,
-                isForbidden,
-                msg
-            ),
+            ForbiddenMicSeatMsg().apply {
+                this.uid = uid
+                this.isForbidden = isForbidden
+                this.msg = msg
+            },
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack.onSuccess()
                 }
+
                 override fun onFailure(code: Int, msg: String) {
                     callBack.onFailure(-code, msg)
                 }
@@ -313,11 +317,11 @@ class LazySitMutableLiverRoom(
             return
         }
         mRtcRoomSignaling.sendCustomSeatAction(
-            CustomSeatAction(
-                uid,
-                key,
-                values
-            ),
+            CustomSeatAction().apply {
+                this.uid = uid
+                this.key = key
+                this.values = values
+            },
             object : RtmCallBack {
                 override fun onSuccess() {
                     callBack.onSuccess()

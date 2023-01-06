@@ -17,15 +17,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.adapter.QRecyclerViewBindAdapter
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.lazyVm
+import com.niucube.audioroom.databinding.ActivityAudioRoomBinding
+import com.niucube.audioroom.databinding.ItemAudioSeatBinding
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
 import com.niucube.comproom.RoomManager
-
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
 import com.qiniu.bzcomp.user.UserInfoManager
@@ -42,11 +44,9 @@ import com.qiniudemo.baseapp.been.isRoomHost
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_audio_room.*
-import kotlinx.android.synthetic.main.item_audio_seat.view.*
 
 @Route(path = RouterConstant.VoiceChatRoom.voiceChatRoom)
-class AudioRoomActivity : BaseActivity() {
+class AudioRoomActivity : BaseActivity<ActivityAudioRoomBinding>() {
 
     @Autowired
     @JvmField
@@ -62,9 +62,6 @@ class AudioRoomActivity : BaseActivity() {
 
     private val roomVm by lazyVm<RoomViewModel>()
 
-    //    private val gameFragment by lazy {
-//        GameFragment()
-//    }
     private val micSeatAdapter by lazy {
         MicSeatsAdapter()
     }
@@ -77,7 +74,7 @@ class AudioRoomActivity : BaseActivity() {
         @SuppressLint("SetTextI18n")
         override fun onRoomEntering(roomEntity: RoomEntity) {
             super.onRoomEntering(roomEntity)
-            tvRoomName.text = Html.fromHtml(
+            binding.tvRoomName.text = Html.fromHtml(
                 " <font color='#4A4A4A'>房间名 </font> <font color='#ffffff'> ${roomEntity.asBaseRoomEntity().roomInfo?.title ?: ""}</font>"
             )
             //   tvRoomName.setText(roomEntity.asBaseRoomEntity().roomInfo?.title ?: "")
@@ -108,7 +105,7 @@ class AudioRoomActivity : BaseActivity() {
             }
             if (micSeat.uid == RoomManager.mCurrentRoom?.asBaseRoomEntity()?.roomInfo?.creator) {
                 "房主下线".asToast()
-                tvLeaveRoom.performClick()
+                binding.tvLeaveRoom.performClick()
             }
         }
 
@@ -116,7 +113,7 @@ class AudioRoomActivity : BaseActivity() {
 
         override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                ivMicStatus.isSelected = !micSeat.isOpenAudio()
+                binding.ivMicStatus.isSelected = !micSeat.isOpenAudio()
             }
             micSeatAdapter.getUserSeat(micSeat).let {
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
@@ -153,35 +150,31 @@ class AudioRoomActivity : BaseActivity() {
         }
     }
 
-    override fun observeLiveData() {
-        super.observeLiveData()
-        roomVm.mTotalUsersLivedata.observe(this, Observer {
-            tvRoomMemberCount.text = it.size.toString()
-        })
-    }
-
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
+        roomVm.mTotalUsersLivedata.observe(this, Observer {
+            binding.tvRoomMemberCount.text = it.size.toString()
+        })
         lifecycle.addObserver(KeepLight(this))
         RoomManager.addRoomLifecycleMonitor(mRoomLifecycleMonitor)
-        mRTCLogView.attachRTCClient(roomVm.mRtcRoom)
+        binding.mRTCLogView.attachRTCClient(roomVm.mRtcRoom)
         isActivityDestory = false
         // gameFragment.addGameFragment(R.id.giftContainer, this)
-        recyMicSeats.layoutManager = GridLayoutManager(this, 3)//
-        micSeatAdapter.bindToRecyclerView(recyMicSeats)
-        lifecycle.addObserver(pubChatView)
-        pubChatView.setAdapter(PubChatAdapter())
+        binding.recyMicSeats.layoutManager = GridLayoutManager(this, 3)//
+        micSeatAdapter.bindToRecyclerView(binding.recyMicSeats)
+        lifecycle.addObserver(binding.pubChatView)
+        binding.pubChatView.setAdapter(PubChatAdapter())
         lifecycle.addObserver(roomVm.mInputMsgReceiver)
         lifecycle.addObserver(roomVm.mGiftTrackManager)
         lifecycle.addObserver(roomVm.mBigGiftManager)
         lifecycle.addObserver(roomVm.mWelComeReceiver)
         lifecycle.addObserver(roomVm.mDanmuTrackManager)
-        roomVm.mBigGiftManager.attch(mBigGiftView)
-        roomVm.mGiftTrackManager.addTrackView(giftShow1)
-        roomVm.mGiftTrackManager.addTrackView(giftShow2)
-        roomVm.mGiftTrackManager.addTrackView(giftShow3)
-        roomVm.mDanmuTrackManager.addTrackView(danmu1)
-        roomVm.mDanmuTrackManager.addTrackView(danmu2)
+        roomVm.mBigGiftManager.attch(binding.mBigGiftView)
+        roomVm.mGiftTrackManager.addTrackView(binding.giftShow1)
+        roomVm.mGiftTrackManager.addTrackView(binding.giftShow2)
+        roomVm.mGiftTrackManager.addTrackView(binding.giftShow3)
+        roomVm.mDanmuTrackManager.addTrackView(binding.danmu1)
+        roomVm.mDanmuTrackManager.addTrackView(binding.danmu2)
         var lastGiftId = ""
         roomVm.mGiftTrackManager.extGiftMsgCall = {
             if (it.sendGift.giftId != lastGiftId) {
@@ -215,7 +208,7 @@ class AudioRoomActivity : BaseActivity() {
                 }
             }
 
-        tvLeaveRoom.setOnClickListener {
+        binding.tvLeaveRoom.setOnClickListener {
             if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER
                 && RoomManager.mCurrentRoom?.isRoomHost() == false
             ) {
@@ -226,17 +219,17 @@ class AudioRoomActivity : BaseActivity() {
             finish()
         }
 
-        ivMicStatus.setOnClickListener {
-            val toOpen = !ivMicStatus.isSelected
+        binding.ivMicStatus.setOnClickListener {
+            val toOpen = !binding.ivMicStatus.isSelected
             val mySeat = roomVm.mRtcRoom.getUserSeat(UserInfoManager.getUserId())
             if (mySeat?.isForbiddenAudioByManager == true) {
                 "管理关了你的麦".asToast()
                 return@setOnClickListener
             }
-            roomVm.mRtcRoom?.muteLocalAudio(toOpen)
+            roomVm.mRtcRoom.muteLocalAudio(toOpen)
         }
 
-        tvShowInput.setOnClickListener {
+        binding.tvShowInput.setOnClickListener {
             RoomInputDialog(2).apply {
                 sendPubCall = {
                     roomVm.mInputMsgReceiver.buildMsg(it)
@@ -245,7 +238,7 @@ class AudioRoomActivity : BaseActivity() {
                 .show(supportFragmentManager, "")
         }
 
-        ivDanmu.setOnClickListener {
+        binding.ivDanmu.setOnClickListener {
             RoomInputDialog(2).apply {
                 sendPubCall = {
                     roomVm.mDanmuTrackManager.buidMsg(it)
@@ -253,26 +246,18 @@ class AudioRoomActivity : BaseActivity() {
             }
                 .show(supportFragmentManager, "")
         }
-        ivGift.setOnClickListener {
+        binding.ivGift.setOnClickListener {
             GiftPanDialog().show(supportFragmentManager, "")
         }
-
-        //  ivGame.visibility = View.GONE
-//        ivGame.setOnClickListener {
-//            gameFragment.startOrHide()
-//        }
     }
 
     override fun onDestroy() {
         isActivityDestory = true
-        roomVm.mRtcRoom?.removeUserMicSeatListener(micSeatListener)
+        roomVm.mRtcRoom.removeUserMicSeatListener(micSeatListener)
         RoomManager.removeRoomLifecycleMonitor(mRoomLifecycleMonitor)
         super.onDestroy()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_audio_room
-    }
 
     //安卓重写返回键事件
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
@@ -288,14 +273,14 @@ class AudioRoomActivity : BaseActivity() {
         var seat: LazySitUserMicSeat? = null
     }
 
-    inner class MicSeatsAdapter : BaseQuickAdapter<LazySitUserMicSeatWrap, BaseViewHolder>(
-        R.layout.item_audio_seat,
-        ArrayList<LazySitUserMicSeatWrap>().apply {
-            for (i in 0..6) {
-                add(LazySitUserMicSeatWrap())
-            }
-        }
-    ) {
+    inner class MicSeatsAdapter : QRecyclerViewBindAdapter<LazySitUserMicSeatWrap, ItemAudioSeatBinding>() {
+       init {
+           data.addAll(ArrayList<LazySitUserMicSeatWrap>().apply {
+               for (i in 0..6) {
+                   add(LazySitUserMicSeatWrap())
+               }
+           })
+       }
         fun getLastSeat(): LazySitUserMicSeatWrap {
             data.forEach {
                 if (it.seat == null) {
@@ -314,29 +299,32 @@ class AudioRoomActivity : BaseActivity() {
             return null
         }
 
-        override fun convert(helper: BaseViewHolder, item: LazySitUserMicSeatWrap) {
-            val lp = helper.itemView.qnSurfaceViewContainer.layoutParams as FrameLayout.LayoutParams
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemAudioSeatBinding>,
+            item: LazySitUserMicSeatWrap
+        ) {
+            val lp = helper.binding.qnSurfaceViewContainer.layoutParams as FrameLayout.LayoutParams
             var itemRoundedCorners = 0f;
             if (data.indexOf(item) == 0) {
-                helper.itemView.tvIndexId.visibility = View.GONE
-                helper.itemView.ivOpPopup.visibility = View.GONE
+                helper.binding.tvIndexId.visibility = View.GONE
+                helper.binding.ivOpPopup.visibility = View.GONE
                 itemRoundedCorners = 20f;
                 lp.width = ViewUtil.dip2px(130f)
                 lp.height = ViewUtil.dip2px(130f)
                 lp.marginStart = ViewUtil.dip2px(20f)
-                helper.itemView.ivBgView.visibility = View.GONE
+                helper.binding.ivBgView.visibility = View.GONE
             } else {
                 itemRoundedCorners = 1f;
-                helper.itemView.tvIndexId.visibility = View.VISIBLE
-                helper.itemView.ivOpPopup.visibility = View.VISIBLE
+                helper.binding.tvIndexId.visibility = View.VISIBLE
+                helper.binding.ivOpPopup.visibility = View.VISIBLE
                 lp.marginStart = ViewUtil.dip2px(0f)
                 lp.width = ViewGroup.LayoutParams.MATCH_PARENT
                 lp.height = ViewGroup.LayoutParams.MATCH_PARENT
-                helper.itemView.ivBgView.visibility = View.VISIBLE
+                helper.binding.ivBgView.visibility = View.VISIBLE
             }
 
-            helper.itemView.tvIndexId.text = data.indexOf(item).toString()
-            helper.itemView.qnSurfaceViewContainer.layoutParams = lp
+            helper.binding.tvIndexId.text = data.indexOf(item).toString()
+            helper.binding.qnSurfaceViewContainer.layoutParams = lp
             val lp2 = helper.itemView.layoutParams as GridLayoutManager.LayoutParams
             if (data.indexOf(item) == 0) {
                 lp2.bottomMargin = ViewUtil.dip2px(10f)
@@ -359,40 +347,40 @@ class AudioRoomActivity : BaseActivity() {
                                 )
                             )
                         )
-                        .into(helper.itemView.ivMicSeatAvatar)
-                    helper.itemView.tvMicNick.text = it.name
+                        .into(helper.binding.ivMicSeatAvatar)
+                    helper.binding.tvMicNick.text = it.name
                 }
             }
-            helper.itemView.ivMicrophoneStatus.isSelected = item.seat?.isOpenAudio() ?: false
+            helper.binding.ivMicrophoneStatus.isSelected = item.seat?.isOpenAudio() ?: false
 
             if (item.seat != null) {
-                helper.itemView.flItemContent.visibility = View.VISIBLE
-                helper.itemView.flItemEmpty.visibility = View.GONE
+                helper.binding.flItemContent.visibility = View.VISIBLE
+                helper.binding.flItemEmpty.visibility = View.GONE
             } else {
-                helper.itemView.flItemContent.visibility = View.GONE
-                helper.itemView.flItemEmpty.visibility = View.VISIBLE
-                if (roomVm.mRtcRoom?.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {
+                helper.binding.flItemContent.visibility = View.GONE
+                helper.binding.flItemEmpty.visibility = View.VISIBLE
+                if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {
                     // helper.itemView.ivJia.visibility = View.GONE
-                    helper.itemView.tvOperationText.text = "等待连线"
+                    helper.binding.tvOperationText.text = "等待连线"
                 } else {
                     // helper.itemView.ivJia.visibility = View.VISIBLE
-                    helper.itemView.tvOperationText.text = "点击上麦"
+                    helper.binding.tvOperationText.text = "点击上麦"
                 }
             }
 
             helper.itemView.setOnClickListener {
-                if (roomVm.mRtcRoom?.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
+                if (roomVm.mRtcRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
                     //申请上麦
                     roomVm.applySitDown()
                 }
             }
             val isHost = RoomManager.mCurrentRoom?.isRoomHost() ?: false
             if (isHost && data.indexOf(item) > 0) {
-                helper.itemView.ivOpPopup.visibility = View.VISIBLE
+                helper.binding.ivOpPopup.visibility = View.VISIBLE
             } else {
-                helper.itemView.ivOpPopup.visibility = View.GONE
+                helper.binding.ivOpPopup.visibility = View.GONE
             }
-            helper.itemView.ivOpPopup.setOnClickListener {
+            helper.binding.ivOpPopup.setOnClickListener {
                 MicSeatInfoDialog.newInstance(item.seat?.uid ?: "").show(supportFragmentManager, "")
             }
         }
@@ -406,14 +394,14 @@ class AudioRoomActivity : BaseActivity() {
         }
     }
 
-    class MySpanSizeLookup(val adapter: BaseQuickAdapter<*, *>) :
+    class MySpanSizeLookup(private val adapter: QRecyclerViewBindAdapter<*, *>) :
         GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             val type = adapter.getItemViewType(position)
-            if (position == 0 || type == BaseQuickAdapter.FOOTER_VIEW) {
-                return 3
+            return if (position == 0 || type == BaseQuickAdapter.FOOTER_VIEW) {
+                3
             } else {
-                return 1
+                1
             }
         }
     }

@@ -16,16 +16,14 @@
         android:textColor="#ffffff"
         android:textSize="17sp" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.hapi.baseframe.refresh.QRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
 
             <com.qiniudemo.baseapp.widget.CommonEmptyView
                 android:id="@+id/emptyView"
@@ -49,9 +47,6 @@
 
             </androidx.cardview.widget.CardView>
         </FrameLayout>
-
-
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    </com.hapi.baseframe.refresh.QRefreshLayout>
 
 </LinearLayout>

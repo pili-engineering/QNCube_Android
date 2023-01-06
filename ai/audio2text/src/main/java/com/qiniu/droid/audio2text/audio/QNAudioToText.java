@@ -1,115 +1,91 @@
 package com.qiniu.droid.audio2text.audio;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 语音识别结果
  */
-public class QNAudioToText {
-    /**
-     * 服务端生成的uuid
-     */
-    public String uuid;
-    /**
-     * 是否是websocket最后一条数据,0:非最后一条数据,1: 最后一条数据。在客户端发送"EOS"(即请求关闭websocket) 后服务端响应的标识。
-     */
-    public int ended;
-    /**
-     * 分片结束,当前消息的transcript为该片段最终结果，否则为partial结果
-     */
-    @SerializedName("final")
-    public int finalX;
-    /**
-     * 语音的文本, 如果final=0, 则为partinal结果 (后面可能会更改),final=1为该片段最终结果
-     */
-    public String transcript;
+public class QNAudioToText implements Serializable {
 
     /**
-     * 该文本所在的切片的起点(包含), 否则为-1
+     * 此识别结果是否为最终结果
      */
-    @SerializedName("start_seq")
-    public int startSeq;
+    public boolean isFinal;
     /**
-     * 为该文本所在的切片的终点(包含)，否则为-1
+     * 此识别结果是否为第一片
      */
-    @SerializedName("end_seq")
-    public int endSeq;
+    public boolean isBegin;
     /**
-     * 该片段的起始时间，毫秒
+     * 最好的转写候选
      */
-    @SerializedName("start_time")
-    public double startTime;
-    /**
-     * 该片段的终止时间，毫秒
-     */
-    @SerializedName("end_time")
-    public double endTime;
-    /**
-     * 是否分段开始: 1:是; 0:不是。 一般分段后返回
-     */
-    @SerializedName("seg_begin")
-    public int segBegin;
-    /**
-     * partial结果文本, 开启needpartial后返回
-     */
-    @SerializedName("partial_transcript")
-    public String partialTranscript;
-    /**
-     * 是否是vad分段开始说话的开始1:是分段开始说话; 0:不是。 注意，每个分段只提醒一次
-     */
-    @SerializedName("spk_begin")
-    public int spkBegin;
-    /**
-     * 是否是vad分段开始说话的开始1:是分段开始说话; 0:不是。 注意，每个分段只提醒一次
-     */
-    @SerializedName("seg_index")
-    public int segIndex;
-    /**
-     * 是否长时间静音，0:否;1:是
-     */
-    @SerializedName("long_sil")
-    public int longSil;
-    /**
-     * 返回词语的对齐信息, 参数need_words=1时返回详细内存见下表。
-     */
+    public BestTranscription bestTranscription;
 
-    public List<WordsDTO> words;
-
-
-    public static class WordsDTO {
-        /**
-         * word : 一
-         * seg_start : 0
-         * voice_start : 6.46
-         * seg_end : 2.58
-         * voice_end : 9.04
-         */
+    /**
+     * 最好的转写候选
+     */
+    public static class BestTranscription implements Serializable {
 
         /**
-         * 词语本身，包括标点符号
+         * 转写结果
          */
-        public String word;
+        public String transcribedText;
         /**
-         * 该词语相对当前分段的起始时间, 毫秒
+         * 句子的开始时间, 单位毫秒
          */
-        @SerializedName("seg_start")
-        public double segStart;
+        public int beginTimestamp;
         /**
-         * 该词语相对当前分段的终止时间, 毫秒
+         * 句子的结束时间, 单位毫秒
          */
-        @SerializedName("voice_start")
-        public double voiceStart;
+        public int endTimestamp;
         /**
-         * 该词语相对整个数据流的起始时间, 毫秒
+         * 转写结果中包含KeyWords内容
          */
-        @SerializedName("seg_end")
-        public double segEnd;
+        public List<KeyWordsType> keyWordsType;
         /**
-         * 该词语相对整个数据流的终止时间, 毫秒
+         * 转写结果的分解（只对final状态结果有效，返回每个字及标点的详细信息）
          */
-        @SerializedName("voice_end")
-        public double voiceEnd;
+        public List<Piece> piece;
+
+        /**
+         * 结果中包含KeyWords
+         */
+        public static class KeyWordsType implements Serializable {
+            /**
+             * 命中的关键词KeyWords。返回不多于10个。
+             */
+            public String keyWords;
+            /**
+             * 命中的关键词KeyWords相应的分数。分数越高表示和关键词越相似，对应kws中的分数。
+             */
+            public double keyWordsScore;
+            /**
+             * 关键词开始时间, 单位毫秒
+             */
+            public int startTimestamp;
+            /**
+             * 关键词结束时间, 单位毫秒
+             */
+            public int endTimestamp;
+        }
+
+        /**
+         * 转写结果的分解（只对final状态结果有效，返回每个字及标点的详细信息）
+         */
+        public static class Piece implements Serializable {
+
+            /**
+             * 转写分解结果
+             */
+            public String transcribedText;
+            /**
+             * 分解开始时间(音频开始时间为0), 单位毫秒
+             */
+            public int beginTimestamp;
+            /**
+             * 分解结束时间(音频开始时间为0), 单位毫秒
+             */
+            public int endTimestamp;
+        }
     }
 }

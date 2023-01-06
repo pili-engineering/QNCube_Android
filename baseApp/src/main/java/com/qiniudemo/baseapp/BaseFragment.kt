@@ -1,17 +1,15 @@
 package com.qiniudemo.baseapp
 
-import com.hapi.base_mvvm.mvvm.BaseVmFragment
+import androidx.viewbinding.ViewBinding
+import com.hapi.baseframe.fragment.BaseBindingFragment
 import com.qiniudemo.baseapp.widget.LoadingDialog
 
-abstract class BaseFragment : BaseVmFragment() {
-
-    override fun observeLiveData() {
-    }
+abstract class BaseFragment<T : ViewBinding> : BaseBindingFragment<T>() {
 
     override fun showLoading(toShow: Boolean) {
-        if(toShow){
+        if (toShow) {
             LoadingDialog.showLoading(childFragmentManager)
-        }else{
+        } else {
             LoadingDialog.cancelLoadingDialog()
         }
     }

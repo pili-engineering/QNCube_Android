@@ -15,6 +15,7 @@ import com.hapi.ut.helper.ActivityManager
 import com.hipi.vm.LifecycleUiCall
 import com.hipi.vm.lazyVm
 import com.qiniu.baseapp.R
+import com.qiniu.baseapp.databinding.ActivitySpalashBinding
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.been.AppConfigModel
@@ -24,10 +25,9 @@ import com.qiniudemo.baseapp.service.AppConfigService
 import com.qiniudemo.baseapp.vm.LoginVm
 import com.qiniudemo.baseapp.web.WebViewActivity
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_spalash.*
 import kotlinx.coroutines.*
 
-abstract class BaseStartActivity : BaseActivity() {
+abstract class BaseStartActivity : BaseActivity<ActivitySpalashBinding>() {
 
     protected val loginVm by lazyVm<LoginVm>()
     companion object{
@@ -41,7 +41,7 @@ abstract class BaseStartActivity : BaseActivity() {
     private val loginRequestCode = 101
 
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
         loginFinishPostcard = onLoginFinishPostcard
         RxPermissions(this).request(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -59,11 +59,11 @@ abstract class BaseStartActivity : BaseActivity() {
                     Glide.with(this@BaseStartActivity)
                         .load(Uri.parse(config.welcome?.image))
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .into(ivSplash)
+                        .into(binding.ivSplash)
                     //  }
                     SpUtil.get(SPConstant.User.SpName).saveData("welcomeImg", config.welcome?.image)
                     if(isIvSplashClientAble()){
-                        ivSplash.setOnClickListener {
+                        binding. ivSplash.setOnClickListener {
                             if (config.welcome?.url?.startsWith("http") == true) {
                                 WebViewActivity.start(config.welcome?.url ?: "", this@BaseStartActivity)
                             }
@@ -111,10 +111,6 @@ abstract class BaseStartActivity : BaseActivity() {
 
     open fun login(call: LifecycleUiCall<Boolean>) {
         loginVm.login(call)
-    }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_spalash
     }
 
     open fun isIvSplashClientAble():Boolean{

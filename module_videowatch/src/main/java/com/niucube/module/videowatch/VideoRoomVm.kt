@@ -11,7 +11,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.helper.ActivityManager
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround

@@ -2,24 +2,23 @@ package com.qiniudemo.baseapp.web
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.webkit.*
-import com.qiniu.baseapp.R
+import com.qiniu.baseapp.databinding.FragmentWebBinding
 import com.qiniudemo.baseapp.BaseFragment
 import com.qiniudemo.baseapp.manager.SchemaParser
-import kotlinx.android.synthetic.main.fragment_web.*
 
-class WebFragment : BaseFragment() {
+class WebFragment : BaseFragment<FragmentWebBinding>() {
 
     var webViewTitleCall: (title: String) -> Unit = {}
 
     //WebViewClient主要帮助WebView处理各种通知、请求事件
     private val webViewClient: WebViewClient = object : WebViewClient() {
         override fun onPageFinished(view: WebView, url: String) { //页面加载完成
-            progressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
         }
 
         override fun onPageStarted(
@@ -27,7 +26,7 @@ class WebFragment : BaseFragment() {
             url: String?,
             favicon: Bitmap?
         ) { //页面开始加载
-            progressBar.visibility = View.VISIBLE
+            binding.progressBar.visibility = View.VISIBLE
         }
     }
 
@@ -52,32 +51,35 @@ class WebFragment : BaseFragment() {
 
         //加载进度回调
         override fun onProgressChanged(view: WebView, newProgress: Int) {
-            progressBar.progress = newProgress
+            binding.progressBar.progress = newProgress
         }
     }
 
-    private var startUrl  = ""
+    private var startUrl = ""
+
     @SuppressLint("SetJavaScriptEnabled")
-    override fun initViewData() {
-        webView.addJavascriptInterface(this, "router") //添加js监听 这样html就能调用客户端
-        webView.webChromeClient = webChromeClient
-        webView.webViewClient = webViewClient
-        val webSettings: WebSettings = webView.settings
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.webView.addJavascriptInterface(this, "router") //添加js监听 这样html就能调用客户端
+        binding.webView.webChromeClient = webChromeClient
+        binding.webView.webViewClient = webViewClient
+        val webSettings: WebSettings = binding.webView.settings
         webSettings.javaScriptEnabled = true //允许使用js
         //支持屏幕缩放
         webSettings.setSupportZoom(true)
         webSettings.builtInZoomControls = true
-        webSettings.domStorageEnabled = true// 开启 DB storage API 功能settings.setDatabaseEnabled(true);// 开启 AppCacheEnablesettings.setAppCacheEnabled(true);
+        webSettings.domStorageEnabled =
+            true// 开启 DB storage API 功能settings.setDatabaseEnabled(true);// 开启 AppCacheEnablesettings.setAppCacheEnabled(true);
         webSettings.databaseEnabled = true// 开启
         webSettings.cacheMode = WebSettings.LOAD_DEFAULT
-        webView.loadUrl(startUrl)
+        binding.webView.loadUrl(startUrl)
     }
 
     fun start(uri: String) {
         if (view == null) {
-           startUrl  = uri
+            startUrl = uri
         } else {
-            webView.loadUrl(uri)
+            binding.webView.loadUrl(uri)
         }
     }
 
@@ -91,14 +93,10 @@ class WebFragment : BaseFragment() {
         SchemaParser.parseRouter(requireContext(), childFragmentManager, url)
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_web
-    }
-
     fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.i("ansen", "是否有上一个页面:" + webView.canGoBack())
-        if (webView.canGoBack() && keyCode == KeyEvent.KEYCODE_BACK) { //点击返回按钮的时候判断有没有上一页
-            webView.goBack() // goBack()表示返回webView的上一页面
+        Log.i("ansen", "是否有上一个页面:" + binding.webView.canGoBack())
+        if (binding.webView.canGoBack() && keyCode == KeyEvent.KEYCODE_BACK) { //点击返回按钮的时候判断有没有上一页
+            binding.webView.goBack() // goBack()表示返回webView的上一页面
             return true
         }
         return false

@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.view.Gravity
 import android.view.ViewGroup
-import com.hapi.happy_dialog.FinalDialogFragment
-import kotlinx.android.synthetic.main.dialog_pub_chat.*
+import com.hapi.baseframe.dialog.FinalDialogFragment
 
-class PubChatDialog(val activityContext: Context) : FinalDialogFragment() {
-
+class PubChatDialog(private val activityContext: Context) : FinalDialogFragment() {
 
     private val mPubChatLeftRightView = PubChatLeftRightView(activityContext)
 
@@ -24,7 +22,7 @@ class PubChatDialog(val activityContext: Context) : FinalDialogFragment() {
     }
 
     override fun init() {
-        flChatFragment.addView(mPubChatLeftRightView)
+        view?.findViewById<ViewGroup>(R.id.flChatFragment)?.addView(mPubChatLeftRightView)
         mPubChatLeftRightView.attachActivity(requireActivity())
         mPubChatLeftRightView.requestEditFocus()
     }

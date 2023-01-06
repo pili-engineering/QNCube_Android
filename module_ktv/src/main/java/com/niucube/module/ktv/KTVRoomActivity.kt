@@ -11,7 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hipi.vm.backGround
 import com.hipi.vm.lazyVm
 import com.hipi.vm.lifecycleBg
@@ -25,13 +25,11 @@ import com.qiniu.jsonutil.JsonUtils
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import kotlinx.android.synthetic.main.activity_ktvroom.*
 import java.io.File
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.been.UserExtProfile
 import com.qiniudemo.baseapp.been.isRoomHost
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.item_micseat_ktv.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.niucube.comproom.RoomEntity
 import com.niucube.comproom.RoomLifecycleMonitor
@@ -44,9 +42,13 @@ import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.bumptech.glide.request.RequestOptions
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.smartrecycler.QSmartViewBindAdapter
 import com.hapi.ut.ViewUtil
 import com.niucube.bzuicomp.chatdialog.LightPubChatDialog
 import com.niucube.comproom.ClientRoleType
+import com.niucube.module.ktv.databinding.ActivityKtvroomBinding
+import com.niucube.module.ktv.databinding.ItemMicseatKtvBinding
 import com.niucube.qrtcroom.ktvkit.KTVMusic
 import com.niucube.qrtcroom.ktvkit.KTVPlayerListener
 import com.niucube.qrtcroom.ktvkit.MusicTrack
@@ -57,12 +59,11 @@ import com.qiniu.bzuicomp.gift.GiftPanDialog
 import com.qiniudemo.baseapp.KeepLight
 import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.widget.BlurTransformation
-import com.qlive.beautyhook.BeautyHookerImpl
 import com.qlive.uiwidghtbeauty.ui.EffectBeautyDialog
 import com.qlive.uiwidghtbeauty.ui.StickerDialog
 
 @Route(path = RouterConstant.KTV.KTVRoom)
-class KTVRoomActivity : BaseActivity() {
+class KTVRoomActivity : BaseActivity<ActivityKtvroomBinding>() {
     private val ktvRoomVm by lazyVm<KTVRoomVm>()
 
     @Autowired
@@ -99,46 +100,46 @@ class KTVRoomActivity : BaseActivity() {
                 Glide.with(this@KTVRoomActivity)
                     .load(song.image)
                     .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 8)))
-                    .into(ivAlbum)
+                    .into(binding.ivAlbum)
                 Glide.with(this@KTVRoomActivity)
                     .load(song.image)
                     .apply(RequestOptions.bitmapTransform(BlurTransformation(25, 8)))
-                    .into(ivAlbumMin)
+                    .into(binding.ivAlbumMin)
 
-                tvCurrentSong.text = song.getMusicName()
+                binding.tvCurrentSong.text = song.getMusicName()
                 if (RoomManager.mCurrentRoom?.asBaseRoomEntity()?.isRoomHost() == true) {
-                    ivPause.visibility = View.VISIBLE
-                    ivNext.visibility = View.VISIBLE
+                    binding.ivPause.visibility = View.VISIBLE
+                    binding.ivNext.visibility = View.VISIBLE
                 }
 
-                lrcView.reset()
-                lrcView.setLabel("${song.getMusicName()} 歌词加载中")
+                binding.lrcView.reset()
+                binding.lrcView.setLabel("${song.getMusicName()} 歌词加载中")
 
                 ktvRoomVm.mKTVPlaylistsManager.loadMusicLirc(song) {
                     if (!it) {
                         val file = File(song.getTagDownLoadLocalUrl(TagDownLoadStatus.TagLrc))
                         val data: LrcData? = LrcLoadUtils.parse(file)
-                        lrcView.setLrcData(data)
+                        binding.lrcView.setLrcData(data)
                     } else {
-                        lrcView.setLabel("${song.getMusicName()} 歌词加载出错")
+                        binding.lrcView.setLabel("${song.getMusicName()} 歌词加载出错")
                     }
                 }
-                tvCurrentSong.text = song.name
-                ivPause.isSelected = false
+                binding.tvCurrentSong.text = song.name
+                binding.ivPause.isSelected = false
             }
 
             override fun onPause() {
-                ivPause.isSelected = true
+                binding.ivPause.isSelected = true
             }
 
             override fun onResume() {
-                ivPause.isSelected = false
+                binding.ivPause.isSelected = false
             }
 
             //播放进度
             override fun updatePosition(position: Long, duration: Long) {
                 Log.d("QNAudioMixingManager", "updatePosition  " + position)
-                lrcView.updateTime(position)
+                binding.lrcView.updateTime(position)
             }
 
             override fun onPlayCompleted() {
@@ -231,10 +232,10 @@ class KTVRoomActivity : BaseActivity() {
                 )
             }
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                ivMicrophone.visibility = View.VISIBLE
-                ivBeauty.visibility = View.VISIBLE
-                ivSticker.visibility = View.VISIBLE
-                cbEnableEarMonitor.visibility = View.VISIBLE
+                binding.ivMicrophone.visibility = View.VISIBLE
+                binding.ivBeauty.visibility = View.VISIBLE
+                binding.ivSticker.visibility = View.VISIBLE
+                binding.cbEnableEarMonitor.visibility = View.VISIBLE
             }
         }
 
@@ -258,12 +259,12 @@ class KTVRoomActivity : BaseActivity() {
                 micSeatAdapter.addData(LazySitUserMicSeatWrap())
             }
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                tvSelectSong.visibility = View.GONE
-                ivMicrophone.visibility = View.GONE
+                binding.tvSelectSong.visibility = View.GONE
+                binding.ivMicrophone.visibility = View.GONE
             }
             if (micSeat.uid == RoomManager.mCurrentRoom?.asBaseRoomEntity()?.roomInfo?.creator) {
                 "房主下线".asToast()
-                ivCloseRoom.performClick()
+                binding.ivCloseRoom.performClick()
             }
         }
 
@@ -273,7 +274,7 @@ class KTVRoomActivity : BaseActivity() {
          */
         override fun onMicAudioStatusChanged(micSeat: LazySitUserMicSeat) {
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                ivMicrophone.isSelected = !micSeat.isOpenAudio()
+                binding.ivMicrophone.isSelected = !micSeat.isOpenAudio()
             }
             micSeatAdapter.getUserSeat(micSeat).let {
                 micSeatAdapter.notifyItemChanged(micSeatAdapter.data.indexOf(it))
@@ -310,74 +311,74 @@ class KTVRoomActivity : BaseActivity() {
         override fun onRoomEntering(roomEntity: RoomEntity) {
             super.onRoomEntering(roomEntity)
 
-            tvRoomTittle.text = roomEntity.asBaseRoomEntity().roomInfo?.title ?: ""
-            tvMember.text = roomEntity.asBaseRoomEntity().roomInfo?.totalUsers ?: ""
+            binding.tvRoomTittle.text = roomEntity.asBaseRoomEntity().roomInfo?.title ?: ""
+            binding.tvMember.text = roomEntity.asBaseRoomEntity().roomInfo?.totalUsers ?: ""
             Glide.with(this@KTVRoomActivity).load(roomEntity.asBaseRoomEntity().roomInfo?.image)
-                .into(ivHostAvatar)
+                .into(binding.ivHostAvatar)
         }
 
         override fun onRoomJoined(roomEntity: RoomEntity) {
             super.onRoomJoined(roomEntity)
             ktvRoomVm.mKTVPlaylistsManager.headMusicChangedCall.invoke(Song())
             if (roomEntity.asBaseRoomEntity().isRoomHost()) {
-                ivAccompany.visibility = View.VISIBLE
-                tvSelectSong.visibility = View.VISIBLE
+                binding.ivAccompany.visibility = View.VISIBLE
+                binding.tvSelectSong.visibility = View.VISIBLE
             }
         }
     }
 
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
         lifecycle.addObserver(ktvRoomVm.mGiftTrackManager)
         lifecycle.addObserver(ktvRoomVm.mBigGiftManager)
         lifecycle.addObserver(ktvRoomVm.mDanmuTrackManager)
-        ktvRoomVm.mBigGiftManager.attch(mBigGiftView)
-        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow1)
-        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow2)
-        ktvRoomVm.mGiftTrackManager.addTrackView(giftShow3)
-        ktvRoomVm.mDanmuTrackManager.addTrackView(danmu1)
-        ktvRoomVm.mDanmuTrackManager.addTrackView(danmu2)
+        ktvRoomVm.mBigGiftManager.attch(binding.mBigGiftView)
+        ktvRoomVm.mGiftTrackManager.addTrackView(binding.giftShow1)
+        ktvRoomVm.mGiftTrackManager.addTrackView(binding.giftShow2)
+        ktvRoomVm.mGiftTrackManager.addTrackView(binding.giftShow3)
+        ktvRoomVm.mDanmuTrackManager.addTrackView(binding.danmu1)
+        ktvRoomVm.mDanmuTrackManager.addTrackView(binding.danmu2)
         lifecycle.addObserver(KeepLight(this))
         pubChatDialog = LightPubChatDialog(this)
-        lrcView.setLabel("暂无音乐播放～")
+        binding.lrcView.setLabel("暂无音乐播放～")
         RoomManager.addRoomLifecycleMonitor(roomLifecycleMonitor)
         ktvRoomVm.mKTVPlayerKit.addKTVPlayerListener(mKTVPlayerListener)
         ktvRoomVm.mKtvRoom.addUserMicSeatListener(mMicSeatListener)
         ktvRoomVm.mKTVPlaylistsManager.headMusicChangedCall = {
-            if (TextUtils.isEmpty(tvCurrentSong.text)) {
-                tvCurrentSong.text = it.getMusicName()
+            if (TextUtils.isEmpty(binding.tvCurrentSong.text)) {
+                binding.tvCurrentSong.text = it.getMusicName()
                 if (RoomManager.mCurrentRoom?.asBaseRoomEntity()?.isRoomHost() == true) {
-                    ivNext.visibility = View.VISIBLE
+                    binding.ivNext.visibility = View.VISIBLE
                 }
-                ivNext.performClick()
+                binding.ivNext.performClick()
             }
         }
-        recyMicSeat.layoutManager = GridLayoutManager(this, 3)
-        recyMicSeat.addItemDecoration(MyItemDecoration())
-        micSeatAdapter.bindToRecyclerView(recyMicSeat)
+        binding.recyMicSeat.layoutManager = GridLayoutManager(this, 3)
+        binding.recyMicSeat.addItemDecoration(MyItemDecoration())
+        micSeatAdapter.bindToRecyclerView(binding.recyMicSeat)
 
-        recySurface.layoutManager = GridLayoutManager(this, 3)
-        recySurface.addItemDecoration(MyItemDecoration())
-        micSurfaceAdapter.bindToRecyclerView(recySurface)
+        binding.recySurface.layoutManager = GridLayoutManager(this, 3)
+        binding.recySurface.addItemDecoration(MyItemDecoration())
+        micSurfaceAdapter.bindToRecyclerView(binding.recySurface)
 
-        ivPause.setOnClickListener {
-            if (!ivPause.isSelected) {
+        binding.ivPause.setOnClickListener {
+            if (!binding.ivPause.isSelected) {
                 ktvRoomVm.mKTVPlayerKit.pause()
             } else {
                 ktvRoomVm.mKTVPlayerKit.resume()
             }
         }
-        ivAccompany.setOnClickListener {
+        binding.ivAccompany.setOnClickListener {
             MusicSettingDialog().show(supportFragmentManager, "")
         }
-        ivNext.setOnClickListener {
+        binding.ivNext.setOnClickListener {
             playNext()
         }
-        ivShowInput.setOnClickListener {
-            pubChatDialog.setBackGround(com.niucube.bzuicomp.chatdialog.R.drawable.shape_pubchat_bg_eeeeee)
+        binding.ivShowInput.setOnClickListener {
+            pubChatDialog.setBackGround(R.drawable.shape_pubchat_bg_eeeeee)
             pubChatDialog.show(supportFragmentManager, "")
         }
-        ivCloseRoom.setOnClickListener {
+        binding.ivCloseRoom.setOnClickListener {
             backGround {
                 doWork {
                     ktvRoomVm.endRoom()
@@ -387,13 +388,13 @@ class KTVRoomActivity : BaseActivity() {
                 }
             }
         }
-        ivMicrophone.setOnClickListener {
-            ktvRoomVm.mKtvRoom.muteLocalAudio(!ivMicrophone.isSelected)
+        binding.ivMicrophone.setOnClickListener {
+            ktvRoomVm.mKtvRoom.muteLocalAudio(!binding.ivMicrophone.isSelected)
         }
-        tvSelectSong.setOnClickListener {
+        binding.tvSelectSong.setOnClickListener {
             SongsListDialog().show(supportFragmentManager, "")
         }
-        cbEnableEarMonitor.setOnCheckedChangeListener { compoundButton, b ->
+        binding.cbEnableEarMonitor.setOnCheckedChangeListener { compoundButton, b ->
             //耳返
             ktvRoomVm.mKTVPlayerKit.enableEarMonitor(b)
         }
@@ -405,7 +406,7 @@ class KTVRoomActivity : BaseActivity() {
                 ktvRoomVm.mBigGiftManager.playInQueen(it)
             }
         }
-        ivDanmu.setOnClickListener {
+        binding.ivDanmu.setOnClickListener {
             RoomInputDialog(2).apply {
                 sendPubCall = {
                     ktvRoomVm.mDanmuTrackManager.buidMsg(it)
@@ -414,15 +415,15 @@ class KTVRoomActivity : BaseActivity() {
                 .show(supportFragmentManager, "")
         }
 
-        ivGift.setOnClickListener {
+        binding.ivGift.setOnClickListener {
             GiftPanDialog().show(supportFragmentManager, "")
         }
 
-        ivBeauty.setOnClickListener {
+        binding.ivBeauty.setOnClickListener {
             mEffectBeautyDialog.show(supportFragmentManager, "")
         }
 
-        ivSticker.setOnClickListener {
+        binding.ivSticker.setOnClickListener {
             mStickerDialog.show(supportFragmentManager, "")
         }
 
@@ -453,10 +454,6 @@ class KTVRoomActivity : BaseActivity() {
             }
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_ktvroom
-    }
-
     class LazySitUserMicSeatWrap() {
         var seat: LazySitUserMicSeat? = null
     }
@@ -481,14 +478,16 @@ class KTVRoomActivity : BaseActivity() {
     }
 
     //麦位UI
-    inner class MicSeatAdapter : BaseQuickAdapter<LazySitUserMicSeatWrap, BaseViewHolder>(
-        R.layout.item_micseat_ktv,
-        ArrayList<LazySitUserMicSeatWrap>().apply {
-            for (i in 0..5) {
-                add(LazySitUserMicSeatWrap())
-            }
+    inner class MicSeatAdapter :
+        QSmartViewBindAdapter<LazySitUserMicSeatWrap, ItemMicseatKtvBinding>() {
+        init {
+            data.addAll(ArrayList<LazySitUserMicSeatWrap>().apply {
+                for (i in 0..5) {
+                    add(LazySitUserMicSeatWrap())
+                }
+            })
         }
-    ) {
+
         fun getLastSeat(): LazySitUserMicSeatWrap {
             data.forEach {
                 if (it.seat == null) {
@@ -507,7 +506,10 @@ class KTVRoomActivity : BaseActivity() {
             return null
         }
 
-        override fun convert(helper: BaseViewHolder, item: LazySitUserMicSeatWrap) {
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemMicseatKtvBinding>,
+            item: LazySitUserMicSeatWrap
+        ) {
             helper.itemView.setOnClickListener {
                 if (TextUtils.isEmpty(item.seat?.uid)) {
                     if (ktvRoomVm.mKtvRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
@@ -516,26 +518,26 @@ class KTVRoomActivity : BaseActivity() {
                 }
             }
             if (TextUtils.isEmpty(item.seat?.uid)) {
-                helper.itemView.llFooter.visibility = View.VISIBLE
-                helper.itemView.flContent.visibility = View.GONE
+                helper.binding.llFooter.visibility = View.VISIBLE
+                helper.binding.flContent.visibility = View.GONE
             } else {
-                helper.itemView.llFooter.visibility = View.GONE
-                helper.itemView.flContent.visibility = View.VISIBLE
+                helper.binding.llFooter.visibility = View.GONE
+                helper.binding.flContent.visibility = View.VISIBLE
                 if (item.seat?.uid == RoomManager.mCurrentRoom?.hostId()) {
-                    helper.itemView.tvHostFlag.visibility = View.VISIBLE
+                    helper.binding.tvHostFlag.visibility = View.VISIBLE
                 } else {
-                    helper.itemView.tvHostFlag.visibility = View.GONE
+                    helper.binding.tvHostFlag.visibility = View.GONE
                 }
                 item.seat?.userExtension?.userExtProfile?.let { it ->
                     val userExtProfile = JsonUtils.parseObject(it, UserExtProfile::class.java)
                     userExtProfile?.let {
                         Glide.with(mContext)
                             .load(it.avatar)
-                            .into(helper.itemView.ivCover)
-                        helper.itemView.tvName.text = it.name
+                            .into(helper.binding.ivCover)
+                        helper.binding.tvName.text = it.name
                     }
                 }
-                helper.itemView.ivMicrophoneStatus.isSelected = item.seat!!.isOpenAudio()
+                helper.binding.ivMicrophoneStatus.isSelected = item.seat!!.isOpenAudio()
             }
         }
 

@@ -7,18 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.appcompat.widget.PopupMenu
+import com.qiniu.bzuicomp.whitebord.databinding.OverhaulWhiteboardControlBinding
 import com.qiniu.droid.whiteboard.QNWhiteBoard
 import com.qiniu.droid.whiteboard.listener.QNAutoRemoveWhiteBoardListener
 import com.qiniu.droid.whiteboard.model.InputConfig
-import kotlinx.android.synthetic.main.overhaul_whiteboard_control.view.*
 
 class WhiteBordControl : FrameLayout {
 
     private val TAG = "WhiteBordControl"
+    private lateinit var binding: OverhaulWhiteboardControlBinding
 
     /**
-    * 创建普通笔颜色选择面板
-    */
+     * 创建普通笔颜色选择面板
+     */
     private val normalPenWindow by lazy {
         PalettePopup(context).apply {
             addColorSelection(NormalPenStyle.colors, normalPenStyle.colorIndex) {
@@ -87,7 +88,7 @@ class WhiteBordControl : FrameLayout {
      * 插入文件/图片的选项弹窗
      */
     private val insertFilePopupMenu by lazy {
-        PopupMenu(context, insert_file).apply {
+        PopupMenu(context, binding.insertFile).apply {
             inflate(R.menu.insert_file_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -107,15 +108,12 @@ class WhiteBordControl : FrameLayout {
         attrs,
         defStyleAttr
     ) {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.overhaul_whiteboard_control, this, false)
-        addView(view)
+        binding = OverhaulWhiteboardControlBinding.inflate(LayoutInflater.from(context), this, true)
 
+        binding.select.setOnClickListener {
 
-        select.setOnClickListener {
-            
         }
-        pen.setOnClickListener {
+        binding.pen.setOnClickListener {
             if (currentInputType != InputType.NORMAL) {
                 changeInputType(InputType.NORMAL)
             } else {
@@ -123,7 +121,7 @@ class WhiteBordControl : FrameLayout {
             }
 
         }
-        mark.setOnClickListener {
+        binding.mark.setOnClickListener {
             if (currentInputType != InputType.MARK) {
                 changeInputType(InputType.MARK)
             } else {
@@ -131,7 +129,7 @@ class WhiteBordControl : FrameLayout {
             }
 
         }
-        eraser.setOnClickListener {
+        binding.eraser.setOnClickListener {
             if (currentInputType != InputType.ERASE) {
                 changeInputType(InputType.ERASE)
             } else {
@@ -139,14 +137,14 @@ class WhiteBordControl : FrameLayout {
             }
 
         }
-        laser.setOnClickListener {
+        binding.laser.setOnClickListener {
             if (currentInputType != InputType.LASER) {
                 changeInputType(InputType.LASER)
             } else {
                 laserWindow.show(it)
             }
         }
-        geometry.setOnClickListener {
+        binding.geometry.setOnClickListener {
 
             if (currentInputType != InputType.GEOMETRY) {
                 changeInputType(InputType.GEOMETRY)
@@ -154,20 +152,20 @@ class WhiteBordControl : FrameLayout {
                 geometryWindow.show(it)
             }
         }
-        insert_file.setOnClickListener {
+        binding.insertFile.setOnClickListener {
             changeInputType(InputType.SELECT)
 
         }
-        restore.setOnClickListener {
-           QNWhiteBoard.recover()
+        binding.restore.setOnClickListener {
+            QNWhiteBoard.recover()
         }
 
         QNWhiteBoard.addListener(object :
             QNAutoRemoveWhiteBoardListener {
             override fun onRecoveryStateChanged(isEmpty: Boolean) {
                 Log.d(TAG, "onRecoveryStateChanged")
-                if(isRestoreNeed){
-                    restore.visibility = if (!isEmpty) View.VISIBLE else View.GONE
+                if (isRestoreNeed) {
+                    binding.restore.visibility = if (!isEmpty) View.VISIBLE else View.GONE
                 }
             }
         })
@@ -220,14 +218,14 @@ class WhiteBordControl : FrameLayout {
             InputType.GEOMETRY -> geometryStyle.inputConfig
         }
         QNWhiteBoard.setInputMode(config)
-        select.isSelected = inputType==InputType.SELECT
-        pen.isSelected = inputType==InputType.NORMAL
-        mark.isSelected = inputType==InputType.MARK
-        eraser.isSelected = inputType==InputType.ERASE
-        laser.isSelected = inputType==InputType.LASER
-        geometry.isSelected = inputType==InputType.GEOMETRY
+        binding.select.isSelected = inputType == InputType.SELECT
+        binding.pen.isSelected = inputType == InputType.NORMAL
+        binding.mark.isSelected = inputType == InputType.MARK
+        binding.eraser.isSelected = inputType == InputType.ERASE
+        binding.laser.isSelected = inputType == InputType.LASER
+        binding.geometry.isSelected = inputType == InputType.GEOMETRY
     }
-    
+
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
@@ -238,38 +236,37 @@ class WhiteBordControl : FrameLayout {
     }
 
     fun setIsSelectNeed(isNeed: Boolean) {
-        select.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.select.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsPenNeed(isNeed: Boolean) {
-        pen.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.pen.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsMarkNeed(isNeed: Boolean) {
-        mark.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.mark.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsEraserNeed(isNeed: Boolean) {
-        eraser.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.eraser.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsLaserNeed(isNeed: Boolean) {
-        laser.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.laser.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsGeometryNeed(isNeed: Boolean) {
-        geometry.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.geometry.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     fun setIsInsertFileNeed(isNeed: Boolean) {
-        insert_file.visibility = if (isNeed) View.VISIBLE else View.GONE
+        binding.insertFile.visibility = if (isNeed) View.VISIBLE else View.GONE
     }
 
     private var isRestoreNeed = true
     fun setIsRestoreNeed(isNeed: Boolean) {
         isRestoreNeed = isNeed
     }
-
 
 
     /**
@@ -306,5 +303,5 @@ class WhiteBordControl : FrameLayout {
          */
         GEOMETRY,
     }
-    
+
 }

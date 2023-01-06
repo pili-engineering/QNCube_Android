@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 
 
 /**
- * Created by SuperMan on 2018/10/08 0008.
  * 0507 去掉了礼物数字的滚动队列，改为新动画覆盖老动画
  */
 
@@ -96,7 +95,6 @@ public class GiftLinearLayout extends LinearLayout implements Animator.AnimatorL
         for (int i = numberLength; i < getChildCount(); i++) {
             getChildAt(i).setVisibility(View.GONE);
         }
-
     }
 
     private void startAnimation(GiftNumbBean giftNumbBean) {

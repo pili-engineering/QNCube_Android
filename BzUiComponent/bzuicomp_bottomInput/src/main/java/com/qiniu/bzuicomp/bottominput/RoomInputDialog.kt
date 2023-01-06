@@ -1,22 +1,15 @@
 package com.qiniu.bzuicomp.bottominput
 
-import android.content.DialogInterface
 import android.graphics.Color
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Gravity
-import android.view.KeyEvent
-import android.view.View
 import android.view.ViewGroup
-import com.hapi.happy_dialog.FinalDialogFragment
-import com.hapi.ut.SoftInputUtil
-import kotlinx.android.synthetic.main.dialog_room_input.*
-
+import com.hapi.baseframe.dialog.BaseVmBindingDialogFragment
+import com.qiniu.bzuicomp.bottominput.databinding.DialogRoomInputBinding
 
 /**
  * 底部输入框
  */
-class RoomInputDialog( val style: Int = 1) : FinalDialogFragment() {
+class RoomInputDialog(val style: Int = 1) : BaseVmBindingDialogFragment<DialogRoomInputBinding>() {
 
     companion object {
         const val type_text = 1
@@ -32,25 +25,23 @@ class RoomInputDialog( val style: Int = 1) : FinalDialogFragment() {
      * 发消息拦截回调
      */
     var sendPubCall: ((msg: String) -> Unit)? = null
-    override fun getViewLayoutId(): Int {
-        return R.layout.dialog_room_input
-    }
 
     override fun init() {
         val viewInput = when (style) {
             1 -> {
-                flInput.setBackgroundColor(Color.parseColor("#eeeeee"))
+                binding.flInput.setBackgroundColor(Color.parseColor("#eeeeee"))
                 LightInputView(requireContext())
             }
             2 -> {
-                flInput.setBackgroundColor(Color.parseColor("#000000"))
+                binding.flInput.setBackgroundColor(Color.parseColor("#000000"))
                 DarkInputView(requireContext())
             }
             else -> {
                 RoomInputView(requireContext())
             }
         }
-        flInput.addView(
+
+        binding.flInput.addView(
             viewInput,
             ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -63,5 +54,13 @@ class RoomInputDialog( val style: Int = 1) : FinalDialogFragment() {
             dismiss()
         }
         viewInput.requestEditFocus()
+    }
+
+    override fun initViewData() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showLoading(toShow: Boolean) {
+        TODO("Not yet implemented")
     }
 }

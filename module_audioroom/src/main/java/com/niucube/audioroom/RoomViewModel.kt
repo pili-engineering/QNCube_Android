@@ -8,7 +8,7 @@ import android.util.Log
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hipi.vm.BaseViewModel
 import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault

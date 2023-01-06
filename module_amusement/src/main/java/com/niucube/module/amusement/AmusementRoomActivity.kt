@@ -17,13 +17,17 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.adapter.QRecyclerViewBindAdapter
+import com.hapi.baseframe.adapter.QRecyclerViewBindHolder
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.lazyVm
 import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
+import com.niucube.module.amusement.databinding.ActivityAmusementRoomBinding
+import com.niucube.module.amusement.databinding.ItemMicseatBinding
 import com.niucube.qrtcroom.rtc.RoundTextureView
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.jsonutil.JsonUtils
@@ -35,12 +39,9 @@ import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
 import com.tbruyelle.rxpermissions2.RxPermissions
-import kotlinx.android.synthetic.main.activity_amusement_room.*
-import kotlinx.android.synthetic.main.item_micseat.view.*
-
 
 @Route(path = RouterConstant.Amusement.AmusementRoom)
-class AmusementRoomActivity : BaseActivity() {
+class AmusementRoomActivity : BaseActivity<ActivityAmusementRoomBinding>() {
 
     private val roomVm by lazyVm<RoomViewModel>()
 
@@ -64,6 +65,7 @@ class AmusementRoomActivity : BaseActivity() {
     private val mMicSeatsSurfaceAdapter by lazy { MicSeatsSurfaceAdapter() }
 
     private val micSeatListener = object : UserMicSeatListener {
+        @SuppressLint("NotifyDataSetChanged")
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
             mMicSeatsAdapter.getLastSeat(micSeat).let {
                 it.seat = micSeat
@@ -73,7 +75,7 @@ class AmusementRoomActivity : BaseActivity() {
                 mMicSeatsAdapter.notifyDataSetChanged()
             }
             mMicSeatsSurfaceAdapter.addData(micSeat)
-            recyMicSeatSurfaces.post {
+            binding.recyMicSeatSurfaces.post {
                 val index = mMicSeatsSurfaceAdapter.data.indexOf(micSeat)
                 val container = (mMicSeatsSurfaceAdapter.getViewByPosition(
                     index,
@@ -164,8 +166,7 @@ class AmusementRoomActivity : BaseActivity() {
                 mMicSeatsAdapter.notifyItemChanged(index)
             }
             mMicSeatsSurfaceAdapter.setNewData(ArrayList<LazySitUserMicSeat>().apply { addAll(seats) })
-
-            recyMicSeatSurfaces.post {
+            binding.recyMicSeatSurfaces.post {
                 mMicSeatsSurfaceAdapter.data.forEachIndexed { index, lazySitUserMicSeat ->
                     val container = (mMicSeatsSurfaceAdapter.getViewByPosition(
                         index,
@@ -199,15 +200,14 @@ class AmusementRoomActivity : BaseActivity() {
         }
     }
 
-
     @SuppressLint("CheckResult")
-    override fun initViewData() {
+    override fun init() {
         lifecycle.addObserver(KeepLight(this))
         val trans = supportFragmentManager.beginTransaction()
         trans.replace(R.id.flRoomCover, AmusementRoomFragment())
         trans.commit()
         roomVm.mRtcRoom.addUserMicSeatListener(micSeatListener)
-        roomVm.mRtcRoom.setPullRender(plRoomPlayer)
+        roomVm.mRtcRoom.setPullRender(binding.plRoomPlayer)
         roomVm.isUserJoinRTC = isUserJoinRTC
         val requestCall = {
             RxPermissions(this)
@@ -235,25 +235,21 @@ class AmusementRoomActivity : BaseActivity() {
                     }
                 }
         }
-        micSeatContainer.post {
-
-            initWH(micSeatContainer, micSeatContainer.width, micSeatContainer.height)
-            Log.d(
-                "MicSeatLayoutManager",
-                "   ${clMicSeatContainer.width}  ${clMicSeatContainer.height}  ${clMicSeatContainer.measuredWidth}  ${clMicSeatContainer.measuredHeight}  "
+        binding.micSeatContainer.post {
+            initWH(
+                binding.micSeatContainer,
+                binding.micSeatContainer.width,
+                binding.micSeatContainer.height
             )
-            recyMicSeats.layoutManager = MicSeatLayoutManager()//GridLayoutManager(this, 3)//
-            mMicSeatsAdapter.bindToRecyclerView(recyMicSeats)
-            recyMicSeatSurfaces.layoutManager = MicSeatLayoutManager()//GridLayoutManager(this, 3)//
-            mMicSeatsSurfaceAdapter.bindToRecyclerView(recyMicSeatSurfaces)
+            binding.recyMicSeats.layoutManager =
+                MicSeatLayoutManager()//GridLayoutManager(this, 3)//
+            mMicSeatsAdapter.bindToRecyclerView(binding.recyMicSeats)
+            binding.recyMicSeatSurfaces.layoutManager =
+                MicSeatLayoutManager()//GridLayoutManager(this, 3)//
+            mMicSeatsSurfaceAdapter.bindToRecyclerView(binding.recyMicSeatSurfaces)
             requestCall.invoke()
         }
     }
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_amusement_room
-    }
-
 
     inner class MicSeatsSurfaceAdapter : BaseQuickAdapter<LazySitUserMicSeat, BaseViewHolder>(
         R.layout.item_micseat_surface,
@@ -267,14 +263,16 @@ class AmusementRoomActivity : BaseActivity() {
         var seat: LazySitUserMicSeat? = null
     }
 
-    inner class MicSeatsAdapter : BaseQuickAdapter<LazySitUserMicSeatWrap, BaseViewHolder>(
-        R.layout.item_micseat,
-        ArrayList<LazySitUserMicSeatWrap>().apply {
-            for (i in 0..6) {
-                add(LazySitUserMicSeatWrap())
-            }
+    inner class MicSeatsAdapter :
+        QRecyclerViewBindAdapter<LazySitUserMicSeatWrap, ItemMicseatBinding>(
+        ) {
+        init {
+            data.addAll(ArrayList<LazySitUserMicSeatWrap>().apply {
+                for (i in 0..6) {
+                    add(LazySitUserMicSeatWrap())
+                }
+            })
         }
-    ) {
 
         fun getLastSeat(micSeat: LazySitUserMicSeat): LazySitUserMicSeatWrap {
             data.forEach {
@@ -294,8 +292,10 @@ class AmusementRoomActivity : BaseActivity() {
             return null
         }
 
-        override fun convert(helper: BaseViewHolder, item: LazySitUserMicSeatWrap) {
-
+        override fun convertViewBindHolder(
+            helper: QRecyclerViewBindHolder<ItemMicseatBinding>,
+            item: LazySitUserMicSeatWrap
+        ) {
             helper.itemView.setOnClickListener {
                 if (TextUtils.isEmpty(item.seat?.uid)) {
                     if (roomVm.mRtcRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
@@ -308,34 +308,34 @@ class AmusementRoomActivity : BaseActivity() {
             }
 
             if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {
-                helper.itemView.ivJia.visibility = View.GONE
+                helper.binding.ivJia.visibility = View.GONE
             } else {
-                helper.itemView.ivJia.visibility = View.VISIBLE
+                helper.binding.ivJia.visibility = View.VISIBLE
             }
 
             if (TextUtils.isEmpty(item.seat?.uid)) {
-                helper.itemView.llFooter.visibility = View.VISIBLE
-                helper.itemView.flContent.visibility = View.GONE
+                helper.binding.llFooter.visibility = View.VISIBLE
+                helper.binding.flContent.visibility = View.GONE
             } else {
-                helper.itemView.llFooter.visibility = View.GONE
-                helper.itemView.flContent.visibility = View.VISIBLE
+                helper.binding.llFooter.visibility = View.GONE
+                helper.binding.flContent.visibility = View.VISIBLE
                 item.seat?.userExtension?.userExtProfile?.let {
                     val userExtProfile = JsonUtils.parseObject(it, UserExtProfile::class.java)
                     userExtProfile?.let {
                         Glide.with(mContext)
                             .load(it.avatar)
                             .apply(RequestOptions.bitmapTransform(RoundedCorners(ViewUtil.dip2px(6f))))
-                            .into(helper.itemView.ivMicSeatAvatar)
-                        helper.itemView.tvMicNick.text = it.name
+                            .into(helper.binding.ivMicSeatAvatar)
+                        helper.binding.tvMicNick.text = it.name
                     }
                 }
 
                 if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_PULLER) {
-                    helper.itemView.ivMicSeatAvatar.isVisible = false
+                    helper.binding.ivMicSeatAvatar.isVisible = false
                 } else {
-                    helper.itemView.ivMicSeatAvatar.isVisible = !item.seat!!.isOpenVideo()
+                    helper.binding.ivMicSeatAvatar.isVisible = !item.seat!!.isOpenVideo()
                 }
-                helper.itemView.ivMicrophoneStatus.isSelected = item.seat!!.isOpenAudio()
+                helper.binding.ivMicrophoneStatus.isSelected = item.seat!!.isOpenAudio()
             }
         }
     }

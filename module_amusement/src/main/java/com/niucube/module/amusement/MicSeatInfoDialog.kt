@@ -7,13 +7,13 @@ import com.bumptech.glide.Glide
 import com.hipi.vm.activityVm
 import com.niucube.absroom.RtcOperationCallback
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
+import com.niucube.module.amusement.databinding.AmusemenetSeatinfoDialogBinding
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.jsonutil.JsonUtils
 import com.qiniudemo.baseapp.BaseDialogFragment
 import com.qiniudemo.baseapp.been.UserExtProfile
-import kotlinx.android.synthetic.main.amusemenet_seatinfo_dialog.*
 
-class MicSeatInfoDialog : BaseDialogFragment() {
+class MicSeatInfoDialog : BaseDialogFragment<AmusemenetSeatinfoDialogBinding>() {
 
     private val roomVm by activityVm<RoomViewModel>()
 
@@ -37,7 +37,7 @@ class MicSeatInfoDialog : BaseDialogFragment() {
         uid = arguments?.getString("uid") ?: ""
         var seat: LazySitUserMicSeat? = null
         roomVm.mRtcRoom.mMicSeats.forEach {
-            if(it.uid == uid){
+            if (it.uid == uid) {
                 seat = it
                 return@forEach
             }
@@ -51,29 +51,29 @@ class MicSeatInfoDialog : BaseDialogFragment() {
             userExtProfile?.let {
                 Glide.with(requireContext())
                     .load(it.avatar)
-                    .into(ivAvatar)
-                tvName.text = it.name
+                    .into(binding.ivAvatar)
+                binding.tvName.text = it.name
             }
         }
 
-        if(uid == UserInfoManager.getUserId()){
-            llOp.visibility  = View.GONE
-        }else{
-            llOp.visibility  = View.VISIBLE
+        if (uid == UserInfoManager.getUserId()) {
+            binding.llOp.visibility = View.GONE
+        } else {
+            binding.llOp.visibility = View.VISIBLE
         }
-        tvForbiddenMic.text = if (seat!!.isForbiddenAudioByManager) {
+        binding.tvForbiddenMic.text = if (seat!!.isForbiddenAudioByManager) {
             "解开禁麦"
         } else {
             "禁麦"
         }
 
-        tvForbiddenCamera.text = if (seat!!.isForbiddenVideoByManager) {
+        binding.tvForbiddenCamera.text = if (seat!!.isForbiddenVideoByManager) {
             "解开禁视频"
         } else {
             "关视频"
         }
 
-        tvForbiddenMic.setOnClickListener {
+        binding.tvForbiddenMic.setOnClickListener {
 
             roomVm.mRtcRoom.forbiddenMicSeatAudio(uid, !seat!!.isForbiddenAudioByManager, "",
                 object : RtcOperationCallback {
@@ -85,7 +85,7 @@ class MicSeatInfoDialog : BaseDialogFragment() {
                 })
             dismiss()
         }
-        tvForbiddenCamera.setOnClickListener {
+        binding.tvForbiddenCamera.setOnClickListener {
             roomVm.mRtcRoom.forbiddenMicSeatVideo(uid, !seat!!.isForbiddenVideoByManager, "",
                 object : RtcOperationCallback {
                     override fun onSuccess() {
@@ -96,7 +96,7 @@ class MicSeatInfoDialog : BaseDialogFragment() {
                 })
             dismiss()
         }
-        tvKick.setOnClickListener {
+        binding.tvKick.setOnClickListener {
             roomVm.mRtcRoom.kickOutFromMicSeat(uid, "", object : RtcOperationCallback {
                 override fun onSuccess() {
                 }
@@ -107,9 +107,4 @@ class MicSeatInfoDialog : BaseDialogFragment() {
             dismiss()
         }
     }
-
-    override fun getViewLayoutId(): Int {
-        return R.layout.amusemenet_seatinfo_dialog
-    }
-
 }

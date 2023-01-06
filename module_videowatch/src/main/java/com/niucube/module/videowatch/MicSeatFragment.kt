@@ -3,6 +3,7 @@ package com.niucube.module.videowatch
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -14,7 +15,7 @@ import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 import com.hapi.ut.ViewUtil
 import com.hipi.vm.activityVm
 import com.niucube.absroom.RtcOperationCallback
@@ -22,6 +23,8 @@ import com.niucube.comproom.ClientRoleType
 import com.niucube.comproom.RoomManager
 import com.niucube.lazysitmutableroom.LazySitUserMicSeat
 import com.niucube.lazysitmutableroom.UserMicSeatListener
+import com.niucube.module.videowatch.databinding.FragmentMicSeatBinding
+import com.niucube.module.videowatch.databinding.MovieItemMicseatBinding
 import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniu.droid.rtc.QNTextureView
 import com.qiniu.jsonutil.JsonUtils
@@ -31,12 +34,8 @@ import com.qiniudemo.baseapp.been.hostId
 import com.qiniudemo.baseapp.been.isRoomHost
 import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.widget.CommonTipDialog
-import com.qiniudemo.baseapp.widget.HeightRatioFrameLayout
-import kotlinx.android.synthetic.main.fragment_mic_seat.*
-import kotlinx.android.synthetic.main.movie_item_micseat.view.*
 
-
-class MicSeatFragment : BaseFragment() {
+class MicSeatFragment : BaseFragment<FragmentMicSeatBinding>() {
 
     private val roomVm by activityVm<VideoRoomVm>()
 
@@ -46,6 +45,7 @@ class MicSeatFragment : BaseFragment() {
     }
 
     private val seatViews = ArrayList<MicSeatsView>()
+
     //private val beautyDialog by lazy { StickerDialog() }
     private val micSeatListener = object : UserMicSeatListener {
         override fun onUserSitDown(micSeat: LazySitUserMicSeat) {
@@ -68,7 +68,7 @@ class MicSeatFragment : BaseFragment() {
                     )
                 )
             }
-            tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
+            binding.tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
         }
 
         override fun onUserSitUp(micSeat: LazySitUserMicSeat, isOffLine: Boolean) {
@@ -85,7 +85,7 @@ class MicSeatFragment : BaseFragment() {
                     parent.removeViewAt(0)
                 }
             }
-            tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
+            binding.tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
             if (micSeat.uid == RoomManager.mCurrentRoom?.hostId()) {
                 "房主离开房间".asToast()
                 roomVm.endRoom()
@@ -110,7 +110,7 @@ class MicSeatFragment : BaseFragment() {
                 seatViews.get(1).convert(false, micSeat)
             }
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                ivCameraStatus.isSelected = !micSeat.isOwnerOpenVideo
+                binding.ivCameraStatus.isSelected = !micSeat.isOwnerOpenVideo
             }
         }
 
@@ -121,7 +121,7 @@ class MicSeatFragment : BaseFragment() {
                 seatViews.get(1).convert(false, micSeat)
             }
             if (micSeat.isMySeat(UserInfoManager.getUserId())) {
-                ivMicStatus.isSelected = !micSeat.isOpenAudio()
+                binding.ivMicStatus.isSelected = !micSeat.isOpenAudio()
             }
         }
 
@@ -144,14 +144,14 @@ class MicSeatFragment : BaseFragment() {
                     )
                 }
             }
-            tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
+            binding.tvSeatSize.text = "${roomVm.mRtcRoom.mMicSeats.size} 人通话中"
         }
 
         override fun onKickOutFromMicSeat(seat: LazySitUserMicSeat, msg: String) {
             super.onKickOutFromMicSeat(seat, msg)
             "${seat.uid} 被管理员下麦".asToast()
             //  onUserSitUp(seat, false)
-            if(seat.isMySeat(UserInfoManager.getUserId())){
+            if (seat.isMySeat(UserInfoManager.getUserId())) {
                 roomVm.sitUp()
             }
         }
@@ -161,7 +161,7 @@ class MicSeatFragment : BaseFragment() {
 
             if (userId == UserInfoManager.getUserId()) {
                 "房主请你离开房间".asToast()
-                if(roomVm.mRtcRoom.mClientRole==ClientRoleType.CLIENT_ROLE_BROADCASTER){
+                if (roomVm.mRtcRoom.mClientRole == ClientRoleType.CLIENT_ROLE_BROADCASTER) {
                     roomVm.sitUp()
                 }
                 requireActivity().finish()
@@ -173,12 +173,13 @@ class MicSeatFragment : BaseFragment() {
     var goInviteOnlineUserPageCall = {}
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun initViewData() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 //        bgDefault {
 //            beautyDialog.loadRes(requireContext())
 //        }
 
-        ivScale.setOnClickListener {
+        binding.ivScale.setOnClickListener {
             if (roomVm.mRtcRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
                 backCall?.invoke()
                 return@setOnClickListener
@@ -199,22 +200,22 @@ class MicSeatFragment : BaseFragment() {
             }
         }
 
-        ivBeauty.setOnClickListener {
+        binding.ivBeauty.setOnClickListener {
 
-           // beautyDialog.show(childFragmentManager, "")
+            // beautyDialog.show(childFragmentManager, "")
         }
-        ivCameraStatus.setOnClickListener {
-            roomVm.mRtcRoom.muteLocalVideo(!ivCameraStatus.isSelected)
+        binding.ivCameraStatus.setOnClickListener {
+            roomVm.mRtcRoom.muteLocalVideo(!binding.ivCameraStatus.isSelected)
         }
-        ivMicStatus.setOnClickListener {
-            roomVm.mRtcRoom.muteLocalAudio(!ivMicStatus.isSelected)
+        binding.ivMicStatus.setOnClickListener {
+            roomVm.mRtcRoom.muteLocalAudio(!binding.ivMicStatus.isSelected)
         }
-        ivSwitchCamera.setOnClickListener {
+        binding.ivSwitchCamera.setOnClickListener {
             roomVm.mRtcRoom.switchCamera()
         }
-        sitUp.setOnClickListener {
+        binding.sitUp.setOnClickListener {
             if (roomVm.mRtcRoom.mClientRole != ClientRoleType.CLIENT_ROLE_BROADCASTER) {
-                backCall?.invoke()
+                backCall.invoke()
                 return@setOnClickListener
             }
             if (RoomManager.mCurrentRoom?.isRoomHost() == false) {
@@ -251,10 +252,10 @@ class MicSeatFragment : BaseFragment() {
             }
         }
         roomVm.mRtcRoom.addUserMicSeatListener(micSeatListener)
-        seatViews.add(leftSeat.apply {
+        seatViews.add(binding.leftSeat.apply {
             goInviteOnlineUserPageCall = this@MicSeatFragment.goInviteOnlineUserPageCall
         })
-        seatViews.add(rightSeat.apply {
+        seatViews.add(binding.rightSeat.apply {
             goInviteOnlineUserPageCall = this@MicSeatFragment.goInviteOnlineUserPageCall
         })
     }
@@ -266,48 +267,43 @@ class MicSeatFragment : BaseFragment() {
         super.onDestroy()
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_mic_seat
-    }
 }
 
 class MicSeatsView : FrameLayout {
     val heightRatio = 1.28
     var goInviteOnlineUserPageCall = {}
+    private lateinit var binding: MovieItemMicseatBinding
 
     constructor(context: Context) : this(context, null) {}
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        val view =
-            LayoutInflater.from(context).inflate(R.layout.movie_item_micseat, this, false)
-        view.findViewById<HeightRatioFrameLayout>(R.id.hrItemMicSeat).heightRatio = heightRatio
-        addView(view)
+        binding = MovieItemMicseatBinding.inflate(LayoutInflater.from(context), this, true)
+        binding.hrItemMicSeat.heightRatio = heightRatio
     }
 
     fun convert(isAdd: Boolean, item: LazySitUserMicSeat?) {
-
-        ivJia.setOnClickListener {
+        binding.ivJia.setOnClickListener {
             if (RoomManager.mCurrentRoom?.isRoomHost() == false) {
                 goInviteOnlineUserPageCall.invoke()
             }
         }
         if (TextUtils.isEmpty(item?.uid)) {
-            llFooter.visibility = View.VISIBLE
-            flContent.visibility = View.GONE
+            binding.llFooter.visibility = View.VISIBLE
+            binding.flContent.visibility = View.GONE
         } else {
-            llFooter.visibility = View.GONE
-            flContent.visibility = View.VISIBLE
+            binding.llFooter.visibility = View.GONE
+            binding.flContent.visibility = View.VISIBLE
             item?.userExtension?.userExtProfile?.let {
                 val userExtProfile = JsonUtils.parseObject(it, UserExtProfile::class.java)
                 userExtProfile?.let {
                     Glide.with(context)
                         .load(it.avatar)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(ViewUtil.dip2px(6f))))
-                        .into(ivMicSeatAvatar)
-                    tvMicNick.text = it.name
+                        .into(binding.ivMicSeatAvatar)
+                    binding.tvMicNick.text = it.name
                 }
             }
-            ivMicSeatAvatar.isVisible = !(item?.isOpenVideo() ?: false)
-            ivMicrophoneStatus.isSelected = item?.isOpenAudio() ?: false
+            binding.ivMicSeatAvatar.isVisible = !(item?.isOpenVideo() ?: false)
+            binding.ivMicrophoneStatus.isSelected = item?.isOpenAudio() ?: false
         }
     }
 }

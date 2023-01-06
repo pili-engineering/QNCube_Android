@@ -4,9 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
 import com.qiniu.baseapp.R
+import com.qiniu.baseapp.databinding.ActivityWebViewBinding
 import com.qiniudemo.baseapp.BaseActivity
 
-class WebViewActivity : BaseActivity() {
+class WebViewActivity : BaseActivity<ActivityWebViewBinding>() {
 
     private val webFragment: WebFragment by lazy { WebFragment() }
 
@@ -23,7 +24,7 @@ class WebViewActivity : BaseActivity() {
     }
 
     private var url = ""
-    override fun initViewData() {
+    override fun init() {
         webFragment.webViewTitleCall = {
             setToolbarTitle(title)
         }
@@ -41,7 +42,5 @@ class WebViewActivity : BaseActivity() {
         return super.onKeyDown(keyCode, event)
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.activity_web_view
-    }
+
 }

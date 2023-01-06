@@ -1,17 +1,18 @@
 package com.qiniudemo.module.user
 
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import com.hapi.happy_dialog.FinalDialogFragment
+import com.hapi.baseframe.dialog.FinalDialogFragment
 
 
 import com.bumptech.glide.Glide
 import com.hapi.mediapicker.ImagePickCallback
 import com.hapi.mediapicker.PicPickHelper
 import com.hapi.mediapicker.Size
-import com.hipi.vm.backGround
 import com.hipi.vm.bgDefault
 import com.hipi.vm.lifecycleBg
 import com.qiniu.comp.network.RetrofitManager
@@ -21,28 +22,29 @@ import com.qiniu.bzcomp.user.UserInfoManager
 import com.qiniudemo.baseapp.service.LoginService
 import com.qiniudemo.baseapp.service.UserService
 import com.qiniudemo.baseapp.web.WebViewActivity
-import kotlinx.android.synthetic.main.user_fragment_mine.*
+import com.qiniudemo.module.user.databinding.UserFragmentMineBinding
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 
-class MineFragment : BaseFragment() {
+class MineFragment : BaseFragment<UserFragmentMineBinding>() {
     private val mPicPickHelper by lazy { PicPickHelper(requireActivity() as AppCompatActivity) }
-    override fun initViewData() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         UserInfoManager.getUserInfo()?.let {
             refreshUinfo(it)
         }
 
-        flPrivacy.setOnClickListener {
+        binding.flPrivacy.setOnClickListener {
             WebViewActivity.start("https://www.qiniu.com/privacy-right", requireContext())
         }
-        flLiability.setOnClickListener {
+        binding.flLiability.setOnClickListener {
             WebViewActivity.start("https://www.qiniu.com/user-agreement", requireContext())
         }
-        flUpLoadLog.setOnClickListener {
+        binding.flUpLoadLog.setOnClickListener {
         }
-        ivAvatar.setOnClickListener {
+        binding.ivAvatar.setOnClickListener {
             mPicPickHelper.show(Size(1, 1), object : ImagePickCallback {
                 override fun onSuccess(result: String?, url: Uri?) {
                     Log.d("mPicPickHelper", " onSuccess $result ${url?.toString()}")
@@ -73,7 +75,7 @@ class MineFragment : BaseFragment() {
                 }
             })
         }
-        flLoginOut.setOnClickListener {
+        binding.flLoginOut.setOnClickListener {
             lifecycleBg {
                 showLoading(true)
                 doWork {
@@ -87,7 +89,7 @@ class MineFragment : BaseFragment() {
             }
         }
 
-        tvProfile.setOnClickListener {
+        binding.tvProfile.setOnClickListener {
             NickNameEditDialog().setDefaultListener(object :
                 FinalDialogFragment.BaseDialogListener() {
                 override fun onDismiss(dialog: DialogFragment) {
@@ -96,16 +98,16 @@ class MineFragment : BaseFragment() {
                 }
             }).show(childFragmentManager, "NickNameEditDialog")
         }
-        tvName.setOnClickListener {
-            tvProfile.performClick()
+        binding.tvName.setOnClickListener {
+            binding.tvProfile.performClick()
         }
-        tvSdkVersion.text = BuildConfig.rtcSdkVersion
-        tvVersionTime.text = BuildConfig.releaseTime
+        binding.tvSdkVersion.text = BuildConfig.rtcSdkVersion
+        binding.tvVersionTime.text = BuildConfig.releaseTime
         val verName = requireActivity().packageManager.getPackageInfo(
             requireActivity().packageName,
             0
         ).versionName
-        tvAppVersion.text = verName
+        binding.tvAppVersion.text = verName
     }
 
     override fun onResume() {
@@ -125,12 +127,9 @@ class MineFragment : BaseFragment() {
     private fun refreshUinfo(userInfo: UserInfo) {
         Glide.with(requireActivity())
             .load(userInfo.avatar)
-            .into(ivAvatar)
-        tvName.text = userInfo.nickname
-        tvProfile.text = userInfo.profile
+            .into(binding.ivAvatar)
+        binding.tvName.text = userInfo.nickname
+        binding.tvProfile.text = userInfo.profile
     }
 
-    override fun getLayoutId(): Int {
-        return R.layout.user_fragment_mine
-    }
 }

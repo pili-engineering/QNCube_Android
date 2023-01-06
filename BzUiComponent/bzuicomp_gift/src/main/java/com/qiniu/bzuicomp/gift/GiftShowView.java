@@ -218,14 +218,14 @@ public class GiftShowView extends RelativeLayout implements TrackView<GiftMsg> {
     public volatile boolean isShowAnimaing = false;
     private volatile GiftMsg currentModel;
     private int currentAnimaStep = 0;
-    private Queue<GiftMsg> gift500Queue = new ArrayDeque<GiftMsg>();
+    private final Queue<GiftMsg> gift500Queue = new ArrayDeque<GiftMsg>();
 
     private boolean isTimeOut = false;
 
     /**
      * 隐藏 结束送礼任务
      */
-    private Runnable alphaRunnable = new Runnable() {
+    private final Runnable alphaRunnable = new Runnable() {
         @Override
         public void run() {
             isTimeOut = true;
@@ -261,10 +261,7 @@ public class GiftShowView extends RelativeLayout implements TrackView<GiftMsg> {
         } else {
             ivGiftImage.setImageResource(showImage);
         }
-
         numberAndGiftBackAnim(giftaModel);
-
-
     }
 
     int showCount;
