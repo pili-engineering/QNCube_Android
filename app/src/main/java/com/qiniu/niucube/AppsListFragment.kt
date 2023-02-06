@@ -31,13 +31,9 @@ class AppsListFragment : BaseFragment<FragmentAppListBinding>() {
 
     private val adapter by lazy { AppAdapter() }
     private val layoutManager: RecyclerView.LayoutManager
-        get() = GridLayoutManager(
-            requireContext(),
-            2
-        )
+        get() = GridLayoutManager(requireContext(), 2)
     private val smartRefreshHelper: SmartRefreshHelper<QiniuApp> by lazy {
-        SmartRefreshHelper(
-            requireContext(),
+        SmartRefreshHelper(requireContext(),
             adapter,
             binding.mRecyclerView,
             binding.refreshLayout,

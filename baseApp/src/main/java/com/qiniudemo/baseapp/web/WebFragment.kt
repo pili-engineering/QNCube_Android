@@ -68,10 +68,10 @@ class WebFragment : BaseFragment<FragmentWebBinding>() {
         //支持屏幕缩放
         webSettings.setSupportZoom(true)
         webSettings.builtInZoomControls = true
-        webSettings.domStorageEnabled =
-            true// 开启 DB storage API 功能settings.setDatabaseEnabled(true);// 开启 AppCacheEnablesettings.setAppCacheEnabled(true);
-        webSettings.databaseEnabled = true// 开启
-        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        webSettings.domStorageEnabled = true
+        webSettings.databaseEnabled = true
+     //   webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
         binding.webView.loadUrl(startUrl)
     }
 

@@ -29,8 +29,8 @@ android {
         applicationId "com.qiniu.niucube"
         minSdkVersion depend.minSdkVersion
         targetSdkVersion depend.targetSdkVersion
-        versionCode 326
-        versionName "3.2.6"
+        versionCode 330
+        versionName "3.3.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions {
