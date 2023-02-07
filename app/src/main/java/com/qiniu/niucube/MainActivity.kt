@@ -23,7 +23,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val pages by lazy {
         listOf(
-            WebFragment().apply { start("https://sol-introduce.qiniu.com/") },
+            WebFragment().apply {
+               anchorView = this@MainActivity.binding.vpMain
+                start("https://sol-introduce.qiniu.com/")
+            },
             AppsListFragment(), MineFragment()
         )
     }
@@ -66,6 +69,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 }
             }
         })
+        binding.vpMain.offscreenPageLimit = 3
         binding.rgMain.check(R.id.rbTabSulotion)
         UpdateHelper.init("$packageName.fileProvider")
         UpdateHelper.startCheck()
