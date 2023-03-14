@@ -1,2 +1,2 @@
 configurations.maybeCreate("default")
-artifacts.add("default", file('qndroid-imsdk-1.0.9.aar'))
+artifacts.add("default", file('qndroid-imsdk-1.1.1.aar'))
