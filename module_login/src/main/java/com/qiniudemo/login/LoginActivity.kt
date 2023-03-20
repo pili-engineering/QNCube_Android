@@ -63,7 +63,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             })
         }
 
-        binding.etLoginPhone.setOnClickListener {
+        binding.btLoginLogin.setOnClickListener {
             val phone = binding.etLoginPhone.text.toString() ?: ""
             val code = binding.etLoginVerificationCode.text.toString() ?: ""
             if (phone.isEmpty()) {

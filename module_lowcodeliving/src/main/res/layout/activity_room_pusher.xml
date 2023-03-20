@@ -10,11 +10,13 @@
     <!--  用户申请连麦监听  功能组件-->
     <com.qlive.uikitlinkmic.FuncCPTLinkMicApplyMonitor
         android:layout_width="0dp"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        app:componentTag="mic" />
     <!--  pk连麦监听  功能组件-->
     <com.qlive.uikitpk.FuncCPTPKApplyMonitor
         android:layout_width="0dp"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        app:componentTag="relay" />
     <!--  房间状态变化监听  功能组件-->
     <com.qlive.uikit.component.FuncCPTRoomStatusMonitor
         android:layout_width="0dp"
@@ -27,14 +29,16 @@
     <com.qlive.uikit.component.FuncCPTDefaultKeyDownMonitor
         android:layout_width="0dp"
         android:layout_height="0dp" />
-
+    <!--    直播违规警告 功能组件-->
     <com.qlive.uikit.component.FuncCPTRoomWarnMonitor
         android:layout_width="0dp"
         android:layout_height="0dp" />
+
     <!--   自定义viewpager让底层图层在viewpager下面同样能被分发到点击事件-->
     <com.qlive.uikit.component.TouchEventBusViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <!--    底层图层 在viewpager下面同样能被分发到点击事件-->
         <com.qlive.uikit.component.FrameLayoutBgCover
             android:layout_width="match_parent"
@@ -49,16 +53,23 @@
             <com.qlive.rtclive.QPushTextureView
                 android:id="@+id/preTextureView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                tools:ignore="UselessParent" />
             <!--    pk预览-->
             <com.qlive.uikitpk.PKAnchorPreview
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:componentTag="relay" />
+            <!--            <com.qlive.uikitpk.PKCoverView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                />-->
             <!-- 连麦者预览-->
             <com.qlive.uikitlinkmic.MicLinkersView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
+                app:componentTag="mic"
                 tools:layout_width="100dp" />
 
             <com.qlive.uikit.component.CloseRoomView
@@ -70,7 +81,7 @@
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:src="@mipmap/kit_ic_close_white"
-                tools:ignore="MissingDefaultResource"
+                tools:ignore="MissingDefaultResource,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck"
                 tools:visibility="visible" />
 
         </com.qlive.uikit.component.FrameLayoutBgCover>
@@ -83,153 +94,139 @@
         <!--    左右滑动覆盖面-->
         <com.qlive.uikit.component.FrameLayoutSlidingCover
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:translationX="-411dp">
+            android:layout_height="match_parent">
 
-
-            <!--             里层-->
-            <LinearLayout
-                android:id="@+id/llTopBar"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:orientation="horizontal">
-                <!--             左上-->
+                android:layout_height="match_parent">
+
                 <!--    房主信息-->
                 <com.qlive.uikituser.RoomHostView
+                    android:id="@+id/roomHostView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:background="#2234ff" />
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="40dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <!-- 房主开始预告中房间按钮-->
                 <com.qlive.uikit.component.AnchorStartTrailerLiveView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp" />
+                    android:layout_marginEnd="48dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/roomHostView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/roomHostView" />
 
-                <!-- 关闭按钮占位-->
-                <View
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp" />
-
-            </LinearLayout>
-
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="80dp">
-
-                <com.qlive.uikit.component.LiveStatisticsView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="@color/white"
-                    android:textSize="9sp" />
-                <!--             右上-->
                 <com.qlive.uikituser.RoomIdView
+                    android:id="@+id/roomIdView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="3dp"
+                    android:layout_marginTop="83dp"
                     android:layout_marginEnd="8dp"
-                    android:gravity="end"
                     android:orientation="vertical"
                     android:textColor="#ffffff"
                     android:textSize="6sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="aaaa" />
-            </FrameLayout>
 
-
-            <LinearLayout
-                android:id="@+id/llBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="40dp"
-                android:orientation="horizontal">
-
-                <!--   输入框-->
-                <com.qlive.uikitpublicchat.InputView
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/kit_shape_40000000_16">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="8dp"
-                        android:src="@mipmap/kit_ic_show_input"
-                        tools:ignore="ContentDescription" />
-                </com.qlive.uikitpublicchat.InputView>
-
-                <!--发弹幕-->
-                <com.qlive.uikitdanmaku.SendDanmakuView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginEnd="4dp"
-                    android:orientation="vertical"
-                    android:src="@mipmap/kit_ic_go_danmaku"
-                    tools:ignore="MissingDefaultResource" />
-
-                <!--                开始pk按钮-->
-                <com.qlive.uikitpk.StartPKView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp" />
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_marginBottom="40dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+                    <!--  输入框-->
+                    <com.qlive.uikitpublicchat.InputView
+                        android:id="@+id/inputView"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/kit_shape_40000000_16"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sendDanmakuView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="TouchTargetSizeCheck">
 
-                <!--  购物车-->
-                <com.qlive.uikitshopping.GoShoppingImgView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:orientation="vertical"
-                    android:src="@mipmap/kit_ic_go_shopping" />
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="8dp"
+                            android:src="@mipmap/kit_ic_show_input" />
+                    </com.qlive.uikitpublicchat.InputView>
 
-                <com.qlive.uikit.component.BottomMoreFuncButton
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="8dp"
-                    android:src="@mipmap/kit_ic_more" />
-            </LinearLayout>
+                    <!--发弹幕-->
+                    <com.qlive.uikitdanmaku.SendDanmakuView
+                        android:id="@+id/sendDanmakuView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:orientation="vertical"
+                        android:src="@mipmap/kit_ic_go_danmaku"
+                        app:componentTag="bulletScreen"
+                        app:layout_constraintBottom_toBottomOf="@+id/inputView"
+                        app:layout_constraintEnd_toStartOf="@id/startPKView"
+                        app:layout_constraintStart_toEndOf="@+id/inputView"
+                        app:layout_constraintTop_toTopOf="@+id/inputView"
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:ignore="MissingDefaultResource" />
 
-            <!--  主播讲解商品卡片-->
-            <com.qlive.uikitshopping.ExplainingQItemCardView
-                android:layout_width="113dp"
-                android:layout_height="171dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="80dp" />
+                    <!-- 开始pk-->
+                    <com.qlive.uikitpk.StartPKView
+                        android:id="@+id/startPKView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="80dp"
-                android:gravity="bottom"
-                android:orientation="vertical">
+                        app:componentTag="relay"
+                        app:layout_constraintBottom_toBottomOf="@+id/inputView"
+                        app:layout_constraintEnd_toStartOf="@+id/goShoppingImgView"
+                        app:layout_constraintStart_toEndOf="@+id/sendDanmakuView"
+                        app:layout_constraintTop_toTopOf="@+id/inputView" />
+
+                    <!--  购物车-->
+                    <com.qlive.uikitshopping.GoShoppingImgView
+                        android:id="@+id/goShoppingImgView"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:orientation="vertical"
+                        android:src="@mipmap/kit_ic_go_shopping"
+                        app:componentTag="item"
+                        app:layout_constraintBottom_toBottomOf="@+id/inputView"
+                        app:layout_constraintEnd_toStartOf="@+id/bottomMoreFuncButton"
+                        app:layout_constraintStart_toEndOf="@+id/startPKView"
+                        app:layout_constraintTop_toTopOf="@+id/inputView" />
+
+                    <com.qlive.uikit.component.BottomMoreFuncButton
+                        android:id="@+id/bottomMoreFuncButton"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="8dp"
+                        android:src="@mipmap/kit_ic_more"
+                        app:layout_constraintBottom_toBottomOf="@+id/inputView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/goShoppingImgView"
+                        app:layout_constraintTop_toTopOf="@+id/inputView" />
+
+                </LinearLayout>
 
                 <!--                公告-->
                 <com.qlive.uikitpublicchat.RoomNoticeView
                     android:layout_width="238dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="6dp"
                     android:background="@drawable/kit_shape_40000000_6"
                     android:orientation="vertical"
                     android:paddingStart="8dp"
@@ -237,42 +234,65 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="16dp"
                     android:textColor="#ffffff"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    app:componentTag="announcement"
+                    app:layout_constraintBottom_toTopOf="@+id/publicChatView"
+                    app:layout_constraintStart_toStartOf="@+id/publicChatView"
+                    tools:text="官方公告" />
 
-                <com.qlive.uikitcore.view.EdgeTransparentView
-                    android:layout_width="match_parent"
+                <!--                    公屏聊天-->
+                <com.qlive.uikitpublicchat.PublicChatView
+                    android:id="@+id/publicChatView"
+                    android:layout_width="238dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="80dp"
+                    android:fadingEdgeLength="20dp"
+                    android:gravity="bottom"
                     android:orientation="vertical"
-                    app:edge_position="top|bottom"
-                    app:edge_width="30dp">
-                    <!--     公屏聊天-->
-                    <com.qlive.uikitpublicchat.PublicChatView
-                        android:layout_width="238dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        tools:background="#44000000"
-                        tools:layout_height="150dp" />
-                </com.qlive.uikitcore.view.EdgeTransparentView>
+                    android:requiresFadingEdge="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:maxHeight="250dp"
+                    tools:background="#44000000"
+                    tools:layout_height="150dp"
+                    tools:layout_width="238dp" />
 
-            </LinearLayout>
+                <!--            主播讲解卡片-->
+                <com.qlive.uikitshopping.ExplainingQItemCardView
+                    android:layout_width="113dp"
+                    android:layout_height="171dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="80dp"
+                    app:componentTag="item"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
-            <!--   pk覆盖空UI 无UI实现-->
-            <com.qlive.uikitpk.PKCoverView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <!--  弹幕轨道-->
-            <com.qlive.uikitdanmaku.DanmakuTrackManagerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-            <!-- 礼物轨道-->
-            <com.qlive.uikitgift.GiftTrackManagerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center_vertical" />
+                <!--            弹幕轨道-->
+                <com.qlive.uikitdanmaku.DanmakuTrackManagerView
+                    android:id="@+id/danmakuTrackManagerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:componentTag="bulletScreen"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone" />
+                <!-- 礼物轨道-->
+                <com.qlive.uikitgift.GiftTrackManagerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    app:componentTag="gift"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="gone" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.qlive.uikit.component.FrameLayoutSlidingCover>
     </com.qlive.uikit.component.TouchEventBusViewPager>
@@ -281,6 +301,7 @@
     <com.qlive.uikit.component.LivePreView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:booking="1"
         tools:alpha="0.1">
         <!--        预览页面的返回-->
         <com.qlive.uikit.component.QBackRoomNavigationImg

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.*
 import com.qiniu.baseapp.databinding.FragmentWebBinding
 import com.qiniudemo.baseapp.BaseFragment
@@ -14,7 +15,7 @@ import com.qiniudemo.baseapp.manager.SchemaParser
 class WebFragment : BaseFragment<FragmentWebBinding>() {
 
     var webViewTitleCall: (title: String) -> Unit = {}
-
+    var anchorView: ViewGroup?=null
     //WebViewClient主要帮助WebView处理各种通知、请求事件
     private val webViewClient: WebViewClient = object : WebViewClient() {
         override fun onPageFinished(view: WebView, url: String) { //页面加载完成
@@ -68,11 +69,12 @@ class WebFragment : BaseFragment<FragmentWebBinding>() {
         //支持屏幕缩放
         webSettings.setSupportZoom(true)
         webSettings.builtInZoomControls = true
-        webSettings.domStorageEnabled =
-            true// 开启 DB storage API 功能settings.setDatabaseEnabled(true);// 开启 AppCacheEnablesettings.setAppCacheEnabled(true);
-        webSettings.databaseEnabled = true// 开启
-        webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        webSettings.domStorageEnabled = true
+        webSettings.databaseEnabled = true
+     //   webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        webSettings.cacheMode = WebSettings.LOAD_NO_CACHE
         binding.webView.loadUrl(startUrl)
+        binding.webView.anchorView = this.anchorView
     }
 
     fun start(uri: String) {

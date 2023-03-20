@@ -89,9 +89,9 @@ class PKLiveRoomListActivity : BaseActivity<ActivityPkliveRoomListBinding>() {
                 }
                 2 -> {
                     QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
-                        R.layout.activity_room_player_noshopping
+                        R.layout.custom_layout_player_noshopping
                     QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
-                        R.layout.activity_room_pusher_no_shoping
+                        R.layout.custom_layout_pusher_noshoping
                 }
                 3 -> {
                     QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
@@ -99,12 +99,7 @@ class PKLiveRoomListActivity : BaseActivity<ActivityPkliveRoomListBinding>() {
                     QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
                         R.layout.ktv_activity_room_pusher
                 }
-                else -> {
-                    QLive.getLiveUIKit().getPage(RoomPage::class.java).playerCustomLayoutID =
-                        R.layout.activity_room_player
-                    QLive.getLiveUIKit().getPage(RoomPage::class.java).anchorCustomLayoutID =
-                        R.layout.activity_room_pusher
-                }
+
             }
 
             QLive.auth(object : QLiveCallBack<Void> {

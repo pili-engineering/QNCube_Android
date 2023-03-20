@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.qiniu.niucube.MainActivity"
     android:orientation="vertical"
-
     >
 
     <androidx.viewpager.widget.ViewPager
@@ -31,20 +30,20 @@
             android:paddingTop="8dp"
 
             >
-<!--            <RadioButton-->
-<!--                android:id="@+id/rbTabSulotion"-->
-<!--                android:gravity="center"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_height="48dp"-->
-<!--                android:text="方案"-->
-<!--                android:maxHeight="54dp"-->
-<!--                android:drawableTop="@drawable/select_apply"-->
-<!--                android:button="@null"-->
-<!--                android:drawablePadding="0dp"-->
-<!--                android:textColor="@drawable/select_color_main_tab"-->
-<!--                android:textSize="10sp"-->
-<!--                />-->
+            <RadioButton
+                android:id="@+id/rbTabSulotion"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:text="方案"
+                android:maxHeight="54dp"
+                android:drawableTop="@drawable/select_solution"
+                android:button="@null"
+                android:drawablePadding="0dp"
+                android:textColor="@drawable/select_color_main_tab"
+                android:textSize="10sp"
+                />
             <RadioButton
                 android:id="@+id/rbTabApp"
                 android:gravity="center"

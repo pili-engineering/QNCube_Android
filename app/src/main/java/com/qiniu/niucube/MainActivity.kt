@@ -23,9 +23,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val pages by lazy {
         listOf(
-//            WebFragment().apply {
-//                start("https://sol-introduce.qiniu.com/")
-//            },
+            WebFragment().apply {
+               anchorView = this@MainActivity.binding.vpMain
+                start("https://sol-introduce.qiniu.com/")
+            },
             AppsListFragment(), MineFragment()
         )
     }
@@ -33,19 +34,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     override fun init() {
         binding.rgMain.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-//                R.id.rbTabSulotion -> {
-//                    if (binding.vpMain.currentItem != 0) {
-//                        binding.vpMain.currentItem = 0
-//                    }
-//                }
-                R.id.rbTabApp -> {
+                R.id.rbTabSulotion -> {
                     if (binding.vpMain.currentItem != 0) {
                         binding.vpMain.currentItem = 0
                     }
                 }
-                R.id.rbTabMe -> {
+                R.id.rbTabApp -> {
                     if (binding.vpMain.currentItem != 1) {
                         binding.vpMain.currentItem = 1
+                    }
+                }
+                R.id.rbTabMe -> {
+                    if (binding.vpMain.currentItem != 2) {
+                        binding.vpMain.currentItem = 2
                     }
                 }
             }
@@ -62,26 +63,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    // 0 -> binding.rgMain.check(R.id.rbTabSulotion)
-                    0 -> binding.rgMain.check(R.id.rbTabApp)
-                    1 -> binding.rgMain.check(R.id.rbTabMe)
+                    0 -> binding.rgMain.check(R.id.rbTabSulotion)
+                    1 -> binding.rgMain.check(R.id.rbTabApp)
+                    2 -> binding.rgMain.check(R.id.rbTabMe)
                 }
             }
         })
-        binding.rgMain.check(R.id.rbTabApp)
-
+        binding.vpMain.offscreenPageLimit = 3
+        binding.rgMain.check(R.id.rbTabSulotion)
         UpdateHelper.init("$packageName.fileProvider")
         UpdateHelper.startCheck()
     }
 
-//    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-//        if (binding.vpMain.currentItem == 0 &&
-//            (pages[0] as WebFragment).onKeyDown(keyCode, event)
-//        ) {
-//            return false
-//        }
-//        return super.onKeyDown(keyCode, event)
-//    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (binding.vpMain.currentItem == 0 &&
+            (pages[0] as WebFragment).onKeyDown(keyCode, event)
+        ) {
+            return false
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     override fun isTranslucentBar(): Boolean {
         return false
