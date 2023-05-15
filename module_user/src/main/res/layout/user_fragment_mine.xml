@@ -19,7 +19,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -46,9 +45,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-    </View>
+        app:layout_constraintVertical_bias="1.0"/>
 
     <com.lihang.ShadowLayout
         android:id="@+id/slAvatar"
@@ -63,7 +60,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.64">
-
 
         <ImageView
             android:id="@+id/ivAvatar"
@@ -98,18 +94,14 @@
         app:layout_constraintStart_toEndOf="@+id/slAvatar"
         app:layout_constraintTop_toBottomOf="@id/tvName" />
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline3"
-
-        >
+        app:layout_constraintTop_toBottomOf="@+id/guideline3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,7 +109,6 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:layout_marginStart="14dp"
@@ -131,16 +122,13 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-
                     <FrameLayout
                         android:id="@+id/flPrivacy"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:paddingStart="26dp"
-                        android:paddingEnd="21dp"
-
-                        >
+                        android:paddingEnd="21dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -157,7 +145,6 @@
                             android:src="@drawable/icon_next_xxhdpi"
                             android:textColor="#176AFF"
                             android:textSize="16sp" />
-
                     </FrameLayout>
 
                     <View
@@ -173,9 +160,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:paddingStart="26dp"
-                        android:paddingEnd="21dp"
-
-                        >
+                        android:paddingEnd="21dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -192,12 +177,9 @@
                             android:src="@drawable/icon_next_xxhdpi"
                             android:textColor="#176AFF"
                             android:textSize="16sp" />
-
                     </FrameLayout>
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -214,16 +196,13 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-
                     <FrameLayout
                         android:id="@+id/flVersionTime"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:paddingStart="26dp"
-                        android:paddingEnd="27dp"
-
-                        >
+                        android:paddingEnd="27dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -241,7 +220,6 @@
                             android:text="2020/1/1"
                             android:textColor="#999999"
                             android:textSize="14sp" />
-
                     </FrameLayout>
 
                     <View
@@ -257,9 +235,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:paddingStart="26dp"
-                        android:paddingEnd="27dp"
-
-                        >
+                        android:paddingEnd="27dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -277,7 +253,6 @@
                             android:text="v1"
                             android:textColor="#999999"
                             android:textSize="14sp" />
-
                     </FrameLayout>
 
                     <View
@@ -293,9 +268,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:paddingStart="26dp"
-                        android:paddingEnd="21dp"
-
-                        >
+                        android:paddingEnd="21dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -312,13 +285,9 @@
                             android:src="@drawable/icon_next_xxhdpi"
                             android:textColor="#176AFF"
                             android:textSize="16sp" />
-
                     </FrameLayout>
-
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -330,16 +299,13 @@
                 app:cardCornerRadius="6dp"
                 app:cardElevation="6dp">
 
-
                 <FrameLayout
                     android:id="@+id/flLoginOut"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:paddingStart="26dp"
-                    android:paddingEnd="21dp"
-
-                    >
+                    android:paddingEnd="21dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -356,21 +322,12 @@
                         android:src="@drawable/icon_next_xxhdpi"
                         android:textColor="#176AFF"
                         android:textSize="16sp" />
-
                 </FrameLayout>
-
-
             </androidx.cardview.widget.CardView>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="55dp" />
-
-
         </LinearLayout>
-
-
     </androidx.core.widget.NestedScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

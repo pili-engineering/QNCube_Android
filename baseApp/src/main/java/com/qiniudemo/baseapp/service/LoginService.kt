@@ -20,7 +20,13 @@ interface LoginService {
     @POST("/v1/signInWithToken")
     suspend fun signInWithToken(@Field("phone") phone: String): LoginToken
 
+    @FormUrlEncoded
+    @POST("/v1/mobileLogin")
+    suspend fun signInWithOneKeyToken(@Field("token") token: String): LoginToken
 
     @POST("/v1/signOut")
     suspend fun signOut()
+
+
+
 }

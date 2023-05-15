@@ -1,5 +1,6 @@
 package com.qiniudemo.login
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.text.SpannableString
@@ -8,12 +9,18 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hipi.vm.LifecycleUiCall
 import com.hipi.vm.lazyVm
+import com.qiniu.login.R
 import com.qiniu.login.databinding.ActivityLoginBinding
+import com.qiniu.qlogin.QAuth
+import com.qiniu.qlogin_core.LoginPage
+import com.qiniu.qlogin_core.QCallback
+import com.qiniu.qlogin_core.QUIConfig
 import com.qiniu.router.RouterConstant
 import com.qiniudemo.baseapp.BaseActivity
 import com.qiniudemo.baseapp.BaseStartActivity.Companion.loginFinishPostcard
@@ -28,6 +35,17 @@ import kotlinx.coroutines.launch
 
 @Route(path = RouterConstant.Login.LOGIN)
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
+    companion object {
+        init {
+            QAuth.preMobile(object : QCallback<Void> {
+                override fun onError(code: Int, msg: String) {
+                }
+
+                override fun onSuccess(data: Void?) {
+                }
+            })
+        }
+    }
 
     private val loginVm by lazyVm<LoginVm>()
     private fun timeJob() {
@@ -127,8 +145,25 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
             tips.length - 7,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        binding.cbAgreement.setMovementMethod(LinkMovementMethod.getInstance());//设置可点击状态
+        binding.cbAgreement.movementMethod = LinkMovementMethod.getInstance();//设置可点击状态
         binding.cbAgreement.text = spannableString
+
+        binding.btLoginOneKey.setOnClickListener {
+            QAuth.openLoginAuth(true, this, object : QCallback<String> {
+                override fun onError(code: Int, msg: String) {
+                    msg.asToast()
+                }
+
+                override fun onSuccess(data: String?) {
+                    loginVm.signInWithOneKeyToken(data ?: "", LifecycleUiCall(this@LoginActivity) {
+                        if (it) {
+                            loginFinishPostcard?.navigation(this@LoginActivity)
+                            finish()
+                        }
+                    })
+                }
+            })
+        }
     }
 
 }
