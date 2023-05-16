@@ -37,10 +37,14 @@ import kotlinx.coroutines.launch
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     companion object {
         init {
+            QAuth.setUIConfig(QUIConfig().apply {
+                loginPage = LoginPage().apply {
+                    customLayoutID = R.layout.custom_activity_quick_login
+                }
+            })
             QAuth.preMobile(object : QCallback<Void> {
                 override fun onError(code: Int, msg: String) {
                 }
-
                 override fun onSuccess(data: Void?) {
                 }
             })
