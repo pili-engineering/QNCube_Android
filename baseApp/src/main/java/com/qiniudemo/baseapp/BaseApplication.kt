@@ -21,7 +21,7 @@ import com.qiniu.router.RouterConstant
 import com.qiniu.bzcomp.network.QiniuJsonFactor
 import com.qiniu.bzcomp.network.QiniuRequestInterceptor
 import com.qiniu.comp.network.Form2JsonInterceptor
-import com.qiniu.qnim.QNIMAdapter
+import com.qiniu.qlogin.QAuth
 import com.qiniu.qnim.QNIMManager
 import com.qiniudemo.baseapp.ext.asToast
 
@@ -95,6 +95,8 @@ open class BaseApplication : Application() {
         })
         //用户管理
         UserInfoManager.init()
+        //一键登录
+        QAuth.init(this,BuildConfig.qauth_app_id,BuildConfig.qauth_app_key)
         //初始化im
         QNIMManager.init(BuildConfig.QNIMAPPID, this)
         QNIMManager.mRtmAdapter.onKickCall = {

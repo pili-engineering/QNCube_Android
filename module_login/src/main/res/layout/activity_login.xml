@@ -103,7 +103,7 @@
         android:id="@+id/cbAgreement"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_marginBottom="24dp"
         android:button="@null"
         android:drawableStart="@drawable/selector_login_agree"
         android:textColor="#007AFF"
@@ -116,11 +116,10 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_login_login" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
-
-
-    <TextView
+    <Button
         android:id="@+id/bt_login_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -130,7 +129,7 @@
         android:textSize="16sp"
         android:background="@drawable/shape_007aff_6radius"
         android:textColor="#ffffff"
-        android:text="登录"
+        android:text="验证码登录"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:layout_marginTop="55dp"
@@ -138,6 +137,21 @@
         app:layout_constraintHorizontal_bias="0.536"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+    <TextView
+        android:id="@+id/bt_login_one_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorAccent"
+        android:text="使用本机号码一键登录"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_login_login" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

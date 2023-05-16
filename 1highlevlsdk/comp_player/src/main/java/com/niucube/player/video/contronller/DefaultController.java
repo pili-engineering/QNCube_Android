@@ -472,7 +472,6 @@ public class DefaultController extends FrameLayout implements View.OnTouchListen
         }
     }
 
-
     @Override
     public void onClick(View v) {
 

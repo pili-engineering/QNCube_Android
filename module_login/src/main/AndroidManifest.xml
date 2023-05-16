@@ -3,7 +3,7 @@
     package="com.qiniu.login">
 
     <application>
-        <activity android:name="com.qiniudemo.login.LoginActivity"></activity>
+        <activity android:name="com.qiniudemo.login.LoginActivity" />
     </application>
 
 </manifest>

@@ -27,7 +27,14 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
+        Properties properties = new Properties()
+        InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream();
+        properties.load(inputStream)
+        def app_id = properties.getProperty('qauth_app_id')
+        def app_key = properties.getProperty('qauth_app_key')
 
+        buildConfigField "String", "qauth_app_id", "${app_id}"
+        buildConfigField "String", "qauth_app_key", "${app_key}"
         buildConfigField "String", "bugly", "\"${bugly}\""
         buildConfigField "String", "base_url", "\"${base_url}\""
         buildConfigField "String", "QNIMAPPID", "\"${QNIMAPPID}\""
@@ -82,7 +89,7 @@ dependencies {
     api project(':BzMudule:comp_imadapter')
     api project(':routerTable')
     api project (':depends:qlive_beauty')
-
+    api project(':depends:qonekey-login')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

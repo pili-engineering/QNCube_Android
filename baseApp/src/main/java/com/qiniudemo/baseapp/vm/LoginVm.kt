@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.hipi.vm.*
 import com.qiniu.comp.network.RetrofitManager
 import com.qiniu.bzcomp.user.UserInfoManager
+import com.qiniudemo.baseapp.ext.asToast
 import com.qiniudemo.baseapp.service.LoginService
 import com.qiniudemo.baseapp.service.UserService
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -36,48 +37,79 @@ class LoginVm(application: Application, bundle: Bundle?) : BaseViewModel(applica
             call.onNext(false)
             return
         }
-        val handler = CoroutineExceptionHandler { _, e ->
-            toast(e.message)
-            e.printStackTrace()
-            showLoadingCall?.invoke(false)
-            call.onNext(false)
-        }
 
-        viewModelScope.launch(Dispatchers.Main + handler) {
-            val uinfo = RetrofitManager.create(LoginService::class.java).signInWithToken(
-                UserInfoManager.getUserInfo()?.phone ?: ""
-            )
-            //保存用户信息
-            UserInfoManager.updateLoginModel(uinfo)
-            //保存用户信息
-            val info = RetrofitManager.create(UserService::class.java)
-                .getUserInfo(UserInfoManager.getUserId())
-            UserInfoManager.updateUserInfo(info)
-            call.onNext(true)
-            showLoadingCall?.invoke(false)
+        showLoadingCall?.invoke(true)
+        backGround {
+            doWork {
+                val uinfo = RetrofitManager.create(LoginService::class.java).signInWithToken(
+                    UserInfoManager.getUserInfo()?.phone ?: ""
+                )
+                //保存用户信息
+                UserInfoManager.updateLoginModel(uinfo)
+                //保存用户信息
+                val info = RetrofitManager.create(UserService::class.java)
+                    .getUserInfo(UserInfoManager.getUserId())
+                UserInfoManager.updateUserInfo(info)
+                call.onNext(true)
+            }
+            catchError {
+                it.message?.asToast()
+                call.onNext(false)
+            }
+            onFinally {
+                showLoadingCall?.invoke(false)
+            }
+        }
+    }
+
+    fun signInWithOneKeyToken(token: String, call: LifecycleUiCall<Boolean>) {
+        showLoadingCall?.invoke(true)
+        backGround {
+            doWork {
+                val uinfo =
+                    RetrofitManager.create(LoginService::class.java).signInWithOneKeyToken(token)
+                //保存用户信息
+                UserInfoManager.updateLoginModel(uinfo)
+                //保存用户信息
+                val info = RetrofitManager.create(UserService::class.java)
+                    .getUserInfo(UserInfoManager.getUserId())
+                UserInfoManager.updateUserInfo(info)
+                call.onNext(true)
+            }
+            catchError {
+                it.message?.asToast()
+                call.onNext(false)
+            }
+            onFinally {
+                showLoadingCall?.invoke(false)
+            }
         }
     }
 
     fun login(phoneNumber: String, smsCode: String, call: LifecycleUiCall<Boolean>) {
-        val handler = CoroutineExceptionHandler { _, e ->
-            toast(e.message)
-            e.printStackTrace()
-            showLoadingCall?.invoke(false)
-            call.onNext(false)
-        }
         showLoadingCall?.invoke(true)
-        viewModelScope.launch(Dispatchers.Main + handler) {
-            val uinfo = RetrofitManager.create(LoginService::class.java).login(
-                phoneNumber, smsCode
-            )
-            //保存用户信息
-            UserInfoManager.updateLoginModel(uinfo)
-            //保存用户信息
-            val info = RetrofitManager.create(UserService::class.java)
-                .getUserInfo(UserInfoManager.getUserId())
-            UserInfoManager.updateUserInfo(info)
-            call.onNext(true)
-            showLoadingCall?.invoke(false)
+        backGround {
+            doWork {
+                val uinfo = RetrofitManager.create(LoginService::class.java).login(
+                    phoneNumber, smsCode
+                )
+                //保存用户信息
+                UserInfoManager.updateLoginModel(uinfo)
+                //保存用户信息
+                val info = RetrofitManager.create(UserService::class.java)
+                    .getUserInfo(UserInfoManager.getUserId())
+                UserInfoManager.updateUserInfo(info)
+                call.onNext(true)
+            }
+            catchError {
+                it.message?.asToast()
+                call.onNext(false)
+            }
+            onFinally {
+                showLoadingCall?.invoke(false)
+            }
         }
+
+
     }
 }

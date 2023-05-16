@@ -30,14 +30,17 @@ import kotlinx.coroutines.*
 abstract class BaseStartActivity : BaseActivity<ActivitySpalashBinding>() {
 
     protected val loginVm by lazyVm<LoginVm>()
-    companion object{
+
+    companion object {
         var loginFinishPostcard: Postcard? = null
     }
+
     abstract val onLoginFinishPostcard: Postcard
 
     open fun getDefaultImg(): Int {
         return -1
     }
+
     private val loginRequestCode = 101
 
     @SuppressLint("CheckResult")
@@ -62,10 +65,13 @@ abstract class BaseStartActivity : BaseActivity<ActivitySpalashBinding>() {
                         .into(binding.ivSplash)
                     //  }
                     SpUtil.get(SPConstant.User.SpName).saveData("welcomeImg", config.welcome?.image)
-                    if(isIvSplashClientAble()){
-                        binding. ivSplash.setOnClickListener {
+                    if (isIvSplashClientAble()) {
+                        binding.ivSplash.setOnClickListener {
                             if (config.welcome?.url?.startsWith("http") == true) {
-                                WebViewActivity.start(config.welcome?.url ?: "", this@BaseStartActivity)
+                                WebViewActivity.start(
+                                    config.welcome?.url ?: "",
+                                    this@BaseStartActivity
+                                )
                             }
                         }
                     }
@@ -92,18 +98,18 @@ abstract class BaseStartActivity : BaseActivity<ActivitySpalashBinding>() {
                             postcard.navigation(this@BaseStartActivity)
                         }
                     }
-                    finish()
+                     finish()
                 } else {
+
                     val postcard = ARouter.getInstance().build(RouterConstant.Login.LOGIN)
                     if (ActivityManager.get().currentActivity() == this@BaseStartActivity) {
                         postcard.navigation(this@BaseStartActivity, loginRequestCode)
-
                     } else {
                         lifecycleScope.launchWhenResumed {
                             postcard.navigation(this@BaseStartActivity, loginRequestCode)
                         }
                     }
-                    finish()
+                     finish()
                 }
             })
         }
@@ -113,7 +119,7 @@ abstract class BaseStartActivity : BaseActivity<ActivitySpalashBinding>() {
         loginVm.login(call)
     }
 
-    open fun isIvSplashClientAble():Boolean{
+    open fun isIvSplashClientAble(): Boolean {
         return true
     }
 
