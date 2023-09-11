@@ -46,11 +46,9 @@ object UserInfoManager {
         }
     }
 
-
     fun getUserInfo(): UserInfo? {
         return mUserInfo
     }
-
 
     /**
      * 快捷获取　uid

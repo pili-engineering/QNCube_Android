@@ -423,9 +423,6 @@ public class InterViewInfo implements Parcelable, Serializable {
         }
     }
 
-
-
-
     public static class ShareInfo implements Parcelable,Serializable{
         private String url;
         private String icon;

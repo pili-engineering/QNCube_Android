@@ -74,7 +74,7 @@ dependencies {
 
     implementation project(path: ':1highlevlsdk:comp_roommanager')
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
-    api 'com.github.lihangleo2:ShadowLayout:3.2.0'
+    api 'com.github.lihangleo2:ShadowLayout:3.3.2'
 
     kapt 'com.alibaba:arouter-compiler:1.2.2'
     api 'de.hdodenhof:circleimageview:3.1.0'

@@ -16,7 +16,4 @@ class NetConfig {
 
     var okBuilder = OkHttpClient.Builder().connectTimeout(30000, TimeUnit.MILLISECONDS)
         .retryOnConnectionFailure(true)
-
-
-
 }

@@ -47,7 +47,6 @@ android {
 
 dependencies {
 
-    
     implementation depend.appcompat()
     implementation depend.design()
     implementation depend.constraintLayout()

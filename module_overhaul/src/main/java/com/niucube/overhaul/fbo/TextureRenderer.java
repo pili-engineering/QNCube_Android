@@ -44,7 +44,6 @@ public class TextureRenderer {
      */
     private float[] POSITION_VERTEX = new float[]{
             0f, 0f, 0f,     //顶点坐标V0
-
             1f, -1f, 0f,     //顶点坐标V4
             -1f, -1f, 0f,   //顶点坐标V3
             -1f, 1f, 0f,    //顶点坐标V2
